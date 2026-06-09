@@ -1,0 +1,16 @@
+# Network manipulation and packet crafting
+scapy==2.5.0
+
+# Data processing and arrays
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Scientific computing and statistical tests (ANOVA)
+scipy>=1.10.0
+
+# Plotting and visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Optional: Jupyter for interactive data analysis
+jupyterlab>=4.0.0
