@@ -14,3 +14,7 @@ seaborn>=0.12.0
 
 # Optional: Jupyter for interactive data analysis
 jupyterlab>=4.0.0
+
+# Packet capturing and remote deployment
+pyshark>=0.6.0
+paramiko>=3.0.0
