@@ -14,8 +14,8 @@ The physical testbed is constrained to a 10-node localized autonomous robotic cl
 - **Cryptographic Stack:** Schnorr Zero-Knowledge Proofs and ECDSA with constant-time implementations. Timing extracted via DWT_CYCCNT hardware registers.
 
 ### 3. Robotic Manipulator
-- **Hardware:** 1x Niryo Ned2 6-axis collaborative robot.
-- **Role:** Physically executes trajectories to measure kinetic disruption (emergency-stop deceleration latency) due to network saturation/authentication failure.
+- **Hardware:** 1x Universal Robots UR5 6-axis collaborative robot.
+- **Role:** Physically executes trajectories to measure kinetic disruption (emergency-stop deceleration latency) due to network saturation/authentication failure. *(Note: Switched to UR5 because it is available at the lab and features a native ROS 2 driver (`Universal_Robots_ROS2_Driver`), avoiding the need for a custom TCP ROS bridge, making integration easier and more professional.)*
 - **Sensors:** Wrist-mounted 9-axis IMU to record deceleration curves.
 
 ## Software Architecture

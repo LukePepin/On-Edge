@@ -3,7 +3,7 @@
 ## Phase 1 (Weeks 1-4): Baseline Hardware Instrumentation
 - [ ] Set up the Raspberry Pi 4 supervisor node with ROS2 Humble and CycloneDDS.
 - [ ] Flash and verify standard operation of the 9 Arduino Nano 33 BLE edge nodes.
-- [ ] Connect and configure the Niryo Ned2 and wrist-mounted IMU.
+- [ ] Connect and configure the UR5 (using native ROS 2 drivers) and wrist-mounted IMU.
 - [ ] Implement constant-time Schnorr ZKP and ECDSA on Cortex-M4 nodes.
 - [ ] Isolate cryptographic latency metrics via DWT_CYCCNT hardware register.
 - [ ] Execute 60-trial pilot study to compute statistical variance.
