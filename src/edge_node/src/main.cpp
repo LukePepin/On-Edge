@@ -1,5 +1,4 @@
-#include <Arduino.h>
-#include <micro_ros_platformio.h>
+#include <micro_ros_arduino.h>
 
 #include <stdio.h>
 #include <rcl/rcl.h>
@@ -19,11 +18,9 @@ rcl_timer_t timer;
 
 #define LED_PIN 13 // Built-in LED
 
-// Macros for error handling
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){error_loop();}}
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){}}
 
-// Flashes the LED rapidly if ROS 2 fails to initialize
 void error_loop(){
   while(1){
     digitalWrite(LED_PIN, !digitalRead(LED_PIN));
@@ -31,19 +28,18 @@ void error_loop(){
   }
 }
 
-// This callback runs every 1 second and publishes the heartbeat
 void timer_callback(rcl_timer_t * timer, int64_t last_call_time)
 {
   RCLC_UNUSED(last_call_time);
   if (timer != NULL) {
     RCSOFTCHECK(rcl_publish(&publisher, &msg, NULL));
-    msg.data++; // Increment the heartbeat counter
+    msg.data++; 
   }
 }
 
 void setup() {
-  Serial.begin(115200);
-  set_microros_serial_transports(Serial);
+  // Uses Serial over USB automatically
+  set_microros_transports(); 
   
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);  
@@ -52,20 +48,15 @@ void setup() {
 
   allocator = rcl_get_default_allocator();
 
-  // Initialize micro-ROS support
   RCCHECK(rclc_support_init(&support, 0, NULL, &allocator));
-
-  // Create the ROS 2 node
   RCCHECK(rclc_node_init_default(&node, "nano_edge_node", "", &support));
 
-  // Create the ROS 2 publisher for the 'heartbeat' topic
   RCCHECK(rclc_publisher_init_default(
     &publisher,
     &node,
     ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
     "heartbeat"));
 
-  // Create a timer that fires every 1000 ms (1 second)
   const unsigned int timer_timeout = 1000;
   RCCHECK(rclc_timer_init_default(
     &timer,
@@ -73,11 +64,10 @@ void setup() {
     RCL_MS_TO_NS(timer_timeout),
     timer_callback));
 
-  // Create executor to handle the timer
   RCCHECK(rclc_executor_init(&executor, &support.context, 1, &allocator));
   RCCHECK(rclc_executor_add_timer(&executor, &timer));
 
-  msg.data = 0; // Start heartbeat at 0
+  msg.data = 0; 
 }
 
 void loop() {

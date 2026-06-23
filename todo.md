@@ -1,22 +1,53 @@
-# Project Schedule & TODOs
+# On-Edge: Thesis Project Execution Plan
 
-## Phase 1 (Weeks 1-4): Baseline Hardware Instrumentation
-- [ ] Set up the Raspberry Pi 4 supervisor node with ROS2 Humble and CycloneDDS.
-- [ ] Flash and verify standard operation of the 9 Arduino Nano 33 BLE edge nodes.
-- [ ] Connect and configure the UR5 (using native ROS 2 drivers) and wrist-mounted IMU.
-- [ ] Implement constant-time Schnorr ZKP and ECDSA on Cortex-M4 nodes.
-- [ ] Isolate cryptographic latency metrics via DWT_CYCCNT hardware register.
-- [ ] Execute 60-trial pilot study to compute statistical variance.
+## Week 1: Infrastructure Initialization and Network Baseline
+- [x] **Phase 1.1: Supervisor OS Provisioning**
+  - Flash Ubuntu 22.04 LTS natively onto the Raspberry Pi 4.
+  - Install ROS 2 Humble Hawksbill.
+  - Configure static IP routing (`192.168.50.1`) for the localized ad-hoc network.
+- [x] **Phase 1.2: Micro-ROS Build Environment**
+  - Initialize PlatformIO environment for the Cortex-M4 edge nodes.
+  - Configure `micro_ros_platformio` library dependencies.
+- [x] **Phase 1.3: Agent-Client Broker Deployment**
+  - Deploy the Micro XRCE-DDS Agent natively on the Raspberry Pi 4 (Docker moved to future work).
+- [ ] **Phase 1.4: Edge Node Enrollment**
+  - Flash Nano 33 BLEs with a basic ROS 2 publisher script (Serial/USB for now).
+  - Bind them to the Raspberry Pi 4 agent.
+  - Verify continuous uncorrupted data streams via `ros2 topic echo`.
+- [ ] **Phase 1.5: Synthetic Network Degradation**
+  - Deploy Linux Traffic Control (`tc`) and Scapy scripts on the wired backend.
+  - Induce artificial 15% packet-loss rate and capture baseline with `tshark`.
 
-## Phase 2 (Weeks 5-8): Packet-Loss Sweep & Disruption
-- [ ] Implement transport-layer network degradation (tc/iptables/Scapy).
-- [ ] Execute physical packet-loss sweeps (0-30%).
-- [ ] Measure crossover threshold (p*) between centralized OAuth and Edge-First MANET.
-- [ ] Measure mechanical emergency-stop deceleration latency via IMU.
-- [ ] Conduct partition-rejoin reconciliation testing (trust score synchronization).
+## Week 2: Bare-Metal Cryptography and Cycle Profiling
+- [ ] **Phase 2.1: Constant-Time Cryptography Porting**
+  - Integrate custom Schnorr ZKP and standard ECDSA libraries.
+  - Verify implementations compile without overflowing the 256KB SRAM.
+- [ ] **Phase 2.2: Hardware Register Initialization**
+  - Expose ARM Core Debug registers (DWT_CYCCNT) for cycle counting.
+- [ ] **Phase 2.3: Latency Profiling Wrapper Construction**
+  - Construct C++ timing wrapper around cryptographic functions.
+  - Extract execution latency with 15.625-nanosecond precision.
+- [ ] **Phase 2.4: Selective Disclosure Sweeps**
+  - Execute the 60-trial pilot study.
+  - Incrementally increase payload size (1 to 256 bytes) and map to CPU clock cycles.
+- [ ] **Phase 2.5: Trust Score Logic Integration**
+  - Implement EWMA trust score logic using integer arithmetic.
+  - Evict simulated Byzantine node dropping below 0.3 exclusion threshold.
 
-## Phase 3 (Weeks 9-12): NS-3 Simulation & Scaling
-- [ ] Parameterize NS-3 simulator with baseline arrival rate (λ) captured via transport-layer hooking.
-- [ ] Map physical ROS2 CycloneDDS FIFO queue constraints to NS-3 DropTailQueue limits.
-- [ ] Run M/M/1 queueing theory extrapolations up to N=100 nodes.
-- [ ] Compile data and write thesis findings.
+## Week 3: Robotic Kinematics and UR5 Integration
+*(Note: Phases adapted from original Niryo proposal to reflect the UR5 ROS 2 upgrade)*
+- [ ] **Phase 3.1: UR5 Baseline Configuration**
+  - Connect the Universal Robots UR5 to the local management network.
+  - Verify baseline movement via the Teach Pendant.
+- [ ] **Phase 3.2: Native ROS 2 Integration**
+  - Install and launch the `Universal_Robots_ROS2_Driver` on the Supervisor.
+  - Verify ROS 2 Humble can successfully publish `JointTrajectory` commands to the UR5.
+- [ ] **Phase 3.3: IMU Telemetry Integration**
+  - Mount the 9-axis IMU directly to the wrist of the UR5.
+  - Route IMU data through a dedicated Arduino edge node to the ROS 2 environment.
+- [ ] **Phase 3.4: Emergency-Stop Injection**
+  - Develop the software trigger simulating an authorization failure/ZKP timeout.
+  - Wire trigger to issue an immediate priority HALT command to the UR5 trajectory planner.
+- [ ] **Phase 3.5: Deceleration Curve Mapping**
+  - Execute rapid trajectories while artificially triggering the E-stop.
+  - Plot the physical deceleration curve and verify total latency is below the 500ms ISO fail-safe ceiling.
