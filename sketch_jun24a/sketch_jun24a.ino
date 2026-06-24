@@ -1,12 +1,9 @@
-#include <Arduino.h>
 #include <micro_ros_arduino.h>
-
 #include <stdio.h>
 #include <rcl/rcl.h>
 #include <rcl/error_handling.h>
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
-
 #include <std_msgs/msg/int32.h>
 
 rcl_publisher_t publisher;
