@@ -24,3 +24,9 @@ This repository is configured as a ROS 2 `colcon` workspace.
    ```bash
    source install/setup.bash
    ```
+
+## Accessing the Supervisor (Raspberry Pi)
+The Raspberry Pi is configured with mDNS for dynamic network access without needing a static IP. You can SSH into it from any computer on the local network using:
+```bash
+ssh seeker@on-edge-pi.local
+```

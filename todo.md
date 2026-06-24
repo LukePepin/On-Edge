@@ -4,15 +4,16 @@
 - [x] **Phase 1.1: Supervisor OS Provisioning**
   - Flash Ubuntu 22.04 LTS natively onto the Raspberry Pi 4.
   - Install ROS 2 Humble Hawksbill.
-  - Configure static IP routing (`192.168.50.1`) for the localized ad-hoc network.
+  - Configure mDNS hostname (`on-edge-pi.local`) for dynamic lab network access.
 - [x] **Phase 1.2: Micro-ROS Build Environment**
   - Initialize PlatformIO environment for the Cortex-M4 edge nodes.
   - Configure `micro_ros_platformio` library dependencies.
 - [x] **Phase 1.3: Agent-Client Broker Deployment**
   - Deploy the Micro XRCE-DDS Agent natively on the Raspberry Pi 4 (Docker moved to future work).
 - [ ] **Phase 1.4: Edge Node Enrollment**
-  - Flash Nano 33 BLEs with a basic ROS 2 publisher script (Serial/USB for now).
-  - Bind them to the Raspberry Pi 4 agent.
+  - *Pivot Note: micro-ROS was dropped due to Arduino Mbed OS RAM constraints (Nano 33 BLE). We will use a pure Serial-JSON bridge instead, or pivot hardware entirely to an ESP32 if native ROS 2 DDS is required later.*
+  - Flash Nano 33 BLEs with a basic raw Serial JSON publisher script.
+  - Bind them to the Raspberry Pi 4 agent via a Python Serial-to-ROS bridge node.
   - Verify continuous uncorrupted data streams via `ros2 topic echo`.
 - [ ] **Phase 1.5: Synthetic Network Degradation**
   - Deploy Linux Traffic Control (`tc`) and Scapy scripts on the wired backend.
