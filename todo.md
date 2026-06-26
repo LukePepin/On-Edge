@@ -20,12 +20,12 @@
   - Induce artificial 15% packet-loss rate and capture baseline with `tshark`.
 
 ## Week 2: Bare-Metal Cryptography and Cycle Profiling
-- [ ] **Phase 2.1: Constant-Time Cryptography Porting**
+- [x] **Phase 2.1: Constant-Time Cryptography Porting**
   - Integrate custom Schnorr ZKP and standard ECDSA libraries.
   - Verify implementations compile without overflowing the 256KB SRAM.
-- [ ] **Phase 2.2: Hardware Register Initialization**
+- [x] **Phase 2.2: Hardware Register Initialization**
   - Expose ARM Core Debug registers (DWT_CYCCNT) for cycle counting.
-- [ ] **Phase 2.3: Latency Profiling Wrapper Construction**
+- [x] **Phase 2.3: Latency Profiling Wrapper Construction**
   - Construct C++ timing wrapper around cryptographic functions.
   - Extract execution latency with 15.625-nanosecond precision.
 - [ ] **Phase 2.4: Selective Disclosure Sweeps**
