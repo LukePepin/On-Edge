@@ -28,10 +28,10 @@
 - [x] **Phase 2.3: Latency Profiling Wrapper Construction**
   - Construct C++ timing wrapper around cryptographic functions.
   - Extract execution latency with 15.625-nanosecond precision.
-- [ ] **Phase 2.4: Selective Disclosure Sweeps**
+- [x] **Phase 2.4: Selective Disclosure Sweeps**
   - Execute the 60-trial pilot study.
   - Incrementally increase payload size (1 to 256 bytes) and map to CPU clock cycles.
-- [ ] **Phase 2.5: Trust Score Logic Integration**
+- [x] **Phase 2.5: Trust Score Logic Integration**
   - Implement EWMA trust score logic using integer arithmetic.
   - Evict simulated Byzantine node dropping below 0.3 exclusion threshold.
 
