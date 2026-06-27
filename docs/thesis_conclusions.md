@@ -22,4 +22,4 @@ As a result, the total execution time for 64B tightened into a highly determinis
 
 Because the latency stabilized safely under the 500ms threshold, the 64-byte payload's Trust Score stabilized securely around `51` (well above the `30` eviction limit). 
 
-**Result**: 64-Bytes is the mathematically proven safe maximum limit for the Nano 33 BLE edge node within this architecture.
+**Result**: While we cannot claim it is "mathematically proven" (since execution time differs from true cryptographic verification, and external network latencies must be accounted for), we can confidently state that **64-Bytes is the largest payload execution we can stabilize with our specific thesis safety goals.**

@@ -37,12 +37,15 @@
 
 ## Week 3: Robotic Kinematics and UR5 Integration
 *(Note: Phases adapted from original Niryo proposal to reflect the UR5 ROS 2 upgrade)*
-- [ ] **Phase 3.1: UR5 Baseline Configuration**
+- [x] **Phase 3.1: UR5 Baseline Configuration**
   - Connect the Universal Robots UR5 to the local management network.
   - Verify baseline movement via the Teach Pendant.
-- [ ] **Phase 3.2: Native ROS 2 Integration**
+- [x] **Phase 3.2: Native ROS 2 Integration**
   - Install and launch the `Universal_Robots_ROS2_Driver` on the Supervisor.
   - Verify ROS 2 Humble can successfully publish `JointTrajectory` commands to the UR5.
+- [ ] **Phase 3.2b: Windows PC Cloud Supervisor Networking (Priority)**
+  - Configure Windows `netsh portproxy` rules to route UR5 TCP traffic into the WSL2 VM.
+  - Verify the Windows PC can natively launch the driver and control the robot.
 - [ ] **Phase 3.3: IMU Telemetry Integration**
   - Mount the 9-axis IMU directly to the wrist of the UR5.
   - Route IMU data through a dedicated Arduino edge node to the ROS 2 environment.
@@ -50,5 +53,6 @@
   - Develop the software trigger simulating an authorization failure/ZKP timeout.
   - Wire trigger to issue an immediate priority HALT command to the UR5 trajectory planner.
 - [ ] **Phase 3.5: Deceleration Curve Mapping**
+  - **[SAFETY CRITICAL]: Unmount the robot from the desk and place it in the center of the room to ensure a completely clear 360-degree range of motion.**
   - Execute rapid trajectories while artificially triggering the E-stop.
   - Plot the physical deceleration curve and verify total latency is below the 500ms ISO fail-safe ceiling.
