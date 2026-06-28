@@ -43,9 +43,8 @@
 - [x] **Phase 3.2: Native ROS 2 Integration**
   - Install and launch the `Universal_Robots_ROS2_Driver` on the Supervisor.
   - Verify ROS 2 Humble can successfully publish `JointTrajectory` commands to the UR5.
-- [ ] **Phase 3.2b: Windows PC Cloud Supervisor Networking (Priority)**
-  - Configure Windows `netsh portproxy` rules to route UR5 TCP traffic into the WSL2 VM.
-  - Verify the Windows PC can natively launch the driver and control the robot.
+- [x] **Phase 3.2b: Windows PC Cloud Supervisor Networking**
+  - *Pivot Note: WSL2 internal networking proved too unstable for real-time ROS 2 RTDE streams. We will abandon Windows and commandeer a native high-power Linux machine (or a secondary Raspberry Pi) to act as the Cloud Supervisor.*
 - [ ] **Phase 3.3: IMU Telemetry Integration**
   - Mount the 9-axis IMU directly to the wrist of the UR5.
   - Route IMU data through a dedicated Arduino edge node to the ROS 2 environment.

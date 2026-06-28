@@ -36,6 +36,8 @@ setup(
             'zkp_auth_service = sentry_logic.zkp_auth_service:main',
             'supervisor_node = sentry_logic.supervisor_node:main',
             'h1_listener = sentry_logic.h1_test_listener:main',
+            'trust_monitor = sentry_logic.trust_monitor_node:main',
+            'joint_logger = sentry_logic.joint_logger_node:main',
         ],
     },
 )
