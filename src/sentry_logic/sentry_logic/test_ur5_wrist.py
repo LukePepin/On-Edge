@@ -69,7 +69,8 @@ class UR5WristTestNode(Node):
         point1 = JointTrajectoryPoint()
         point1.positions = list(base_pos)
         point1.velocities = zero_vel
-        point1.time_from_start.sec = 1
+        point1.time_from_start.sec = 0
+        point1.time_from_start.nanosec = 0
 
         msg.points.append(point1)
 
