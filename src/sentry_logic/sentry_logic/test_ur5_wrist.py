@@ -54,7 +54,9 @@ class UR5WristTestNode(Node):
         self.get_logger().info("Trajectory controller is active! Generating trajectory...")
 
         msg = JointTrajectory()
-        msg.header.stamp = self.get_clock().now().to_msg()
+        # Leaving header.stamp empty (0) tells ROS 2 to execute IMMEDIATELY. 
+        # (If we set it to 'now()', network latency causes it to arrive in the past and get rejected!)
+        
         msg.joint_names = [
             'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 
             'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'
@@ -68,7 +70,6 @@ class UR5WristTestNode(Node):
         # Point 1: Current position
         point1 = JointTrajectoryPoint()
         point1.positions = list(base_pos)
-        point1.velocities = zero_vel
         point1.time_from_start.sec = 0
         point1.time_from_start.nanosec = 0
 
@@ -82,7 +83,6 @@ class UR5WristTestNode(Node):
             p_pos = JointTrajectoryPoint()
             p_pos.positions = list(base_pos)
             p_pos.positions[5] = wrist_start + 3.0
-            p_pos.velocities = zero_vel
             p_pos.time_from_start.sec = current_time
             msg.points.append(p_pos)
 
@@ -91,7 +91,6 @@ class UR5WristTestNode(Node):
             p_neg = JointTrajectoryPoint()
             p_neg.positions = list(base_pos)
             p_neg.positions[5] = wrist_start - 3.0
-            p_neg.velocities = zero_vel
             p_neg.time_from_start.sec = current_time
             msg.points.append(p_neg)
 
@@ -99,7 +98,6 @@ class UR5WristTestNode(Node):
         current_time += 15
         p_final = JointTrajectoryPoint()
         p_final.positions = list(base_pos)
-        p_final.velocities = zero_vel
         p_final.time_from_start.sec = current_time
         msg.points.append(p_final)
 
