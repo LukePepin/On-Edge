@@ -1,6 +1,8 @@
+#include <Arduino.h>
+
 // Cryptographic Edge Node - Phase 2 ZKP & EWMA Trust Score
 // Hardware: Arduino Nano 33 BLE
-// Flashed via Arduino IDE
+// Flashed via VS Code PlatformIO
 
 float trust_score = 100.0;
 const float EWMA_ALPHA = 0.3; // Smoothing factor
@@ -37,7 +39,9 @@ void loop() {
   float current_trust = 100.0;
   if (exec_time > 100) {
     // If it takes longer than 100ms, trust begins to plummet
-    current_trust = max(0.0, 100.0 - (exec_time - 100)); 
+    // max() requires matching types, so we explicitly use floats
+    float penalty = (float)(exec_time - 100);
+    current_trust = max(0.0f, 100.0f - penalty); 
   }
   
   trust_score = (EWMA_ALPHA * current_trust) + ((1.0 - EWMA_ALPHA) * trust_score);

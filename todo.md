@@ -48,7 +48,7 @@
 - [ ] **Phase 3.3: IMU Telemetry Integration**
   - Mount the 9-axis IMU directly to the wrist of the UR5.
   - Route IMU data through a dedicated Arduino edge node to the ROS 2 environment.
-- [ ] **Phase 3.4: Emergency-Stop Injection**
+- [x] **Phase 3.4: Emergency-Stop Injection**
   - Develop the software trigger simulating an authorization failure/ZKP timeout.
   - Wire trigger to issue an immediate priority HALT command to the UR5 trajectory planner.
 - [ ] **Phase 3.5: Deceleration Curve Mapping**
