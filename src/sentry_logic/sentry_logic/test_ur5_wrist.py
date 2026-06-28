@@ -26,12 +26,8 @@ class UR5WristTestNode(Node):
 
     def state_cb(self, msg):
         if self.current_positions is None and len(msg.position) >= 6:
-            # We must map the received joints correctly based on UR5 names
-            # UR5 standard joint order: shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3
             names = msg.name
             positions = msg.position
-            
-            # Build a dictionary to map names to current values
             joint_map = dict(zip(names, positions))
             
             try:
@@ -43,12 +39,21 @@ class UR5WristTestNode(Node):
                     joint_map['wrist_2_joint'],
                     joint_map['wrist_3_joint']
                 ]
+                self.get_logger().info(f"Successfully grabbed current joint states:\n{self.current_positions}")
                 self.move_wrist()
             except KeyError:
                 self.get_logger().error("Joint names do not match UR5 standard.")
 
     def move_wrist(self):
+        # WAIT FOR CONTROLLER TO BE ACTIVE
+        while self.publisher_.get_subscription_count() == 0:
+            self.get_logger().warn("Waiting for scaled_joint_trajectory_controller to become active... (Are you playing the External Control program on the pendant?)")
+            time.sleep(1.0)
+            
+        self.get_logger().info("Trajectory controller is active! Generating trajectory...")
+
         msg = JointTrajectory()
+        msg.header.stamp = self.get_clock().now().to_msg()
         msg.joint_names = [
             'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 
             'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'
@@ -57,32 +62,37 @@ class UR5WristTestNode(Node):
         # Use current positions as base
         base_pos = list(self.current_positions)
         wrist_start = base_pos[5]
+        zero_vel = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
         # Point 1: Current position
         point1 = JointTrajectoryPoint()
         point1.positions = list(base_pos)
+        point1.velocities = zero_vel
         point1.time_from_start.sec = 1
 
         # Point 2: Swing +3.0 radians
         point2 = JointTrajectoryPoint()
         point2.positions = list(base_pos)
         point2.positions[5] = wrist_start + 3.0
+        point2.velocities = zero_vel
         point2.time_from_start.sec = 8
 
         # Point 3: Swing -3.0 radians
         point3 = JointTrajectoryPoint()
         point3.positions = list(base_pos)
         point3.positions[5] = wrist_start - 3.0
+        point3.velocities = zero_vel
         point3.time_from_start.sec = 16
         
         # Point 4: Return to start
         point4 = JointTrajectoryPoint()
         point4.positions = list(base_pos)
+        point4.velocities = zero_vel
         point4.time_from_start.sec = 24
 
         msg.points = [point1, point2, point3, point4]
 
-        self.get_logger().info('Sending dynamic Wrist-3 oscillation test to the UR5...')
+        self.get_logger().info(f"Publishing trajectory to oscillate wrist from {wrist_start} to {wrist_start + 3.0} and {wrist_start - 3.0}")
         self.publisher_.publish(msg)
         
         # Give it a moment to publish, then kill the script
