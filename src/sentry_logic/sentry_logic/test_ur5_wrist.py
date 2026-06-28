@@ -65,12 +65,20 @@ class UR5WristTestNode(Node):
 
         # Oscillate back and forth
         current_time = 0
+        
+        # Point 1: Gently hold current position for 1 second to anchor the spline
+        point1 = JointTrajectoryPoint()
+        point1.positions = list(base_pos)
+        point1.time_from_start.sec = 1
+        msg.points.append(point1)
+        
+        current_time = 1
+        
         for i in range(4):
             current_time += 15
             p_pos = JointTrajectoryPoint()
             p_pos.positions = list(base_pos)
             p_pos.positions[5] = wrist_start + 3.0
-            p_pos.velocities = zero_vel
             p_pos.time_from_start.sec = current_time
             msg.points.append(p_pos)
 
@@ -78,7 +86,6 @@ class UR5WristTestNode(Node):
             p_neg = JointTrajectoryPoint()
             p_neg.positions = list(base_pos)
             p_neg.positions[5] = wrist_start - 3.0
-            p_neg.velocities = zero_vel
             p_neg.time_from_start.sec = current_time
             msg.points.append(p_neg)
 
@@ -86,7 +93,6 @@ class UR5WristTestNode(Node):
         current_time += 15
         p_final = JointTrajectoryPoint()
         p_final.positions = list(base_pos)
-        p_final.velocities = zero_vel
         p_final.time_from_start.sec = current_time
         msg.points.append(p_final)
 
