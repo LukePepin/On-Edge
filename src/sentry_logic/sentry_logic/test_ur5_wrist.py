@@ -71,29 +71,38 @@ class UR5WristTestNode(Node):
         point1.velocities = zero_vel
         point1.time_from_start.sec = 1
 
-        # Point 2: Swing +3.0 radians
-        point2 = JointTrajectoryPoint()
-        point2.positions = list(base_pos)
-        point2.positions[5] = wrist_start + 3.0
-        point2.velocities = zero_vel
-        point2.time_from_start.sec = 8
+        msg.points.append(point1)
 
-        # Point 3: Swing -3.0 radians
-        point3 = JointTrajectoryPoint()
-        point3.positions = list(base_pos)
-        point3.positions[5] = wrist_start - 3.0
-        point3.velocities = zero_vel
-        point3.time_from_start.sec = 16
-        
-        # Point 4: Return to start
-        point4 = JointTrajectoryPoint()
-        point4.positions = list(base_pos)
-        point4.velocities = zero_vel
-        point4.time_from_start.sec = 24
+        # Oscillate back and forth 4 times, taking 15 seconds per swing (120 seconds total)
+        current_time = 1
+        for i in range(4):
+            # Swing +3.0 radians
+            current_time += 15
+            p_pos = JointTrajectoryPoint()
+            p_pos.positions = list(base_pos)
+            p_pos.positions[5] = wrist_start + 3.0
+            p_pos.velocities = zero_vel
+            p_pos.time_from_start.sec = current_time
+            msg.points.append(p_pos)
 
-        msg.points = [point1, point2, point3, point4]
+            # Swing -3.0 radians
+            current_time += 15
+            p_neg = JointTrajectoryPoint()
+            p_neg.positions = list(base_pos)
+            p_neg.positions[5] = wrist_start - 3.0
+            p_neg.velocities = zero_vel
+            p_neg.time_from_start.sec = current_time
+            msg.points.append(p_neg)
 
-        self.get_logger().info(f"Publishing trajectory to oscillate wrist from {wrist_start} to {wrist_start + 3.0} and {wrist_start - 3.0}")
+        # Final Return to start
+        current_time += 15
+        p_final = JointTrajectoryPoint()
+        p_final.positions = list(base_pos)
+        p_final.velocities = zero_vel
+        p_final.time_from_start.sec = current_time
+        msg.points.append(p_final)
+
+        self.get_logger().info(f"Publishing 2-MINUTE slow trajectory to oscillate wrist...")
         self.publisher_.publish(msg)
         
         # Give it a moment to publish, then kill the script
