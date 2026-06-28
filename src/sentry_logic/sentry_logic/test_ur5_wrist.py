@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Updated to force git sync for Pi
 import rclpy
 from rclpy.node import Node
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
