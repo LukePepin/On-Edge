@@ -67,12 +67,15 @@ class UR5WristTestNode(Node):
         wrist_start = base_pos[5]
         zero_vel = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
-        # Point 1: Current position
+        # In ROS 2, if you provide a point at 0 seconds, it will reject it if the physical robot 
+        # vibrated by 0.0001 radians between reading the state and publishing.
+        # Solution: DO NOT provide a 0 second point. Start at 1 second.
+
+        # Point 1: Gently hold current position for 1 second
         point1 = JointTrajectoryPoint()
         point1.positions = list(base_pos)
-        point1.time_from_start.sec = 0
-        point1.time_from_start.nanosec = 0
-
+        point1.velocities = zero_vel
+        point1.time_from_start.sec = 1
         msg.points.append(point1)
 
         # Oscillate back and forth 4 times, taking 15 seconds per swing (120 seconds total)
@@ -83,6 +86,7 @@ class UR5WristTestNode(Node):
             p_pos = JointTrajectoryPoint()
             p_pos.positions = list(base_pos)
             p_pos.positions[5] = wrist_start + 3.0
+            p_pos.velocities = zero_vel
             p_pos.time_from_start.sec = current_time
             msg.points.append(p_pos)
 
@@ -91,6 +95,7 @@ class UR5WristTestNode(Node):
             p_neg = JointTrajectoryPoint()
             p_neg.positions = list(base_pos)
             p_neg.positions[5] = wrist_start - 3.0
+            p_neg.velocities = zero_vel
             p_neg.time_from_start.sec = current_time
             msg.points.append(p_neg)
 
@@ -98,10 +103,11 @@ class UR5WristTestNode(Node):
         current_time += 15
         p_final = JointTrajectoryPoint()
         p_final.positions = list(base_pos)
+        p_final.velocities = zero_vel
         p_final.time_from_start.sec = current_time
         msg.points.append(p_final)
 
-        self.get_logger().info(f"Publishing 2-MINUTE slow trajectory to oscillate wrist...")
+        self.get_logger().info(f"Publishing BULLETPROOF 2-MINUTE trajectory to oscillate wrist...")
         self.publisher_.publish(msg)
         
         # Give it a moment to publish, then kill the script
