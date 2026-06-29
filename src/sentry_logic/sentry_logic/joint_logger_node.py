@@ -18,8 +18,16 @@ class JointLoggerNode(Node):
             10
         )
         
-        # Prepare CSV file
-        self.filename = f"deceleration_data_{int(time.time())}.csv"
+        # Prepare CSV file in the data/ directory
+        # The workspace root is one level up from src, but the node is typically run from the root.
+        # So we'll use an absolute path relative to the current working directory, or just 'data/'.
+        # Since 'data' is at the root of the On-Edge folder, 'data/filename' is correct when run from the root.
+        
+        # Determine the absolute path to the data folder
+        workspace_dir = os.path.abspath(os.getcwd())
+        data_dir = os.path.join(workspace_dir, "data")
+        os.makedirs(data_dir, exist_ok=True)
+        self.filename = os.path.join(data_dir, f"deceleration_data_{int(time.time())}.csv")
         
         try:
             self.file = open(self.filename, mode='w', newline='')

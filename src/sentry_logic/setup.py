@@ -39,6 +39,7 @@ setup(
             'trust_monitor = sentry_logic.trust_monitor_node:main',
             'joint_logger = sentry_logic.joint_logger_node:main',
             'stream_wrist_kinematics = sentry_logic.stream_wrist_kinematics:main',
+            'pick_and_place = sentry_logic.pick_and_place:main',
         ],
     },
 )

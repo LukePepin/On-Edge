@@ -1,0 +1,7 @@
+- `[x]` Phase 3.5: Multi-Threaded Pick-and-Place & Preemption
+  - `[x]` Create `pick_and_place.py` based on `stream_wrist_kinematics.py`
+  - `[x]` Implement faster sinusoidal multi-joint movement (shoulder, elbow)
+  - `[x]` Add `/sentry/e_stop` subscription to `pick_and_place.py` to halt streaming
+  - `[x]` Update `trust_monitor_node.py` to publish to `/sentry/e_stop`
+  - `[x]` Update `joint_logger_node.py` to save CSVs to the `data/` directory
+  - `[x]` Register `pick_and_place` in `setup.py`

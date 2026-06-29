@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String
+from std_msgs.msg import String, Bool
 import serial
 import json
 import threading
@@ -12,6 +12,9 @@ class TrustMonitorNode(Node):
         
         # Publisher to trigger URScript commands (fastest E-Stop method)
         self.script_pub = self.create_publisher(String, '/urscript_interface/script_command', 10)
+        
+        # Publisher to halt the edge kinematic streamer
+        self.e_stop_pub = self.create_publisher(Bool, '/sentry/e_stop', 10)
         
         # Configure Serial Port (Adjust /dev/ttyACM0 as needed on the Pi)
         self.serial_port = self.declare_parameter('serial_port', '/dev/ttyACM0').value
@@ -60,6 +63,11 @@ class TrustMonitorNode(Node):
     def trigger_e_stop(self, reason):
         self.e_stop_triggered = True
         self.get_logger().fatal(f"🚨 E-STOP TRIGGERED: {reason} 🚨")
+        
+        # Publish to other ROS 2 nodes to halt streams
+        e_stop_msg = Bool()
+        e_stop_msg.data = True
+        self.e_stop_pub.publish(e_stop_msg)
         
         # Issue a fast joint stop command with 5.0 rad/s^2 deceleration
         stop_cmd = String()
