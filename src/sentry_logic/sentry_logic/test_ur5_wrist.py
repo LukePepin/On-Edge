@@ -1,28 +1,34 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String
+from builtin_interfaces.msg import Duration
+from trajectory_msgs.msg import JointTrajectoryPoint
+from control_msgs.action import FollowJointTrajectory
+from rclpy.action import ActionClient
 
 class UR5WristOscillationNode(Node):
     def __init__(self):
         super().__init__('ur5_wrist_oscillation_node')
-        self.publisher_ = self.create_publisher(String, '/urscript_interface/script_command', 10)
+        self.get_logger().info('Connecting to ROS 2 Action Server...')
+        self.client = ActionClient(
+            self, 
+            FollowJointTrajectory, 
+            '/scaled_joint_trajectory_controller/follow_joint_trajectory'
+        )
+        self.client.wait_for_server()
+        self.get_logger().info('Server found. Initializing wrist oscillation...')
         
-        # Toggle state: True = Move to +1.5, False = Move to -1.5
         self.toggle_state = True
-        
-        # Run the timer every 8 seconds. 
-        # The movement will take ~3 seconds, leaving a 5-second dwell time where the robot is stationary.
+        # Run every 8 seconds
         self.timer = self.create_timer(8.0, self.oscillate_wrist)
         
-        self.get_logger().info('Wrist Oscillation Node Initialized.')
-        self.get_logger().info('Waiting 8 seconds before beginning the first sweep...')
-
     def oscillate_wrist(self):
-        msg = String()
+        goal = FollowJointTrajectory.Goal()
+        goal.trajectory.joint_names = [
+            'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 
+            'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'
+        ]
         
-        # Base neutral pose (exactly where init_robot_movement left it)
-        # We only alter the 6th element (wrist_3_joint)
         if self.toggle_state:
             target_wrist = 1.5
             direction = "POSITIVE (+1.5)"
@@ -30,14 +36,18 @@ class UR5WristOscillationNode(Node):
             target_wrist = -1.5
             direction = "NEGATIVE (-1.5)"
             
-        # Format the URScript command
-        # movej takes joint positions in radians, acceleration (rad/s^2), and velocity (rad/s)
-        msg.data = f"movej([0.0, -1.57, 0.0, -1.57, 0.0, {target_wrist}], a=0.5, v=0.5)\n"
+        point = JointTrajectoryPoint()
+        point.positions = [0.0, -1.57, 0.0, -1.57, 0.0, target_wrist]
+        # CRITICAL FIX: We DO NOT specify velocities or accelerations! 
+        # Leaving them empty forces the controller to use relaxed position-only interpolation
+        # which mathematically prevents the "whip-crack" spline explosion limit error!
+        point.time_from_start = Duration(sec=3, nanosec=0)
         
-        self.publisher_.publish(msg)
-        self.get_logger().info(f'🔄 Sweeping wrist to {direction}')
+        goal.trajectory.points.append(point)
         
-        # Flip the toggle for the next timer tick
+        self.get_logger().info(f'🔄 Sweeping wrist to {direction} via Action Server...')
+        self.client.send_goal_async(goal)
+        
         self.toggle_state = not self.toggle_state
 
 def main(args=None):
