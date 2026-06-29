@@ -35,9 +35,13 @@ class EdgeKinematicStreamer(Node):
             self.get_logger().info('Waiting for /controller_manager/switch_controller service...')
 
         req = SwitchController.Request()
-        req.activate_controllers = ['forward_position_controller']
-        req.deactivate_controllers = ['scaled_joint_trajectory_controller']
-        req.strictness = SwitchController.Request.BEST_EFFORT
+        if hasattr(req, 'start_controllers'):
+            req.start_controllers = ['forward_position_controller']
+            req.stop_controllers = ['scaled_joint_trajectory_controller']
+        else:
+            req.activate_controllers = ['forward_position_controller']
+            req.deactivate_controllers = ['scaled_joint_trajectory_controller']
+        req.strictness = 1 # SwitchController.Request.BEST_EFFORT
 
         future = self.switch_client.call_async(req)
         rclpy.spin_until_future_complete(self, future)
