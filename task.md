@@ -1,0 +1,8 @@
+- `[x]` Write `stream_wrist_kinematics.py` node.
+  - `[x]` Implement `/controller_manager/switch_controller` service client logic to activate `forward_position_controller`.
+  - `[x]` Implement `/joint_states` one-shot subscriber to lock initial pose.
+  - `[x]` Implement 50Hz timer with sine wave math for smooth, speed-limit-compliant oscillation.
+  - `[x]` Implement `std_msgs/Float64MultiArray` publisher to `/forward_position_controller/commands`.
+- `[x]` Add `stream_wrist_kinematics` to `console_scripts` in `setup.py`.
+- `[x]` Commit and push changes.
+- `[ ]` Create walkthrough artifact.
