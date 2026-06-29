@@ -1,128 +1,48 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
-from sensor_msgs.msg import JointState
-from control_msgs.action import FollowJointTrajectory
-from rclpy.action import ActionClient
-import time
+from std_msgs.msg import String
 
-class UR5WristTestNode(Node):
+class UR5WristOscillationNode(Node):
     def __init__(self):
-        super().__init__('ur5_wrist_test_node')
+        super().__init__('ur5_wrist_oscillation_node')
+        self.publisher_ = self.create_publisher(String, '/urscript_interface/script_command', 10)
         
-        self.action_client = ActionClient(
-            self, 
-            FollowJointTrajectory, 
-            '/scaled_joint_trajectory_controller/follow_joint_trajectory'
-        )
+        # Toggle state: True = Move to +1.5, False = Move to -1.5
+        self.toggle_state = True
         
-        self.current_positions = None
-        self.sub = self.create_subscription(
-            JointState,
-            '/joint_states',
-            self.state_cb,
-            10
-        )
-        self.get_logger().info('Waiting for current joint states...')
+        # Run the timer every 8 seconds. 
+        # The movement will take ~3 seconds, leaving a 5-second dwell time where the robot is stationary.
+        self.timer = self.create_timer(8.0, self.oscillate_wrist)
+        
+        self.get_logger().info('Wrist Oscillation Node Initialized.')
+        self.get_logger().info('Waiting 8 seconds before beginning the first sweep...')
 
-    def state_cb(self, msg):
-        if self.current_positions is None and len(msg.position) >= 6:
-            names = msg.name
-            positions = msg.position
-            joint_map = dict(zip(names, positions))
+    def oscillate_wrist(self):
+        msg = String()
+        
+        # Base neutral pose (exactly where init_robot_movement left it)
+        # We only alter the 6th element (wrist_3_joint)
+        if self.toggle_state:
+            target_wrist = 1.5
+            direction = "POSITIVE (+1.5)"
+        else:
+            target_wrist = -1.5
+            direction = "NEGATIVE (-1.5)"
             
-            try:
-                self.current_positions = [
-                    joint_map['shoulder_pan_joint'],
-                    joint_map['shoulder_lift_joint'],
-                    joint_map['elbow_joint'],
-                    joint_map['wrist_1_joint'],
-                    joint_map['wrist_2_joint'],
-                    joint_map['wrist_3_joint']
-                ]
-                self.get_logger().info("Successfully grabbed current joint states!")
-                self.send_trajectory_goal()
-            except KeyError:
-                self.get_logger().error("Joint names do not match UR5 standard.")
-
-    def send_trajectory_goal(self):
-        self.get_logger().info("Waiting for action server to become available...")
-        self.action_client.wait_for_server()
-        self.get_logger().info("Action server is ACTIVE! Generating trajectory...")
-
-        goal_msg = FollowJointTrajectory.Goal()
-        msg = JointTrajectory()
+        # Format the URScript command
+        # movej takes joint positions in radians, acceleration (rad/s^2), and velocity (rad/s)
+        msg.data = f"movej([0.0, -1.57, 0.0, -1.57, 0.0, {target_wrist}], a=0.5, v=0.5)\n"
         
-        msg.joint_names = [
-            'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 
-            'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'
-        ]
-
-        base_pos = list(self.current_positions)
-        wrist_start = base_pos[5]
-        zero_vel = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-
-        current_time = 0
+        self.publisher_.publish(msg)
+        self.get_logger().info(f'🔄 Sweeping wrist to {direction}')
         
-        # Explicit Point 0: Start at current state with zero velocity
-        p_start = JointTrajectoryPoint()
-        p_start.positions = list(base_pos)
-        p_start.velocities = list(zero_vel)
-        p_start.time_from_start.sec = 0
-        msg.points.append(p_start)
-
-        for i in range(2):
-            current_time += 10
-            p_pos = JointTrajectoryPoint()
-            p_pos.positions = list(base_pos)
-            p_pos.positions[5] = wrist_start + 1.5
-            p_pos.velocities = list(zero_vel)
-            p_pos.time_from_start.sec = current_time
-            msg.points.append(p_pos)
-
-            current_time += 10
-            p_neg = JointTrajectoryPoint()
-            p_neg.positions = list(base_pos)
-            p_neg.positions[5] = wrist_start - 1.5
-            p_neg.velocities = list(zero_vel)
-            p_neg.time_from_start.sec = current_time
-            msg.points.append(p_neg)
-
-        # Final Return to start
-        current_time += 10
-        p_final = JointTrajectoryPoint()
-        p_final.positions = list(base_pos)
-        p_final.velocities = list(zero_vel)
-        p_final.time_from_start.sec = current_time
-        msg.points.append(p_final)
-
-        goal_msg.trajectory = msg
-        self.get_logger().info("Sending goal to action server...")
-        
-        self._send_goal_future = self.action_client.send_goal_async(goal_msg)
-        self._send_goal_future.add_done_callback(self.goal_response_callback)
-
-    def goal_response_callback(self, future):
-        goal_handle = future.result()
-        if not goal_handle.accepted:
-            self.get_logger().error("⚠️ GOAL REJECTED BY UR5 CONTROLLER! (Check Terminal 1 for reason!)")
-            import sys
-            sys.exit(1)
-
-        self.get_logger().info("✅ Goal perfectly ACCEPTED! Robot should be moving!")
-        self._get_result_future = goal_handle.get_result_async()
-        self._get_result_future.add_done_callback(self.get_result_callback)
-
-    def get_result_callback(self, future):
-        result = future.result().result
-        self.get_logger().info(f"Trajectory finished with error code: {result.error_code}")
-        import sys
-        sys.exit(0)
+        # Flip the toggle for the next timer tick
+        self.toggle_state = not self.toggle_state
 
 def main(args=None):
     rclpy.init(args=args)
-    node = UR5WristTestNode()
+    node = UR5WristOscillationNode()
     try:
         rclpy.spin(node)
     except SystemExit:
