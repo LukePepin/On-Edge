@@ -65,25 +65,35 @@ class UR5WristTestNode(Node):
 
         current_time = 0
         
-        for i in range(4):
-            current_time += 15
+        # Explicit Point 0: Start at current state with zero velocity
+        p_start = JointTrajectoryPoint()
+        p_start.positions = list(base_pos)
+        p_start.velocities = list(zero_vel)
+        p_start.time_from_start.sec = 0
+        msg.points.append(p_start)
+
+        for i in range(2):
+            current_time += 10
             p_pos = JointTrajectoryPoint()
             p_pos.positions = list(base_pos)
-            p_pos.positions[5] = wrist_start + 3.0
+            p_pos.positions[5] = wrist_start + 1.5
+            p_pos.velocities = list(zero_vel)
             p_pos.time_from_start.sec = current_time
             msg.points.append(p_pos)
 
-            current_time += 15
+            current_time += 10
             p_neg = JointTrajectoryPoint()
             p_neg.positions = list(base_pos)
-            p_neg.positions[5] = wrist_start - 3.0
+            p_neg.positions[5] = wrist_start - 1.5
+            p_neg.velocities = list(zero_vel)
             p_neg.time_from_start.sec = current_time
             msg.points.append(p_neg)
 
         # Final Return to start
-        current_time += 15
+        current_time += 10
         p_final = JointTrajectoryPoint()
         p_final.positions = list(base_pos)
+        p_final.velocities = list(zero_vel)
         p_final.time_from_start.sec = current_time
         msg.points.append(p_final)
 
