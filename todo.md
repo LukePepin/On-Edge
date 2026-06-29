@@ -62,6 +62,11 @@
   - [x] Objective 7: Latency Ceiling Mathematical Verification (Verify latency < 500ms ISO fail-safe ceiling).
   - *Pivot Note: During execution of Objective 7, a critical Denial-of-Service vulnerability was discovered. A malicious 256-byte payload blocked the Arduino's single-threaded loop for 610ms, causing the kill-switch to miss the 500ms ISO ceiling. We will use this finding to argue for multi-threaded RTOS edge architectures in the final conclusion rather than fixing it here due to hardware constraints.*
 
+### 🚨 EMERGENCY TODO FOR TOMORROW'S SESSION 🚨
+- **[ ] Action 1 (Physical Testing):** Run the new physical tests with the updated `stopj(20.0)` parameter to extract the sub-500ms CSV telemetry.
+- **[ ] Action 2 (Data Review):** Review the new CSV data to ensure the physical deceleration fits the mathematical latency budget (or pivot to GPIO STO bypass if it fails).
+- **[ ] Action 3 (Hardware Photography):** Revisit the Phase 3.3 hardware integration setup (UR5 + Arduino Sentry) to take high-quality photos for the IP presentation slides.
+
 ### THE KINEMATIC PARAMETER FLAW (URGENT REVISION REQUIRED)
 - **The Deceleration Cap:** The `stopj(5.0)` command injected explicitly limits the UR5's deceleration to 5.0 rad/s². The resulting 352ms theoretical deceleration time is a product of conservative parameter selection, not a physical hardware limit.
 - **The Controller Overhead:** The additional 368ms of overhead (caused by S-curve braking mechanics and switching from `forward_position_controller` to URScript) is an inefficient fail-safe pathway. Category 0/1 E-stops must bypass standard trajectory planning interpreters.
