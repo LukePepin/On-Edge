@@ -53,11 +53,13 @@
   - Wire trigger to issue an immediate priority HALT command to the UR5 trajectory planner.
 - [ ] **Phase 3.5: Multi-Threaded Integration and Kinematic Deceleration Telemetry**
   - **[SAFETY CRITICAL]: Unmount the robot from the desk and place it in the center of the room to ensure a completely clear 360-degree range of motion.**
-  - Objective 1: Multi-Threaded Node Integration (Trust Monitor + Trajectory Script).
-  - Objective 2: Mathematical Trigger Logic Implementation (EWMA Thresholding).
-  - Objective 3: Action Server Preemption and Emergency Halt Injection.
-  - Objective 4: IMU Data Fusion and CSV Telemetry Logging.
-  - Objective 5: Latency Ceiling Mathematical Verification (Verify latency < 500ms ISO fail-safe ceiling).
+  - [x] Objective 1: Implement Edge-Computed Kinematic Stream (`forward_position_controller`).
+  - [ ] Objective 2: Create a faster 50Hz kinematic script simulating a pick-and-place "cut" motion.
+  - [ ] Objective 3: Multi-Threaded Node Integration (Run Trust Monitor + Kinematic Stream concurrently).
+  - [ ] Objective 4: Mathematical Trigger Logic Implementation (EWMA Thresholding).
+  - [ ] Objective 5: Stream Preemption and Emergency Halt Injection.
+  - [ ] Objective 6: IMU Data Fusion and CSV Telemetry Logging.
+  - [ ] Objective 7: Latency Ceiling Mathematical Verification (Verify latency < 500ms ISO fail-safe ceiling).
 
 ## Week 4: Topology Expansion & Simulation Validation
 - [ ] **Phase 3.6: Cluster Topology Expansion and MANET Saturation Testing**
