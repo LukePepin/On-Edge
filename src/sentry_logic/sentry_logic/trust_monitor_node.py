@@ -85,12 +85,12 @@ class TrustMonitorNode(Node):
         e_stop_msg.data = True
         self.e_stop_pub.publish(e_stop_msg)
         
-        # Issue a fast joint stop command with 5.0 rad/s^2 deceleration
+        # Issue a fast joint stop command with 20.0 rad/s^2 deceleration
         stop_cmd = String()
-        stop_cmd.data = "stopj(5.0)"
+        stop_cmd.data = "stopj(20.0)"
         self.script_pub.publish(stop_cmd)
         
-        self.get_logger().fatal("Injected stopj(5.0) into URScript interface!")
+        self.get_logger().fatal("Injected stopj(20.0) into URScript interface!")
 
 def main(args=None):
     rclpy.init(args=args)

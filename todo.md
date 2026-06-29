@@ -51,15 +51,22 @@
 - [x] **Phase 3.4: Emergency-Stop Injection**
   - Develop the software trigger simulating an authorization failure/ZKP timeout.
   - Wire trigger to issue an immediate priority HALT command to the UR5 trajectory planner.
-- [ ] **Phase 3.5: Multi-Threaded Integration and Kinematic Deceleration Telemetry**
+- [x] **Phase 3.5: Multi-Threaded Integration and Kinematic Deceleration Telemetry**
   - **[SAFETY CRITICAL]: Unmount the robot from the desk and place it in the center of the room to ensure a completely clear 360-degree range of motion.**
   - [x] Objective 1: Implement Edge-Computed Kinematic Stream (`forward_position_controller`).
-  - [ ] Objective 2: Create a faster 50Hz kinematic script simulating a pick-and-place "cut" motion.
-  - [ ] Objective 3: Multi-Threaded Node Integration (Run Trust Monitor + Kinematic Stream concurrently).
-  - [ ] Objective 4: Mathematical Trigger Logic Implementation (EWMA Thresholding).
-  - [ ] Objective 5: Stream Preemption and Emergency Halt Injection.
-  - [ ] Objective 6: IMU Data Fusion and CSV Telemetry Logging.
-  - [ ] Objective 7: Latency Ceiling Mathematical Verification (Verify latency < 500ms ISO fail-safe ceiling).
+  - [x] Objective 2: Create a faster 50Hz kinematic script simulating a pick-and-place "cut" motion.
+  - [x] Objective 3: Multi-Threaded Node Integration (Run Trust Monitor + Kinematic Stream concurrently).
+  - [x] Objective 4: Mathematical Trigger Logic Implementation (EWMA Thresholding).
+  - [x] Objective 5: Stream Preemption and Emergency Halt Injection.
+  - [x] Objective 6: IMU Data Fusion and CSV Telemetry Logging.
+  - [x] Objective 7: Latency Ceiling Mathematical Verification (Verify latency < 500ms ISO fail-safe ceiling).
+  - *Pivot Note: During execution of Objective 7, a critical Denial-of-Service vulnerability was discovered. A malicious 256-byte payload blocked the Arduino's single-threaded loop for 610ms, causing the kill-switch to miss the 500ms ISO ceiling. We will use this finding to argue for multi-threaded RTOS edge architectures in the final conclusion rather than fixing it here due to hardware constraints.*
+
+### THE KINEMATIC PARAMETER FLAW (URGENT REVISION REQUIRED)
+- **The Deceleration Cap:** The `stopj(5.0)` command injected explicitly limits the UR5's deceleration to 5.0 rad/s². The resulting 352ms theoretical deceleration time is a product of conservative parameter selection, not a physical hardware limit.
+- **The Controller Overhead:** The additional 368ms of overhead (caused by S-curve braking mechanics and switching from `forward_position_controller` to URScript) is an inefficient fail-safe pathway. Category 0/1 E-stops must bypass standard trajectory planning interpreters.
+- **[ ] Action 1 (Aggressive Parameter Tuning):** Recalibrate `trust_monitor_node.py` to command a much higher deceleration rate (e.g., `stopj(20.0)`) to violently arrest momentum faster and re-run the Phase 3.5 physical demonstration.
+- **[ ] Action 2 (Controller Bypass Investigation):** If the URScript interpreter continues to introduce ~368ms of switching latency, investigate triggering the UR5's hardware-level Safe Torque Off (STO) via a direct digital GPIO signal from the Arduino, entirely circumventing the ROS 2 software stack.
 
 ## Week 4: Topology Expansion & Simulation Validation
 - [ ] **Phase 3.6: Cluster Topology Expansion and MANET Saturation Testing**
