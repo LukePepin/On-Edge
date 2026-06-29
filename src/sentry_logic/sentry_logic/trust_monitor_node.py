@@ -30,8 +30,24 @@ class TrustMonitorNode(Node):
             self.monitor_thread = threading.Thread(target=self.serial_monitor_loop)
             self.monitor_thread.daemon = True
             self.monitor_thread.start()
+            
+            # Start a one-shot timer to inject the malicious payload after 15 seconds
+            self.injection_timer = self.create_timer(15.0, self.inject_malicious_payload)
+            
         except serial.SerialException as e:
             self.get_logger().error(f"Failed to connect to Serial Port: {e}")
+
+    def inject_malicious_payload(self):
+        # Only inject once
+        self.injection_timer.cancel()
+        
+        # A 256-byte payload (well over the 64-char threshold) to trigger the simulated ZKP lag
+        malicious_payload = "A" * 256 + "\n"
+        try:
+            self.ser.write(malicious_payload.encode('utf-8'))
+            self.get_logger().warn("😈 INJECTED 256-BYTE MALICIOUS PAYLOAD INTO SERIAL STREAM! 😈")
+        except Exception as e:
+            self.get_logger().error(f"Failed to inject payload: {e}")
 
     def serial_monitor_loop(self):
         while rclpy.ok():
@@ -43,9 +59,9 @@ class TrustMonitorNode(Node):
                 if not line:
                     continue
                     
-                # Example JSON from Arduino: {"cycle": 42, "execution_time_ms": 320, "trust_score": 98.5}
+                # Example JSON from Arduino: {"cycle": 42, "exec_time_ms": 320, "trust_score": 98.5}
                 data = json.loads(line)
-                exec_time = data.get('execution_time_ms', 0)
+                exec_time = data.get('exec_time_ms', 0)
                 trust_score = data.get('trust_score', 100.0)
                 
                 self.get_logger().info(f"Cycle: {data.get('cycle', 0)} | Exec Time: {exec_time}ms | Trust Score: {trust_score:.2f}")
