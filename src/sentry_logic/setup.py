@@ -39,6 +39,7 @@ setup(
             'trust_monitor = sentry_logic.trust_monitor_node:main',
             'joint_logger = sentry_logic.joint_logger_node:main',
             'test_ur5_wrist = sentry_logic.test_ur5_wrist:main',
+            'init_robot_movement = sentry_logic.init_robot_movement:main',
         ],
     },
 )
