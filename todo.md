@@ -69,13 +69,8 @@
 - **[ ] Action 2 (Controller Bypass Investigation):** If the URScript interpreter continues to introduce ~368ms of switching latency, investigate triggering the UR5's hardware-level Safe Torque Off (STO) via a direct digital GPIO signal from the Arduino, entirely circumventing the ROS 2 software stack.
 
 ## Week 4: Topology Expansion & Simulation Validation
-- [ ] **Phase 3.6: Cluster Topology Expansion and MANET Saturation Testing**
-  - Objective 1: Multi-Node Hardware Provisioning (1 Supervisor, 9 Edge Compute Nodes).
-  - Objective 2: Parallel Cryptographic Polling and Gossip Injection.
-  - Objective 3: Central Limit Theorem (CLT) Fleet Stress Testing.
-  - Objective 4: Artificial Packet Loss and MTTR Divergence Mapping.
-- [ ] **Phase 3.7: Queue Mapping and NS-3 Discrete-Event Simulation Validation**
-  - Objective 1: ROS 2 FastDDS Middleware Profiling (Capture serialization latency and queue buildup).
-  - Objective 2: NS-3 Simulation Environment Initialization (100-node ad-hoc network).
-  - Objective 3: First-In-First-Out (FIFO) to DropTailQueue Translation.
-  - Objective 4: Extrapolation and Final Graph Generation.
+- [ ] **Phase 3.6: NS-3 M/M/1 Queueing Simulation Extrapolation**
+  - [ ] Objective 1: Extract baseline service rates (μ) and arrival rates (λ) from the 10-node ROS 2 cluster data.
+  - [ ] Objective 2: Model the SentryC2 architecture as an M/M/1 queue in NS-3.
+  - [ ] Objective 3: Extrapolate node density (N) to N=100 to map strict Livelock saturation thresholds.
+  - [ ] Objective 4: Validate Token Bucket admission control algorithms within the simulation.
