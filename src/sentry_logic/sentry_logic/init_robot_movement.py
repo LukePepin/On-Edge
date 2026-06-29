@@ -1,59 +1,36 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from builtin_interfaces.msg import Duration
-from trajectory_msgs.msg import JointTrajectoryPoint
-from control_msgs.action import FollowJointTrajectory
-from rclpy.action import ActionClient
+from std_msgs.msg import String
 
-class InitRobotMovement(Node):
+class URScriptTestNode(Node):
     def __init__(self):
-        super().__init__('init_robot_movement')
-        self.get_logger().info('Connecting to ROS 2 Action Server...')
-        self.client = ActionClient(
-            self, 
-            FollowJointTrajectory, 
-            '/scaled_joint_trajectory_controller/follow_joint_trajectory'
-        )
-        self.client.wait_for_server()
-        self.get_logger().info('Server found. Sending absolute canonical home trajectory...')
+        super().__init__('urscript_test_node')
+        self.publisher_ = self.create_publisher(String, '/urscript_interface/script_command', 10)
         
-        goal = FollowJointTrajectory.Goal()
-        goal.trajectory.joint_names = [
-            'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 
-            'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'
-        ]
-        
-        # We DO NOT provide a t=0 start point. We only provide the final destination!
-        # The UR controller will automatically interpolate from its true hardware state.
-        point = JointTrajectoryPoint()
-        # A perfectly safe, neutral pose for a UR5 (straight up / L-shape)
-        point.positions = [0.0, -1.57, 0.0, -1.57, 0.0, 0.0]
-        point.time_from_start = Duration(sec=10, nanosec=0)
-        
-        goal.trajectory.points.append(point)
-        
-        self.future = self.client.send_goal_async(goal)
-        self.future.add_done_callback(self.goal_cb)
+        # Give the publisher a second to connect to the DDS network
+        self.timer = self.create_timer(1.0, self.send_command)
+        self.get_logger().info('Node initialized. Waiting for DDS discovery before sending URScript...')
+        self.command_sent = False
 
-    def goal_cb(self, future):
-        goal_handle = future.result()
-        if not goal_handle.accepted:
-            self.get_logger().error('Goal rejected by controller!')
-            return
-        self.get_logger().info('Goal mathematically accepted! Moving slowly to neutral pose...')
-        self._get_result_future = goal_handle.get_result_async()
-        self._get_result_future.add_done_callback(self.get_result_callback)
-
-    def get_result_callback(self, future):
-        result = future.result().result
-        self.get_logger().info(f"Trajectory finished with error code: {result.error_code}")
-        import sys
-        sys.exit(0)
+    def send_command(self):
+        if not self.command_sent:
+            msg = String()
+            # movej([base, shoulder, elbow, wrist1, wrist2, wrist3], acceleration, velocity)
+            # This rotates the wrist 1.0 radians (relative to standard 0) slowly and safely
+            msg.data = "movej([0.0, -1.57, 0.0, -1.57, 0.0, 1.0], a=0.1, v=0.1)\n"
+            self.publisher_.publish(msg)
+            self.get_logger().info(f'✅ Sent raw URScript via ROS 2: {msg.data.strip()}')
+            self.command_sent = True
+            
+            # Shut down after sending
+            self.get_logger().info('Command sent. Shutting down node.')
+            import sys
+            sys.exit(0)
 
 def main(args=None):
     rclpy.init(args=args)
-    node = InitRobotMovement()
+    node = URScriptTestNode()
     try:
         rclpy.spin(node)
     except SystemExit:
