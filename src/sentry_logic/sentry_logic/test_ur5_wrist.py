@@ -63,7 +63,16 @@ class UR5WristTestNode(Node):
         wrist_start = base_pos[5]
         zero_vel = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
+        # Oscillate back and forth
         current_time = 0
+        
+        # Point 1: Gently hold current position for 1 second to anchor the spline
+        point1 = JointTrajectoryPoint()
+        point1.positions = list(base_pos)
+        point1.time_from_start.sec = 1
+        msg.points.append(point1)
+        
+        current_time = 1
         
         for i in range(4):
             current_time += 15
