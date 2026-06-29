@@ -40,6 +40,7 @@ setup(
             'joint_logger = sentry_logic.joint_logger_node:main',
             'test_ur5_wrist = sentry_logic.test_ur5_wrist:main',
             'init_robot_movement = sentry_logic.init_robot_movement:main',
+            'stream_wrist_kinematics = sentry_logic.stream_wrist_kinematics:main',
         ],
     },
 )
