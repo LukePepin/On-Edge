@@ -23,3 +23,11 @@ As a result, the total execution time for 64B tightened into a highly determinis
 Because the latency stabilized safely under the 500ms threshold, the 64-byte payload's Trust Score stabilized securely around `51` (well above the `30` eviction limit). 
 
 **Result**: While we cannot claim it is "mathematically proven" (since execution time differs from true cryptographic verification, and external network latencies must be accounted for), we can confidently state that **64-Bytes is the largest payload execution we can stabilize with our specific thesis safety goals.**
+
+## Phase 3.5: The Single-Threaded Denial of Service Vulnerability
+
+During the final physical integration tests with the UR5 robot, we discovered a critical vulnerability inherent to single-threaded microcontrollers acting as safety nodes.
+
+The physical tests proved that while the EWMA Trust Score successfully isolated rogue nodes, a critical vulnerability exists in single-threaded microcontrollers. Because the malicious 256-byte cryptographic payload blocked the main execution loop for 610ms, the robot continued moving blindly until the loop freed up and the kill switch could fire. 
+
+This proves that future cryptographic edge-robotics must utilize hardware interrupts or multi-threaded RTOS environments to guarantee strict ISO-13849 fail-safe latency ceilings against Denial of Service (DoS) attacks.
