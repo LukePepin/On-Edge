@@ -51,7 +51,22 @@
 - [x] **Phase 3.4: Emergency-Stop Injection**
   - Develop the software trigger simulating an authorization failure/ZKP timeout.
   - Wire trigger to issue an immediate priority HALT command to the UR5 trajectory planner.
-- [ ] **Phase 3.5: Deceleration Curve Mapping**
+- [ ] **Phase 3.5: Multi-Threaded Integration and Kinematic Deceleration Telemetry**
   - **[SAFETY CRITICAL]: Unmount the robot from the desk and place it in the center of the room to ensure a completely clear 360-degree range of motion.**
-  - Execute rapid trajectories while artificially triggering the E-stop.
-  - Plot the physical deceleration curve and verify total latency is below the 500ms ISO fail-safe ceiling.
+  - Objective 1: Multi-Threaded Node Integration (Trust Monitor + Trajectory Script).
+  - Objective 2: Mathematical Trigger Logic Implementation (EWMA Thresholding).
+  - Objective 3: Action Server Preemption and Emergency Halt Injection.
+  - Objective 4: IMU Data Fusion and CSV Telemetry Logging.
+  - Objective 5: Latency Ceiling Mathematical Verification (Verify latency < 500ms ISO fail-safe ceiling).
+
+## Week 4: Topology Expansion & Simulation Validation
+- [ ] **Phase 3.6: Cluster Topology Expansion and MANET Saturation Testing**
+  - Objective 1: Multi-Node Hardware Provisioning (1 Supervisor, 9 Edge Compute Nodes).
+  - Objective 2: Parallel Cryptographic Polling and Gossip Injection.
+  - Objective 3: Central Limit Theorem (CLT) Fleet Stress Testing.
+  - Objective 4: Artificial Packet Loss and MTTR Divergence Mapping.
+- [ ] **Phase 3.7: Queue Mapping and NS-3 Discrete-Event Simulation Validation**
+  - Objective 1: ROS 2 FastDDS Middleware Profiling (Capture serialization latency and queue buildup).
+  - Objective 2: NS-3 Simulation Environment Initialization (100-node ad-hoc network).
+  - Objective 3: First-In-First-Out (FIFO) to DropTailQueue Translation.
+  - Objective 4: Extrapolation and Final Graph Generation.
