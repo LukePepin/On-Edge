@@ -1,6 +1,6 @@
 # On-Edge: Thesis Project Execution Plan
 
-## Week 1: Infrastructure Initialization and Network Baseline
+## Phase 1: Infrastructure Initialization and Network Baseline
 - [x] **Phase 1.1: Supervisor OS Provisioning**
   - Flash Ubuntu 22.04 LTS natively onto the Raspberry Pi 4.
   - Install ROS 2 Humble Hawksbill.
@@ -19,7 +19,7 @@
   - Deploy Linux Traffic Control (`tc`) and Scapy scripts on the wired backend.
   - Induce artificial 15% packet-loss rate and capture baseline with `tshark`.
 
-## Week 2: Bare-Metal Cryptography and Cycle Profiling
+## Phase 2: Bare-Metal Cryptography and Cycle Profiling
 - [x] **Phase 2.1: Constant-Time Cryptography Porting**
   - Integrate custom Schnorr ZKP and standard ECDSA libraries.
   - Verify implementations compile without overflowing the 256KB SRAM.
@@ -35,8 +35,7 @@
   - Implement EWMA trust score logic using integer arithmetic.
   - Evict simulated Byzantine node dropping below 0.3 exclusion threshold.
 
-## Week 3: Robotic Kinematics and UR5 Integration
-*(Note: Phases adapted from original Niryo proposal to reflect the UR5 ROS 2 upgrade)*
+## Phase 3: Robotic Kinematics and Software Preemption (UR5 Integration)
 - [x] **Phase 3.1: UR5 Baseline Configuration**
   - Connect the Universal Robots UR5 to the local management network.
   - Verify baseline movement via the Teach Pendant.
@@ -60,26 +59,25 @@
   - [x] Objective 5: Stream Preemption and Emergency Halt Injection.
   - [x] Objective 6: IMU Data Fusion and CSV Telemetry Logging.
   - [x] Objective 7: Latency Ceiling Mathematical Verification (Verify latency < 500ms ISO fail-safe ceiling).
-  - *Pivot Note: During execution of Objective 7, a critical Denial-of-Service vulnerability was discovered. A malicious 256-byte payload blocked the Arduino's single-threaded loop for 610ms, causing the kill-switch to miss the 500ms ISO ceiling. We will use this finding to argue for multi-threaded RTOS edge architectures in the final conclusion rather than fixing it here due to hardware constraints.*
+  - *Empirical Findings: During Phase 3.5, two critical vulnerabilities were discovered:*
+    1. *Queue Saturation:* A single-threaded Arduino blocked the network FIFO queue for 610ms, proving physical CPU execution cannot out-scale queue saturation (HOL blocking).
+    2. *Structural Deceleration Overhead:* Using software preemption (`stopj`), the UR5 controller consumed >750ms just to switch from `forward_position_controller` to the URScript interpreter, rendering the software path mathematically incapable of beating the 500ms safety ceiling.
 
-### 🚨 EMERGENCY TODO FOR TOMORROW'S SESSION 🚨
-- **[ ] Action 1 (Physical Testing):** Run the new physical tests with the updated `stopj(20.0)` parameter to extract the sub-500ms CSV telemetry.
-- **[ ] Action 2 (Data Review):** Review the new CSV data to ensure the physical deceleration fits the mathematical latency budget (or pivot to GPIO STO bypass if it fails).
-- **[ ] Action 3 (Hardware Photography):** Revisit the Phase 3.3 hardware integration setup (UR5 + Arduino Sentry) to take high-quality photos for the IP presentation slides.
+## Phase 4: The Hardware IT/OT Bypass (Current Active Phase)
+- **[SAFETY CRITICAL] The Electrical Reality Check:** The 3.3V Arduino cannot wire directly into the 24V UR5 control box. 
+- [ ] **Phase 4.1: Hardware Procurement & Photography**
+  - Procure a high-speed 3.3V-to-24V opto-isolated solid-state relay.
+  - Revisit hardware integration to capture high-quality photos for IP presentation slides.
+- [ ] **Phase 4.2: Dual-Channel Actuation Wiring**
+  - Wire the opto-isolated relay across the UR5 Safeguard Stop terminals for true Category 0/1 hardware bypassing.
+- [ ] **Phase 4.3: Edge Node Firmware Integration**
+  - Update Arduino C++ firmware to drop the GPIO pin LOW the microsecond the EWMA trust score falls below Γ=30.0.
+- [ ] **Phase 4.4: Physical Extrapolation Testing**
+  - Execute the physical test to completely circumvent the ROS 2 software stack and extract the sub-500ms CSV telemetry.
 
-### THE KINEMATIC PARAMETER FLAW (URGENT REVISION REQUIRED)
-- **The Deceleration Cap:** The `stopj(5.0)` command injected explicitly limits the UR5's deceleration to 5.0 rad/s². The resulting 352ms theoretical deceleration time is a product of conservative parameter selection, not a physical hardware limit.
-- **The Controller Overhead:** The additional 368ms of overhead (caused by S-curve braking mechanics and switching from `forward_position_controller` to URScript) is an inefficient fail-safe pathway. Category 0/1 E-stops must bypass standard trajectory planning interpreters.
-- **[x] Action 1 (Aggressive Parameter Tuning):** Recalibrated `trust_monitor_node.py` to command `stopj(20.0)`. *Result: Mathematical failure. Mode-switching overhead structurally consumes >750ms.*
-- **[ ] Action 2 (Controller Bypass Investigation):** Execute a direct hardware Safe Torque Off (STO) bypass. 
-  - **[SAFETY CRITICAL] The Electrical Reality Check:** The 3.3V Arduino cannot wire directly into the 24V UR5 control box. 
-  - **[ ] Action 2.1:** Procure a high-speed 3.3V-to-24V opto-isolated solid-state relay.
-  - **[ ] Action 2.2:** Wire the relay for Dual-Channel Actuation across the UR5 Safeguard Stop terminals.
-  - **[ ] Action 2.3:** Update Arduino C++ firmware to drop the GPIO pin LOW the microsecond the EWMA trust score falls below Γ=30.0.
-
-## Week 4: Topology Expansion & Simulation Validation
-- [ ] **Phase 3.6: NS-3 M/M/1 Queueing Simulation Extrapolation**
-  - [ ] Objective 1: Extract baseline service rates (μ) and arrival rates (λ) from the 10-node ROS 2 cluster data.
+## Phase 5: NS-3 Simulation Extrapolation
+- [ ] **Phase 5.1: M/M/1 Queueing Simulation**
+  - [ ] Objective 1: Extract baseline service rates (μ) and arrival rates (λ) from the ROS 2 cluster data.
   - [ ] Objective 2: Model the SentryC2 architecture as an M/M/1 queue in NS-3.
   - [ ] Objective 3: Extrapolate node density (N) to N=100 to map strict Livelock saturation thresholds.
   - [ ] Objective 4: Validate Token Bucket admission control algorithms within the simulation.
