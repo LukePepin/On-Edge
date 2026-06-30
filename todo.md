@@ -70,8 +70,12 @@
 ### THE KINEMATIC PARAMETER FLAW (URGENT REVISION REQUIRED)
 - **The Deceleration Cap:** The `stopj(5.0)` command injected explicitly limits the UR5's deceleration to 5.0 rad/s². The resulting 352ms theoretical deceleration time is a product of conservative parameter selection, not a physical hardware limit.
 - **The Controller Overhead:** The additional 368ms of overhead (caused by S-curve braking mechanics and switching from `forward_position_controller` to URScript) is an inefficient fail-safe pathway. Category 0/1 E-stops must bypass standard trajectory planning interpreters.
-- **[ ] Action 1 (Aggressive Parameter Tuning):** Recalibrate `trust_monitor_node.py` to command a much higher deceleration rate (e.g., `stopj(20.0)`) to violently arrest momentum faster and re-run the Phase 3.5 physical demonstration.
-- **[ ] Action 2 (Controller Bypass Investigation):** If the URScript interpreter continues to introduce ~368ms of switching latency, investigate triggering the UR5's hardware-level Safe Torque Off (STO) via a direct digital GPIO signal from the Arduino, entirely circumventing the ROS 2 software stack.
+- **[x] Action 1 (Aggressive Parameter Tuning):** Recalibrated `trust_monitor_node.py` to command `stopj(20.0)`. *Result: Mathematical failure. Mode-switching overhead structurally consumes >750ms.*
+- **[ ] Action 2 (Controller Bypass Investigation):** Execute a direct hardware Safe Torque Off (STO) bypass. 
+  - **[SAFETY CRITICAL] The Electrical Reality Check:** The 3.3V Arduino cannot wire directly into the 24V UR5 control box. 
+  - **[ ] Action 2.1:** Procure a high-speed 3.3V-to-24V opto-isolated solid-state relay.
+  - **[ ] Action 2.2:** Wire the relay for Dual-Channel Actuation across the UR5 Safeguard Stop terminals.
+  - **[ ] Action 2.3:** Update Arduino C++ firmware to drop the GPIO pin LOW the microsecond the EWMA trust score falls below Γ=30.0.
 
 ## Week 4: Topology Expansion & Simulation Validation
 - [ ] **Phase 3.6: NS-3 M/M/1 Queueing Simulation Extrapolation**
