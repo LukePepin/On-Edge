@@ -84,3 +84,41 @@
   - [ ] Objective 2: Model the SentryC2 architecture as an M/M/1 queue in NS-3.
   - [ ] Objective 3: Extrapolate node density (N) to N=100 to map strict Livelock saturation thresholds.
   - [ ] Objective 4: Validate Token Bucket admission control algorithms within the simulation.
+
+## 7-Day Sprint Plan (Hardware Pivot)
+
+**Thursday: NS-3 Virtual Environment Setup**
+- [ ] Install the NS-3 software simulation framework natively on the Raspberry Pi.
+- [ ] Extract the empirical service rates (µ) and arrival rates (?) from our existing 10-node CSV telemetry.
+- [ ] Verify the NS-3 core compiles successfully on the Pi's Ubuntu environment.
+
+**Friday: Base M/M/1 Queue Modeling**
+- [ ] Write the foundational NS-3 C++ simulation script.
+- [ ] Define the virtual ROS 2 agent broker and the virtual Nano 33 BLE nodes.
+- [ ] Input the empirical µ and ? variables to accurately mirror our physical cluster's physics.
+
+**Saturday: N=100 Software Extrapolation**
+- [ ] Run the NS-3 simulation script, scaling from 10 up to 100 virtual nodes.
+- [ ] Map the exact mathematical threshold where the M/M/1 queue completely collapses into Livelock.
+- [ ] Export the virtual simulation latency results to a CSV file for your thesis graphs.
+
+**Sunday: 'Shadow' Firmware Preparation**
+- [ ] Draft the Arduino C++ logic for the dual-channel bypass trigger.
+- [ ] Implement the safety logic to drop the GPIO pin LOW the exact microsecond the EWMA score drops below 30.0.
+- [ ] Verify the 'shadow' firmware compiles successfully so it is plug-and-play when the hardware arrives.
+
+**Monday: Thesis Drafting (The DoS Vulnerability)**
+- [ ] Write the thesis section detailing the 610ms Queue Saturation vulnerability.
+- [ ] Detail how the malicious 256-byte payload proved the single-threaded Arduino is susceptible to DoS.
+- [ ] Conclude how this proves Head-of-Line (HOL) blocking and justifies Token Bucket admission control.
+
+**Tuesday: Thesis Drafting (The Kinematic Bottleneck)**
+- [ ] Write the thesis section outlining the structural URScript mode-switching latency.
+- [ ] Break down the physical CSV data showing the 767ms delay despite the aggressive stopj(20.0) deceleration parameter.
+- [ ] Argue the mathematical necessity of entirely circumventing the ROS 2 software safety loop.
+
+**Wednesday: Hardware Procurement Strategy**
+- [ ] Finalize the exact hardware part numbers for Dr. Sodhi (3.3V-to-24V Opto-Isolated Solid-State Relay).
+- [ ] Source or procure the required industrial 24V wiring/cables to bridge the relay to the UR5 Control Box.
+- [ ] Draft a simple electrical wiring diagram to ensure we successfully execute the dual-channel Safeguard Stop integration.
+
