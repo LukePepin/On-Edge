@@ -65,8 +65,11 @@
 
 ## Phase 4: The Hardware IT/OT Bypass (Current Active Phase)
 - **[SAFETY CRITICAL] The Electrical Reality Check:** The 3.3V Arduino cannot wire directly into the 24V UR5 control box. 
-- [ ] **Phase 4.1: Hardware Procurement & Photography**
-  - Procure a high-speed 3.3V-to-24V opto-isolated solid-state relay.
+- [ ] **Phase 4.1: Hardware Procurement (Thursday)**
+  - Coordinate with a PhD student on Thursday to procure the required bypass hardware:
+    - (Pack of 2) 1-Channel PC817 Optocoupler Isolation Modules (Input 3-5V, Output 24V).
+    - 22 AWG Stranded Copper Wire (for the 24V UR5 industrial side).
+    - Dupont jumper wires (for the 3.3V Arduino logic side).
   - Revisit hardware integration to capture high-quality photos for IP presentation slides.
 - [ ] **Phase 4.2: Dual-Channel Actuation Wiring**
   - Wire the opto-isolated relay across the UR5 Safeguard Stop terminals for true Category 0/1 hardware bypassing.

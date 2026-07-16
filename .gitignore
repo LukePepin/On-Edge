@@ -3,6 +3,11 @@ build/
 install/
 log/
 
+# Agents
+task.md
+implementation_plan.md
+walkthrough.md
+
 # Python
 __pycache__/
 *.py[cod]
