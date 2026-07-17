@@ -6,10 +6,17 @@
 
 float trust_score = 100.0;
 const float EWMA_ALPHA = 0.3; // Smoothing factor
+const float EVICTION_THRESHOLD = 30.0; // Fail-Safe trigger threshold
+const int HARDWARE_BYPASS_PIN = 2; // D2 connected to Optocoupler Boards A & B
 int cycle = 0;
 
 void setup() {
   Serial.begin(115200);
+  
+  // Initialize the Optocoupler Bypass Pin
+  pinMode(HARDWARE_BYPASS_PIN, OUTPUT);
+  // FAIL-SAFE DESIGN: Default to HIGH (24V active) so the UR5 is allowed to move.
+  digitalWrite(HARDWARE_BYPASS_PIN, HIGH); 
   
   // Wait for serial monitor or Pi to connect
   while (!Serial); 
@@ -17,8 +24,6 @@ void setup() {
 
 void loop() {
   // 1. Simulate a Zero-Knowledge Proof computation
-  // Empirical Phase 2 profiling established a 301-346ms execution window for a 
-  // 64-byte payload invoking the Central Limit Theorem. We baseline at ~325ms.
   unsigned long start_time = millis();
   
   // Simulate standard cryptographic workload
@@ -29,7 +34,6 @@ void loop() {
     String payload = Serial.readStringUntil('\n');
     if (payload.length() > 64) {
       // 256-byte Malicious Payload Triggered!
-      // This forces the ZKP computation to lag significantly.
       delay(550); // Simulate heavy cryptographic delay
     }
   }
@@ -39,15 +43,22 @@ void loop() {
   // 2. Calculate EWMA Trust Score
   float current_trust = 100.0;
   if (exec_time > 100) {
-    // If it takes longer than 100ms, trust begins to plummet
-    // max() requires matching types, so we explicitly use floats
     float penalty = (float)(exec_time - 100);
     current_trust = max(0.0f, 100.0f - penalty); 
   }
   
   trust_score = (EWMA_ALPHA * current_trust) + ((1.0 - EWMA_ALPHA) * trust_score);
 
-  // 3. Spit out the JSON for the Raspberry Pi to read
+  // 3. HARDWARE CATEGORY 0 HALT LOGIC
+  if (trust_score < EVICTION_THRESHOLD) {
+    // Drop the pin to 0V. The Optocouplers will instantly kill the 24V UR5 loops!
+    digitalWrite(HARDWARE_BYPASS_PIN, LOW);
+  } else {
+    // Network is safe. Keep the 24V loop closed so the robot can operate.
+    digitalWrite(HARDWARE_BYPASS_PIN, HIGH);
+  }
+
+  // 4. Spit out the JSON for the Raspberry Pi to read
   Serial.print("{\"cycle\": ");
   Serial.print(cycle);
   Serial.print(", \"exec_time_ms\": ");
