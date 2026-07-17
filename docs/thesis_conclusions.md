@@ -31,3 +31,24 @@ During the final physical integration tests with the UR5 robot, we discovered a 
 The physical tests proved that while the EWMA Trust Score successfully isolated rogue nodes, a critical vulnerability exists. Because the malicious 256-byte cryptographic payload blocked the execution loop for 610ms, the robot continued moving blindly until the loop freed up and the kill switch could fire. 
 
 This test highlights a critical edge-case vulnerability: physical CPU execution cannot out-scale network queue saturation. Future robotic edge networks must utilize priority-based Token Bucket admission control or Topology-Embedded Routing Algorithms (TERA) to drop malicious payloads before they block the safety monitor's input buffer.
+
+## Experimental Conclusions: Phase 3.5 Queue Saturation & DoS Vulnerability
+
+### Overview
+During Phase 3.5, we attempted to integrate the cryptographic trust monitor on the same Cortex-M4 microcontroller handling a 50Hz robotic kinematic stream for the UR5. A critical Denial-of-Service (DoS) vulnerability was discovered when a 256-byte payload caused a 610ms execution delay, forcing the safety loop to miss the 500ms ISO 13849-1 ceiling.
+
+### The Queueing Theory Mathematics (M/M/1 Livelock)
+By extracting the baseline Service Rate (µ) from our timeseries evaluation and mapping it against the Arrival Rate (?) of the robotic kinematic stream, we mathematically proved why the edge node suffered queue saturation:
+
+- **Arrival Rate (?):** 50 Hz (50 packets per second arriving from the kinematic stream).
+- **Service Rate (µ):** Decreased exponentially as cryptographic payloads increased.
+  - 1B Payload: µ = 8.65 packets/sec (Traffic Intensity ? = 5.78)
+  - 8B Payload: µ = 7.22 packets/sec (Traffic Intensity ? = 6.92)
+  - 32B Payload: µ = 4.60 packets/sec (Traffic Intensity ? = 10.86)
+  - 64B Payload: µ = 3.10 packets/sec (Traffic Intensity ? = 16.14)
+
+### Conclusion
+In queueing theory, **Traffic Intensity (?) = ? / µ**. A queue is only mathematically stable if ? < 1.0. 
+
+Because our Traffic Intensity ranged between 5.78 and 16.14, the M/M/1 queue was mathematically doomed to unbounded infinite growth (Livelock). The Arduino's single-threaded architecture suffered Head-of-Line (HOL) blocking because it could not process the cryptographic validations fast enough to keep up with the 50Hz kinematic loop, resulting in dropped safety kill-switch packets. This definitively proves the necessity of a Token Bucket admission control algorithm or an RTOS multi-threaded edge architecture to isolate safety-critical streams from cryptographic processing.
+
