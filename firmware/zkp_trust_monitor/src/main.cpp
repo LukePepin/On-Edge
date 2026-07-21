@@ -18,8 +18,6 @@ void setup() {
   // FAIL-SAFE DESIGN: Default to HIGH (24V active) so the UR5 is allowed to move.
   digitalWrite(HARDWARE_BYPASS_PIN, HIGH); 
   
-  // Wait for serial monitor or Pi to connect
-  while (!Serial); 
 }
 
 void loop() {
@@ -42,8 +40,10 @@ void loop() {
 
   // 2. Calculate EWMA Trust Score
   float current_trust = 100.0;
-  if (exec_time > 100) {
-    float penalty = (float)(exec_time - 100);
+  if (exec_time > 400) {
+    // 400ms threshold: Anything under 400ms (like our 325ms baseline) is 100% trusted.
+    // An attack that spikes execution to 550ms+ will instantly drop trust to 0.
+    float penalty = (float)(exec_time - 400);
     current_trust = max(0.0f, 100.0f - penalty); 
   }
   
