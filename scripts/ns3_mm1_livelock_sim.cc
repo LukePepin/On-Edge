@@ -6,6 +6,7 @@
 #include "ns3/flow-monitor-helper.h"
 #include "ns3/ipv4-flow-classifier.h"
 #include <iostream>
+#include <fstream>
 
 using namespace ns3;
 
@@ -145,6 +146,20 @@ int main (int argc, char *argv[])
     std::cout << "The decentralized cluster successfully load-balanced the 50Hz stream." << std::endl;
   }
   std::cout << "==================================================================\n" << std::endl;
+
+  // 7. CSV Export for Thesis Graphs
+  std::ofstream csvFile;
+  csvFile.open("simulation_results.csv", std::ios_base::app); // Append mode
+  // If file is empty, write header
+  std::ifstream checkFile("simulation_results.csv");
+  checkFile.seekg(0, std::ios::end);
+  if (checkFile.tellg() == 0) {
+      csvFile << "Nodes,PayloadSize,ServiceRate,ArrivalRate,TrafficIntensity,AvgDelayMs,DropRate\n";
+  }
+  checkFile.close();
+  csvFile << nNodes << "," << payloadSize << "," << mu << "," << lambdaPerNode << "," << (lambdaPerNode / mu) << "," << avgDelayMs << "," << dropRate << "\n";
+  csvFile.close();
+  std::cout << "Results appended to simulation_results.csv" << std::endl;
 
   Simulator::Destroy();
   return 0;
