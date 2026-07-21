@@ -21,6 +21,7 @@ int main (int argc, char *argv[])
   CommandLine cmd (__FILE__);
   cmd.AddValue ("nNodes", "Number of ZKP Edge Nodes sharing the load", nNodes);
   cmd.AddValue ("payloadSize", "Cryptographic Payload Size in Bytes (1, 8, 32, 64)", payloadSize);
+  cmd.AddValue ("lambdaGlobal", "Global Arrival Rate / Kinematic Speed in Hz (Default: 50.0)", lambdaGlobal);
   cmd.Parse (argc, argv);
 
   // 1. Empirical Mapping of Service Rate (mu) based on CSV Evaluation
@@ -154,10 +155,13 @@ int main (int argc, char *argv[])
   std::ifstream checkFile("simulation_results.csv");
   checkFile.seekg(0, std::ios::end);
   if (checkFile.tellg() == 0) {
-      csvFile << "Nodes,PayloadSize,ServiceRate,ArrivalRate,TrafficIntensity,AvgDelayMs,DropRate\n";
+      csvFile << "Nodes,PayloadSize,ServiceRate,ArrivalRate,TrafficIntensity,AvgDelayMs,DropRate,SystemCrash\n";
   }
   checkFile.close();
-  csvFile << nNodes << "," << payloadSize << "," << mu << "," << lambdaPerNode << "," << (lambdaPerNode / mu) << "," << avgDelayMs << "," << dropRate << "\n";
+  
+  int systemCrash = (dropRate > 0.0 || (lambdaPerNode / mu) >= 1.0) ? 1 : 0;
+  
+  csvFile << nNodes << "," << payloadSize << "," << mu << "," << lambdaPerNode << "," << (lambdaPerNode / mu) << "," << avgDelayMs << "," << dropRate << "," << systemCrash << "\n";
   csvFile.close();
   std::cout << "Results appended to simulation_results.csv" << std::endl;
 

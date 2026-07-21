@@ -32,3 +32,10 @@ By scaling the virtual cluster up past the theoretical $16.12$ boundary to 17 no
 * **Average Queue Delay:** 1,611 ms
 
 **SYSTEM STABLE.** By adding the 17th node, the Traffic Intensity drops below `1.0`. The decentralized cluster is now mathematically capable of keeping up with the UR5's 50Hz cryptographic telemetry stream!
+
+## Latency vs. Packet Loss (The Livelock Phenomenon)
+A critical queueing theory observation from these results is that traditional packet-loss monitoring is insufficient for detecting cryptographic overload in edge networks. 
+
+As Traffic Intensity crosses the `1.0` boundary (e.g., at 10 nodes), the system does not immediately drop packets. Instead, it enters a frozen **Livelock** state where packets are buffered in RAM, causing the Average Queue Delay to skyrocket to thousands of milliseconds (2,803 ms). 
+
+In industrial robotics, a 3-second communication delay is a catastrophic physical failure. The system mathematically crashes via extreme latency long before the buffer physically overflows and a single packet is dropped.

@@ -11,7 +11,7 @@ rm -f simulation_results.csv
 echo "Starting comprehensive NS-3 M/M/1 parameter sweep..."
 
 # Define the variables to sweep
-ARRIVAL_RATES=(10 50 100) # Kinematic frequencies (Hz)
+ARRIVAL_RATES=(10 25 50 75 100) # Kinematic frequencies (Hz)
 PAYLOAD_SIZES=(1 8 32 64) # Cryptographic payload sizes (Bytes)
 NODE_COUNTS=(5 10 15 20 50 100 200) # Number of virtual edge nodes
 
