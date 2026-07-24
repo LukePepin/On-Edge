@@ -23,30 +23,29 @@ void setup() {
   
 }
 
+unsigned long last_message_time = 0;
+
 void loop() {
-  // 1. Simulate a Zero-Knowledge Proof computation
-  unsigned long start_time = millis();
-  
-  // Simulate standard cryptographic workload
-  delay(325); 
-  
-  // Check if we received a payload trigger over Serial (simulating an attack or lag)
+  unsigned long current_time = millis();
+  unsigned long time_since_last_packet = current_time - last_message_time;
+
+  // 1. Check for incoming authentication packets from the Cloud Provisioner
   if (Serial.available() > 0) {
     String payload = Serial.readStringUntil('\n');
     if (payload.length() > 0) {
-      // Any text sent via Serial monitor acts as a Malicious Payload Trigger!
-      delay(550); // Simulate heavy cryptographic delay
+      // Valid packet received! Reset the network timer.
+      last_message_time = current_time;
+      time_since_last_packet = 0;
     }
   }
-  
-  unsigned long exec_time = millis() - start_time;
 
-  // 2. Calculate EWMA Trust Score
+  // 2. Calculate EWMA Trust Score based on Real-Time Network Latency
   float current_trust = 100.0;
-  if (exec_time > 400) {
-    // 400ms threshold: Anything under 400ms (like our 325ms baseline) is 100% trusted.
-    // An attack that spikes execution to 550ms+ will instantly drop trust to 0.
-    float penalty = (float)(exec_time - 400);
+  
+  // The ISO 13849-1 Safety Ceiling is 500ms. We set our panic threshold at 400ms.
+  if (time_since_last_packet > 400) {
+    // Every millisecond of network delay or DoS packet loss bleeds the score
+    float penalty = (float)(time_since_last_packet - 400);
     current_trust = max(0.0f, 100.0f - penalty); 
   }
   
@@ -63,15 +62,15 @@ void loop() {
     digitalWrite(HARDWARE_BYPASS_PIN_2, HIGH);
   }
 
-  // 4. Spit out the JSON for the Raspberry Pi to read
+  // 4. Spit out the JSON status to the Cloud Provisioner
   Serial.print("{\"cycle\": ");
   Serial.print(cycle);
-  Serial.print(", \"exec_time_ms\": ");
-  Serial.print(exec_time);
+  Serial.print(", \"network_latency_ms\": ");
+  Serial.print(time_since_last_packet);
   Serial.print(", \"trust_score\": ");
   Serial.print(trust_score);
   Serial.println("}");
 
   cycle++;
-  delay(10); // Very short delay before next cycle
+  delay(10); // Very short delay before next loop evaluation
 }
