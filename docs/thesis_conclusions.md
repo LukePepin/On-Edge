@@ -38,17 +38,25 @@ This test highlights a critical edge-case vulnerability: physical CPU execution 
 During Phase 3.5, we attempted to integrate the cryptographic trust monitor on the same Cortex-M4 microcontroller handling a 50Hz robotic kinematic stream for the UR5. A critical Denial-of-Service (DoS) vulnerability was discovered when a 256-byte payload caused a 610ms execution delay, forcing the safety loop to miss the 500ms ISO 13849-1 ceiling.
 
 ### The Queueing Theory Mathematics (M/M/1 Livelock)
-By extracting the baseline Service Rate (µ) from our timeseries evaluation and mapping it against the Arrival Rate (?) of the robotic kinematic stream, we mathematically proved why the edge node suffered queue saturation:
+By extracting the baseline Service Rate (Âµ) from our timeseries evaluation and mapping it against the Arrival Rate (?) of the robotic kinematic stream, we mathematically proved why the edge node suffered queue saturation:
 
 - **Arrival Rate (?):** 50 Hz (50 packets per second arriving from the kinematic stream).
-- **Service Rate (µ):** Decreased exponentially as cryptographic payloads increased.
-  - 1B Payload: µ = 8.65 packets/sec (Traffic Intensity ? = 5.78)
-  - 8B Payload: µ = 7.22 packets/sec (Traffic Intensity ? = 6.92)
-  - 32B Payload: µ = 4.60 packets/sec (Traffic Intensity ? = 10.86)
-  - 64B Payload: µ = 3.10 packets/sec (Traffic Intensity ? = 16.14)
+- **Service Rate (Âµ):** Decreased exponentially as cryptographic payloads increased.
+  - 1B Payload: Âµ = 8.65 packets/sec (Traffic Intensity ? = 5.78)
+  - 8B Payload: Âµ = 7.22 packets/sec (Traffic Intensity ? = 6.92)
+  - 32B Payload: Âµ = 4.60 packets/sec (Traffic Intensity ? = 10.86)
+  - 64B Payload: Âµ = 3.10 packets/sec (Traffic Intensity ? = 16.14)
 
 ### Conclusion
-In queueing theory, **Traffic Intensity (?) = ? / µ**. A queue is only mathematically stable if ? < 1.0. 
+In queueing theory, **Traffic Intensity (?) = ? / Âµ**. A queue is only mathematically stable if ? < 1.0. 
 
 Because our Traffic Intensity ranged between 5.78 and 16.14, the M/M/1 queue was mathematically doomed to unbounded infinite growth (Livelock). The Arduino's single-threaded architecture suffered Head-of-Line (HOL) blocking because it could not process the cryptographic validations fast enough to keep up with the 50Hz kinematic loop, resulting in dropped safety kill-switch packets. This definitively proves the necessity of a Token Bucket admission control algorithm or an RTOS multi-threaded edge architecture to isolate safety-critical streams from cryptographic processing.
+
+## Phase 4.3: The Latching Cryptographic Halt
+
+During physical hardware integration with the UR5 robotic arm, the system successfully bridged the 3.3V edge-node logic to the 24V industrial safety loops via a dual-channel PNP optocoupler block. A massive security feature was discovered during integration: the **Latching Cryptographic Halt**.
+
+When the EWMA Trust Score detected an attack and severed the 24V signal to the UR5's `SI0` and `SI1` ports, the robot correctly threw a Category 0 Hardware Halt. However, because the system utilizes strict dual-channel safety monitoring, any microscopic timing discrepancies between the restoration of Channel 1 and Channel 2 (as the Arduino Trust Score recovered) caused the UR5 to deliberately latch a strict safety fault.
+
+This is a profound security mechanism for industrial robotics. If a cryptographic edge node detects a malicious attack, the system does not simply halt and allow a remote operator to click "Clear Error" to resume motion. Instead, the latching fault forces a complete physical lockdown. A human engineer is physically mandated to walk to the robotic control box, inspect the hardware, and perform a hard reboot. This guarantees a "Human-in-the-Loop" reset protocol, proving that decentralized edge node cryptography can definitively override and secure industrial kinetic systems.
 
