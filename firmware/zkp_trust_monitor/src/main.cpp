@@ -7,16 +7,19 @@
 float trust_score = 100.0;
 const float EWMA_ALPHA = 0.3; // Smoothing factor
 const float EVICTION_THRESHOLD = 30.0; // Fail-Safe trigger threshold
-const int HARDWARE_BYPASS_PIN = 2; // D2 connected to Optocoupler Boards A & B
+const int HARDWARE_BYPASS_PIN_1 = 2; // Channel 1 (SI0)
+const int HARDWARE_BYPASS_PIN_2 = 3; // Channel 2 (SI1)
 int cycle = 0;
 
 void setup() {
   Serial.begin(115200);
   
-  // Initialize the Optocoupler Bypass Pin
-  pinMode(HARDWARE_BYPASS_PIN, OUTPUT);
+  // Initialize the Optocoupler Bypass Pins
+  pinMode(HARDWARE_BYPASS_PIN_1, OUTPUT);
+  pinMode(HARDWARE_BYPASS_PIN_2, OUTPUT);
   // FAIL-SAFE DESIGN: Default to HIGH (24V active) so the UR5 is allowed to move.
-  digitalWrite(HARDWARE_BYPASS_PIN, HIGH); 
+  digitalWrite(HARDWARE_BYPASS_PIN_1, HIGH); 
+  digitalWrite(HARDWARE_BYPASS_PIN_2, HIGH); 
   
 }
 
@@ -52,10 +55,12 @@ void loop() {
   // 3. HARDWARE CATEGORY 0 HALT LOGIC
   if (trust_score < EVICTION_THRESHOLD) {
     // Drop the pin to 0V. The Optocouplers will instantly kill the 24V UR5 loops!
-    digitalWrite(HARDWARE_BYPASS_PIN, LOW);
+    digitalWrite(HARDWARE_BYPASS_PIN_1, LOW);
+    digitalWrite(HARDWARE_BYPASS_PIN_2, LOW);
   } else {
     // Network is safe. Keep the 24V loop closed so the robot can operate.
-    digitalWrite(HARDWARE_BYPASS_PIN, HIGH);
+    digitalWrite(HARDWARE_BYPASS_PIN_1, HIGH);
+    digitalWrite(HARDWARE_BYPASS_PIN_2, HIGH);
   }
 
   // 4. Spit out the JSON for the Raspberry Pi to read
