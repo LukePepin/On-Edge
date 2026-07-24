@@ -30,8 +30,8 @@ void loop() {
   // Check if we received a payload trigger over Serial (simulating an attack or lag)
   if (Serial.available() > 0) {
     String payload = Serial.readStringUntil('\n');
-    if (payload.length() > 64) {
-      // 256-byte Malicious Payload Triggered!
+    if (payload.length() > 0) {
+      // Any text sent via Serial monitor acts as a Malicious Payload Trigger!
       delay(550); // Simulate heavy cryptographic delay
     }
   }
