@@ -28,7 +28,6 @@ class EdgeKinematicStreamer(Node):
             self.joint_state_callback,
             10
         )
-        self.timer = self.create_timer(0.02, self.control_loop) # 50Hz = 0.02s
         self.get_logger().info('Waiting to capture initial hardware joint states...')
 
     def _switch_to_forward_position(self):
@@ -54,28 +53,37 @@ class EdgeKinematicStreamer(Node):
             raise RuntimeError("Controller switch failed.")
 
     def joint_state_callback(self, msg):
-        # We constantly update the joint map, but we don't start the timer here anymore.
-        canonical_order = [
-            'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 
-            'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'
-        ]
-        try:
-            current_map = dict(zip(msg.name, msg.position))
-            self.latest_positions = [current_map[joint] for joint in canonical_order]
-        except KeyError:
-            pass
+        if self.initial_positions is None:
+            # Safely map the incoming joint states to the canonical order
+            canonical_order = [
+                'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 
+                'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'
+            ]
+            
+            try:
+                # Build a dictionary of current positions
+                current_map = dict(zip(msg.name, msg.position))
+                # Extract them in the exact order required by the controller
+                self.initial_positions = [current_map[joint] for joint in canonical_order]
+                
+                self.get_logger().info(f'✅ Captured Initial State: {self.initial_positions}')
+                
+                # We have what we need, destroy the subscriber so we don't process further
+                self.destroy_subscription(self.subscription)
+                
+                # Start the 50Hz Control Loop
+                self.start_time = time.time()
+                self.timer = self.create_timer(0.02, self.control_loop) # 50Hz = 0.02s
+                self.get_logger().info('🚀 Starting 50Hz Kinematic Edge Stream!')
+            
+            except KeyError as e:
+                self.get_logger().warning(f'Waiting for full joint state message... Missing: {e}')
 
     def control_loop(self):
-        if not hasattr(self, 'latest_positions'):
+        if self.initial_positions is None:
             return
 
-        # If this is the very first time the loop runs, capture the absolute zero point
-        if self.initial_positions is None:
-            self.initial_positions = list(self.latest_positions)
-            self.start_time = time.time()
-            self.get_logger().info(f'Captured Zero Point: {self.initial_positions}')
-
-        # Calculate elapsed time from the exact moment we started publishing
+        # Calculate elapsed time
         t = time.time() - self.start_time
         
         # Calculate sine wave for wrist_3_joint (6th element)
