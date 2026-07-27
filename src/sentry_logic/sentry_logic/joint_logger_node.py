@@ -15,10 +15,12 @@ class JointLoggerNode(Node):
         super().__init__('joint_logger_node')
         
         # Declare parameters for the test condition
+        self.declare_parameter('trial', 0)
         self.declare_parameter('algo', 'UNKNOWN')
         self.declare_parameter('nodes', 0)
         self.declare_parameter('loss', 0)
         
+        trial = self.get_parameter('trial').value
         algo = self.get_parameter('algo').value
         nodes = self.get_parameter('nodes').value
         loss = self.get_parameter('loss').value
@@ -53,7 +55,7 @@ class JointLoggerNode(Node):
         workspace_dir = os.path.abspath(os.getcwd())
         data_dir = os.path.join(workspace_dir, "data")
         os.makedirs(data_dir, exist_ok=True)
-        self.filename = os.path.join(data_dir, f"deceleration_{algo}_n{nodes}_loss{loss}_{int(time.time())}.csv")
+        self.filename = os.path.join(data_dir, f"trial_{trial}_{algo}_n{nodes}_loss{loss}_{int(time.time())}.csv")
         
         try:
             self.file = open(self.filename, mode='w', newline='')
