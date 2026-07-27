@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <uECC.h>
 
-// Cryptographic Edge Node - Phase 3.5 ZKP & EWMA Trust Score
+// Cryptographic Edge Node - Phase 3.5 ECC & EWMA Trust Score
 // Hardware: Arduino Nano 33 BLE
 // Flashed via VS Code PlatformIO
 
@@ -51,18 +51,16 @@ void loop() {
   ARM_DWT_CYCCNT = 0;
   uint32_t start_cycles = ARM_DWT_CYCCNT;
   
-  // 1. Execute REAL ZKP Baseline Computation (Simulated via 10x ECC workload)
-  for(int i = 0; i < 10; i++) {
-    uECC_make_key(public_key, private_key);
-  }
+  // 1. Execute REAL ECC Baseline Computation (Academic fix)
+  uECC_make_key(public_key, private_key);
   
   // Check if we received a payload trigger over Serial (simulating a degraded/byzantine attack)
   if (Serial.available() > 0) {
     String payload = Serial.readStringUntil('\n');
     payload.trim(); 
     if (payload == "ATTACK") {
-      // Simulate heavy cryptographic Byzantine attack by pushing ZKP validation harder
-      for(int i = 0; i < 10; i++) {
+      // Simulate heavy cryptographic Byzantine attack by looping MSMs
+      for(int i = 0; i < 7; i++) {
         uECC_make_key(public_key, private_key);
       }
     }
@@ -74,10 +72,9 @@ void loop() {
 
   // 2. Calculate EWMA Trust Score
   float current_trust = 100.0;
-  if (exec_time_ms > 400.0) {
-    // 400ms threshold: Anything under 400ms is 100% trusted.
-    // ZKP baseline is ~350ms, so it sits right under the threshold.
-    float penalty = (float)(exec_time_ms - 400.0);
+  if (exec_time_ms > 100.0) {
+    // 100ms threshold: Anything under 100ms is 100% trusted.
+    float penalty = (float)(exec_time_ms - 100.0);
     current_trust = max(0.0f, 100.0f - penalty); 
   }
   
