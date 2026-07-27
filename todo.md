@@ -8,11 +8,11 @@
 
 ## 2. PHASE 3.5 KINEMATIC DECELERATION (THE PHYSICAL BYPASS)
 *Goal: Physically prove <500ms ISO 13849-1 safety compliance.*
-- [ ] **Execution:** Run the UR5 50Hz kinematic loop.
-- [ ] **Injection:** Send a massive 256-byte payload to intentionally choke the Cortex-M4 and drag the EWMA Trust Score (Γ) below the 30.0 eviction threshold.
-- [ ] **Measurement:** Capture 9-axis IMU telemetry. Fuse the data to strip gravitational noise.
-- [ ] **Integration:** Mathematically integrate the acceleration curve (v(t)=v_0 + ∫ a(t)dt).
-- [ ] **Proof:** Irrefutably prove the time delta between Γ < 30.0 and absolute zero physical velocity is ≤ 500ms.
+- [x] **Execution:** Run the UR5 50Hz kinematic loop.
+- [x] **Injection:** Send a massive 256-byte payload to intentionally choke the Cortex-M4 and drag the EWMA Trust Score (Γ) below the 30.0 eviction threshold.
+- [x] **Measurement:** Capture 9-axis IMU telemetry. Fuse the data to strip gravitational noise.
+- [x] **Integration:** Mathematically integrate the acceleration curve (v(t)=v_0 + ∫ a(t)dt).
+- [x] **Proof:** Irrefutably prove the time delta between Γ < 30.0 and absolute zero physical velocity is ≤ 500ms.
 
 ## 3. PHASE 3.7 NS-3 DROPTAILQUEUE CALIBRATION (THE SWEEP)
 *Goal: Ground the NS-3 simulation sweeps in physical hardware limits.*
