@@ -72,7 +72,7 @@ class EdgeKinematicStreamer(Node):
                 self.destroy_subscription(self.subscription)
                 
                 # Start the 50Hz Control Loop
-                self.start_time = time.time()
+                self.t = 0.0 # Track time monotonically to prevent OS jitter jumps
                 self.timer = self.create_timer(0.02, self.control_loop) # 50Hz = 0.02s
                 self.get_logger().info('🚀 Starting 50Hz Kinematic Edge Stream!')
             
@@ -83,15 +83,15 @@ class EdgeKinematicStreamer(Node):
         if self.initial_positions is None:
             return
 
-        # Calculate elapsed time
-        t = time.time() - self.start_time
+        # Increment t by exactly 0.02s to guarantee smooth position deltas regardless of CPU lag
+        self.t += 0.02
         
         # Calculate sine wave for wrist_3_joint (6th element)
         # Formula: A * sin(2 * pi * f * t)
         # Amplitude = 1.5 radians, Frequency = 0.05 Hz (1 sweep every 10 seconds)
         amplitude = 1.5
         frequency = 0.05 
-        wrist_offset = amplitude * math.sin(2 * math.pi * frequency * t)
+        wrist_offset = amplitude * math.sin(2 * math.pi * frequency * self.t)
 
         # Build the command array
         cmd = Float64MultiArray()
@@ -102,8 +102,8 @@ class EdgeKinematicStreamer(Node):
         self.publisher_.publish(cmd)
 
         # Log occasionally to prevent terminal flood
-        if int(t * 50) % 100 == 0:
-            self.get_logger().info(f'🌊 Streaming Sine Wave... Elapsed: {t:.1f}s | Wrist Target: {cmd.data[5]:.3f} rad')
+        if int(self.t * 50) % 100 == 0:
+            self.get_logger().info(f'🌊 Streaming Sine Wave... Elapsed: {self.t:.1f}s | Wrist Target: {cmd.data[5]:.3f} rad')
 
 def main(args=None):
     rclpy.init(args=args)
