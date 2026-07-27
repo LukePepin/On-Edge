@@ -62,7 +62,7 @@ def main():
             ser.write(payload.encode('utf-8'))
             
             # Print any response from the Arduino (the Trust Score JSON)
-            if ser.in_waiting > 0:
+            while ser.in_waiting > 0:
                 response = ser.readline().decode('utf-8', errors='ignore').strip()
                 if response:
                     print(f"Node Status: {response}")
