@@ -22,7 +22,7 @@ import ctypes
 class VerifyResult(ctypes.Structure):
     _fields_ = [("success", ctypes.c_int), ("elapsed_ns", ctypes.c_ulonglong)]
 
-lib_path = os.path.join(os.path.dirname(__file__), 'c_src', 'libuecc_wrapper.so')
+lib_path = os.path.expanduser('~/Documents/On-Edge/src/sentry_logic/sentry_logic/c_src/libuecc_wrapper.so')
 try:
     uecc_lib = ctypes.CDLL(lib_path)
     uecc_lib.benchmark_uecc_verify.restype = VerifyResult
