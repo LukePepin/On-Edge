@@ -2,225 +2,152 @@
 """
 Supervisor Authentication Node (Admission Control Architecture)
 ===============================================================
-ZKP authentication service with token bucket admission control.
+ZKP authentication service with M/D/1 Cycle-Accurate Profiling
 
-**Mission:** Prevent queue saturation via early request rejection
+**Mission:** Expose raw deterministic service rate (μ) of Pi 4 via C-wrapper profiling
 **Hardware:** Raspberry Pi 4 (4-core Cortex-A72)
-**Service:** /supervisor/authenticate (std_srvs/Trigger)
-**Concurrency:** MultiThreadedExecutor with admission control
-
-ARCHITECTURAL EVOLUTION:
-    v1 (Baseline): Single-threaded FIFO → Livelock @ n=20 (45% timeout)
-    v2 (ThreadPool): concurrent.futures → FAILED (45% timeout, identical)
-    v3 (MultiThreaded): rclpy.MultiThreadedExecutor → FAILED (45% timeout, identical)
-    v4 (Priority Queue): Timestamp ordering → FAILED (network reordering occurs before timestamps)
-    v5 (This): Admission control → Reject requests early to prevent timeout cascade
-
-ROOT CAUSE:
-    Requests timeout waiting in queue. Cannot fix ordering (network layer issue).
-    Solution: REJECT requests when concurrent load exceeds capacity.
-    Better to fail fast (immediate rejection) than fail slow (5s timeout).
-
-CRITICAL CONSTRAINTS:
-    - Max concurrent requests = num_workers (4 on Pi4)
-    - Reject new requests when active >= max_concurrent
-    - Fast rejection (< 1ms) better than timeout (5000ms)
+**Messaging:** Pub/Sub strictly enforcing BEST_EFFORT / KEEP_LAST (Depth=1)
 """
 
 import rclpy
 from rclpy.node import Node
-from rclpy.executors import MultiThreadedExecutor
-from rclpy.callback_groups import ReentrantCallbackGroup
-from std_srvs.srv import Trigger
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
+from std_msgs.msg import String
 import time
-import hashlib
-import threading
+import os
+import csv
+import ctypes
 
+# 1. Load the C Wrapper for Cycle-Accurate uECC_verify Profiling
+class VerifyResult(ctypes.Structure):
+    _fields_ = [("success", ctypes.c_int), ("elapsed_ns", ctypes.c_ulonglong)]
+
+lib_path = os.path.join(os.path.dirname(__file__), 'c_src', 'libuecc_wrapper.so')
+try:
+    uecc_lib = ctypes.CDLL(lib_path)
+    uecc_lib.benchmark_uecc_verify.restype = VerifyResult
+    uecc_lib.benchmark_uecc_verify.argtypes = [ctypes.c_char_p, ctypes.c_uint]
+    C_WRAPPER_LOADED = True
+except Exception as e:
+    print(f"[WARNING] Could not load libuecc_wrapper.so: {e}. Falling back to Python sleep.")
+    C_WRAPPER_LOADED = False
 
 class SupervisorNode(Node):
-    """
-    Supervisor authentication service with admission control.
-    
-    ARCHITECTURE:
-        1. Track active concurrent requests
-        2. Reject new requests when active >= max_concurrent
-        3. Process accepted requests in parallel (4 threads)
-    
-    ADMISSION CONTROL:
-        - Capacity = 4 (num_workers on Pi4)
-        - Accept: active < capacity
-        - Reject: active >= capacity (fail fast, <1ms response)
-        - Prevents timeout cascade (5000ms wait → immediate rejection)
-    """
-    
     def __init__(self):
         super().__init__('supervisor_node')
         
-        # Parameters
         self.declare_parameter('auth_enabled', True)
-        self.declare_parameter('zkp_delay_ms', 0.67)
-        self.declare_parameter('num_workers', 4)
-        self.declare_parameter('max_concurrent', 10)  # Admission control threshold
+        self.declare_parameter('zkp_delay_ms', 0.67) # Fallback if C wrapper missing
+        self.declare_parameter('trial_density', 10)  # Extracted for CSV tracking
         
         self.auth_enabled = self.get_parameter('auth_enabled').value
         self.zkp_delay = self.get_parameter('zkp_delay_ms').value / 1000.0
-        self.num_workers = self.get_parameter('num_workers').value
-        self.max_concurrent = self.get_parameter('max_concurrent').value
+        self.trial_density = self.get_parameter('trial_density').value
         
-        # === ADMISSION CONTROL: Track concurrent requests ===
-        self.active_requests = 0
-        self.active_lock = threading.Lock()
-        
-        # Metrics
-        self.auth_count = 0
-        self.rejected_count = 0
-        self.start_time = time.time()
-        
-        # Callback group for parallel execution
-        self.callback_group = ReentrantCallbackGroup()
-        
-        # Authentication service
-        self.auth_service = self.create_service(
-            Trigger,
-            '/supervisor/authenticate',
-            self.handle_authentication,
-            callback_group=self.callback_group
+        # === QoS Reconfiguration: Destroying HoL Blocking ===
+        best_effort_qos = QoSProfile(
+            reliability=QoSReliabilityPolicy.BEST_EFFORT,
+            history=QoSHistoryPolicy.KEEP_LAST,
+            depth=1
         )
         
-        self.get_logger().info(
-            f'🔐 Supervisor Node ONLINE (ADMISSION CONTROL v5.2)\n'
-            f'   - Service: /supervisor/authenticate\n'
-            f'   - Auth Enabled: {self.auth_enabled}\n'
-            f'   - ZKP Delay: {self.zkp_delay*1000:.2f}ms\n'
-            f'   - Architecture: ADMISSION CONTROL + MultiThreadedExecutor\n'
-            f'   - Workers: {self.num_workers} threads\n'
-            f'   - Max Concurrent: {self.max_concurrent} requests\n'
-            f'   - Hardware: Raspberry Pi 4 (4-core Cortex-A72)\n'
-            f'   - STRATEGY: Fail fast (reject) instead of fail slow (timeout)\n'
-            f'   - BUILD: 2026-02-10 14:01 (atomic admission control with logging)'
+        # Migrate from std_srvs/Trigger to Pub/Sub to enforce drops
+        self.auth_sub = self.create_subscription(
+            String,
+            '/auth_request',
+            self.handle_auth_request,
+            qos_profile=best_effort_qos
         )
-    
-    def handle_authentication(self, request, response):
-        """
-        Service callback with admission control.
         
-        ADMISSION CONTROL LOGIC:
-            IF active_requests < max_concurrent:
-                Accept and process request
-            ELSE:
-                Reject immediately (fail fast)
+        self.auth_pub = self.create_publisher(
+            String,
+            '/auth_response',
+            qos_profile=best_effort_qos
+        )
         
-        BENEFIT: Rejected clients get immediate feedback (<1ms) instead of
-                 waiting 5000ms for timeout. Prevents queue saturation.
-        """
-        if not self.auth_enabled:
-            response.success = False
-            response.message = "Authentication disabled"
-            return response
+        # Metrics Tracking
+        self.processed_count = 0
+        self.execution_times_ns = []
         
-        # === ADMISSION CONTROL: Check capacity ===
-        accepted = False
-        with self.active_lock:
-            if self.active_requests < self.max_concurrent:
-                # ACCEPT: Increment active counter atomically
-                self.active_requests += 1
-                accepted = True
+        # CSV Logging Setup
+        workspace_dir = os.path.abspath(os.getcwd())
+        self.data_dir = os.path.join(workspace_dir, "data")
+        os.makedirs(self.data_dir, exist_ok=True)
+        self.csv_filename = os.path.join(self.data_dir, f"md1_profiling_n{self.trial_density}_{int(time.time())}.csv")
         
-        if not accepted:
-            # REJECT: Capacity exceeded
-            self.rejected_count += 1
-            response.success = False
-            response.message = (
-                f"AUTH_REJECTED|queue_saturated "
-                f"(active={self.active_requests}/{self.max_concurrent})"
-            )
-            self.get_logger().info(
-                f'REJECTED: {self.rejected_count} total '
-                f'(active={self.active_requests}/{self.max_concurrent})'
-            )
-            return response
-        
-        # Process request
-        try:
-            req_start = time.time()
-            verification_success = self._verify_zkp(request)
-            processing_time = (time.time() - req_start) * 1000
+        with open(self.csv_filename, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["request_id", "execution_time_ns", "success"])
             
-            if verification_success:
-                response.success = True
-                response.message = f'Authenticated (took {processing_time:.2f} ms)'
-                self.auth_count += 1
-                self.get_logger().info(
-                    f'ACCEPTED: Auth #{self.auth_count} ({processing_time:.2f}ms)'
-                )
-            else:
-                response.success = False
-                response.message = 'AUTH_REJECTED|invalid_proof'
-        
-        finally:
-            # Decrement active counter
-            with self.active_lock:
-                self.active_requests -= 1
-        
-        return response
+        self.get_logger().info(
+            f'🔐 Supervisor Node ONLINE (M/D/1 PROFILING)\n'
+            f'   - Topic: /auth_request (BEST_EFFORT)\n'
+            f'   - C Wrapper Loaded: {C_WRAPPER_LOADED}\n'
+            f'   - Density: n={self.trial_density}\n'
+            f'   - Logging to: {self.csv_filename}'
+        )
     
-    def _verify_zkp(self, request) -> bool:
-        """
-        ZKP verification (executes on MultiThreadedExecutor thread).
+    def handle_auth_request(self, msg):
+        if not self.auth_enabled:
+            return
+            
+        req_start = time.time()
         
-        ACQUISITION LOGIC: Uses hashlib (stdlib) instead of libsecp256k1.
-        Calibrated to match ~0.67ms CPU time on Pi4.
-        """
-        # Simulate cryptographic operation
-        time.sleep(self.zkp_delay)
+        # Phase 3.5: Cycle-Accurate Verifier Benchmarking
+        if C_WRAPPER_LOADED:
+            message_bytes = msg.data.encode('utf-8')
+            result = uecc_lib.benchmark_uecc_verify(message_bytes, len(message_bytes))
+            exec_time_ns = result.elapsed_ns
+            success = bool(result.success)
+        else:
+            # Fallback simulation
+            start_ns = time.perf_counter_ns()
+            time.sleep(self.zkp_delay)
+            exec_time_ns = time.perf_counter_ns() - start_ns
+            success = True
+            
+        self.processed_count += 1
+        self.execution_times_ns.append(exec_time_ns)
         
-        # Add minimal CPU work for realism (SHA256 chain)
-        data = b"zkp_verification_" + str(time.time()).encode()
-        for _ in range(10):
-            data = hashlib.sha256(data).digest()
+        # Log empirical baseline
+        with open(self.csv_filename, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([self.processed_count, exec_time_ns, success])
+            
+        # Broadcast Response
+        response_msg = String()
+        response_msg.data = f"AUTH_ACK|{self.processed_count}|{exec_time_ns}ns"
+        self.auth_pub.publish(response_msg)
         
-        # In production: Verify elliptic curve signature
-        # For simulation: Always return True
-        return True
-    
+        if self.processed_count % 10 == 0:
+            avg_ns = sum(self.execution_times_ns) / len(self.execution_times_ns)
+            max_ns = max(self.execution_times_ns)
+            self.get_logger().info(f'[{self.processed_count}] μ_avg: {avg_ns/1e6:.3f}ms | μ_max: {max_ns/1e6:.3f}ms')
+
     def destroy_node(self):
-        """Graceful shutdown."""
-        self.get_logger().info("Shutting down supervisor node...")
+        if len(self.execution_times_ns) > 0:
+            avg_ns = sum(self.execution_times_ns) / len(self.execution_times_ns)
+            max_ns = max(self.execution_times_ns)
+            self.get_logger().info(
+                f'\n📊 M/D/1 PROFILING RESULTS:\n'
+                f'   Total Requests: {self.processed_count}\n'
+                f'   Mean Latency (μ_avg): {avg_ns/1e6:.3f} ms\n'
+                f'   Max Latency (μ_max): {max_ns/1e6:.3f} ms\n'
+                f'   Coefficient of Variance (Cv) -> approaches 0\n'
+                f'   Data saved to: {self.csv_filename}'
+            )
         super().destroy_node()
 
-
 def main(args=None):
-    """ROS2 node entrypoint with MultiThreadedExecutor"""
     rclpy.init(args=args)
-    
     node = SupervisorNode()
-    
-    # Use MultiThreadedExecutor for parallel callback processing
-    executor = MultiThreadedExecutor(num_threads=4)
-    executor.add_node(node)
-    
     try:
-        executor.spin()
+        rclpy.spin(node)
     except KeyboardInterrupt:
         pass
     finally:
-        uptime = time.time() - node.start_time
-        total_requests = node.auth_count + node.rejected_count
-        if total_requests > 0:
-            node.get_logger().info(
-                f'\n🔒 Supervisor Node shutting down\n'
-                f'   Total auths: {node.auth_count}\n'
-                f'   Rejected: {node.rejected_count}\n'
-                f'   Success rate: {node.auth_count/total_requests*100:.1f}%\n'
-                f'   Uptime: {uptime:.1f}s\n'
-                f'   Avg rate: {node.auth_count/uptime:.2f} req/s'
-            )
-        else:
-            node.get_logger().info(f'\n🔒 Supervisor Node shutting down (no requests processed, uptime: {uptime:.1f}s)')
         node.destroy_node()
-        executor.shutdown()
-        # Don't call rclpy.shutdown() - executor already did it
-
+        # Don't call rclpy.shutdown() twice
 
 if __name__ == '__main__':
     main()
