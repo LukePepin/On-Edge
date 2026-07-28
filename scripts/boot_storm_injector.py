@@ -28,13 +28,11 @@ class BootStormInjector(Node):
         self.get_logger().info(f"[Node {self.node_id}] Published request.")
 
 def run_node(node_id):
-    rclpy.init(args=None)
     node = BootStormInjector(node_id)
     # Give DDS Discovery a moment to link publishers and subscribers
     time.sleep(1.0)
     node.blast()
     node.destroy_node()
-    rclpy.shutdown()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -42,6 +40,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     print(f"🌪️ INITIATING BOOT STORM (n={args.nodes}) 🌪️")
+    
+    rclpy.init(args=None)
     
     threads = []
     # Launch concurrent threads to simulate simultaneous hardware boot
@@ -53,4 +53,5 @@ if __name__ == '__main__':
     for t in threads:
         t.join()
         
+    rclpy.shutdown()
     print("✅ Boot storm injected successfully.")
