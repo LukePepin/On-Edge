@@ -14,7 +14,7 @@ echo "Starting comprehensive NS-3 M/D/1 EW parameter sweep..."
 ARRIVAL_RATES=(10 25 50 100 150) # Aggregated cluster frequencies (Hz)
 PAYLOAD_SIZES=(64) # Cryptographic payload size locked to 64 bytes (secp256r1)
 NODE_COUNTS=(3 5 10 15 20 25 30) # Number of virtual edge nodes pushing the Pi 4
-JAMMING_RATES=(0.0 0.1 0.2) # EW Packet loss (0%, 10%, 20%) to match Phase 3.5
+JAMMING_RATES=(0.0 0.1 0.2 0.3) # EW Packet loss (0%, 10%, 20%, 30%) to match Phase 3.5
 
 # Calculate total iterations for progress tracking
 TOTAL_TESTS=$((${#ARRIVAL_RATES[@]} * ${#PAYLOAD_SIZES[@]} * ${#NODE_COUNTS[@]} * ${#JAMMING_RATES[@]}))

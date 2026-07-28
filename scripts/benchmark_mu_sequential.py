@@ -4,6 +4,7 @@ Test B: The Sequential μ Profiling Proof
 ========================================
 Decouples network testing from CPU benchmarking to extract valid M/D/1 baseline.
 Bypasses ROS 2 and DDS entirely to directly serialize 1,000 requests into the C-Wrapper.
+Pre-computes cryptographic keys and signatures in Python to perfectly isolate C execution time.
 """
 
 import os
@@ -11,9 +12,10 @@ import time
 import csv
 import ctypes
 import numpy as np
-from pathlib import Path
+import hashlib
+from ecdsa import SigningKey, NIST256p
 
-# Load C Wrapper
+# Load C Wrapper Structure
 class VerifyResult(ctypes.Structure):
     _fields_ = [("success", ctypes.c_int), ("elapsed_ns", ctypes.c_ulonglong)]
 
@@ -24,7 +26,8 @@ def run_benchmark():
     try:
         uecc_lib = ctypes.CDLL(lib_path)
         uecc_lib.benchmark_uecc_verify.restype = VerifyResult
-        uecc_lib.benchmark_uecc_verify.argtypes = [ctypes.c_char_p, ctypes.c_uint]
+        # Updated signature: public_key (64), message_hash (32), signature (64)
+        uecc_lib.benchmark_uecc_verify.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_char_p]
     except Exception as e:
         print(f"❌ FATAL ERROR: Cannot load C-wrapper at {lib_path}")
         print(f"Error details: {e}")
@@ -36,15 +39,33 @@ def run_benchmark():
 
     print(f"\n🔥 INITIATING TEST B: DECOUPLED μ PROFILING 🔥")
     print(f"Executing strict sequential payload loop (n={n_trials})...")
+    
+    # Pre-computation to strictly isolate the C verification benchmark
+    print(f"Pre-computing {n_trials} ECDSA keys and signatures in Python to isolate C verification...")
+    sk = SigningKey.generate(curve=NIST256p)
+    vk = sk.verifying_key
+    
+    # micro-ecc expects raw 64-byte public key (X and Y coordinates, no prefix)
+    public_key_bytes = vk.to_string() 
+    
+    # Generate static signatures for the benchmark array
+    payloads = []
+    for i in range(n_trials):
+        payload_data = f"STRICT_BENCHMARK_PAYLOAD_{i}_{time.time()}".encode('utf-8')
+        message_hash = hashlib.sha256(payload_data).digest()
+        # micro-ecc expects raw 64-byte signature (R and S components)
+        signature = sk.sign_deterministic(payload_data, hashfunc=hashlib.sha256)
+        payloads.append((public_key_bytes, message_hash, signature))
+    
     print(f"TRNG (/dev/urandom) actively harvesting entropy. This will apply real thermal load to the Cortex-A72.")
 
     # 1. Fire sequential loop directly into C
     start_time = time.time()
     for i in range(n_trials):
-        payload = f"STRICT_BENCHMARK_PAYLOAD_{i}_{time.time()}".encode('utf-8')
+        pub_key, msg_hash, sig = payloads[i]
         
         # Execute C-wrapper and capture precise POSIX hardware nanoseconds
-        result = uecc_lib.benchmark_uecc_verify(payload, len(payload))
+        result = uecc_lib.benchmark_uecc_verify(pub_key, msg_hash, sig)
         
         execution_times_ns.append(result.elapsed_ns)
         if result.success:
