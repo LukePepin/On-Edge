@@ -18,8 +18,9 @@ class TrustMonitorNode(Node):
         self.last_auth_time = time.time()
         self.auth_timeout_sec = 5.0 # Cloud Lease TTL
         
-        # Cloud IdP Configuration
-        self.idp_url = 'http://localhost:8080/api/auth/lease'
+        # Cloud IdP Configuration (Moved to ROS Parameter)
+        self.declare_parameter('idp_url', 'http://192.168.1.100:8080/api/auth/lease')
+        self.idp_url = self.get_parameter('idp_url').value
         
         # Serial ZKP Mesh Configuration
         self.serial_port = None
