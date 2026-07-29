@@ -8,7 +8,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_1_ECC_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=1 -p algo:=ECC -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=1 -p algo:=ECC -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -23,7 +23,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_2_ECC_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=2 -p algo:=ECC -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=2 -p algo:=ECC -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -38,7 +38,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_3_ZKP_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=3 -p algo:=ZKP -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=3 -p algo:=ZKP -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -53,7 +53,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_4_CLOUD_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=4 -p algo:=CLOUD -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=4 -p algo:=CLOUD -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -68,7 +68,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_5_CLOUD_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=5 -p algo:=CLOUD -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=5 -p algo:=CLOUD -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -83,7 +83,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_6_ECC_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=6 -p algo:=ECC -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=6 -p algo:=ECC -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -98,7 +98,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_7_ZKP_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=7 -p algo:=ZKP -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=7 -p algo:=ZKP -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -113,7 +113,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_8_ZKP_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=8 -p algo:=ZKP -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=8 -p algo:=ZKP -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -128,7 +128,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_9_ECC_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=9 -p algo:=ECC -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=9 -p algo:=ECC -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -143,7 +143,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_10_CLOUD_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=10 -p algo:=CLOUD -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=10 -p algo:=CLOUD -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -158,7 +158,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_11_CLOUD_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=11 -p algo:=CLOUD -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=11 -p algo:=CLOUD -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -173,7 +173,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_12_ECC_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=12 -p algo:=ECC -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=12 -p algo:=ECC -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -188,7 +188,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_13_ECC_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=13 -p algo:=ECC -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=13 -p algo:=ECC -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -203,7 +203,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_14_ZKP_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=14 -p algo:=ZKP -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=14 -p algo:=ZKP -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -218,7 +218,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_15_ECC_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=15 -p algo:=ECC -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=15 -p algo:=ECC -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -233,7 +233,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_16_ZKP_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=16 -p algo:=ZKP -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=16 -p algo:=ZKP -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -248,7 +248,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_17_CLOUD_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=17 -p algo:=CLOUD -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=17 -p algo:=CLOUD -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -263,7 +263,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_18_ECC_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=18 -p algo:=ECC -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=18 -p algo:=ECC -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -278,7 +278,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_19_ZKP_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=19 -p algo:=ZKP -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=19 -p algo:=ZKP -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -293,7 +293,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_20_CLOUD_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=20 -p algo:=CLOUD -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=20 -p algo:=CLOUD -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -308,7 +308,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_21_ECC_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=21 -p algo:=ECC -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=21 -p algo:=ECC -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -323,7 +323,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_22_CLOUD_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=22 -p algo:=CLOUD -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=22 -p algo:=CLOUD -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -338,7 +338,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_23_ZKP_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=23 -p algo:=ZKP -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=23 -p algo:=ZKP -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -353,7 +353,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_24_ECC_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=24 -p algo:=ECC -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=24 -p algo:=ECC -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -368,7 +368,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_25_ZKP_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=25 -p algo:=ZKP -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=25 -p algo:=ZKP -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -383,7 +383,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_26_ECC_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=26 -p algo:=ECC -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=26 -p algo:=ECC -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -398,7 +398,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_27_CLOUD_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=27 -p algo:=CLOUD -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=27 -p algo:=CLOUD -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -413,7 +413,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_28_ZKP_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=28 -p algo:=ZKP -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=28 -p algo:=ZKP -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -428,7 +428,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_29_ECC_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=29 -p algo:=ECC -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=29 -p algo:=ECC -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -443,7 +443,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_30_ZKP_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=30 -p algo:=ZKP -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=30 -p algo:=ZKP -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -458,7 +458,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_31_CLOUD_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=31 -p algo:=CLOUD -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=31 -p algo:=CLOUD -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -473,7 +473,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_32_ECC_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=32 -p algo:=ECC -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=32 -p algo:=ECC -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -488,7 +488,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_33_ECC_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=33 -p algo:=ECC -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=33 -p algo:=ECC -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -503,7 +503,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_34_ECC_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=34 -p algo:=ECC -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=34 -p algo:=ECC -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -518,7 +518,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_35_ZKP_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=35 -p algo:=ZKP -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=35 -p algo:=ZKP -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -533,7 +533,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_36_CLOUD_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=36 -p algo:=CLOUD -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=36 -p algo:=CLOUD -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -548,7 +548,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_37_ECC_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=37 -p algo:=ECC -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=37 -p algo:=ECC -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -563,7 +563,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_38_ZKP_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=38 -p algo:=ZKP -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=38 -p algo:=ZKP -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -578,7 +578,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_39_ECC_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=39 -p algo:=ECC -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=39 -p algo:=ECC -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -593,7 +593,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_40_ZKP_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=40 -p algo:=ZKP -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=40 -p algo:=ZKP -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -608,7 +608,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_41_CLOUD_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=41 -p algo:=CLOUD -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=41 -p algo:=CLOUD -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -623,7 +623,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_42_ZKP_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=42 -p algo:=ZKP -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=42 -p algo:=ZKP -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -638,7 +638,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_43_ZKP_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=43 -p algo:=ZKP -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=43 -p algo:=ZKP -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -653,7 +653,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_44_CLOUD_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=44 -p algo:=CLOUD -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=44 -p algo:=CLOUD -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -668,7 +668,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_45_ECC_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=45 -p algo:=ECC -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=45 -p algo:=ECC -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -683,7 +683,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_46_ECC_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=46 -p algo:=ECC -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=46 -p algo:=ECC -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -698,7 +698,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_47_CLOUD_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=47 -p algo:=CLOUD -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=47 -p algo:=CLOUD -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -713,7 +713,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_48_ECC_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=48 -p algo:=ECC -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=48 -p algo:=ECC -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -728,7 +728,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_49_ZKP_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=49 -p algo:=ZKP -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=49 -p algo:=ZKP -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -743,7 +743,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_50_ZKP_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=50 -p algo:=ZKP -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=50 -p algo:=ZKP -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -758,7 +758,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_51_CLOUD_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=51 -p algo:=CLOUD -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=51 -p algo:=CLOUD -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -773,7 +773,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_52_ZKP_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=52 -p algo:=ZKP -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=52 -p algo:=ZKP -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -788,7 +788,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_53_CLOUD_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=53 -p algo:=CLOUD -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=53 -p algo:=CLOUD -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -803,7 +803,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_54_CLOUD_n10_loss20.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=54 -p algo:=CLOUD -p nodes:=10 -p loss:=20`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=54 -p algo:=CLOUD -p nodes:=10 -p loss:=20`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -818,7 +818,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_55_CLOUD_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=55 -p algo:=CLOUD -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=55 -p algo:=CLOUD -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -833,7 +833,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_56_CLOUD_n10_loss30.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=56 -p algo:=CLOUD -p nodes:=10 -p loss:=30`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=56 -p algo:=CLOUD -p nodes:=10 -p loss:=30`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -848,7 +848,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_57_ZKP_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=57 -p algo:=ZKP -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=57 -p algo:=ZKP -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -863,7 +863,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_58_CLOUD_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=58 -p algo:=CLOUD -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=58 -p algo:=CLOUD -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -878,7 +878,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_59_CLOUD_n10_loss10.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=59 -p algo:=CLOUD -p nodes:=10 -p loss:=10`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=59 -p algo:=CLOUD -p nodes:=10 -p loss:=10`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
@@ -893,7 +893,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **3. Instrumentation Boot (TShark)**: Start the sniffer to capture FastDDS queue depth (Phase 3.6):
       `mkdir -p data && sudo tshark -i wlan0 -f "udp" -w data/trial_60_ZKP_n10_loss0.pcap`
 - [ ] **4. Instrumentation Boot (Logger)**: Start the ROS 2 logger to capture IMU and Trust Score (Phase 3.5):
-      `ros2 run sentry_logic joint_logger_node --ros-args -p trial:=60 -p algo:=ZKP -p nodes:=10 -p loss:=0`
+      `ros2 run sentry_logic joint_logger --ros-args -p trial:=60 -p algo:=ZKP -p nodes:=10 -p loss:=0`
 - [ ] **5. Kinematic Spool-Up**: Start the UR5 motion script (`ros2 run sentry_logic stream_wrist_kinematics`) and wait for the Trust Score to stabilize for 8 cycles.
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
