@@ -30,16 +30,25 @@ def clear_safety_stop(host="192.168.1.100", port=29999):
         # 1. Clear C153/C157 warnings
         send_command("close safety popup")
         
-        # 2. Re-enable joint servo loops
+        # 2. Re-enable joint servo loops (Handles Safeguard Stops)
         send_command("unlock protective stop")
         
-        # 3. Validate transition to RUNNING
+        # 3. Check Robot Mode
         robotmode = send_command("robotmode")
         
+        # 4. Handle E-Stop Power Off Condition
+        if "POWER_OFF" in robotmode:
+            print("⚠️ Robot is POWERED OFF (E-Stop). Initiating cold-start sequence...")
+            send_command("power on")
+            time.sleep(3.0) # Wait for joints to power up
+            send_command("brake release")
+            time.sleep(3.0) # Wait for brakes to disengage
+            robotmode = send_command("robotmode")
+            
         if "RUNNING" not in robotmode and "IDLE" not in robotmode:
             print("⚠️ WARNING: Robot may not have cleared the safety state properly.")
             
-        # 4. Resume the URCap (External Control) for the next trial
+        # 5. Resume the URCap (External Control) for the next trial
         send_command("play")
             
         s.close()
