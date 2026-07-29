@@ -26,7 +26,7 @@ read -p "Press ENTER to acknowledge safety and begin execution..."
 # swap the Arduino USB connection on /dev/ttyACM0 between randomized trials.
 
 ALGO="ZKP"
-NODES=2
+NODES=10
 LOSS_LEVELS=(0 10 20 30)
 ITERATIONS=5
 
