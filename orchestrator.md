@@ -13,7 +13,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_1_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -28,7 +28,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_2_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -43,7 +43,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_3_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -58,7 +58,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_4_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -73,7 +73,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_5_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -88,7 +88,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_6_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -103,7 +103,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_7_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -118,7 +118,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_8_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -133,7 +133,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_9_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -148,7 +148,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_10_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -163,7 +163,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_11_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -178,7 +178,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_12_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -193,7 +193,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_13_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -208,7 +208,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_14_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -223,7 +223,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_15_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -238,7 +238,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_16_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -253,7 +253,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_17_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -268,7 +268,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_18_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -283,7 +283,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_19_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -298,7 +298,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_20_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -313,7 +313,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_21_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -328,7 +328,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_22_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -343,7 +343,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_23_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -358,7 +358,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_24_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -373,7 +373,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_25_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -388,7 +388,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_26_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -403,7 +403,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_27_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -418,7 +418,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_28_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -433,7 +433,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_29_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -448,7 +448,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_30_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -463,7 +463,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_31_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -478,7 +478,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_32_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -493,7 +493,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_33_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -508,7 +508,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_34_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -523,7 +523,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_35_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -538,7 +538,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_36_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -553,7 +553,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_37_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -568,7 +568,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_38_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -583,7 +583,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_39_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -598,7 +598,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_40_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -613,7 +613,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_41_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -628,7 +628,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_42_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -643,7 +643,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_43_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -658,7 +658,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_44_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -673,7 +673,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_45_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -688,7 +688,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_46_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -703,7 +703,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_47_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -718,7 +718,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_48_ECC_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -733,7 +733,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_49_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -748,7 +748,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_50_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -763,7 +763,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_51_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -778,7 +778,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_52_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -793,7 +793,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_53_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -808,7 +808,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_54_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -823,7 +823,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_55_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -838,7 +838,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_56_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -853,7 +853,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_57_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -868,7 +868,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_58_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -883,7 +883,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_59_CLOUD_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
@@ -898,7 +898,7 @@ For every single trial, you must execute these exact steps in sequence to guaran
 - [ ] **6. The Strike**: Trigger the 256-byte payload by calling the service in a new terminal:
       `ros2 service call /inject_attack std_srvs/srv/Trigger`
 - [ ] **7. Data Archival**: Once the UR5 physically halts, press Ctrl+C on the `tshark` and `joint_logger_node` terminals. (The CSV is already correctly named `trial_60_ZKP_...csv`).
-- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), clear the UR5 teach pendant safety fault, and prepare for the next trial.
+- [ ] **8. The Reset**: Clear the network rules (`sudo tc qdisc del dev wlan0 root 2>/dev/null || true`), then automatically clear the UR5 safety fault by running `python3 scripts/clear_safety_stop.py`.
 
 ---
 
