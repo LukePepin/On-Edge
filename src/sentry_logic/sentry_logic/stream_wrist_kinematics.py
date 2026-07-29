@@ -131,9 +131,9 @@ class MockPickAndPlaceClient(Node):
         result = future.result().result
         self.get_logger().info(f'Cycle complete! Result Code: {result.error_code}')
         
-        # Re-arm the state machine to loop indefinitely
-        self.attack_fired = False
-        self.timer = self.create_timer(1.0, self.run_state_machine)
+        # Exit cleanly to let the bash wrapper handle the next iteration and safety reset
+        self.get_logger().info('Exiting node to yield to automated test wrapper.')
+        raise SystemExit
 
 def main(args=None):
     rclpy.init(args=args)
