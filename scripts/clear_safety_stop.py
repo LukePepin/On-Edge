@@ -39,8 +39,11 @@ def clear_safety_stop(host="192.168.1.100", port=29999):
         if "RUNNING" not in robotmode and "IDLE" not in robotmode:
             print("⚠️ WARNING: Robot may not have cleared the safety state properly.")
             
+        # 4. Resume the URCap (External Control) for the next trial
+        send_command("play")
+            
         s.close()
-        print("✅ Safety stop cleared automatically.")
+        print("✅ Safety stop cleared and program resumed automatically.")
         
     except socket.timeout:
         print("❌ ERROR: Connection to Dashboard Server timed out. Check IP and network.")
