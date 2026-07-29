@@ -26,6 +26,7 @@ read -p "Press ENTER to acknowledge safety and begin execution..."
 # swap the Arduino USB connection on /dev/ttyACM0 between randomized trials.
 
 ALGO="ZKP"
+NODES=2
 LOSS_LEVELS=(0 10 20 30)
 ITERATIONS=5
 
@@ -34,7 +35,7 @@ for loss in "${LOSS_LEVELS[@]}"; do
         
         echo ""
         echo "-----------------------------------------------------------"
-        echo "🚀 STARTING: $ALGO | Jamming: $loss% | Iteration: $i/$ITERATIONS"
+        echo "🚀 STARTING: $ALGO | Nodes: $NODES | Jamming: $loss% | Iteration: $i/$ITERATIONS"
         echo "-----------------------------------------------------------"
 
         # 1. Idempotent Network Provisioning
@@ -49,10 +50,10 @@ for loss in "${LOSS_LEVELS[@]}"; do
         # 2. Start TShark & Logger (Backgrounded)
         echo "[2/5] Spooling up TShark and Joint Logger Data Pipelines..."
         mkdir -p data
-        sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/trial_${ALGO}_loss${loss}_iter${i}.pcap > /dev/null 2>&1 &
+        sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/trial_${ALGO}_n${NODES}_loss${loss}_iter${i}.pcap > /dev/null 2>&1 &
         TSHARK_PID=$!
         
-        ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p loss:=$loss -p iteration:=$i > /dev/null 2>&1 &
+        ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p nodes:=$NODES -p loss:=$loss -p iteration:=$i > /dev/null 2>&1 &
         LOGGER_PID=$!
 
         sleep 2 # Let the logger and sniffer stabilize
