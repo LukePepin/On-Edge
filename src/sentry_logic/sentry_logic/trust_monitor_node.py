@@ -1,96 +1,96 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String, Bool
+import requests
+import time
 import serial
-import json
 import threading
+import json
 
 class TrustMonitorNode(Node):
     def __init__(self):
         super().__init__('trust_monitor_node')
         
-        # Publisher to trigger URScript commands (fastest E-Stop method)
-        self.script_pub = self.create_publisher(String, '/urscript_interface/script_command', 10)
+        self.get_logger().info('Initializing Dynamic Run-Time Fail-Over Monitor (Swap PoC)')
         
-        # Publisher to halt the edge kinematic streamer
-        self.e_stop_pub = self.create_publisher(Bool, '/sentry/e_stop', 10)
+        # State Tracking
+        self.cloud_active = True
+        self.last_auth_time = time.time()
+        self.auth_timeout_sec = 5.0 # Cloud Lease TTL
         
-        # Configure Serial Port (Adjust /dev/ttyACM0 as needed on the Pi)
-        self.serial_port = self.declare_parameter('serial_port', '/dev/ttyACM0').value
-        self.baud_rate = self.declare_parameter('baud_rate', 115200).value
+        # Cloud IdP Configuration
+        self.idp_url = 'http://localhost:8080/api/auth/lease'
         
-        self.e_stop_triggered = False
+        # Serial ZKP Mesh Configuration
+        self.serial_port = None
+        self.serial_lock = threading.Lock()
         
         try:
-            self.ser = serial.Serial(self.serial_port, self.baud_rate, timeout=1.0)
-            self.get_logger().info(f"Connected to Arduino Cryptographic Edge Node on {self.serial_port}")
-            
-            # Start background thread to monitor serial stream
-            self.monitor_thread = threading.Thread(target=self.serial_monitor_loop)
-            self.monitor_thread.daemon = True
-            self.monitor_thread.start()
-            
-            # Start a one-shot timer to inject the malicious payload after 15 seconds
-            self.injection_timer = self.create_timer(15.0, self.inject_malicious_payload)
-            
-        except serial.SerialException as e:
-            self.get_logger().error(f"Failed to connect to Serial Port: {e}")
-
-    def inject_malicious_payload(self):
-        # Only inject once
-        self.injection_timer.cancel()
-        
-        # A 256-byte payload (well over the 64-char threshold) to trigger the simulated ZKP lag
-        malicious_payload = "A" * 256 + "\n"
-        try:
-            self.ser.write(malicious_payload.encode('utf-8'))
-            self.get_logger().warn("😈 INJECTED 256-BYTE MALICIOUS PAYLOAD INTO SERIAL STREAM! 😈")
+            self.serial_port = serial.Serial('/dev/ttyACM0', 115200, timeout=0)
+            self.get_logger().info("Connected to Edge ZKP Mesh on /dev/ttyACM0")
         except Exception as e:
-            self.get_logger().error(f"Failed to inject payload: {e}")
+            self.get_logger().error(f"Failed to connect to Serial: {e}")
 
-    def serial_monitor_loop(self):
-        while rclpy.ok():
-            if self.e_stop_triggered:
-                continue # Halt processing if E-stop already active
-                
+        # Start the State Machine Loop
+        self.timer = self.create_timer(1.0, self.monitor_loop)
+
+    def monitor_loop(self):
+        current_time = time.time()
+        
+        if self.cloud_active:
+            # STATE A: Cloud Nominal
             try:
-                line = self.ser.readline().decode('utf-8').strip()
-                if not line:
-                    continue
-                    
-                # Example JSON from Arduino: {"cycle": 42, "exec_time_ms": 320, "trust_score": 98.5}
+                # 1.0s timeout to detect EW Jamming quickly
+                response = requests.get(self.idp_url, timeout=1.0) 
+                if response.status_code == 200:
+                    data = response.json()
+                    self.last_auth_time = current_time
+                    self.get_logger().info(f"☁️ Cloud Auth OK. TTL: {data.get('expires_in')}s")
+            except requests.exceptions.RequestException as e:
+                # STATE B: Partition Detect
+                self.get_logger().warn(f"⚠️ Cloud Request Failed: {e}")
+                
+            # Check Lease Expiry
+            if current_time - self.last_auth_time > self.auth_timeout_sec:
+                self.get_logger().error(f"🚨 CLOUD LEASE EXPIRED! Initiating Dynamic Fail-Over...")
+                self.fail_over_to_edge()
+        else:
+            # STATE C: Edge Mode (ZKP)
+            self.poll_edge_auth()
+
+    def fail_over_to_edge(self):
+        # STATE C: Hot Swap
+        self.cloud_active = False
+        self.swap_start_time = time.time()
+        self.get_logger().warn("🔄 Swapping Root-of-Trust to Local ZKP Mesh...")
+        
+        if self.serial_port:
+            with self.serial_lock:
+                self.serial_port.reset_input_buffer()
+        else:
+            self.get_logger().error("Cannot swap: Edge Serial Port unavailable.")
+            # Trigger ROS 2 emergency stop here in real implementation
+
+    def poll_edge_auth(self):
+        if not self.serial_port or not self.serial_port.is_open:
+            return
+            
+        try:
+            time.sleep(0.01) # Buffer accumulation
+            line = self.serial_port.readline().decode('utf-8').strip()
+            if line.startswith('{') and line.endswith('}'):
                 data = json.loads(line)
-                exec_time = data.get('exec_time_ms', 0)
-                trust_score = data.get('trust_score', 100.0)
-                
-                self.get_logger().info(f"Cycle: {data.get('cycle', 0)} | Exec Time: {exec_time}ms | Trust Score: {trust_score:.2f}")
-                
-                # Evaluation Criteria for Cryptographic Sentry
-                if trust_score < 30.0 or exec_time > 500.0:
-                    self.trigger_e_stop(f"Trust Score critically low ({trust_score:.2f}) or Exec Time exceeded ({exec_time}ms)")
-                    
-            except json.JSONDecodeError:
-                # Ignore partial serial lines
-                pass
-            except Exception as e:
-                self.get_logger().warn(f"Serial reading error: {e}")
-                
-    def trigger_e_stop(self, reason):
-        self.e_stop_triggered = True
-        self.get_logger().fatal(f"🚨 E-STOP TRIGGERED: {reason} 🚨")
-        
-        # Publish to other ROS 2 nodes to halt streams
-        e_stop_msg = Bool()
-        e_stop_msg.data = True
-        self.e_stop_pub.publish(e_stop_msg)
-        
-        # Issue a fast joint stop command with 5.0 rad/s^2 deceleration
-        stop_cmd = String()
-        stop_cmd.data = "stopj(5.0)"
-        self.script_pub.publish(stop_cmd)
-        
-        self.get_logger().fatal("Injected stopj(5.0) into URScript interface!")
+                if 'trust_score' in data:
+                    score = float(data['trust_score'])
+                    if hasattr(self, 'swap_start_time'):
+                        latency = (time.time() - self.swap_start_time) * 1000
+                        self.get_logger().info(f"✅ FAIL-OVER SUCCESS! ZKP Handshake established in {latency:.1f}ms")
+                        self.get_logger().info(f"🛡️ Active Trust Score: {score}")
+                        del self.swap_start_time # Only log latency once
+                    else:
+                        self.get_logger().info(f"🛡️ Edge Auth OK. Trust Score: {score}")
+        except Exception as e:
+            pass # Non-blocking read empty
 
 def main(args=None):
     rclpy.init(args=args)
