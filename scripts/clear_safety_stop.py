@@ -30,13 +30,10 @@ def clear_safety_stop(host="192.168.1.100", port=29999):
         # 1. Clear C153/C157 warnings
         send_command("close safety popup")
         
-        # 2. Re-enable joint servo loops (Handles Safeguard Stops)
-        send_command("unlock protective stop")
-        
-        # 3. Check Robot Mode
+        # 2. Check Robot Mode
         robotmode = send_command("robotmode")
         
-        # 4. Handle E-Stop Power Off Condition
+        # 3. Handle E-Stop Power Off Condition
         if "POWER_OFF" in robotmode:
             print("⚠️ Robot is POWERED OFF (E-Stop). Initiating cold-start sequence...")
             send_command("power on")
