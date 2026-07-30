@@ -36,10 +36,30 @@ class KinematicsDebugger(Node):
         # Convert to radians
         self.poses_rad = {k: [math.radians(deg) for deg in v] for k, v in self.poses_deg.items()}
         
-        self._action_client = ActionClient(self, FollowJointTrajectory, '/scaled_joint_trajectory_controller/follow_joint_trajectory')
+        self.switch_client = self.create_client(SwitchController, '/controller_manager/switch_controller')
+        self._switch_to_joint_trajectory()
+        
+        self._action_client = ActionClient(self, FollowJointTrajectory, '/passthrough_trajectory_controller/follow_joint_trajectory')
         
         self.timer = self.create_timer(1.0, self.run_phase1)
         self.is_standstill = False
+
+    def _switch_to_joint_trajectory(self):
+        while not self.switch_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('Waiting for /controller_manager/switch_controller service...')
+
+        req = SwitchController.Request()
+        if hasattr(req, 'start_controllers'):
+            req.start_controllers = ['passthrough_trajectory_controller']
+            req.stop_controllers = ['forward_position_controller']
+        else:
+            req.activate_controllers = ['passthrough_trajectory_controller']
+            req.deactivate_controllers = ['forward_position_controller']
+        req.strictness = 1
+
+        future = self.switch_client.call_async(req)
+        rclpy.spin_until_future_complete(self, future)
+        self.get_logger().info('✅ Successfully activated passthrough_trajectory_controller!')
 
     def joint_state_callback(self, msg):
         if self.current_joint_state is not None:
@@ -176,6 +196,7 @@ class KinematicsDebugger(Node):
 
     def get_result_callback(self, future):
         result = future.result().result
+        
         self.get_logger().info(f'✅ Sweep complete! Result Code: {result.error_code}')
         if hasattr(result, 'error_string'):
             self.get_logger().info(f'Error String: {result.error_string}')
