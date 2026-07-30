@@ -98,6 +98,10 @@ class MockPickAndPlaceClient(Node):
         # 0. Dynamic p0 (Current Physical State)
         p0 = JointTrajectoryPoint()
         p0.positions = p0_positions
+        # We MUST explicitly clamp the boundary conditions to 0.0!
+        # If left empty, the spline solver will calculate a non-zero starting velocity to reach p1!
+        p0.velocities = [0.0] * 6
+        p0.accelerations = [0.0] * 6
         p0.time_from_start.sec = 0
         p0.time_from_start.nanosec = 0
         
@@ -109,6 +113,9 @@ class MockPickAndPlaceClient(Node):
         
         # 3. Approach Place (4.5s total)
         p3 = self.build_point('Place', 4.5)
+        # Clamp the ending boundary condition so it decelerates to a smooth stop
+        p3.velocities = [0.0] * 6
+        p3.accelerations = [0.0] * 6
         
         goal_msg.trajectory.points = [p0, p1, p2, p3]
         
