@@ -38,6 +38,7 @@ class MockPickAndPlaceClient(Node):
         # Convert to radians
         self.poses_rad = {k: [math.radians(deg) for deg in v] for k, v in self.poses_deg.items()}
         
+        # Action Client for the Trajectory Controller
         self._action_client = ActionClient(self, FollowJointTrajectory, '/scaled_joint_trajectory_controller/follow_joint_trajectory')
         
         # Async Attack Service Client for the Strike Zone
