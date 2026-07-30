@@ -89,30 +89,30 @@ class MockPickAndPlaceClient(Node):
         goal_msg = FollowJointTrajectory.Goal()
         goal_msg.trajectory.joint_names = self.joint_names
         
-        # State Machine Pathing
-        # We sequence the points into a single trajectory block
+        # State Machine Pathing (Unified Multi-Point Cubic Spline)
+        # Omit velocities to force the controller path planner to naturally interpolate
         
-        # 1. Approach Pick (3s)
-        p1 = self.build_point('Pick', 3.0)
+        # 1. Approach Pick (1.5s total)
+        p1 = self.build_point('Pick', 1.5)
         
-        # 2. High-Speed Transfer Leg (2s duration -> total 5.0s)
-        p2 = self.build_point('Transfer', 5.0)
+        # 2. High-Speed Transfer Leg (1.5s duration -> total 3.0s)
+        p2 = self.build_point('Transfer', 3.0)
         
-        # 3. Approach Place (3s duration -> total 8.0s)
-        p3 = self.build_point('Place', 8.0)
+        # 3. Approach Place (1.5s duration -> total 4.5s)
+        p3 = self.build_point('Place', 4.5)
         
         goal_msg.trajectory.points = [p1, p2, p3]
         
-        self.get_logger().info('Executing Mock Pick-and-Place Cycle...')
-        self.get_logger().info('State 1: Approach Pick (3.0s)')
-        self.get_logger().info('State 2: High-Speed Transfer (2.0s duration)')
-        self.get_logger().info('State 3: Approach Place (3.0s duration)')
+        self.get_logger().info('Executing High-Speed Kinematic Sweep...')
+        self.get_logger().info('State 1: Approach Pick (1.5s)')
+        self.get_logger().info('State 2: High-Speed Transfer (1.5s duration)')
+        self.get_logger().info('State 3: Approach Place (1.5s duration)')
         
-        # The Transfer leg runs from 3.0s to 5.0s. 
-        # 50% progress is at 4.0s into the trajectory.
+        # The Transfer leg runs from 1.5s to 3.0s. 
+        # We fire the attack at 0.75s into the Transfer leg (2.25s total time).
         if not self.attack_fired:
             import threading
-            threading.Thread(target=self.trigger_strike_zone, args=(4.0,), daemon=True).start()
+            threading.Thread(target=self.trigger_strike_zone, args=(2.25,), daemon=True).start()
             
         self._send_goal_future = self._action_client.send_goal_async(goal_msg)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
@@ -120,8 +120,8 @@ class MockPickAndPlaceClient(Node):
     def goal_response_callback(self, future):
         goal_handle = future.result()
         if not goal_handle.accepted:
-            self.get_logger().error('Trajectory rejected by controller!')
-            return
+            self.get_logger().error('Trajectory rejected by controller! (Likely a path deviation or unconfigured state)')
+            raise SystemExit
 
         self.get_logger().info('Trajectory accepted. Waiting for physical completion...')
         self._get_result_future = goal_handle.get_result_async()
@@ -131,8 +131,9 @@ class MockPickAndPlaceClient(Node):
         result = future.result().result
         self.get_logger().info(f'Cycle complete! Result Code: {result.error_code}')
         
-        # Exit cleanly to let the bash wrapper handle the next iteration and safety reset
-        self.get_logger().info('Exiting node to yield to automated test wrapper.')
+        # Exit cleanly to maintain functional safety (ISO 10218-1). 
+        # We never autonomously retry. The operator must manually verify safety and re-run.
+        self.get_logger().info('Exiting node to yield control.')
         raise SystemExit
 
 def main(args=None):
