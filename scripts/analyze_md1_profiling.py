@@ -4,11 +4,11 @@ import csv
 import numpy as np
 
 def analyze_profiling_data():
-    data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
-    csv_files = glob.glob(os.path.join(data_dir, 'md1_profiling_*.csv'))
+    workspace_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    csv_files = glob.glob(os.path.join(workspace_dir, '**', 'md1_profiling_n1000*.csv'), recursive=True)
     
     if not csv_files:
-        print("No profiling data found!")
+        print("No n=1000 profiling data found!")
         return
 
     all_latencies_ns = []

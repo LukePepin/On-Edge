@@ -1,0 +1,559 @@
+Diameter of Disks (inches):
+Blue Disk 1: 4.635
+Red Disk 2: 4.23
+Yellow Disk 3: 3.83
+Purple Disk 4: 3.44
+Green Disk 5: 3.04
+
+Positions for the UR5 Robot:
+
+Home Position: 
+Joints (degrees)
+	Base:		0.00			
+	Shoulder:	-90.00
+	Elbow:		0.00
+	Wrist 1:	-90.00
+	Wrist 2:	0.00
+	Wrist 3:	0.00
+TCP (X,Y,Z in millimeters and RX,RY,RZ in radians)
+	X:		-0.35
+	Y:		-193.34
+	Z:		1000.86
+	RX:		-0.001
+	RY:		2.224
+	RZ:		-2.218
+
+In front of Tower 1
+(x,y,z,RX,RY,RZ) = {-389.40, 119.49, 96.50, 3.115, -0.452, -2.503} (mm, rad)
+
+In front of Tower 2
+(x,y,z,RX,RY,RZ) = {-306.60, 194.95, 96.50, 3.114, -0.452, -2.503} (mm, rad)
+
+In front of Tower 3
+(x,y,z,RX,RY,RZ) = {-200.60, 277.46, 96.50, 3.117, -0.438, -2.518} (mm, rad)
+
+In front of Tower 4
+(x,y,z,RX,RY,RZ) = {-107.05, 353.00, 96.50, 3.114, -0.452, -2.503} (mm, rad)
+
+
+On Tower 1
+Disk 1: {-469.46, 186.70, -87.38, 3.109, -0.471, -2.541}
+Disk 2: {-470.88, 191.46, -46.97, 3.109, -0.470, -2.542}
+Disk 3: {-473.38, 195.5, -9.13, 3.048, -0.519, -2.587}
+Disk 4: {-478.11, 203.40, 34.36, 3.193, -0.362, -2.537}
+Disk 5: {-484.93, 205.25, 75.20, 3.193, -0.362, -2.537}
+
+On Tower 2
+Disk 1: {-398.48, 293.65, -77.20, 3.256, -0.306, -2.433}
+Disk 2: {-384.05, 281.16, -49.88, 3.048, -0.519, -2.587}
+Disk 3: {-382.35, 278.47, -6.93, 3.109, -0.471, -2.542}
+Disk 4: {-376.85, 273.20, 34.88, 3.109, -0.471, -2.542}
+Disk 5: {-389.47, 283.33, 92.45, 3.295, -0.360, -2.313}
+
+On Tower 3
+Disk 1: {-300.20, 372.48, -69.93, 3.294, -0.360, -2.315}
+Disk 2: {-287.33, 366.50, -29.60, 3.295, -0.359, -2.313}
+Disk 3: {-291.20, 370.99, 12.20, 3.295, -0.359, -2.313}
+Disk 4: {-297.72, 367.28, 44.44, 3.242, -0.369, -2.426}
+Disk 5: {-300.00, 282.25, 93.48, 3.312, -0.323, -2.332}
+
+On Tower 4
+This will be done later when we need to integrate the fourth tower but for now we can just use the three towers and then plan to get the fourth working next week.
+
+
+Over Tower 1: {-469.80, 195.90, 206.47, 3.048, -0.512, -2.587}
+
+Over Tower 2: {-394.84, 287.50, 211.22, 3.193, -0.362, -2.537
+
+Over Tower 3: {-291.90, 365.88, 206.50, 3.048, -0.519, -2.587}
+
+Over Tower 4: {-199.50, 459.96, 206.46, 3.048, -0.519, -2.587}
+
+
+Home Position: 
+Joints (degrees)
+	Base:		0.00			
+	Shoulder:	-90.00
+	Elbow:		0.00
+	Wrist 1:	-90.00
+	Wrist 2:	0.00
+	Wrist 3:	0.00
+TCP (X,Y,Z in millimeters and RX,RY,RZ in radians)
+	X:		-0.35
+	Y:		-193.34
+	Z:		1000.86
+	RX:		-0.001
+	RY:		2.224
+	RZ:		-2.218
+	
+-100 mm in the z direction: 
+Joints (degrees)
+	Base:		-2.94			
+	Shoulder:	-62.92
+	Elbow:		-57.59
+	Wrist 1:	-59.65
+	Wrist 2:	2.98
+	Wrist 3:	0.15
+TCP (X,Y,Z in millimeters and RX,RY,RZ in radians)
+	X:		-0.35
+	Y:		-193.34
+	Z:		900.00
+	RX:		-0.001
+	RY:		2.224
+	RZ:		-2.218
+
+5 Disks on 3 towers:
+There are 5 locations on each tower that the disks will be grabbed from but due to constraints in the problem there are a limited number of possible locations for each disk. The lowest value disk (1) is the biggest and at the bottom of the tower, this correlates to Position 1: P1 on Tower 1: T1 or shorthand as T1P1, then disk 2 starts at T1P2, disk 3 starts at T1P3, disk 4 starts at T1P4 and disk 5 starts at T1P5
+
+Disk 5 will always be grabbed from the bottom of the tower and should be easy since its z is fixed. (3 total positions)
+Disk 4 can be either placed on the bottom of the tower or on top of disk 5 so it has variation in where it is. (6 total positions)
+Disk 3 can be found at P1, P2, and P3 but will never go higher than that. (9 total positions)
+Disk 4 can be located at P1, P2, P3, P4 but will not be found at P5 on any tower (12 total positions)
+Disk 5 can be located anywhere on the towers and could possibly be placed at P1, P2, P3, P4, P5
+
+
+Get_joints
+
+
+labfab@labfab-Alienware-Area-51-R5:~/UR5$ python3 get_joints.py 
+[INFO] [1763655528.023088251] [joint_tcp_recorder]: Joint and TCP Recorder Started
+[INFO] [1763655528.023912885] [joint_tcp_recorder]: Listening for joint states and TCP transform...
+
+======================================================================
+UR5 JOINT + TCP POSITION RECORDER
+======================================================================
+
+This tool records BOTH joint angles AND TCP position/orientation.
+
+Instructions:
+1. Move the robot to a position using the teach pendant
+2. Press Enter to record joint angles AND TCP pose
+3. Copy the output into your Tower of Hanoi script
+======================================================================
+
+DISK SIZES (corrected):
+  Disk 1 (Blue):   4.635" - LARGEST
+  Disk 2 (Red):    4.23"  - MIDDLE
+  Disk 3 (Yellow): 3.83"  - SMALLEST
+
+POSITION LEVELS:
+  Disk 1: Always at P1 (bottom) - 3 positions
+  Disk 2: Can be at P1 or P2 - 6 positions
+  Disk 3: Can be at P1, P2, or P3 - 9 positions
+======================================================================
+
+
+Total positions to record: 39
+
+RECORDED POSITIONS:
+======================================================================
+# Copy these lines into your tower_of_hanoi_joints.py script
+======================================================================
+
+Move robot to: In Front of Tower 1
+Press Enter to record...
+[WARN] [1763655540.554564123] [joint_tcp_recorder]: Could not get TCP pose: Could not find a connection between 'world' and 'tool0' because they are not part of the same tree.Tf has two or more unconnected trees.
+
+# In Front of Tower 1
+self.in_front_joints[1] = [1.107796, -1.532786, 2.315610, -3.848657, -1.934783, 1.084591]
+#   Joint angles (degrees): [63.47, -87.82, 132.67, -220.51, -110.85, 62.14]
+#   TCP Position: (not available - check TF2 frames)
+
+Move robot to: In Front of Tower 2
+Press Enter to record...
+
+# In Front of Tower 2
+self.in_front_joints[2] = [0.694029, -1.637659, 2.418176, -3.850888, -1.521935, 1.054288]
+#   Joint angles (degrees): [39.76, -93.83, 138.55, -220.64, -87.20, 60.41]
+#   TCP Position: X=188.20mm, Y=303.86mm, Z=325.77mm
+#   TCP Orientation: RX=-0.966, RY=1.331, RZ=0.176 rad
+
+Move robot to: In Front of Tower 3
+Press Enter to record...
+
+# In Front of Tower 3
+self.in_front_joints[3] = [0.290811, -1.579597, 2.363187, -3.845873, -1.119890, 1.023062]
+#   Joint angles (degrees): [16.66, -90.50, 135.40, -220.35, -64.16, 58.62]
+#   TCP Position: X=298.99mm, Y=240.84mm, Z=325.75mm
+#   TCP Orientation: RX=-0.967, RY=1.331, RZ=0.176 rad
+
+Move robot to: Over Tower 1
+Press Enter to record...
+
+# Over Tower 1
+self.over_tower_joints[1] = [0.998486, -1.527499, 1.438279, -2.978795, -1.826554, 1.077707]
+#   Joint angles (degrees): [57.21, -87.52, 82.41, -170.67, -104.65, 61.75]
+#   TCP Position: X=194.08mm, Y=464.34mm, Z=637.23mm
+#   TCP Orientation: RX=-0.965, RY=1.332, RZ=0.176 rad
+
+Move robot to: Over Tower 2
+Press Enter to record...
+
+# Over Tower 2
+self.over_tower_joints[2] = [0.684815, -1.639578, 1.549012, -2.979599, -1.513620, 1.054983]
+#   Joint angles (degrees): [39.24, -93.94, 88.75, -170.72, -86.72, 60.45]
+#   TCP Position: X=276.65mm, Y=372.92mm, Z=637.17mm
+#   TCP Orientation: RX=-0.965, RY=1.332, RZ=0.176 rad
+
+Move robot to: Over Tower 3
+Press Enter to record...
+
+# Over Tower 3
+self.over_tower_joints[3] = [0.347738, -1.660648, 1.568052, -2.972256, -1.177452, 1.029417]
+#   Joint angles (degrees): [19.92, -95.15, 89.84, -170.30, -67.46, 58.98]
+#   TCP Position: X=361.46mm, Y=280.68mm, Z=637.25mm
+#   TCP Orientation: RX=-0.965, RY=1.332, RZ=0.176 rad
+
+Move robot to: Disk 3 on Tower 1 - Position P1 (bottom)
+Press Enter to record...
+
+# Disk 3 on Tower 1 - Position P1 (bottom)
+self.on_tower_joints[3][1][1] = [0.992113, -1.294677, 1.969925, -3.686435, -1.826733, 1.075861]
+#   Joint angles (degrees): [56.84, -74.18, 112.87, -211.22, -104.66, 61.64]
+#   TCP Position: X=206.79mm, Y=478.03mm, Z=336.37mm
+#   TCP Orientation: RX=-1.003, RY=1.372, RZ=0.154 rad
+
+Move robot to: Disk 3 on Tower 1 - Position P2 (on Disk 2)
+Press Enter to record...
+
+# Disk 3 on Tower 1 - Position P2 (on Disk 2)
+self.on_tower_joints[3][1][2] = [1.017591, -1.299496, 1.938041, -3.761668, -1.851907, 1.080334]
+#   Joint angles (degrees): [58.30, -74.46, 111.04, -215.53, -106.11, 61.90]
+#   TCP Position: X=194.35mm, Y=479.01mm, Z=357.96mm
+#   TCP Orientation: RX=-0.920, RY=1.299, RZ=0.188 rad
+
+Move robot to: Disk 3 on Tower 1 - Position P3 (on Disk 1)
+Press Enter to record...
+
+# Disk 3 on Tower 1 - Position P3 (on Disk 1)
+self.on_tower_joints[3][1][3] = [1.021712, -1.348473, 1.876637, -3.651326, -1.856198, 1.080549]
+#   Joint angles (degrees): [58.54, -77.26, 107.52, -209.21, -106.35, 61.91]
+#   TCP Position: X=194.35mm, Y=479.01mm, Z=357.96mm
+#   TCP Orientation: RX=-0.920, RY=1.299, RZ=0.188 rad
+
+Move robot to: Disk 2 on Tower 1 - Position P1 (bottom)
+Press Enter to record...
+
+# Disk 2 on Tower 1 - Position P1 (bottom)
+self.on_tower_joints[2][1][1] = [0.704178, -1.382015, 2.091727, -3.748986, -1.538374, 1.075585]
+#   Joint angles (degrees): [40.35, -79.18, 119.85, -214.80, -88.14, 61.63]
+#   TCP Position: X=194.35mm, Y=479.01mm, Z=357.96mm
+#   TCP Orientation: RX=-0.920, RY=1.299, RZ=0.188 rad
+
+Move robot to: Disk 2 on Tower 1 - Position P2 (on Disk 1)
+Press Enter to record...
+
+# Disk 2 on Tower 1 - Position P2 (on Disk 1)
+self.on_tower_joints[2][1][2] = [1.005169, -1.322654, 1.947990, -3.725275, -1.837905, 1.107879]
+#   Joint angles (degrees): [57.59, -75.78, 111.61, -213.44, -105.30, 63.48]
+#   TCP Position: X=197.19mm, Y=473.75mm, Z=362.79mm
+#   TCP Orientation: RX=-0.920, RY=1.327, RZ=0.204 rad
+
+Move robot to: Disk 1 on Tower 1 - Position P1 (bottom only)
+Press Enter to record...
+
+# Disk 1 on Tower 1 - Position P1 (bottom only)
+self.on_tower_joints[1][1][1] = [1.027521, -1.275607, 2.001258, -3.801048, -1.859963, 1.108191]
+#   Joint angles (degrees): [58.87, -73.09, 114.66, -217.78, -106.57, 63.49]
+#   TCP Position: X=186.21mm, Y=474.04mm, Z=324.69mm
+#   TCP Orientation: RX=-0.938, RY=1.343, RZ=0.196 rad
+
+Move robot to: Disk 3 on Tower 2 - Position P1 (bottom)
+Press Enter to record...
+
+# Disk 3 on Tower 2 - Position P1 (bottom)
+self.in_front_joints[3] = [0.680873, -1.410486, 2.089785, -3.655670, -1.510660, 1.062478]
+#   Joint angles (degrees): [39.01, -80.81, 119.74, -209.45, -86.55, 60.88]
+#   TCP Position: X=293.07mm, Y=384.25mm, Z=342.11mm
+#   TCP Orientation: RX=-1.011, RY=1.415, RZ=0.179 rad
+
+Move robot to: Disk 3 on Tower 2 - Position P2 (on Disk 2)
+Press Enter to record...
+
+# Disk 3 on Tower 2 - Position P2 (on Disk 2)
+self.on_tower_joints[3][2][2] = [0.718473, -1.430446, 2.076179, -3.723824, -1.551686, 1.088188]
+#   Joint angles (degrees): [41.17, -81.96, 118.96, -213.36, -88.91, 62.35]
+#   TCP Position: X=274.07mm, Y=386.68mm, Z=363.18mm
+#   TCP Orientation: RX=-0.938, RY=1.343, RZ=0.196 rad
+
+Move robot to: Disk 3 on Tower 2 - Position P3 (on Disk 1)
+Press Enter to record...
+
+# Disk 3 on Tower 2 - Position P3 (on Disk 1)
+self.on_tower_joints[3][2][3] = [0.704119, -1.485583, 2.006005, -3.598409, -1.537379, 1.087517]
+#   Joint angles (degrees): [40.34, -85.12, 114.94, -206.17, -88.09, 62.31]
+#   TCP Position: X=274.07mm, Y=386.68mm, Z=363.18mm
+#   TCP Orientation: RX=-0.938, RY=1.343, RZ=0.196 rad
+
+Move robot to: Disk 2 on Tower 2 - Position P1 (bottom)
+Press Enter to record...
+
+# Disk 2 on Tower 2 - Position P1 (bottom)
+self.on_tower_joints[2][2][1] = [0.718605, -1.412020, 2.109326, -3.693971, -1.545670, 1.086642]
+#   Joint angles (degrees): [41.17, -80.90, 120.86, -211.65, -88.56, 62.26]
+#   TCP Position: X=275.29mm, Y=388.50mm, Z=338.69mm
+#   TCP Orientation: RX=-0.988, RY=1.407, RZ=0.195 rad
+
+Move robot to: Disk 2 on Tower 2 - Position P2 (on Disk 1)
+Press Enter to record...
+
+# Disk 2 on Tower 2 - Position P2 (on Disk 1)
+self.on_tower_joints[2][2][2] = [0.701518, -1.478701, 2.060668, -3.578490, -1.528824, 1.084267]
+#   Joint angles (degrees): [40.19, -84.72, 118.07, -205.03, -87.60, 62.12]
+#   TCP Position: X=280.07mm, Y=384.07mm, Z=378.52mm
+#   TCP Orientation: RX=-0.988, RY=1.407, RZ=0.195 rad
+
+Move robot to: Disk 1 on Tower 2 - Position P1 (bottom only)
+Press Enter to record...
+
+# Disk 1 on Tower 2 - Position P1 (bottom only)
+self.on_tower_joints[1][2][1] = [0.687391, -1.423146, 2.119515, -3.692686, -1.514913, 1.082132]
+#   Joint angles (degrees): [39.38, -81.54, 121.44, -211.58, -86.80, 62.00]
+#   TCP Position: X=282.19mm, Y=378.80mm, Z=339.69mm
+#   TCP Orientation: RX=-0.988, RY=1.407, RZ=0.195 rad
+
+Move robot to: Disk 3 on Tower 3 - Position P1 (bottom)
+Press Enter to record...
+
+# Disk 3 on Tower 3 - Position P1 (bottom)
+self.on_tower_joints[3][3][1] = [0.375750, -1.459338, 2.086549, -3.525848, -1.206708, 1.034022]
+#   Joint angles (degrees): [21.53, -83.61, 119.55, -202.02, -69.14, 59.25]
+#   TCP Position: X=282.19mm, Y=378.80mm, Z=339.69mm
+#   TCP Orientation: RX=-0.988, RY=1.407, RZ=0.195 rad
+
+Move robot to: Disk 3 on Tower 3 - Position P2 (on Disk 2)
+Press Enter to record...
+
+# Disk 3 on Tower 3 - Position P2 (on Disk 2)
+self.on_tower_joints[3][3][2] = [0.376889, -1.488976, 2.064779, -3.561642, -1.208001, 1.034609]
+#   Joint angles (degrees): [21.59, -85.31, 118.30, -204.07, -69.21, 59.28]
+#   TCP Position: X=371.62mm, Y=295.88mm, Z=380.73mm
+#   TCP Orientation: RX=-0.988, RY=1.408, RZ=0.195 rad
+
+Move robot to: Disk 3 on Tower 3 - Position P3 (on Disk 1)
+Press Enter to record...
+
+# Disk 3 on Tower 3 - Position P3 (on Disk 1)
+self.on_tower_joints[3][3][3] = [0.379167, -1.543770, 2.010284, -3.452565, -1.210313, 1.035245]
+#   Joint angles (degrees): [21.72, -88.45, 115.18, -197.82, -69.35, 59.32]
+#   TCP Position: X=371.62mm, Y=295.88mm, Z=380.73mm
+#   TCP Orientation: RX=-0.988, RY=1.408, RZ=0.195 rad
+
+Move robot to: Disk 2 on Tower 3 - Position P1 (bottom)
+Press Enter to record...
+
+# Disk 2 on Tower 3 - Position P1 (bottom)
+self.on_tower_joints[2][3][1] = [0.381240, -1.442495, 2.119515, -3.640659, -1.212373, 1.034933]
+#   Joint angles (degrees): [21.84, -82.65, 121.44, -208.59, -69.46, 59.30]
+#   TCP Position: X=371.62mm, Y=295.88mm, Z=380.73mm
+#   TCP Orientation: RX=-0.988, RY=1.408, RZ=0.195 rad
+
+Move robot to: Disk 2 on Tower 3 - Position P2 (on Disk 1)
+Press Enter to record...
+
+# Disk 2 on Tower 3 - Position P2 (on Disk 1)
+self.on_tower_joints[2][3][2] = [0.386586, -1.506996, 2.083935, -3.540919, -1.217522, 1.035940]
+#   Joint angles (degrees): [22.15, -86.34, 119.40, -202.88, -69.76, 59.36]
+#   TCP Position: X=363.57mm, Y=296.60mm, Z=378.83mm
+#   TCP Orientation: RX=-0.996, RY=1.429, RZ=0.200 rad
+
+Move robot to: Disk 1 on Tower 3 - Position P1 (bottom only)
+Press Enter to record...
+
+# Disk 1 on Tower 3 - Position P1 (bottom only)
+self.on_tower_joints[1][3][1] = [0.385267, -1.412176, 2.151597, -3.783265, -1.216013, 1.035545]
+#   Joint angles (degrees): [22.07, -80.91, 123.28, -216.77, -69.67, 59.33]
+#   TCP Position: X=363.57mm, Y=296.60mm, Z=378.83mm
+#   TCP Orientation: RX=-0.996, RY=1.429, RZ=0.200 rad
+
+Move robot to: Lifted Disk 3 from Tower 1 P1 (+330mm)
+Press Enter to record...
+
+# Lifted Disk 3 from Tower 1 P1 (+330mm)
+self.lift_joints[3][1][1] = [1.005421, -1.487381, 1.282886, -2.842330, -1.834225, 1.095635]
+#   Joint angles (degrees): [57.61, -85.22, 73.50, -162.85, -105.09, 62.78]
+#   TCP Position: X=363.57mm, Y=296.60mm, Z=378.83mm
+#   TCP Orientation: RX=-0.996, RY=1.429, RZ=0.200 rad
+
+Move robot to: Lifted Disk 3 from Tower 2 P1 (+330mm)
+Press Enter to record...
+
+# Lifted Disk 3 from Tower 2 P1 (+330mm)
+self.lift_joints[3][2][1] = [0.699350, -1.613328, 1.431426, -2.868341, -1.529423, 1.067143]
+#   Joint angles (degrees): [40.07, -92.44, 82.01, -164.34, -87.63, 61.14]
+#   TCP Position: X=278.21mm, Y=381.10mm, Z=671.48mm
+#   TCP Orientation: RX=-0.968, RY=1.355, RZ=0.183 rad
+
+Move robot to: Lifted Disk 3 from Tower 3 P1 (+330mm)
+Press Enter to record...
+
+# Lifted Disk 3 from Tower 3 P1 (+330mm)
+self.lift_joints[3][3][1] = [0.381911, -1.635464, 1.436494, -2.845569, -1.213354, 1.036900]
+#   Joint angles (degrees): [21.88, -93.71, 82.31, -163.04, -69.52, 59.41]
+#   TCP Position: X=359.63mm, Y=293.13mm, Z=677.51mm
+#   TCP Orientation: RX=-0.968, RY=1.355, RZ=0.183 rad
+
+Move robot to: Lifted Disk 2 from Tower 1 P1 (+330mm)
+Press Enter to record...
+
+# Lifted Disk 2 from Tower 1 P1 (+330mm)
+self.lift_joints[2][1][1] = [1.005121, -1.497105, 1.302795, -2.852576, -1.833902, 1.095551]
+#   Joint angles (degrees): [57.59, -85.78, 74.64, -163.44, -105.07, 62.77]
+#   TCP Position: X=196.16mm, Y=472.71mm, Z=675.48mm
+#   TCP Orientation: RX=-0.968, RY=1.355, RZ=0.183 rad
+
+Move robot to: Lifted Disk 2 from Tower 2 P1 (+330mm)
+Press Enter to record...
+
+# Lifted Disk 2 from Tower 2 P1 (+330mm)
+self.lift_joints[2][2][1] = [0.695156, -1.613149, 1.392729, -2.829889, -1.525242, 1.066963]
+#   Joint angles (degrees): [39.83, -92.43, 79.80, -162.14, -87.39, 61.13]
+#   TCP Position: X=277.30mm, Y=378.32mm, Z=686.28mm
+#   TCP Orientation: RX=-0.968, RY=1.355, RZ=0.183 rad
+
+Move robot to: Lifted Disk 2 from Tower 3 P1 (+330mm)
+Press Enter to record...
+
+# Lifted Disk 2 from Tower 3 P1 (+330mm)
+self.lift_joints[2][3][1] = [0.374408, -1.631088, 1.413683, -2.826818, -1.205834, 1.036120]
+#   Joint angles (degrees): [21.45, -93.45, 81.00, -161.96, -69.09, 59.37]
+#   TCP Position: X=277.30mm, Y=378.32mm, Z=686.28mm
+#   TCP Orientation: RX=-0.968, RY=1.355, RZ=0.183 rad
+
+Move robot to: Lifted Disk 1 from Tower 1 P1 (+330mm)
+Press Enter to record...
+
+# Lifted Disk 1 from Tower 1 P1 (+330mm)
+self.lift_joints[1][1][1] = [0.995323, -1.498136, 1.223997, -2.773035, -1.824120, 1.094964]
+#   Joint angles (degrees): [57.03, -85.84, 70.13, -158.88, -104.51, 62.74]
+#   TCP Position: X=277.30mm, Y=378.32mm, Z=686.28mm
+#   TCP Orientation: RX=-0.968, RY=1.355, RZ=0.183 rad
+
+Move robot to: Lifted Disk 1 from Tower 2 P1 (+330mm)
+Press Enter to record...
+
+# Lifted Disk 1 from Tower 2 P1 (+330mm)
+self.lift_joints[1][2][1] = [0.674618, -1.618305, 1.392406, -2.824214, -1.504778, 1.065044]
+#   Joint angles (degrees): [38.65, -92.72, 79.78, -161.82, -86.22, 61.02]
+#   TCP Position: X=277.30mm, Y=378.32mm, Z=686.28mm
+#   TCP Orientation: RX=-0.968, RY=1.355, RZ=0.183 rad
+
+Move robot to: Lifted Disk 1 from Tower 3 P1 (+330mm)
+Press Enter to record...
+
+# Lifted Disk 1 from Tower 3 P1 (+330mm)
+self.lift_joints[1][3][1] = [0.350903, -1.651570, 1.464901, -2.856655, -1.182482, 1.033614]
+#   Joint angles (degrees): [20.11, -94.63, 83.93, -163.67, -67.75, 59.22]
+#   TCP Position: X=277.30mm, Y=378.32mm, Z=686.28mm
+#   TCP Orientation: RX=-0.968, RY=1.355, RZ=0.183 rad
+
+Move robot to: Lowered at Tower 1 (-100mm from over)
+Press Enter to record...
+
+# Lowered at Tower 1 (-100mm from over)
+self.lower_joints[1] = [0.995706, -1.491506, 1.799920, -3.355788, -1.824264, 1.093765]
+#   Joint angles (degrees): [57.05, -85.46, 103.13, -192.27, -104.52, 62.67]
+#   TCP Position: X=195.30mm, Y=464.04mm, Z=480.48mm
+#   TCP Orientation: RX=-0.969, RY=1.354, RZ=0.182 rad
+
+Move robot to: Lowered at Tower 2 (-100mm from over)
+Press Enter to record...
+
+# Lowered at Tower 2 (-100mm from over)
+self.lower_joints[2] = [0.673624, -1.606841, 1.898907, -3.342204, -1.503519, 1.063893]
+#   Joint angles (degrees): [38.60, -92.07, 108.80, -191.49, -86.15, 60.96]
+#   TCP Position: X=280.70mm, Y=370.81mm, Z=487.73mm
+#   TCP Orientation: RX=-0.969, RY=1.354, RZ=0.182 rad
+
+Move robot to: Lowered at Tower 3 (-100mm from over)
+Press Enter to record...
+
+# Lowered at Tower 3 (-100mm from over)
+self.lower_joints[3] = [0.351154, -1.637096, 1.876625, -3.282494, -1.182541, 1.032751]
+#   Joint angles (degrees): [20.12, -93.80, 107.52, -188.07, -67.75, 59.17]
+#   TCP Position: X=363.03mm, Y=282.43mm, Z=506.41mm
+#   TCP Orientation: RX=-0.969, RY=1.354, RZ=0.182 rad
+
+Move robot to: Retreated at Tower 1 (-15mm Y from lowered)
+Press Enter to record...
+
+# Retreated at Tower 1 (-15mm Y from lowered)
+self.retreat_joints[1] = [1.125486, -1.533518, 1.790896, -3.300505, -1.953463, 1.106979]
+#   Joint angles (degrees): [64.49, -87.86, 102.61, -189.11, -111.93, 63.43]
+#   TCP Position: X=136.20mm, Y=467.39mm, Z=500.68mm
+#   TCP Orientation: RX=-0.969, RY=1.355, RZ=0.182 rad
+
+Move robot to: Retreated at Tower 2 (-15mm Y from lowered)
+Press Enter to record...
+
+# Retreated at Tower 2 (-15mm Y from lowered)
+self.retreat_joints[2] = [0.829251, -1.705835, 1.988241, -3.332436, -1.658431, 1.078163]
+#   Joint angles (degrees): [47.51, -97.74, 113.92, -190.93, -95.02, 61.77]
+#   TCP Position: X=201.58mm, Y=371.06mm, Z=487.74mm
+#   TCP Orientation: RX=-0.969, RY=1.354, RZ=0.182 rad
+
+Move robot to: Retreated at Tower 3 (-15mm Y from lowered)
+Press Enter to record...
+
+# Retreated at Tower 3 (-15mm Y from lowered)
+self.retreat_joints[3] = [0.402815, -1.770154, 2.040444, -3.315121, -1.233857, 1.038063]
+#   Joint angles (degrees): [23.08, -101.42, 116.91, -189.94, -70.69, 59.48]
+#   TCP Position: X=201.58mm, Y=371.06mm, Z=487.74mm
+#   TCP Orientation: RX=-0.969, RY=1.354, RZ=0.182 rad
+
+======================================================================
+Recording complete!
+======================================================================
+
+NOTE: The script now uses 3D position arrays:
+  on_tower_joints[disk][tower][position_level]
+  Example: on_tower_joints[3][1][2] = Disk 3, Tower 1, Position P2
+
+Position levels:
+  P1 = bottom of tower
+  P2 = on top of Disk 1
+  P3 = on top of Disk 2 (Disk 3 only)
+======================================================================
+
+
+    def define_positions(self):
+        """Define all recorded positions - REPLACE WITH YOUR VALUES"""
+        
+        # Home and tower front
+        self.home = [0.451393, -2.229160, 1.860002, 0.342343, 1.273064, -2.157974]
+        self.t1f = [1.104142, -1.717815, 1.571371, 0.118974, 1.925808, -2.175808]
+        self.t2f = [0.727783, -1.887111, 1.697958, 0.163430, 1.549586, -2.165568] 
+        self.t3f = [0.234420, -1.856273, 1.602573, 0.224239, 1.056470, -2.151578]
+        
+        # D1 positions
+        self.d1_pickup_t1 = [0.991442, -1.502776, 1.710877, -0.240445, 1.785941, -2.090844]
+        self.d1_pickup_t2 = [0.673036, -1.599023, 1.809293, -0.241666, 1.467693, -2.080664]
+        self.d1_pickup_t3 = [0.335979, -1.613532, 1.823183, -0.243892, 1.130752, -2.069262]
+        self.d1_dropoff_t1 = [0.996162, -1.427437, 0.943722, 0.451491, 1.790832, -2.089670]
+        self.d1_dropoff_t2 = [0.688889, -1.521576, 1.018037, 0.472083, 1.483728, -2.079909]
+        self.d1_dropoff_t3 = [0.337537, -1.524118, 1.008480, 0.480919, 1.132561, -2.067765]
+        
+        # D2 positions
+        self.d2_pickup_t1_p1 = [0.992305, -1.488281, 1.690050, -0.234090, 1.786828, -2.090832]
+        self.d2_pickup_t1_p2 = [0.987657, -1.512476, 1.615790, -0.135683, 1.782139, -2.090461]
+        self.d2_pickup_t2_p1 = [0.692771, -1.589694, 1.807518, -0.249255, 1.487251, -2.081322]
+        self.d2_pickup_t2_p2 = [0.677985, -1.607129, 1.712591, -0.136892, 1.472774, -2.080724]
+        self.d2_pickup_t3_p1 = [0.351358, -1.599683, 1.805745, -0.240086, 1.146191, -2.069777]
+        self.d2_pickup_t3_p2 = [0.352904, -1.615163, 1.711380, -0.130285, 1.147677, -2.069705]
+        self.d2_dropoff_t1 = [0.993191, -1.390357, 0.852417, 0.505930, 1.787919, -2.089479]
+        self.d2_dropoff_t2 = [0.688014, -1.496026, 0.969999, 0.494292, 1.482937, -2.079874]
+        self.d2_dropoff_t3 = [0.341937, -1.505869, 0.974897, 0.496148, 1.137028, -2.068028]
+        
+        # D3 positions
+        self.d3_pickup_t1_p1 = [0.989286, -1.474073, 1.676904, -0.235167, 1.783710, -2.090712]
+        self.d3_pickup_t1_p2 = [0.988651, -1.507871, 1.608612, -0.133098, 1.783170, -2.090772]
+        self.d3_pickup_t1_p3 = [0.990328, -1.499407, 1.497754, -0.030691, 1.784921, -2.090365]
+        self.d3_pickup_t2_p1 = [0.676068, -1.582259, 1.798230, -0.247483, 1.470677, -2.080844]
+        self.d3_pickup_t2_p2 = [0.683377, -1.599695, 1.708564, -0.140410, 1.478023, -2.080891]
+        self.d3_pickup_t2_p3 = [0.692364, -1.607009, 1.610589, -0.034988, 1.486964, -2.080880]
+        self.d3_pickup_t3_p1 = [0.347905, -1.596841, 1.806033, -0.243174, 1.142670, -2.069693]
+        self.d3_pickup_t3_p2 = [0.345005, -1.614036, 1.713861, -0.133911, 1.139771, -2.069418]
+        self.d3_pickup_t3_p3 = [0.349715, -1.610930, 1.608552, -0.031732, 1.144574, -2.069322]
+        self.d3_dropoff_t1 = [0.987502, -1.379030, 0.834633, 0.512132, 1.782271, -2.089371]
+        self.d3_dropoff_t2 = [0.682706, -1.482274, 0.956106, 0.494520, 1.477496, -2.079658]
+        self.d3_dropoff_t3 = [0.346491, -1.481315, 0.952765, 0.494017, 1.141568, -2.068137]

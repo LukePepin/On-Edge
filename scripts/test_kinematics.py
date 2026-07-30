@@ -78,12 +78,6 @@ class KinematicsDebugger(Node):
             idx = self.current_joint_state.name.index(name)
             p0_positions.append(self.current_joint_state.position[idx])
             
-        # 0. Dynamic p0 (Current Physical State)
-        p0 = JointTrajectoryPoint()
-        p0.positions = p0_positions
-        p0.time_from_start.sec = 0
-        p0.time_from_start.nanosec = 0
-        
         # 1. Approach Pick (5.0s total)
         p1 = JointTrajectoryPoint()
         norm_pos = []
@@ -93,7 +87,8 @@ class KinematicsDebugger(Node):
         p1.time_from_start.sec = 5
         p1.time_from_start.nanosec = 0
         
-        goal_msg.trajectory.points = [p0, p1]
+        # OMIT p0! The JTC will natively inject the pristine hardware state at t=0.
+        goal_msg.trajectory.points = [p1]
         
         self.get_logger().info('--- DEEP KINEMATIC TELEMETRY: PHASE 1 ---')
         self.get_logger().info(f'p0 (Current) : {[round(x, 4) for x in p0.positions]}  (t=0.0s)')
@@ -136,12 +131,6 @@ class KinematicsDebugger(Node):
             idx = self.current_joint_state.name.index(name)
             p0_positions.append(self.current_joint_state.position[idx])
             
-        # 0. Dynamic p0 (Current Physical State)
-        p0 = JointTrajectoryPoint()
-        p0.positions = p0_positions
-        p0.time_from_start.sec = 0
-        p0.time_from_start.nanosec = 0
-        
         normalized_poses = {}
         for pose_name in ['Transfer', 'Place']:
             norm_pos = []
@@ -159,14 +148,14 @@ class KinematicsDebugger(Node):
         p1 = build_normalized_point('Transfer', 2.5)
         p2 = build_normalized_point('Place', 5.0)
         
-        goal_msg.trajectory.points = [p0, p1, p2]
+        # OMIT p0! By providing [p1, p2], the array length is 2, satisfying the JTC bug.
+        # The controller will prepend the real-time hardware state at t=0 automatically.
+        goal_msg.trajectory.points = [p1, p2]
         
         self.get_logger().info('--- DEEP KINEMATIC TELEMETRY: PHASE 2 ---')
-        self.get_logger().info(f'p0 (Pick)     : {[round(x, 4) for x in p0.positions]}  (t=0.0s)')
         self.get_logger().info(f'p1 (Transfer) : {[round(x, 4) for x in p1.positions]}  (t=2.5s)')
         self.get_logger().info(f'p2 (Place)    : {[round(x, 4) for x in p2.positions]}  (t=5.0s)')
         self.get_logger().info(f'Goal points count: {len(goal_msg.trajectory.points)}')
-        self.get_logger().info(f'p0 velocities length: {len(p0.velocities)}')
         self.get_logger().info('-----------------------------------------')
         
         self.get_logger().info('🚀 Phase 2: Executing High-Speed 2-Point Spline Sweep...')
@@ -186,6 +175,8 @@ class KinematicsDebugger(Node):
     def get_result_callback(self, future):
         result = future.result().result
         self.get_logger().info(f'✅ Sweep complete! Result Code: {result.error_code}')
+        if hasattr(result, 'error_string'):
+            self.get_logger().info(f'Error String: {result.error_string}')
         raise SystemExit
 
 def main(args=None):

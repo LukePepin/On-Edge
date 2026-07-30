@@ -1,0 +1,25 @@
+============================================================
+WOOD BASE COLLISION OBJECT POSITION
+============================================================
+
+Use these values in add_wood_base_collision.py:
+
+X position (meters): 0.200050
+Y position (meters): 0.223076
+Z position (meters): 0.295998
+Roll (radians):      0.0
+Pitch (radians):     0.0
+Yaw (radians):       0.009785
+
+============================================================
+MEASUREMENT POINTS:
+============================================================
+Wood Base Corner 1 (far side, accessible): (  62.89, -524.01,  106.13) mm
+Wood Base Corner 2 (far side, accessible): (-526.26,   40.20,  103.66) mm
+Tower Board Corner 1 (front left - CRITICAL SAFETY BOUNDARY): (  98.44,  550.34,  288.44) mm
+Tower Board Corner 2 (front right - CRITICAL SAFETY BOUNDARY): ( 611.14,   51.33,  280.43) mm
+Tower 1 Base (center of tower): ( 214.86,  497.39,  446.21) mm
+Tower 2 Base (center of tower): ( 301.78,  406.96,  446.25) mm
+Tower 3 Base (center of tower): ( 387.34,  313.55,  446.18) mm
+Platform Left Edge            : (  86.52,  578.11,  272.94) mm
+Platform Right Edge           : ( 563.73,   93.82,  273.76) mm
