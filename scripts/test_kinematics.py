@@ -91,7 +91,6 @@ class KinematicsDebugger(Node):
         goal_msg.trajectory.points = [p1]
         
         self.get_logger().info('--- DEEP KINEMATIC TELEMETRY: PHASE 1 ---')
-        self.get_logger().info(f'p0 (Current) : {[round(x, 4) for x in p0.positions]}  (t=0.0s)')
         self.get_logger().info(f'p1 (Pick)    : {[round(x, 4) for x in p1.positions]}  (t=5.0s)')
         self.get_logger().info('-----------------------------------------')
         
