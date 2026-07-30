@@ -104,8 +104,6 @@ class MockPickAndPlaceClient(Node):
         # 0. Dynamic p0 (Current Physical State)
         p0 = JointTrajectoryPoint()
         p0.positions = p0_positions
-        p0.velocities = [0.0] * 6
-        p0.accelerations = [0.0] * 6
         p0.time_from_start.sec = 0
         p0.time_from_start.nanosec = 0
         
@@ -115,16 +113,14 @@ class MockPickAndPlaceClient(Node):
         for i in range(6):
             norm_pos.append(self.normalize_target(p0_positions[i], self.poses_rad['Pick'][i]))
         p1.positions = norm_pos
-        p1.velocities = [0.0] * 6
-        p1.accelerations = [0.0] * 6
         p1.time_from_start.sec = 5
         p1.time_from_start.nanosec = 0
         
         goal_msg.trajectory.points = [p0, p1]
         
         self.get_logger().info('--- DEEP KINEMATIC TELEMETRY: PHASE 1 ---')
-        self.get_logger().info(f'p0 (Current) : {[round(x, 4) for x in p0.positions]}')
-        self.get_logger().info(f'p1 (Pick)    : {[round(x, 4) for x in p1.positions]}')
+        self.get_logger().info(f'p0 (Current) : {[round(x, 4) for x in p0.positions]}  (t=0.0s)')
+        self.get_logger().info(f'p1 (Pick)    : {[round(x, 4) for x in p1.positions]}  (t=5.0s)')
         self.get_logger().info('-----------------------------------------')
         
         self.get_logger().info('Phase 1: Safe Initialization to Pick boundary (5.0s)...')
@@ -166,13 +162,11 @@ class MockPickAndPlaceClient(Node):
         # 0. Dynamic p0 (Current Physical State)
         p0 = JointTrajectoryPoint()
         p0.positions = p0_positions
-        p0.velocities = [0.0] * 6
-        p0.accelerations = [0.0] * 6
         p0.time_from_start.sec = 0
         p0.time_from_start.nanosec = 0
         
         normalized_poses = {}
-        for pose_name in ['Place']:
+        for pose_name in ['Transfer', 'Place']:
             norm_pos = []
             for i in range(6):
                 norm_pos.append(self.normalize_target(p0_positions[i], self.poses_rad[pose_name][i]))
@@ -185,15 +179,17 @@ class MockPickAndPlaceClient(Node):
             point.time_from_start.nanosec = int((time_sec - int(time_sec)) * 1e9)
             return point
             
-        p1 = build_normalized_point('Place', 5.0)
-        p1.velocities = [0.0] * 6
-        p1.accelerations = [0.0] * 6
+        p1 = build_normalized_point('Transfer', 2.5)
+        p2 = build_normalized_point('Place', 5.0)
         
-        goal_msg.trajectory.points = [p0, p1]
+        goal_msg.trajectory.points = [p0, p1, p2]
         
         self.get_logger().info('--- DEEP KINEMATIC TELEMETRY: PHASE 2 ---')
-        self.get_logger().info(f'p0 (Pick)  : {[round(x, 4) for x in p0.positions]}')
-        self.get_logger().info(f'p1 (Place) : {[round(x, 4) for x in p1.positions]}')
+        self.get_logger().info(f'p0 (Pick)     : {[round(x, 4) for x in p0.positions]}  (t=0.0s)')
+        self.get_logger().info(f'p1 (Transfer) : {[round(x, 4) for x in p1.positions]}  (t=2.5s)')
+        self.get_logger().info(f'p2 (Place)    : {[round(x, 4) for x in p2.positions]}  (t=5.0s)')
+        self.get_logger().info(f'Goal points count: {len(goal_msg.trajectory.points)}')
+        self.get_logger().info(f'p0 velocities length: {len(p0.velocities)}')
         self.get_logger().info('-----------------------------------------')
         
         self.get_logger().info('🚀 Phase 2: Executing High-Speed 2-Point Spline Sweep...')
