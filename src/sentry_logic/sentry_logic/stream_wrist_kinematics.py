@@ -159,7 +159,7 @@ class MockPickAndPlaceClient(Node):
             p0_positions.append(self.current_joint_state.position[idx])
             
         normalized_poses = {}
-        for pose_name in ['Transfer', 'Place']:
+        for pose_name in ['Pick', 'Transfer', 'Place']:
             norm_pos = []
             for i in range(6):
                 norm_pos.append(self.normalize_target(p0_positions[i], self.poses_rad[pose_name][i]))
@@ -172,14 +172,19 @@ class MockPickAndPlaceClient(Node):
             point.time_from_start.nanosec = int((time_sec - int(time_sec)) * 1e9)
             return point
             
-        p1 = build_normalized_point('Transfer', 2.5)
-        p2 = build_normalized_point('Place', 5.0)
+        p1 = build_normalized_point('Pick', 1.0)
+        p2 = build_normalized_point('Transfer', 3.0)
+        p3 = build_normalized_point('Place', 5.0)
         
-        goal_msg.trajectory.points = [p1, p2]
+        # OMIT p0! By providing [p1, p2, p3], the controller will prepend the 
+        # real-time hardware state at t=0 automatically.
+        # Pick is included to anchor the cubic spline solver against Runge's phenomenon.
+        goal_msg.trajectory.points = [p1, p2, p3]
         
         self.get_logger().info('--- DEEP KINEMATIC TELEMETRY: PHASE 2 ---')
-        self.get_logger().info(f'p1 (Transfer) : {[round(x, 4) for x in p1.positions]}  (t=2.5s)')
-        self.get_logger().info(f'p2 (Place)    : {[round(x, 4) for x in p2.positions]}  (t=5.0s)')
+        self.get_logger().info(f'p1 (Pick)     : {[round(x, 4) for x in p1.positions]}  (t=1.0s)')
+        self.get_logger().info(f'p2 (Transfer) : {[round(x, 4) for x in p2.positions]}  (t=3.0s)')
+        self.get_logger().info(f'p3 (Place)    : {[round(x, 4) for x in p3.positions]}  (t=5.0s)')
         self.get_logger().info(f'Goal points count: {len(goal_msg.trajectory.points)}')
         self.get_logger().info('-----------------------------------------')
         
