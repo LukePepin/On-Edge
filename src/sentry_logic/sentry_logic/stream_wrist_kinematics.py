@@ -41,9 +41,6 @@ class MockPickAndPlaceClient(Node):
         # Convert to radians
         self.poses_rad = {k: [math.radians(deg) for deg in v] for k, v in self.poses_deg.items()}
         
-        self.switch_client = self.create_client(SwitchController, '/controller_manager/switch_controller')
-        self._switch_to_joint_trajectory()
-        
         self._action_client = ActionClient(self, FollowJointTrajectory, '/scaled_joint_trajectory_controller/follow_joint_trajectory')
         
         # Async Attack Service Client for the Strike Zone
@@ -53,22 +50,7 @@ class MockPickAndPlaceClient(Node):
         self.current_state = 0
         self.attack_fired = False
 
-    def _switch_to_joint_trajectory(self):
-        while not self.switch_client.wait_for_service(timeout_sec=1.0):
-            self.get_logger().info('Waiting for /controller_manager/switch_controller service...')
 
-        req = SwitchController.Request()
-        if hasattr(req, 'start_controllers'):
-            req.start_controllers = ['scaled_joint_trajectory_controller']
-            req.stop_controllers = ['forward_position_controller']
-        else:
-            req.activate_controllers = ['scaled_joint_trajectory_controller']
-            req.deactivate_controllers = ['forward_position_controller']
-        req.strictness = 1
-
-        future = self.switch_client.call_async(req)
-        rclpy.spin_until_future_complete(self, future)
-        self.get_logger().info('✅ Successfully activated scaled_joint_trajectory_controller!')
 
     def build_point(self, pose_name, time_sec):
         point = JointTrajectoryPoint()
