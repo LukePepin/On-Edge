@@ -72,19 +72,12 @@ class KinematicsDebugger(Node):
         goal_msg = FollowJointTrajectory.Goal()
         goal_msg.trajectory.joint_names = self.joint_names
         
+        # We still need p0_positions for the normalization math
         p0_positions = []
         for name in self.joint_names:
             idx = self.current_joint_state.name.index(name)
             p0_positions.append(self.current_joint_state.position[idx])
             
-        # 0. Dynamic p0 (Current Physical State)
-        p0 = JointTrajectoryPoint()
-        p0.positions = p0_positions
-        p0.velocities = [0.0] * 6
-        p0.accelerations = [0.0] * 6
-        p0.time_from_start.sec = 0
-        p0.time_from_start.nanosec = 0
-        
         # 1. Approach Pick (5.0s total)
         p1 = JointTrajectoryPoint()
         norm_pos = []
@@ -96,10 +89,10 @@ class KinematicsDebugger(Node):
         p1.time_from_start.sec = 5
         p1.time_from_start.nanosec = 0
         
-        goal_msg.trajectory.points = [p0, p1]
+        # OMIT p0! The JTC will natively inject the pristine hardware state at t=0.
+        goal_msg.trajectory.points = [p1]
         
         self.get_logger().info('--- DEEP KINEMATIC TELEMETRY: PHASE 1 ---')
-        self.get_logger().info(f'p0 (Current) : {[round(x, 4) for x in p0.positions]}')
         self.get_logger().info(f'p1 (Pick)    : {[round(x, 4) for x in p1.positions]}')
         self.get_logger().info('-----------------------------------------')
         
@@ -139,13 +132,6 @@ class KinematicsDebugger(Node):
             idx = self.current_joint_state.name.index(name)
             p0_positions.append(self.current_joint_state.position[idx])
             
-        p0 = JointTrajectoryPoint()
-        p0.positions = p0_positions
-        p0.velocities = [0.0] * 6
-        p0.accelerations = [0.0] * 6
-        p0.time_from_start.sec = 0
-        p0.time_from_start.nanosec = 0
-        
         normalized_poses = {}
         for pose_name in ['Place']:
             norm_pos = []
@@ -164,10 +150,10 @@ class KinematicsDebugger(Node):
         p1.velocities = [0.0] * 6
         p1.accelerations = [0.0] * 6
         
-        goal_msg.trajectory.points = [p0, p1]
+        # OMIT p0!
+        goal_msg.trajectory.points = [p1]
         
         self.get_logger().info('--- DEEP KINEMATIC TELEMETRY: PHASE 2 ---')
-        self.get_logger().info(f'p0 (Pick)  : {[round(x, 4) for x in p0.positions]}')
         self.get_logger().info(f'p1 (Place) : {[round(x, 4) for x in p1.positions]}')
         self.get_logger().info('-----------------------------------------')
         
