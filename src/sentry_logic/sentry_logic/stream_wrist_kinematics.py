@@ -6,6 +6,7 @@ from control_msgs.action import FollowJointTrajectory
 from trajectory_msgs.msg import JointTrajectoryPoint
 from controller_manager_msgs.srv import SwitchController
 from std_srvs.srv import Trigger
+from sensor_msgs.msg import JointState
 import math
 import time
 
@@ -13,6 +14,17 @@ class MockPickAndPlaceClient(Node):
     def __init__(self):
         super().__init__('mock_pick_and_place')
         self.get_logger().info('Initializing Mock Pick-and-Place State Machine...')
+
+        self.current_joint_state = None
+        self.joint_sub = self.create_subscription(
+            JointState,
+            '/joint_states',
+            self.joint_state_callback,
+            10
+        )
+
+    def joint_state_callback(self, msg):
+        self.current_joint_state = msg
 
         self.joint_names = [
             'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint',
@@ -83,6 +95,11 @@ class MockPickAndPlaceClient(Node):
     def run_state_machine(self):
         self.timer.cancel() # Stop timer, we will drive execution via action futures
         
+        # Wait for current joint states to eliminate spline whip-crack
+        self.get_logger().info('Querying /joint_states for dynamic p0 injection...')
+        while self.current_joint_state is None:
+            rclpy.spin_once(self, timeout_sec=0.1)
+            
         while not self._action_client.wait_for_server(timeout_sec=1.0):
             self.get_logger().info('Waiting for trajectory action server...')
             
@@ -92,16 +109,28 @@ class MockPickAndPlaceClient(Node):
         # State Machine Pathing (Unified Multi-Point Cubic Spline)
         # Omit velocities to force the controller path planner to naturally interpolate
         
+        # Extract physical positions aligned with joint_names
+        p0_positions = []
+        for name in self.joint_names:
+            idx = self.current_joint_state.name.index(name)
+            p0_positions.append(self.current_joint_state.position[idx])
+            
+        # 0. Dynamic p0 (Current Physical State)
+        p0 = JointTrajectoryPoint()
+        p0.positions = p0_positions
+        p0.time_from_start.sec = 0
+        p0.time_from_start.nanosec = 0
+        
         # 1. Approach Pick (1.5s total)
         p1 = self.build_point('Pick', 1.5)
         
-        # 2. High-Speed Transfer Leg (1.5s duration -> total 3.0s)
+        # 2. High-Speed Transfer Leg (3.0s total)
         p2 = self.build_point('Transfer', 3.0)
         
-        # 3. Approach Place (1.5s duration -> total 4.5s)
+        # 3. Approach Place (4.5s total)
         p3 = self.build_point('Place', 4.5)
         
-        goal_msg.trajectory.points = [p1, p2, p3]
+        goal_msg.trajectory.points = [p0, p1, p2, p3]
         
         self.get_logger().info('Executing High-Speed Kinematic Sweep...')
         self.get_logger().info('State 1: Approach Pick (1.5s)')

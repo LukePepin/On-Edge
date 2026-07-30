@@ -5,12 +5,24 @@ from rclpy.action import ActionClient
 from control_msgs.action import FollowJointTrajectory
 from trajectory_msgs.msg import JointTrajectoryPoint
 from controller_manager_msgs.srv import SwitchController
+from sensor_msgs.msg import JointState
 import math
 
 class KinematicsDebugger(Node):
     def __init__(self):
         super().__init__('kinematics_debugger')
         self.get_logger().info('Initializing Kinematics Debugger...')
+
+        self.current_joint_state = None
+        self.joint_sub = self.create_subscription(
+            JointState,
+            '/joint_states',
+            self.joint_state_callback,
+            10
+        )
+
+    def joint_state_callback(self, msg):
+        self.current_joint_state = msg
 
         self.joint_names = [
             'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint',
@@ -62,24 +74,41 @@ class KinematicsDebugger(Node):
     def run_sweep(self):
         self.timer.cancel()
         
+        # Wait for current joint states to eliminate spline whip-crack
+        self.get_logger().info('Querying /joint_states for dynamic p0 injection...')
+        while self.current_joint_state is None:
+            rclpy.spin_once(self, timeout_sec=0.1)
+            
         while not self._action_client.wait_for_server(timeout_sec=1.0):
             self.get_logger().info('Waiting for trajectory action server...')
             
         goal_msg = FollowJointTrajectory.Goal()
         goal_msg.trajectory.joint_names = self.joint_names
         
-        # 1. Approach Pick (1.5s total)
+        # Extract physical positions aligned with joint_names
+        p0_positions = []
+        for name in self.joint_names:
+            idx = self.current_joint_state.name.index(name)
+            p0_positions.append(self.current_joint_state.position[idx])
+            
+        # 0. Dynamic p0 (Current Physical State)
+        p0 = JointTrajectoryPoint()
+        p0.positions = p0_positions
+        p0.time_from_start.sec = 0
+        p0.time_from_start.nanosec = 0
+        
+        # 1. Approach Pick (1.5s from start)
         p1 = self.build_point('Pick', 1.5)
         
-        # 2. High-Speed Transfer Leg (1.5s duration -> total 3.0s)
+        # 2. High-Speed Transfer Leg (3.0s from start)
         p2 = self.build_point('Transfer', 3.0)
         
-        # 3. Approach Place (1.5s duration -> total 4.5s)
+        # 3. Approach Place (4.5s from start)
         p3 = self.build_point('Place', 4.5)
         
-        goal_msg.trajectory.points = [p1, p2, p3]
+        goal_msg.trajectory.points = [p0, p1, p2, p3]
         
-        self.get_logger().info('🚀 Executing High-Speed Cubic Spline Sweep...')
+        self.get_logger().info('🚀 Executing High-Speed Cubic Spline Sweep (p0 injected!)...')
         self._send_goal_future = self._action_client.send_goal_async(goal_msg)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
 
