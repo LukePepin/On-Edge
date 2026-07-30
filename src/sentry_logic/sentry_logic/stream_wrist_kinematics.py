@@ -93,13 +93,13 @@ class MockPickAndPlaceClient(Node):
         self.attack_fired = True
 
     def run_state_machine(self):
+        # Polling for current joint states to eliminate spline whip-crack
+        if self.current_joint_state is None:
+            self.get_logger().info('Waiting for /joint_states for dynamic p0 injection...')
+            return
+            
         self.timer.cancel() # Stop timer, we will drive execution via action futures
         
-        # Wait for current joint states to eliminate spline whip-crack
-        self.get_logger().info('Querying /joint_states for dynamic p0 injection...')
-        while self.current_joint_state is None:
-            rclpy.spin_once(self, timeout_sec=0.1)
-            
         while not self._action_client.wait_for_server(timeout_sec=1.0):
             self.get_logger().info('Waiting for trajectory action server...')
             
