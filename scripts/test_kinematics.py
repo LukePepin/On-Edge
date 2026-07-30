@@ -98,6 +98,11 @@ class KinematicsDebugger(Node):
         
         goal_msg.trajectory.points = [p0, p1]
         
+        self.get_logger().info('--- DEEP KINEMATIC TELEMETRY: PHASE 1 ---')
+        self.get_logger().info(f'p0 (Current) : {[round(x, 4) for x in p0.positions]}')
+        self.get_logger().info(f'p1 (Pick)    : {[round(x, 4) for x in p1.positions]}')
+        self.get_logger().info('-----------------------------------------')
+        
         self.get_logger().info('Phase 1: Safe Initialization to Pick boundary (5.0s)...')
         self._send_goal_future = self._action_client.send_goal_async(goal_msg)
         self._send_goal_future.add_done_callback(self.phase1_response_callback)
@@ -142,7 +147,7 @@ class KinematicsDebugger(Node):
         p0.time_from_start.nanosec = 0
         
         normalized_poses = {}
-        for pose_name in ['Transfer', 'Place']:
+        for pose_name in ['Place']:
             norm_pos = []
             for i in range(6):
                 norm_pos.append(self.normalize_target(p0_positions[i], self.poses_rad[pose_name][i]))
@@ -155,14 +160,18 @@ class KinematicsDebugger(Node):
             point.time_from_start.nanosec = int((time_sec - int(time_sec)) * 1e9)
             return point
             
-        p1 = build_normalized_point('Transfer', 2.0)
-        p2 = build_normalized_point('Place', 5.0)
-        p2.velocities = [0.0] * 6
-        p2.accelerations = [0.0] * 6
+        p1 = build_normalized_point('Place', 5.0)
+        p1.velocities = [0.0] * 6
+        p1.accelerations = [0.0] * 6
         
-        goal_msg.trajectory.points = [p0, p1, p2]
+        goal_msg.trajectory.points = [p0, p1]
         
-        self.get_logger().info('🚀 Phase 2: Executing High-Speed Quintic Spline Sweep...')
+        self.get_logger().info('--- DEEP KINEMATIC TELEMETRY: PHASE 2 ---')
+        self.get_logger().info(f'p0 (Pick)  : {[round(x, 4) for x in p0.positions]}')
+        self.get_logger().info(f'p1 (Place) : {[round(x, 4) for x in p1.positions]}')
+        self.get_logger().info('-----------------------------------------')
+        
+        self.get_logger().info('🚀 Phase 2: Executing High-Speed 2-Point Spline Sweep...')
         self._send_goal_future2 = self._action_client.send_goal_async(goal_msg)
         self._send_goal_future2.add_done_callback(self.goal_response_callback)
 
