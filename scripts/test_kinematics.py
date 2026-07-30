@@ -36,11 +36,13 @@ class KinematicsDebugger(Node):
         # Convert to radians
         self.poses_rad = {k: [math.radians(deg) for deg in v] for k, v in self.poses_deg.items()}
         
-        self._action_client = ActionClient(self, FollowJointTrajectory, '/scaled_joint_trajectory_controller/follow_joint_trajectory')
-        
-        self.timer = self.create_timer(1.0, self.run_sweep)
+        self.timer = self.create_timer(1.0, self.run_phase1)
+        self.is_standstill = False
 
     def joint_state_callback(self, msg):
+        if self.current_joint_state is not None:
+            diff = sum(abs(curr - prev) for curr, prev in zip(msg.position, self.current_joint_state.position))
+            self.is_standstill = (diff < 1e-4)
         self.current_joint_state = msg
 
     def normalize_target(self, current_rad, target_rad):
@@ -55,9 +57,9 @@ class KinematicsDebugger(Node):
         point.time_from_start.nanosec = int((time_sec - int(time_sec)) * 1e9)
         return point
 
-    def run_sweep(self):
+    def run_phase1(self):
         if self.current_joint_state is None:
-            self.get_logger().info('Waiting for /joint_states for dynamic p0 injection...')
+            self.get_logger().info('Waiting for /joint_states for Phase 1 p0 injection...')
             return
             
         self.timer.cancel()
@@ -79,9 +81,60 @@ class KinematicsDebugger(Node):
         p0.time_from_start.sec = 0
         p0.time_from_start.nanosec = 0
         
-        # We must normalize the target arrays to match the physical 2-pi phase of p0!
+        # 1. Approach Pick (5.0s total)
+        p1 = JointTrajectoryPoint()
+        norm_pos = []
+        for i in range(6):
+            norm_pos.append(self.normalize_target(p0_positions[i], self.poses_rad['Pick'][i]))
+        p1.positions = norm_pos
+        p1.time_from_start.sec = 5
+        p1.time_from_start.nanosec = 0
+        
+        goal_msg.trajectory.points = [p0, p1]
+        
+        self.get_logger().info('Phase 1: Safe Initialization to Pick boundary (5.0s)...')
+        self._send_goal_future = self._action_client.send_goal_async(goal_msg)
+        self._send_goal_future.add_done_callback(self.phase1_response_callback)
+
+    def phase1_response_callback(self, future):
+        goal_handle = future.result()
+        if not goal_handle.accepted:
+            self.get_logger().error('Phase 1 Trajectory rejected!')
+            raise SystemExit
+
+        self.get_logger().info('Phase 1 accepted. Moving to perfect start boundary...')
+        self._get_result_future = goal_handle.get_result_async()
+        self._get_result_future.add_done_callback(self.phase1_result_callback)
+
+    def phase1_result_callback(self, future):
+        result = future.result().result
+        self.get_logger().info('Phase 1 complete! Entering 0.5s mechanical settling window...')
+        self.settle_timer = self.create_timer(0.5, self.settling_callback)
+        
+    def settling_callback(self):
+        if self.is_standstill:
+            self.settle_timer.cancel()
+            self.get_logger().info('Standstill confirmed! Proceeding to Phase 2.')
+            self.run_phase2()
+        else:
+            self.get_logger().info('Waiting for absolute mechanical standstill...')
+
+    def run_phase2(self):
+        goal_msg = FollowJointTrajectory.Goal()
+        goal_msg.trajectory.joint_names = self.joint_names
+        
+        p0_positions = []
+        for name in self.joint_names:
+            idx = self.current_joint_state.name.index(name)
+            p0_positions.append(self.current_joint_state.position[idx])
+            
+        p0 = JointTrajectoryPoint()
+        p0.positions = p0_positions
+        p0.time_from_start.sec = 0
+        p0.time_from_start.nanosec = 0
+        
         normalized_poses = {}
-        for pose_name in ['Pick', 'Transfer', 'Place']:
+        for pose_name in ['Transfer', 'Place']:
             norm_pos = []
             for i in range(6):
                 norm_pos.append(self.normalize_target(p0_positions[i], self.poses_rad[pose_name][i]))
@@ -93,21 +146,15 @@ class KinematicsDebugger(Node):
             point.time_from_start.sec = int(time_sec)
             point.time_from_start.nanosec = int((time_sec - int(time_sec)) * 1e9)
             return point
+            
+        p1 = build_normalized_point('Transfer', 2.0)
+        p2 = build_normalized_point('Place', 5.0)
         
-        # 1. Approach Pick (3.0s total)
-        p1 = build_normalized_point('Pick', 3.0)
+        goal_msg.trajectory.points = [p0, p1, p2]
         
-        # 2. High-Speed Transfer Leg (5.0s total)
-        p2 = build_normalized_point('Transfer', 5.0)
-        
-        # 3. Approach Place (8.0s total)
-        p3 = build_normalized_point('Place', 8.0)
-        
-        goal_msg.trajectory.points = [p0, p1, p2, p3]
-        
-        self.get_logger().info('🚀 Executing High-Speed Quintic Spline Sweep...')
-        self._send_goal_future = self._action_client.send_goal_async(goal_msg)
-        self._send_goal_future.add_done_callback(self.goal_response_callback)
+        self.get_logger().info('🚀 Phase 2: Executing High-Speed Quintic Spline Sweep...')
+        self._send_goal_future2 = self._action_client.send_goal_async(goal_msg)
+        self._send_goal_future2.add_done_callback(self.goal_response_callback)
 
     def goal_response_callback(self, future):
         goal_handle = future.result()
