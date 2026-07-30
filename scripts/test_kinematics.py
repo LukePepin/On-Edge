@@ -13,14 +13,6 @@ class KinematicsDebugger(Node):
         super().__init__('kinematics_debugger')
         self.get_logger().info('Initializing Kinematics Debugger...')
 
-        self.current_joint_state = None
-        self.joint_sub = self.create_subscription(
-            JointState,
-            '/joint_states',
-            self.joint_state_callback,
-            10
-        )
-
         self.joint_names = [
             'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint',
             'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'
@@ -39,10 +31,7 @@ class KinematicsDebugger(Node):
         self._action_client = ActionClient(self, FollowJointTrajectory, '/scaled_joint_trajectory_controller/follow_joint_trajectory')
         
         # Start immediately
-        self.timer = self.create_timer(1.0, self.run_sweep)
-
-    def joint_state_callback(self, msg):
-        self.current_joint_state = msg
+        self.timer = self.create_timer(1.0, self.run_phase1)
 
     def build_point(self, pose_name, time_sec):
         point = JointTrajectoryPoint()
@@ -51,12 +40,7 @@ class KinematicsDebugger(Node):
         point.time_from_start.nanosec = int((time_sec - int(time_sec)) * 1e9)
         return point
 
-    def run_sweep(self):
-        # Polling for current joint states to eliminate spline whip-crack
-        if self.current_joint_state is None:
-            self.get_logger().info('Waiting for /joint_states for dynamic p0 injection...')
-            return
-            
+    def run_phase1(self):
         self.timer.cancel()
         
         while not self._action_client.wait_for_server(timeout_sec=1.0):
@@ -65,39 +49,50 @@ class KinematicsDebugger(Node):
         goal_msg = FollowJointTrajectory.Goal()
         goal_msg.trajectory.joint_names = self.joint_names
         
-        # Extract physical positions aligned with joint_names
-        p0_positions = []
-        for name in self.joint_names:
-            idx = self.current_joint_state.name.index(name)
-            p0_positions.append(self.current_joint_state.position[idx])
-            
-        # 0. Dynamic p0 (Current Physical State)
-        p0 = JointTrajectoryPoint()
-        p0.positions = p0_positions
-        # We MUST explicitly clamp the boundary conditions to 0.0!
-        # If left empty, the spline solver will calculate a non-zero starting velocity to reach p1!
-        p0.velocities = [0.0] * 6
-        p0.accelerations = [0.0] * 6
-        p0.time_from_start.sec = 0
-        p0.time_from_start.nanosec = 0
+        # Phase 1: Safe Initialization to Pick
+        p_pick = self.build_point('Pick', 3.0)
+        p_pick.velocities = [0.0] * 6
+        p_pick.accelerations = [0.0] * 6
         
-        # 1. Approach Pick (3.0s total)
-        p1 = self.build_point('Pick', 3.0)
+        goal_msg.trajectory.points = [p_pick]
         
-        # 2. High-Speed Transfer Leg (2.0s duration -> 5.0s total)
-        p2 = self.build_point('Transfer', 5.0)
-        
-        # 3. Approach Place (3.0s duration -> 8.0s total)
-        p3 = self.build_point('Place', 8.0)
-        # Clamp the ending boundary condition so it decelerates to a smooth stop
-        p3.velocities = [0.0] * 6
-        p3.accelerations = [0.0] * 6
-        
-        goal_msg.trajectory.points = [p0, p1, p2, p3]
-        
-        self.get_logger().info('🚀 Executing High-Speed Cubic Spline Sweep (p0 injected!)...')
+        self.get_logger().info('Phase 1: Safe Initialization to Pick boundary...')
         self._send_goal_future = self._action_client.send_goal_async(goal_msg)
-        self._send_goal_future.add_done_callback(self.goal_response_callback)
+        self._send_goal_future.add_done_callback(self.phase1_response_callback)
+
+    def phase1_response_callback(self, future):
+        goal_handle = future.result()
+        if not goal_handle.accepted:
+            self.get_logger().error('Phase 1 Trajectory rejected!')
+            raise SystemExit
+
+        self.get_logger().info('Phase 1 accepted. Moving to perfect start boundary...')
+        self._get_result_future = goal_handle.get_result_async()
+        self._get_result_future.add_done_callback(self.phase1_result_callback)
+
+    def phase1_result_callback(self, future):
+        result = future.result().result
+        self.get_logger().info(f'Phase 1 complete! Robot is perfectly aligned. Starting Phase 2...')
+        self.run_phase2()
+
+    def run_phase2(self):
+        goal_msg = FollowJointTrajectory.Goal()
+        goal_msg.trajectory.joint_names = self.joint_names
+        
+        # Phase 2: High-Speed Sweep (Transfer -> Place)
+        # Because robot is mathematically perfectly at Pick, the driver's implicitly
+        # prepended p0 will cause absolutely zero Quintic overshoot.
+        p_transfer = self.build_point('Transfer', 2.0)
+        
+        p_place = self.build_point('Place', 5.0)
+        p_place.velocities = [0.0] * 6
+        p_place.accelerations = [0.0] * 6
+        
+        goal_msg.trajectory.points = [p_transfer, p_place]
+        
+        self.get_logger().info('🚀 Phase 2: Executing High-Speed Cubic Spline Sweep...')
+        self._send_goal_future2 = self._action_client.send_goal_async(goal_msg)
+        self._send_goal_future2.add_done_callback(self.goal_response_callback)
 
     def goal_response_callback(self, future):
         goal_handle = future.result()
