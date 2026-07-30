@@ -44,10 +44,30 @@ class MockPickAndPlaceClient(Node):
         # Async Attack Service Client for the Strike Zone
         self.attack_client = self.create_client(Trigger, '/inject_attack')
         
+        self.switch_client = self.create_client(SwitchController, '/controller_manager/switch_controller')
+        self._switch_to_joint_trajectory()
+        
         self.timer = self.create_timer(1.0, self.run_phase1)
         self.current_state = 0
         self.attack_fired = False
         self.is_standstill = False
+
+    def _switch_to_joint_trajectory(self):
+        while not self.switch_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('Waiting for /controller_manager/switch_controller service...')
+
+        req = SwitchController.Request()
+        if hasattr(req, 'start_controllers'):
+            req.start_controllers = ['passthrough_trajectory_controller']
+            req.stop_controllers = ['scaled_joint_trajectory_controller', 'forward_position_controller']
+        else:
+            req.activate_controllers = ['passthrough_trajectory_controller']
+            req.deactivate_controllers = ['scaled_joint_trajectory_controller', 'forward_position_controller']
+        req.strictness = 1
+
+        future = self.switch_client.call_async(req)
+        rclpy.spin_until_future_complete(self, future)
+        self.get_logger().info('✅ Successfully activated passthrough_trajectory_controller!')
 
     def joint_state_callback(self, msg):
         if self.current_joint_state is not None:

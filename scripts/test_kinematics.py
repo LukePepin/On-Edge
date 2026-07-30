@@ -51,10 +51,10 @@ class KinematicsDebugger(Node):
         req = SwitchController.Request()
         if hasattr(req, 'start_controllers'):
             req.start_controllers = ['passthrough_trajectory_controller']
-            req.stop_controllers = ['forward_position_controller']
+            req.stop_controllers = ['scaled_joint_trajectory_controller', 'forward_position_controller']
         else:
             req.activate_controllers = ['passthrough_trajectory_controller']
-            req.deactivate_controllers = ['forward_position_controller']
+            req.deactivate_controllers = ['scaled_joint_trajectory_controller', 'forward_position_controller']
         req.strictness = 1
 
         future = self.switch_client.call_async(req)
