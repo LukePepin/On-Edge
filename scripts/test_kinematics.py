@@ -80,6 +80,8 @@ class KinematicsDebugger(Node):
         # 0. Dynamic p0 (Current Physical State)
         p0 = JointTrajectoryPoint()
         p0.positions = p0_positions
+        p0.velocities = [0.0] * 6
+        p0.accelerations = [0.0] * 6
         p0.time_from_start.sec = 0
         p0.time_from_start.nanosec = 0
         
@@ -89,6 +91,8 @@ class KinematicsDebugger(Node):
         for i in range(6):
             norm_pos.append(self.normalize_target(p0_positions[i], self.poses_rad['Pick'][i]))
         p1.positions = norm_pos
+        p1.velocities = [0.0] * 6
+        p1.accelerations = [0.0] * 6
         p1.time_from_start.sec = 5
         p1.time_from_start.nanosec = 0
         
@@ -132,6 +136,8 @@ class KinematicsDebugger(Node):
             
         p0 = JointTrajectoryPoint()
         p0.positions = p0_positions
+        p0.velocities = [0.0] * 6
+        p0.accelerations = [0.0] * 6
         p0.time_from_start.sec = 0
         p0.time_from_start.nanosec = 0
         
@@ -151,6 +157,8 @@ class KinematicsDebugger(Node):
             
         p1 = build_normalized_point('Transfer', 2.0)
         p2 = build_normalized_point('Place', 5.0)
+        p2.velocities = [0.0] * 6
+        p2.accelerations = [0.0] * 6
         
         goal_msg.trajectory.points = [p0, p1, p2]
         
