@@ -50,6 +50,11 @@ class MockPickAndPlaceClient(Node):
     def joint_state_callback(self, msg):
         self.current_joint_state = msg
 
+    def normalize_target(self, current_rad, target_rad):
+        # Shortest-path angular normalization to prevent 360-degree quintic unwinds
+        diff = (target_rad - current_rad + math.pi) % (2 * math.pi) - math.pi
+        return current_rad + diff
+
     def build_point(self, pose_name, time_sec):
         point = JointTrajectoryPoint()
         point.positions = self.poses_rad[pose_name]
@@ -96,14 +101,29 @@ class MockPickAndPlaceClient(Node):
         p0.time_from_start.sec = 0
         p0.time_from_start.nanosec = 0
         
+        # We must normalize the target arrays to match the physical 2-pi phase of p0!
+        normalized_poses = {}
+        for pose_name in ['Pick', 'Transfer', 'Place']:
+            norm_pos = []
+            for i in range(6):
+                norm_pos.append(self.normalize_target(p0_positions[i], self.poses_rad[pose_name][i]))
+            normalized_poses[pose_name] = norm_pos
+            
+        def build_normalized_point(pose_name, time_sec):
+            point = JointTrajectoryPoint()
+            point.positions = normalized_poses[pose_name]
+            point.time_from_start.sec = int(time_sec)
+            point.time_from_start.nanosec = int((time_sec - int(time_sec)) * 1e9)
+            return point
+        
         # 1. Approach Pick (3.0s total)
-        p1 = self.build_point('Pick', 3.0)
+        p1 = build_normalized_point('Pick', 3.0)
         
         # 2. High-Speed Transfer Leg (5.0s total)
-        p2 = self.build_point('Transfer', 5.0)
+        p2 = build_normalized_point('Transfer', 5.0)
         
         # 3. Approach Place (8.0s total)
-        p3 = self.build_point('Place', 8.0)
+        p3 = build_normalized_point('Place', 8.0)
         
         goal_msg.trajectory.points = [p0, p1, p2, p3]
         
