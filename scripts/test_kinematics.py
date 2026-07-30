@@ -13,6 +13,14 @@ class KinematicsDebugger(Node):
         super().__init__('kinematics_debugger')
         self.get_logger().info('Initializing Kinematics Debugger...')
 
+        self.current_joint_state = None
+        self.joint_sub = self.create_subscription(
+            JointState,
+            '/joint_states',
+            self.joint_state_callback,
+            10
+        )
+
         self.joint_names = [
             'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint',
             'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'
@@ -33,6 +41,9 @@ class KinematicsDebugger(Node):
         # Start immediately
         self.timer = self.create_timer(1.0, self.run_phase1)
 
+    def joint_state_callback(self, msg):
+        self.current_joint_state = msg
+
     def build_point(self, pose_name, time_sec):
         point = JointTrajectoryPoint()
         point.positions = self.poses_rad[pose_name]
@@ -41,6 +52,10 @@ class KinematicsDebugger(Node):
         return point
 
     def run_phase1(self):
+        if self.current_joint_state is None:
+            self.get_logger().info('Waiting for /joint_states for Phase 1 p0 injection...')
+            return
+            
         self.timer.cancel()
         
         while not self._action_client.wait_for_server(timeout_sec=1.0):
@@ -49,12 +64,24 @@ class KinematicsDebugger(Node):
         goal_msg = FollowJointTrajectory.Goal()
         goal_msg.trajectory.joint_names = self.joint_names
         
+        p0_positions = []
+        for name in self.joint_names:
+            idx = self.current_joint_state.name.index(name)
+            p0_positions.append(self.current_joint_state.position[idx])
+            
+        p0 = JointTrajectoryPoint()
+        p0.positions = p0_positions
+        p0.velocities = [0.0] * 6
+        p0.accelerations = [0.0] * 6
+        p0.time_from_start.sec = 0
+        p0.time_from_start.nanosec = 0
+        
         # Phase 1: Safe Initialization to Pick
         p_pick = self.build_point('Pick', 3.0)
         p_pick.velocities = [0.0] * 6
         p_pick.accelerations = [0.0] * 6
         
-        goal_msg.trajectory.points = [p_pick]
+        goal_msg.trajectory.points = [p0, p_pick]
         
         self.get_logger().info('Phase 1: Safe Initialization to Pick boundary...')
         self._send_goal_future = self._action_client.send_goal_async(goal_msg)
@@ -80,15 +107,18 @@ class KinematicsDebugger(Node):
         goal_msg.trajectory.joint_names = self.joint_names
         
         # Phase 2: High-Speed Sweep (Transfer -> Place)
-        # Because robot is mathematically perfectly at Pick, the driver's implicitly
-        # prepended p0 will cause absolutely zero Quintic overshoot.
+        # We mathematically anchor p0 at Pick (0.0s) because Phase 1 perfectly aligned us
+        p0 = self.build_point('Pick', 0.0)
+        p0.velocities = [0.0] * 6
+        p0.accelerations = [0.0] * 6
+        
         p_transfer = self.build_point('Transfer', 2.0)
         
         p_place = self.build_point('Place', 5.0)
         p_place.velocities = [0.0] * 6
         p_place.accelerations = [0.0] * 6
         
-        goal_msg.trajectory.points = [p_transfer, p_place]
+        goal_msg.trajectory.points = [p0, p_transfer, p_place]
         
         self.get_logger().info('🚀 Phase 2: Executing High-Speed Cubic Spline Sweep...')
         self._send_goal_future2 = self._action_client.send_goal_async(goal_msg)
