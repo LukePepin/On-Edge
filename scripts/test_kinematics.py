@@ -81,14 +81,14 @@ class KinematicsDebugger(Node):
         p0.time_from_start.sec = 0
         p0.time_from_start.nanosec = 0
         
-        # 1. Approach Pick (1.5s from start)
-        p1 = self.build_point('Pick', 1.5)
+        # 1. Approach Pick (3.0s total)
+        p1 = self.build_point('Pick', 3.0)
         
-        # 2. High-Speed Transfer Leg (3.0s from start)
-        p2 = self.build_point('Transfer', 3.0)
+        # 2. High-Speed Transfer Leg (2.0s duration -> 5.0s total)
+        p2 = self.build_point('Transfer', 5.0)
         
-        # 3. Approach Place (4.5s from start)
-        p3 = self.build_point('Place', 4.5)
+        # 3. Approach Place (3.0s duration -> 8.0s total)
+        p3 = self.build_point('Place', 8.0)
         # Clamp the ending boundary condition so it decelerates to a smooth stop
         p3.velocities = [0.0] * 6
         p3.accelerations = [0.0] * 6

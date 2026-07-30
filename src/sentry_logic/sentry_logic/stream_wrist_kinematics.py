@@ -105,14 +105,14 @@ class MockPickAndPlaceClient(Node):
         p0.time_from_start.sec = 0
         p0.time_from_start.nanosec = 0
         
-        # 1. Approach Pick (1.5s total)
-        p1 = self.build_point('Pick', 1.5)
+        # 1. Approach Pick (3.0s total)
+        p1 = self.build_point('Pick', 3.0)
         
-        # 2. High-Speed Transfer Leg (3.0s total)
-        p2 = self.build_point('Transfer', 3.0)
+        # 2. High-Speed Transfer Leg (2.0s duration -> 5.0s total)
+        p2 = self.build_point('Transfer', 5.0)
         
-        # 3. Approach Place (4.5s total)
-        p3 = self.build_point('Place', 4.5)
+        # 3. Approach Place (3.0s duration -> 8.0s total)
+        p3 = self.build_point('Place', 8.0)
         # Clamp the ending boundary condition so it decelerates to a smooth stop
         p3.velocities = [0.0] * 6
         p3.accelerations = [0.0] * 6
@@ -120,15 +120,15 @@ class MockPickAndPlaceClient(Node):
         goal_msg.trajectory.points = [p0, p1, p2, p3]
         
         self.get_logger().info('Executing High-Speed Kinematic Sweep...')
-        self.get_logger().info('State 1: Approach Pick (1.5s)')
-        self.get_logger().info('State 2: High-Speed Transfer (1.5s duration)')
-        self.get_logger().info('State 3: Approach Place (1.5s duration)')
+        self.get_logger().info('State 1: Approach Pick (3.0s)')
+        self.get_logger().info('State 2: High-Speed Transfer (2.0s duration)')
+        self.get_logger().info('State 3: Approach Place (3.0s duration)')
         
-        # The Transfer leg runs from 1.5s to 3.0s. 
-        # We fire the attack at 0.75s into the Transfer leg (2.25s total time).
+        # The Transfer leg runs from 3.0s to 5.0s. 
+        # We fire the attack at 50% progress (4.0s total time).
         if not self.attack_fired:
             import threading
-            threading.Thread(target=self.trigger_strike_zone, args=(2.25,), daemon=True).start()
+            threading.Thread(target=self.trigger_strike_zone, args=(4.0,), daemon=True).start()
             
         self._send_goal_future = self._action_client.send_goal_async(goal_msg)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
