@@ -6,7 +6,7 @@
 # Example: ./scripts/run_test.sh --algo ZKP --nodes 2 --loss 10 --iter 1
 
 UR5_IP="192.168.0.149"
-WLAN_INTERFACE="wlan0"
+WLAN_INTERFACE="eth0"
 WORKSPACE_DIR="$HOME/Documents/On-Edge"
 
 # ------------------------------------------------------------------------------

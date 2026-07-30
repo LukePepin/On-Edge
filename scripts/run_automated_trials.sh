@@ -6,7 +6,7 @@
 
 # User Variables
 UR5_IP="192.168.0.149"
-WLAN_INTERFACE="wlan0"
+WLAN_INTERFACE="eth0"
 WORKSPACE_DIR="$HOME/Documents/On-Edge"
 
 # Ensure we are in the workspace
