@@ -64,17 +64,17 @@ for loss in "${LOSS_LEVELS[@]}"; do
         # 2. Start TShark & Logger (Backgrounded)
         echo "[2/5] Spooling up TShark and Joint Logger Data Pipelines..."
         mkdir -p data
-        sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/trial_${ALGO}_n${NODES}_loss${loss}_iter${i}.pcap > /dev/null 2>&1 &
+        taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/trial_${ALGO}_n${NODES}_loss${loss}_iter${i}.pcap > /dev/null 2>&1 &
         TSHARK_PID=$!
         
-        ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p nodes:=$NODES -p loss:=$loss -p iteration:=$i > /dev/null 2>&1 &
+        taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p nodes:=$NODES -p loss:=$loss -p iteration:=$i > /dev/null 2>&1 &
         LOGGER_PID=$!
 
         sleep 2 # Let the logger and sniffer stabilize
 
         # 3. Kinematic Spool-up (Blocking until trajectory finishes or E-Stops)
         echo "[3/5] Executing Kinematic Trajectory & 50% Strike Zone..."
-        ros2 run sentry_logic stream_wrist_kinematics
+        taskset 0x7 ros2 run sentry_logic stream_wrist_kinematics
         
         # 4. Data Archival 
         echo "[4/5] Archiving Data & Terminating Loggers..."

@@ -63,10 +63,10 @@ fi
 # ------------------------------------------------------------------------------
 echo "[2/6] Spooling up Loggers..."
 mkdir -p data
-sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/trial_${ALGO}_n${NODES}_loss${LOSS}_iter${ITER}.pcap > /dev/null 2>&1 &
+taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/trial_${ALGO}_n${NODES}_loss${LOSS}_iter${ITER}.pcap > /dev/null 2>&1 &
 TSHARK_PID=$!
 
-ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p nodes:=$NODES -p loss:=$LOSS -p iteration:=$ITER > /dev/null 2>&1 &
+taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p nodes:=$NODES -p loss:=$LOSS -p iteration:=$ITER > /dev/null 2>&1 &
 LOGGER_PID=$!
 
 sleep 2 # Let the logger and sniffer stabilize
@@ -75,7 +75,7 @@ sleep 2 # Let the logger and sniffer stabilize
 # 4. Execute Kinematics
 # ------------------------------------------------------------------------------
 echo "[3/6] Executing Kinematic Trajectory..."
-ros2 run sentry_logic stream_wrist_kinematics
+taskset 0x7 ros2 run sentry_logic stream_wrist_kinematics
 
 # ------------------------------------------------------------------------------
 # 5. Data Archival
