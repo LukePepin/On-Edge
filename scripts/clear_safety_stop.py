@@ -27,8 +27,9 @@ def clear_safety_stop(host="192.168.1.100", port=29999):
             print(f"[UR5] {resp.strip()}")
             return resp
 
-        # 1. Clear C153/C157 warnings
+        # 1. Clear C153/C157 warnings and unlock Protective Stop
         send_command("close safety popup")
+        send_command("unlock protective stop")
         
         # 2. Check Robot Mode
         robotmode = send_command("robotmode")

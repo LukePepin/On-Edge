@@ -6,12 +6,16 @@
 
 # User Variables
 UR5_IP="192.168.0.149"
-WLAN_INTERFACE="eth0"
+WLAN_INTERFACE="wlan0"
 WORKSPACE_DIR="$HOME/Documents/On-Edge"
 
 # Ensure we are in the workspace
 cd $WORKSPACE_DIR
 source install/setup.bash
+
+# Ensure local telemetry is quarantined from the wireless jamming plane
+sudo ip link set dev lo multicast on
+export ROS_LOCALHOST_ONLY=1
 
 echo "==========================================================="
 echo "   UR5 AUTOMATED TRIAL EXECUTION WRAPPER (AUTOMATIC RESET) "
