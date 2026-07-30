@@ -21,9 +21,6 @@ class KinematicsDebugger(Node):
             10
         )
 
-    def joint_state_callback(self, msg):
-        self.current_joint_state = msg
-
         self.joint_names = [
             'shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint',
             'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'
@@ -44,7 +41,8 @@ class KinematicsDebugger(Node):
         # Start immediately
         self.timer = self.create_timer(1.0, self.run_sweep)
 
-
+    def joint_state_callback(self, msg):
+        self.current_joint_state = msg
 
     def build_point(self, pose_name, time_sec):
         point = JointTrajectoryPoint()
