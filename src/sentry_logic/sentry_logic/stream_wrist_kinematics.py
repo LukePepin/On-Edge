@@ -43,7 +43,7 @@ class MockPickAndPlaceClient(Node):
         # Async Attack Service Client for the Strike Zone
         self.attack_client = self.create_client(Trigger, '/inject_attack')
         
-        self.timer = self.create_timer(1.0, self.run_phase1)
+        self.timer = self.create_timer(1.0, self.run_state_machine)
         self.current_state = 0
         self.attack_fired = False
 
@@ -72,9 +72,9 @@ class MockPickAndPlaceClient(Node):
         self.attack_client.call_async(req)
         self.attack_fired = True
 
-    def run_phase1(self):
+    def run_state_machine(self):
         if self.current_joint_state is None:
-            self.get_logger().info('Waiting for /joint_states for Phase 1 p0 injection...')
+            self.get_logger().info('Waiting for /joint_states for dynamic p0 injection...')
             return
             
         self.timer.cancel() # Stop timer, we will drive execution via action futures
@@ -90,68 +90,36 @@ class MockPickAndPlaceClient(Node):
             idx = self.current_joint_state.name.index(name)
             p0_positions.append(self.current_joint_state.position[idx])
             
+        # 0. Dynamic p0 (Current Physical State)
         p0 = JointTrajectoryPoint()
         p0.positions = p0_positions
-        p0.velocities = [0.0] * 6
-        p0.accelerations = [0.0] * 6
         p0.time_from_start.sec = 0
         p0.time_from_start.nanosec = 0
         
-        # Phase 1: Safe Initialization to Pick
-        p_pick = self.build_point('Pick', 3.0)
-        p_pick.velocities = [0.0] * 6
-        p_pick.accelerations = [0.0] * 6
+        # 1. Approach Pick (3.0s total)
+        p1 = self.build_point('Pick', 3.0)
         
-        goal_msg.trajectory.points = [p0, p_pick]
+        # 2. High-Speed Transfer Leg (5.0s total)
+        p2 = self.build_point('Transfer', 5.0)
         
-        self.get_logger().info('Phase 1: Safe Initialization to Pick boundary (3.0s)...')
-        self._send_goal_future = self._action_client.send_goal_async(goal_msg)
-        self._send_goal_future.add_done_callback(self.phase1_response_callback)
-
-    def phase1_response_callback(self, future):
-        goal_handle = future.result()
-        if not goal_handle.accepted:
-            self.get_logger().error('Phase 1 Trajectory rejected by controller!')
-            raise SystemExit
-
-        self.get_logger().info('Phase 1 accepted. Moving to perfect start boundary...')
-        self._get_result_future = goal_handle.get_result_async()
-        self._get_result_future.add_done_callback(self.phase1_result_callback)
-
-    def phase1_result_callback(self, future):
-        result = future.result().result
-        self.get_logger().info(f'Phase 1 complete! Robot is perfectly aligned. Starting Phase 2...')
-        self.run_phase2()
-
-    def run_phase2(self):
-        goal_msg = FollowJointTrajectory.Goal()
-        goal_msg.trajectory.joint_names = self.joint_names
+        # 3. Approach Place (8.0s total)
+        p3 = self.build_point('Place', 8.0)
         
-        # Phase 2: High-Speed Sweep (Transfer -> Place)
-        p0 = self.build_point('Pick', 0.0)
-        p0.velocities = [0.0] * 6
-        p0.accelerations = [0.0] * 6
+        goal_msg.trajectory.points = [p0, p1, p2, p3]
         
-        p_transfer = self.build_point('Transfer', 2.0)
-        
-        p_place = self.build_point('Place', 5.0)
-        p_place.velocities = [0.0] * 6
-        p_place.accelerations = [0.0] * 6
-        
-        goal_msg.trajectory.points = [p0, p_transfer, p_place]
-        
-        self.get_logger().info('🚀 Phase 2: Executing High-Speed Cubic Spline Sweep...')
+        self.get_logger().info('Executing High-Speed Kinematic Sweep...')
+        self.get_logger().info('State 1: Approach Pick (3.0s)')
         self.get_logger().info('State 2: High-Speed Transfer (2.0s duration)')
         self.get_logger().info('State 3: Approach Place (3.0s duration)')
         
-        # The Transfer leg runs from 0.0s to 2.0s in Phase 2. 
-        # We fire the attack at 50% progress (1.0s total time relative to Phase 2 start).
+        # The Transfer leg runs from 3.0s to 5.0s. 
+        # We fire the attack at 50% progress (4.0s total time).
         if not self.attack_fired:
             import threading
-            threading.Thread(target=self.trigger_strike_zone, args=(1.0,), daemon=True).start()
+            threading.Thread(target=self.trigger_strike_zone, args=(4.0,), daemon=True).start()
             
-        self._send_goal_future2 = self._action_client.send_goal_async(goal_msg)
-        self._send_goal_future2.add_done_callback(self.goal_response_callback)
+        self._send_goal_future = self._action_client.send_goal_async(goal_msg)
+        self._send_goal_future.add_done_callback(self.goal_response_callback)
 
     def goal_response_callback(self, future):
         goal_handle = future.result()
