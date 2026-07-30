@@ -39,12 +39,26 @@ for loss in "${LOSS_LEVELS[@]}"; do
         echo "-----------------------------------------------------------"
 
         # 1. Idempotent Network Provisioning
+        # Clear existing rules first
+        sudo tc qdisc del dev $WLAN_INTERFACE root 2>/dev/null || true
+        
         if [ "$loss" -gt 0 ]; then
-            echo "[1/5] Injecting $loss% Packet Loss on $WLAN_INTERFACE..."
-            sudo tc qdisc replace dev $WLAN_INTERFACE root netem loss $loss%
+            echo "[1/5] Injecting $loss% Packet Loss (Exempting UR5 on $UR5_IP)..."
+            # Create a 3-band priority queue
+            sudo tc qdisc add dev $WLAN_INTERFACE root handle 1: prio bands 3
+            
+            # Band 1 (1:1): 0% Loss (UR5 traffic)
+            # Band 2 (1:2): $loss% Loss (Cloud/ZKP traffic)
+            sudo tc qdisc add dev $WLAN_INTERFACE parent 1:2 handle 20: netem loss $loss%
+            
+            # Filter traffic matching UR5 IP into Band 1 (Safe Lane)
+            sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip dst $UR5_IP flowid 1:1
+            sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip src $UR5_IP flowid 1:1
+            
+            # Filter all other IP traffic into Band 2 (Jamming Lane)
+            sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 2 u32 match ip dst 0.0.0.0/0 flowid 1:2
         else
             echo "[1/5] Cleaning Network Interface (0% Loss)..."
-            sudo tc qdisc del dev $WLAN_INTERFACE root 2>/dev/null || true
         fi
 
         # 2. Start TShark & Logger (Backgrounded)
