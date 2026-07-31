@@ -83,6 +83,10 @@ class JointLoggerNode(Node):
 
         # State storage to sync IMU with JointStates
         self.latest_raw_accel = [0.0, 0.0, 0.0]
+        self.latest_joint_state_msg = None
+        
+        # 50Hz Independent PC-Time Logging Loop
+        self.log_timer = self.create_timer(1.0 / 50.0, self.log_timer_callback)
 
     def serial_read_loop(self):
         while self.running and self.serial_port and self.serial_port.is_open:
@@ -139,20 +143,32 @@ class JointLoggerNode(Node):
             self.ema_accel[2] = (self.alpha * az) + ((1 - self.alpha) * self.ema_accel[2])
 
     def joint_state_callback(self, msg):
-        if self.file is None:
+        if len(msg.position) >= 6 and len(msg.velocity) >= 6:
+            self.latest_joint_state_msg = msg
+            self.last_msg_rx_time = time.time()
+
+    def log_timer_callback(self):
+        if self.file is None or self.latest_joint_state_msg is None:
             return
             
-        t_sec = msg.header.stamp.sec
-        t_nano = msg.header.stamp.nanosec
+        # Use absolute PC-time to guarantee continuous timeline even if the robot controller pauses
+        now = time.time()
+        t_sec = int(now)
+        t_nano = int((now - t_sec) * 1e9)
         
-        if len(msg.position) >= 6 and len(msg.velocity) >= 6:
-            row = [t_sec, t_nano, self.latest_trust_score]
-            row.extend(msg.position[:6])
-            row.extend(msg.velocity[:6])
-            row.extend(self.latest_raw_accel)
-            row.extend(self.ema_accel)
-            
-            self.csv_writer.writerow(row)
+        velocity = list(self.latest_joint_state_msg.velocity[:6])
+        
+        # If the RTDE stream halts (e.g. Safeguard Stop pauses the URCap), we assume physical standstill
+        if hasattr(self, 'last_msg_rx_time') and (now - self.last_msg_rx_time) > 0.1:
+            velocity = [0.0] * 6
+        
+        row = [t_sec, t_nano, self.latest_trust_score]
+        row.extend(self.latest_joint_state_msg.position[:6])
+        row.extend(velocity)
+        row.extend(self.latest_raw_accel)
+        row.extend(self.ema_accel)
+        
+        self.csv_writer.writerow(row)
 
     def destroy_node(self):
         self.running = False
