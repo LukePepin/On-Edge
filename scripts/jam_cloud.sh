@@ -20,29 +20,23 @@ if [ -z "$ACTIVE_IFACE" ]; then
 fi
 
 echo "🧹 Cleaning previous network rules..."
-sudo tc qdisc del dev $ACTIVE_IFACE root 2>/dev/null || true
+# Remove any existing iptables rules targeting port 8080
+while sudo iptables -D OUTPUT -p tcp --dport 8080 -j DROP 2>/dev/null; do :; done
+while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 0.3 -j DROP 2>/dev/null; do :; done
+while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 0.1 -j DROP 2>/dev/null; do :; done
+# Clean up any residual tc rules just in case they were left behind
+sudo tc qdisc del dev wlan0 root 2>/dev/null || true
+sudo tc qdisc del dev eth0 root 2>/dev/null || true
 sudo tc qdisc del dev lo root 2>/dev/null || true
 
-echo "🔥 Injecting ${LOSS}% packet loss on $ACTIVE_IFACE and loopback..."
-# Setup External Interface (wlan0 / eth0)
-sudo tc qdisc add dev $ACTIVE_IFACE root handle 1: prio bands 3
-sudo tc qdisc add dev $ACTIVE_IFACE parent 1:2 handle 20: netem loss ${LOSS}%
+if [ "$LOSS" -eq 100 ]; then
+    echo "🔥 Injecting 100% packet loss exclusively on Cloud Auth (Port 8080)..."
+    sudo iptables -A OUTPUT -p tcp --dport 8080 -j DROP
+else
+    # Convert percentage to a probability float (e.g. 30 -> 0.30)
+    PROB=$(echo "scale=2; $LOSS / 100" | bc)
+    echo "🔥 Injecting ${LOSS}% packet loss exclusively on Cloud Auth (Port 8080)..."
+    sudo iptables -A OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability $PROB -j DROP
+fi
 
-# Exempt SSH on External Interface
-sudo tc filter add dev $ACTIVE_IFACE protocol ip parent 1:0 prio 1 u32 match ip sport 22 0xffff flowid 1:1
-sudo tc filter add dev $ACTIVE_IFACE protocol ip parent 1:0 prio 1 u32 match ip dport 22 0xffff flowid 1:1
-
-# Exempt UR5 IP (Just in case it's connected)
-UR5_IP="192.168.0.149"
-sudo tc filter add dev $ACTIVE_IFACE protocol ip parent 1:0 prio 1 u32 match ip dst $UR5_IP flowid 1:1
-sudo tc filter add dev $ACTIVE_IFACE protocol ip parent 1:0 prio 1 u32 match ip src $UR5_IP flowid 1:1
-
-# Route ALL OTHER TRAFFIC to the Jamming Lane on External
-sudo tc filter add dev $ACTIVE_IFACE protocol ip parent 1:0 prio 2 u32 match ip dst 0.0.0.0/0 flowid 1:2
-
-# Setup Loopback Interface (In case you are running the Cloud Server on the Pi itself)
-sudo tc qdisc add dev lo root handle 1: prio bands 3
-sudo tc qdisc add dev lo parent 1:2 handle 20: netem loss ${LOSS}%
-sudo tc filter add dev lo protocol ip parent 1:0 prio 2 u32 match ip dst 0.0.0.0/0 flowid 1:2
-
-echo "✅ Network is now jammed at ${LOSS}% on $ACTIVE_IFACE & lo. SSH remains safe!"
+echo "✅ Cloud Auth is now jammed at ${LOSS}%. SSH is mathematically safe!"
