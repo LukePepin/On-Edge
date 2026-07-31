@@ -38,6 +38,8 @@ echo "   SINGLE-SHOT TRIAL: $ALGO | Nodes: $NODES | Jamming: $LOSS% | Iter: $ITE
 echo "==========================================================="
 
 cd $WORKSPACE_DIR
+echo "[0/4] Syncing Python Nodes (colcon build)..."
+colcon build --packages-select sentry_logic > /dev/null 2>&1
 source install/setup.bash
 
 # Ensure local telemetry is quarantined from the wireless jamming plane
@@ -81,7 +83,7 @@ mkdir -p data/60_trial_run
 taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/60_trial_run/trial_${ALGO}_n${NODES}_loss${LOSS}_iter${ITER}.pcap > /dev/null 2>&1 &
 TSHARK_PID=$!
 
-taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p nodes:=$NODES -p loss:=$LOSS -p iteration:=$ITER > /dev/null 2>&1 &
+taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p nodes:=$NODES -p loss:=$LOSS -p iteration:=$ITER &
 LOGGER_PID=$!
 
 sleep 3 # Allow loggers and Arduino serial port to stabilize

@@ -40,8 +40,12 @@ class JointLoggerNode(Node):
         
         try:
             # ISO-13849 Compliance: Non-blocking serial read to prevent OS buffer lag at 50Hz
-            self.serial_port = serial.Serial('/dev/ttyACM0', 115200, timeout=0)
-            self.get_logger().info("Connected to Arduino on /dev/ttyACM0 (Non-Blocking Mode)")
+            port_name = '/dev/ttyACM0'
+            if not os.path.exists(port_name):
+                port_name = '/dev/ttyACM1'
+                
+            self.serial_port = serial.Serial(port_name, 115200, timeout=0)
+            self.get_logger().info(f"Connected to Arduino on {port_name} (Non-Blocking Mode)")
             
             self.serial_thread = threading.Thread(target=self.serial_read_loop, daemon=True)
             self.serial_thread.start()
@@ -126,20 +130,26 @@ class JointLoggerNode(Node):
         if algo == 'CLOUD':
             self.get_logger().warn("☁️ CLOUD MODE: Simulating Network Dependency...")
             cloud_timeout = 5.0
-            start_time = time.time()
+            last_auth_time = time.time()
             idp_url = 'http://192.168.0.161:8080/api/auth/lease'
             
-            while time.time() - start_time < cloud_timeout:
+            while self.running:
+                current_time = time.time()
+                
+                # Check for TTL Expiration FIRST
+                if current_time - last_auth_time > cloud_timeout:
+                    self.get_logger().error("🚨 CLOUD LEASE EXPIRED! Hardware Kill Switch Triggered!")
+                    break
+                    
                 try:
                     response = requests.get(idp_url, timeout=1.0)
                     if response.status_code == 200:
                         self.get_logger().info("☁️ Cloud Auth OK.")
+                        last_auth_time = time.time()  # Successfully hit server, reset TTL!
                 except requests.exceptions.RequestException as e:
                     self.get_logger().error(f"⚠️ Cloud Request Failed: {e}")
                 
                 time.sleep(0.1)
-                
-            self.get_logger().error("🚨 CLOUD LEASE EXPIRED! Hardware Kill Switch Triggered!")
         else:
             self.get_logger().warn("🛡️ ZKP MODE: Local Cryptographic Mesh (Instant Severance)")
             
