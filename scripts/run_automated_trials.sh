@@ -29,10 +29,10 @@ read -p "Press ENTER to acknowledge safety and begin execution..."
 # Cryptographic Algorithm (ZKP/ECC/CLOUD) to avoid needing to physically 
 # swap the Arduino USB connection on /dev/ttyACM0 between randomized trials.
 
-ALGO="ZKP"
+ALGO="CLOUD"
 NODES=10
-LOSS_LEVELS=(0 10 20 30)
-ITERATIONS=5
+LOSS_LEVELS=(10)
+ITERATIONS=1
 
 for loss in "${LOSS_LEVELS[@]}"; do
     for ((i=1; i<=ITERATIONS; i++)); do
@@ -47,17 +47,21 @@ for loss in "${LOSS_LEVELS[@]}"; do
         sudo tc qdisc del dev $WLAN_INTERFACE root 2>/dev/null || true
         
         if [ "$loss" -gt 0 ]; then
-            echo "[1/5] Injecting $loss% Packet Loss (Exempting UR5 on $UR5_IP)..."
+            echo "[1/5] Injecting $loss% Packet Loss (Exempting UR5 and SSH Port 22)..."
             # Create a 3-band priority queue
             sudo tc qdisc add dev $WLAN_INTERFACE root handle 1: prio bands 3
             
-            # Band 1 (1:1): 0% Loss (UR5 traffic)
+            # Band 1 (1:1): 0% Loss (UR5 traffic & SSH)
             # Band 2 (1:2): $loss% Loss (Cloud/ZKP traffic)
             sudo tc qdisc add dev $WLAN_INTERFACE parent 1:2 handle 20: netem loss $loss%
             
             # Filter traffic matching UR5 IP into Band 1 (Safe Lane)
             sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip dst $UR5_IP flowid 1:1
             sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip src $UR5_IP flowid 1:1
+            
+            # Filter SSH traffic (Port 22) into Band 1 to maintain remote shell integrity
+            sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip sport 22 0xffff flowid 1:1
+            sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip dport 22 0xffff flowid 1:1
             
             # Filter all other IP traffic into Band 2 (Jamming Lane)
             sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 2 u32 match ip dst 0.0.0.0/0 flowid 1:2
