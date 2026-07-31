@@ -93,8 +93,8 @@ taskset 0x7 ros2 run sentry_logic stream_wrist_kinematics --ros-args -p algo:=$A
 echo "      Waiting 15 seconds for the universal 10s trajectory and mechanical overrun buffer..."
 sleep 15
 
-echo "⏳ Waiting 13 seconds for trailing flatline data to stabilize and kinematics to exit..."
-sleep 13
+echo "⏳ Waiting 30 seconds for trailing flatline data to stabilize and kinematics to exit..."
+sleep 30
 
 # ------------------------------------------------------------------------------
 # 5. Data Archival & Cleanup
