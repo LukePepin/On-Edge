@@ -89,14 +89,9 @@ echo "[3/4] Executing Kinematic Trajectory (Autonomous Attack Injection Enabled)
 # Pass ALGO to kinematics to dynamically select the 5s (ZKP) or 15s (CLOUD) sweep
 taskset 0x7 ros2 run sentry_logic stream_wrist_kinematics --ros-args -p algo:=$ALGO &
 
-# Dynamically wait based on the trajectory length
-if [ "$ALGO" = "CLOUD" ]; then
-    echo "      [CLOUD Mode] Waiting 20 seconds for the extended 15s trajectory..."
-    sleep 20
-else
-    echo "      [ZKP Mode] Waiting 10 seconds for the optimized 5s trajectory..."
-    sleep 10
-fi
+# Dynamically wait for the 10-second universal trajectory to safely finish, plus a 5-second mechanical buffer
+echo "      Waiting 15 seconds for the universal 10s trajectory and mechanical overrun buffer..."
+sleep 15
 
 echo "⏳ Waiting 3 seconds for trailing flatline data to stabilize..."
 sleep 3

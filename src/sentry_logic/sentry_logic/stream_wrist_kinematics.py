@@ -197,25 +197,18 @@ class MockPickAndPlaceClient(Node):
         p1 = build_normalized_point('Pick', 1.0)
         p2 = build_normalized_point('Transfer', 3.0)
         p3 = build_normalized_point('Place', 5.0)
+        p4 = build_normalized_point('Transfer', 7.0)
+        p5 = build_normalized_point('Pick', 10.0)
         
-        if self.algo == 'CLOUD':
-            self.get_logger().info('CLOUD ALGORITHM DETECTED: Utilizing 15-Second High-Speed Overrun Array!')
-            p4 = build_normalized_point('Transfer', 8.0)
-            p5 = build_normalized_point('Pick', 10.0)
-            p6 = build_normalized_point('Transfer', 13.0)
-            p7 = build_normalized_point('Place', 15.0)
-            goal_msg.trajectory.points = [p1, p2, p3, p4, p5, p6, p7]
-            duration = 15.0
-        else:
-            self.get_logger().info('ZKP ALGORITHM DETECTED: Utilizing 5-Second Optimized Array!')
-            goal_msg.trajectory.points = [p1, p2, p3]
-            duration = 5.0
+        # Universal 10-Second High-Speed Overrun Array
+        goal_msg.trajectory.points = [p1, p2, p3, p4, p5]
+        duration = 10.0
         
         self.get_logger().info('--- DEEP KINEMATIC TELEMETRY: PHASE 2 ---')
         self.get_logger().info(f'Goal points count: {len(goal_msg.trajectory.points)}')
         self.get_logger().info('-----------------------------------------')
         
-        self.get_logger().info(f'🚀 Phase 2: Executing High-Speed Spline Sweep ({duration}s)...')
+        self.get_logger().info(f'🚀 Phase 2: Executing Universal High-Speed Spline Sweep ({duration}s)...')
         # We fire the attack at 0.5s progress.
         if not self.attack_fired:
             import threading
