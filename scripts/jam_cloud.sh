@@ -16,11 +16,20 @@ fi
 echo "🧹 Cleaning previous network rules..."
 sudo tc qdisc del dev $WLAN_INTERFACE root 2>/dev/null || true
 
-echo "🔥 Injecting ${LOSS}% packet loss exclusively on Cloud Auth (Port 8080)..."
+echo "🔥 Injecting ${LOSS}% packet loss on all traffic EXCEPT SSH..."
 sudo tc qdisc add dev $WLAN_INTERFACE root handle 1: prio bands 3
 sudo tc qdisc add dev $WLAN_INTERFACE parent 1:2 handle 20: netem loss ${LOSS}%
 
-# Route ONLY Port 8080 (Cloud Auth) to the Jamming Lane
-sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 2 u32 match ip dport 8080 0xffff flowid 1:2
+# 1. Exempt SSH (Port 22) to prevent terminal freeze
+sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip sport 22 0xffff flowid 1:1
+sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip dport 22 0xffff flowid 1:1
 
-echo "✅ Cloud Auth is now jammed at ${LOSS}%. SSH is completely safe!"
+# 2. Exempt UR5 IP (Just in case it's connected)
+UR5_IP="192.168.0.149"
+sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip dst $UR5_IP flowid 1:1
+sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip src $UR5_IP flowid 1:1
+
+# 3. Route ALL OTHER TRAFFIC (including Cloud) to the Jamming Lane
+sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 2 u32 match ip dst 0.0.0.0/0 flowid 1:2
+
+echo "✅ Network is now jammed at ${LOSS}%. SSH remains safe!"
