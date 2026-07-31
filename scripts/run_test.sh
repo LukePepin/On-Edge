@@ -86,14 +86,24 @@ sleep 3 # Allow loggers and Arduino serial port to stabilize
 # 4. Execute Unified Kinematics + Attack hook
 # ------------------------------------------------------------------------------
 echo "[3/4] Executing Kinematic Trajectory (Autonomous Attack Injection Enabled)..."
-taskset 0x7 ros2 run sentry_logic stream_wrist_kinematics
+# Pass ALGO to kinematics to dynamically select the 5s (ZKP) or 15s (CLOUD) sweep
+taskset 0x7 ros2 run sentry_logic stream_wrist_kinematics --ros-args -p algo:=$ALGO &
+
+# Dynamically wait based on the trajectory length
+if [ "$ALGO" = "CLOUD" ]; then
+    echo "      [CLOUD Mode] Waiting 20 seconds for the extended 15s trajectory..."
+    sleep 20
+else
+    echo "      [ZKP Mode] Waiting 10 seconds for the optimized 5s trajectory..."
+    sleep 10
+fi
+
+echo "⏳ Waiting 3 seconds for trailing flatline data to stabilize..."
+sleep 3
 
 # ------------------------------------------------------------------------------
 # 5. Data Archival & Cleanup
 # ------------------------------------------------------------------------------
-echo "⏳ Waiting 3 seconds for trailing flatline data to stabilize..."
-sleep 3
-
 echo "[4/4] Archiving Data & Terminating Loggers..."
 pkill -f "sentry_logic/joint_logger"
 sudo kill $TSHARK_PID 2>/dev/null

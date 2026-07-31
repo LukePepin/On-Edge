@@ -13,7 +13,9 @@ import time
 class MockPickAndPlaceClient(Node):
     def __init__(self):
         super().__init__('mock_pick_and_place')
-        self.get_logger().info('Initializing Mock Pick-and-Place State Machine...')
+        self.declare_parameter('algo', 'UNKNOWN')
+        self.algo = self.get_parameter('algo').value
+        self.get_logger().info(f'Initializing Mock Pick-and-Place State Machine (Mode: {self.algo})...')
 
         self.current_joint_state = None
         self.joint_sub = self.create_subscription(
@@ -196,22 +198,24 @@ class MockPickAndPlaceClient(Node):
         p2 = build_normalized_point('Transfer', 3.0)
         p3 = build_normalized_point('Place', 5.0)
         
-        # OMIT p0! By providing [p1, p2, p3], the controller will prepend the 
-        # real-time hardware state at t=0 automatically.
-        # Pick is included to anchor the cubic spline solver against Runge's phenomenon.
-        goal_msg.trajectory.points = [p1, p2, p3]
+        if self.algo == 'CLOUD':
+            self.get_logger().info('CLOUD ALGORITHM DETECTED: Utilizing 15-Second High-Speed Overrun Array!')
+            p4 = build_normalized_point('Transfer', 8.0)
+            p5 = build_normalized_point('Pick', 10.0)
+            p6 = build_normalized_point('Transfer', 13.0)
+            p7 = build_normalized_point('Place', 15.0)
+            goal_msg.trajectory.points = [p1, p2, p3, p4, p5, p6, p7]
+            duration = 15.0
+        else:
+            self.get_logger().info('ZKP ALGORITHM DETECTED: Utilizing 5-Second Optimized Array!')
+            goal_msg.trajectory.points = [p1, p2, p3]
+            duration = 5.0
         
         self.get_logger().info('--- DEEP KINEMATIC TELEMETRY: PHASE 2 ---')
-        self.get_logger().info(f'p1 (Pick)     : {[round(x, 4) for x in p1.positions]}  (t=1.0s)')
-        self.get_logger().info(f'p2 (Transfer) : {[round(x, 4) for x in p2.positions]}  (t=3.0s)')
-        self.get_logger().info(f'p3 (Place)    : {[round(x, 4) for x in p3.positions]}  (t=5.0s)')
         self.get_logger().info(f'Goal points count: {len(goal_msg.trajectory.points)}')
         self.get_logger().info('-----------------------------------------')
         
-        self.get_logger().info('🚀 Phase 2: Executing High-Speed 2-Point Spline Sweep...')
-        self.get_logger().info('State 2: High-Speed Sweep (5.0s duration)')
-        
-        # The sweep runs from 0.0s to 5.0s. 
+        self.get_logger().info(f'🚀 Phase 2: Executing High-Speed Spline Sweep ({duration}s)...')
         # We fire the attack at 0.5s progress.
         if not self.attack_fired:
             import threading

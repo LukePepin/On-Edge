@@ -28,6 +28,7 @@ class JointLoggerNode(Node):
         self.serial_port = None
         self.serial_lock = threading.Lock()
         self.running = True
+        self.attack_active = False
         
         # EMA Filter State Variables for IMU (ax, ay, az)
         self.alpha = 0.2  # Smoothing factor
@@ -74,7 +75,8 @@ class JointLoggerNode(Node):
                 'shoulder_pan_pos', 'shoulder_lift_pos', 'elbow_pos', 'wrist_1_pos', 'wrist_2_pos', 'wrist_3_pos',
                 'shoulder_pan_vel', 'shoulder_lift_vel', 'elbow_vel', 'wrist_1_vel', 'wrist_2_vel', 'wrist_3_vel',
                 'imu_ax_raw', 'imu_ay_raw', 'imu_az_raw',
-                'imu_ax_ema', 'imu_ay_ema', 'imu_az_ema'
+                'imu_ax_ema', 'imu_ay_ema', 'imu_az_ema',
+                'attack_active'
             ])
             self.get_logger().info(f"Started logging Joint States and EMA IMU to: {os.path.abspath(self.filename)}")
         except Exception as e:
@@ -105,6 +107,7 @@ class JointLoggerNode(Node):
 
     def inject_attack_callback(self, request, response):
         self.get_logger().info("Attack requested! Spawning injection thread...")
+        self.attack_active = True
         threading.Thread(target=self._execute_attack_sequence, daemon=True).start()
         response.success = True
         response.message = "Attack sequence initiated."
@@ -170,6 +173,7 @@ class JointLoggerNode(Node):
         row.extend(velocity)
         row.extend(self.latest_raw_accel)
         row.extend(self.ema_accel)
+        row.append(1 if self.attack_active else 0)
         
         self.csv_writer.writerow(row)
 
