@@ -150,6 +150,9 @@ class JointLoggerNode(Node):
                     self.get_logger().error(f"⚠️ Cloud Request Failed: {e}")
                 
                 time.sleep(0.1)
+                
+            if not self.running:
+                return  # Node is shutting down, exit cleanly without attacking!
         else:
             self.get_logger().warn("🛡️ ZKP MODE: Local Cryptographic Mesh (Instant Severance)")
             
@@ -228,7 +231,10 @@ def main(args=None):
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        try:
+            rclpy.shutdown()
+        except Exception:
+            pass
 
 if __name__ == '__main__':
     main()
