@@ -12,14 +12,17 @@ mkdir -p data/60_trial_run
 taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=ZKP_TEST -p nodes:=1 -p loss:=0 -p iteration:=99 > /dev/null 2>&1 &
 LOGGER_PID=$!
 
-echo "⏳ Waiting 2 seconds for logger to initialize..."
-sleep 2
+echo "⏳ Waiting 3 seconds for logger and serial port to initialize..."
+sleep 3
 
-echo "🔥 [2/3] Initiating 10-Second Cryptographic Attack..."
-python3 scripts/trigger_attack.py
+echo "🔥 [2/3] Initiating 10-Second Cryptographic Attack via ROS 2 Service..."
+ros2 service call /inject_attack std_srvs/srv/Trigger "{}"
+
+echo "⏳ Waiting 12 seconds for the attack to finish..."
+sleep 12
 
 echo "💾 [3/3] Terminating Logger to flush CSV data..."
-kill -INT $LOGGER_PID 2>/dev/null
-wait $LOGGER_PID 2>/dev/null
+pkill -f joint_logger_node
+sleep 2
 
 echo "✅ Phase 2 Validation Complete! Check the CSV output."
