@@ -97,7 +97,7 @@ class MockPickAndPlaceClient(Node):
             self.get_logger().error("Inject Attack service not available!")
             return
         
-        self.get_logger().warn("🚀 TRIGGERING 50% TRANSFER LEG STRIKE!")
+        self.get_logger().warn("🚀 TRIGGERING 80% DOWNWARD LEG STRIKE!")
         req = Trigger.Request()
         self.attack_client.call_async(req)
         self.attack_fired = True
@@ -212,10 +212,10 @@ class MockPickAndPlaceClient(Node):
         self.get_logger().info('State 2: High-Speed Sweep (5.0s duration)')
         
         # The sweep runs from 0.0s to 5.0s. 
-        # We fire the attack at 50% progress (2.5s total time).
+        # We fire the attack at 80% progress (4.0s total time).
         if not self.attack_fired:
             import threading
-            threading.Thread(target=self.trigger_strike_zone, args=(2.5,), daemon=True).start()
+            threading.Thread(target=self.trigger_strike_zone, args=(4.0,), daemon=True).start()
             
         self._send_goal_future2 = self._action_client.send_goal_async(goal_msg)
         self._send_goal_future2.add_done_callback(self.goal_response_callback)
