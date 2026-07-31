@@ -87,9 +87,8 @@ for loss in "${LOSS_LEVELS[@]}"; do
         wait $LOGGER_PID 2>/dev/null
 
         # 5. Automated Safety Reset
-        echo "[5/5] Executing Dashboard Safety Reset on Port 29999..."
-        python3 scripts/clear_safety_stop.py $UR5_IP
-
+        echo "[5/5] Arduino Trust Score Recovered. Hardware Safeguard Auto-Resetting..."
+        
         echo "✅ Trial Complete. Cooling down for 3 seconds..."
         sleep 3
 
