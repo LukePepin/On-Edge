@@ -48,23 +48,27 @@ export ROS_LOCALHOST_ONLY=1
 # 2. Network Jamming (Idempotent cleanup -> Inject)
 # ------------------------------------------------------------------------------
 echo "[1/4] Preparing Network Interface ($WLAN_INTERFACE)..."
+# Remove any existing iptables rules targeting port 8080
+while sudo iptables -D OUTPUT -p tcp --dport 8080 -j DROP 2>/dev/null; do :; done
+while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 0.3 -j DROP 2>/dev/null; do :; done
+while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 0.1 -j DROP 2>/dev/null; do :; done
+while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 1.0 -j DROP 2>/dev/null; do :; done
+
+# Clean up any residual tc rules just in case they were left behind by older runs
 sudo tc qdisc del dev $WLAN_INTERFACE root 2>/dev/null || true
+sudo tc qdisc del dev eth0 root 2>/dev/null || true
+sudo tc qdisc del dev lo root 2>/dev/null || true
 
 if [ "$LOSS" -gt 0 ]; then
-    echo "      Injecting $LOSS% Packet Loss (Exempting UR5 & SSH Port 22)..."
-    sudo tc qdisc add dev $WLAN_INTERFACE root handle 1: prio bands 3
-    sudo tc qdisc add dev $WLAN_INTERFACE parent 1:2 handle 20: netem loss $LOSS%
+    echo "      Injecting $LOSS% Packet Loss on Cloud Auth (Port 8080)..."
     
-    # Filter UR5 Traffic
-    sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip dst $UR5_IP flowid 1:1
-    sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip src $UR5_IP flowid 1:1
-    
-    # Filter SSH (Port 22)
-    sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip sport 22 0xffff flowid 1:1
-    sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 1 u32 match ip dport 22 0xffff flowid 1:1
-    
-    # Jamming Lane
-    sudo tc filter add dev $WLAN_INTERFACE protocol ip parent 1:0 prio 2 u32 match ip dst 0.0.0.0/0 flowid 1:2
+    if [ "$LOSS" -eq 100 ]; then
+        sudo iptables -A OUTPUT -p tcp --dport 8080 -j DROP
+    else
+        # Convert percentage to a probability float (e.g. 10 -> 0.10)
+        PROB=$(echo "scale=2; $LOSS / 100" | bc)
+        sudo iptables -A OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability $PROB -j DROP
+    fi
 else
     echo "      Clean Network (0% Loss)."
 fi
@@ -104,6 +108,9 @@ pkill -f "sentry_logic/joint_logger"
 sudo kill $TSHARK_PID 2>/dev/null
 
 echo "Cleaning up network rules..."
-sudo tc qdisc del dev $WLAN_INTERFACE root 2>/dev/null || true
+while sudo iptables -D OUTPUT -p tcp --dport 8080 -j DROP 2>/dev/null; do :; done
+while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 0.3 -j DROP 2>/dev/null; do :; done
+while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 0.1 -j DROP 2>/dev/null; do :; done
+while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 1.0 -j DROP 2>/dev/null; do :; done
 
 echo "✅ Trial Complete! Please restart URCap on Teach Pendant for next run."
