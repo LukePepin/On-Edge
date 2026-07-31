@@ -7,7 +7,7 @@ import sys
 
 # Configure this based on what the Arduino enumerates as on your OS
 # Windows is usually COM3, COM4, etc. Pi is /dev/ttyACM0
-SERIAL_PORT = 'COM3'  
+SERIAL_PORT = '/dev/ttyACM0'  
 BAUD_RATE = 115200
 
 # Global network state
