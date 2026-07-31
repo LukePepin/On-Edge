@@ -95,7 +95,7 @@ echo "⏳ Waiting 3 seconds for trailing flatline data to stabilize..."
 sleep 3
 
 echo "[4/4] Archiving Data & Terminating Loggers..."
-pkill -f joint_logger_node
+pkill -f "sentry_logic/joint_logger"
 sudo kill $TSHARK_PID 2>/dev/null
 
 echo "Cleaning up network rules..."
