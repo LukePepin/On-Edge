@@ -5,6 +5,7 @@ from sensor_msgs.msg import JointState, Imu
 from std_srvs.srv import Trigger
 import csv
 import time
+import requests
 import os
 import serial
 import threading
@@ -18,11 +19,13 @@ class JointLoggerNode(Node):
         self.declare_parameter('algo', 'UNKNOWN')
         self.declare_parameter('nodes', 0)
         self.declare_parameter('loss', 0)
+        self.declare_parameter('iteration', 1)
         
         trial = self.get_parameter('trial').value
         algo = self.get_parameter('algo').value
         nodes = self.get_parameter('nodes').value
         loss = self.get_parameter('loss').value
+        iter_num = self.get_parameter('iteration').value
         
         self.latest_trust_score = 100.00
         self.serial_port = None
@@ -65,7 +68,7 @@ class JointLoggerNode(Node):
         workspace_dir = os.path.abspath(os.getcwd())
         data_dir = os.path.join(workspace_dir, "data")
         os.makedirs(data_dir, exist_ok=True)
-        self.filename = os.path.join(data_dir, f"trial_{trial}_{algo}_n{nodes}_loss{loss}_{int(time.time())}.csv")
+        self.filename = os.path.join(data_dir, f"trial_{trial}_{algo}_n{nodes}_loss{loss}_iter{iter_num}_{int(time.time())}.csv")
         
         try:
             self.file = open(self.filename, mode='w', newline='')
@@ -118,10 +121,30 @@ class JointLoggerNode(Node):
             self.get_logger().error("Cannot attack: Serial port not open.")
             return
             
+        algo = self.get_parameter('algo').value
+        
+        if algo == 'CLOUD':
+            self.get_logger().warn("☁️ CLOUD MODE: Simulating Network Dependency...")
+            cloud_timeout = 5.0
+            start_time = time.time()
+            idp_url = 'http://192.168.0.161:8080/api/auth/lease'
+            
+            while time.time() - start_time < cloud_timeout:
+                try:
+                    response = requests.get(idp_url, timeout=1.0)
+                    if response.status_code == 200:
+                        self.get_logger().info("☁️ Cloud Auth OK.")
+                except requests.exceptions.RequestException as e:
+                    self.get_logger().error(f"⚠️ Cloud Request Failed: {e}")
+                
+                time.sleep(0.1)
+                
+            self.get_logger().error("🚨 CLOUD LEASE EXPIRED! Hardware Kill Switch Triggered!")
+        else:
+            self.get_logger().warn("🛡️ ZKP MODE: Local Cryptographic Mesh (Instant Severance)")
+            
         self.get_logger().warn("INJECTING 10-SECOND CRYPTOGRAPHIC PAYLOAD...")
         with self.serial_lock:
-            # The Arduino takes ~750ms to process a degraded ZKP cycle. 
-            # We pace the python loop to 0.75s to prevent overflowing the Arduino's serial buffer.
             # 14 iterations * 0.75s = ~10.5 seconds.
             for i in range(14):
                 try:
