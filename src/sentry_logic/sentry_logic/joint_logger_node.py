@@ -117,13 +117,16 @@ class JointLoggerNode(Node):
             
         self.get_logger().warn("INJECTING 10-SECOND CRYPTOGRAPHIC PAYLOAD...")
         with self.serial_lock:
-            for i in range(100):
+            # The Arduino takes ~750ms to process a degraded ZKP cycle. 
+            # We pace the python loop to 0.75s to prevent overflowing the Arduino's serial buffer.
+            # 14 iterations * 0.75s = ~10.5 seconds.
+            for i in range(14):
                 try:
                     self.serial_port.write(b"ATTACK\n")
                     self.serial_port.flush()
                 except Exception as e:
                     self.get_logger().error(f"Write failed: {e}")
-                time.sleep(0.1)
+                time.sleep(0.75)
         self.get_logger().warn("PAYLOAD INJECTION COMPLETE. Hardware should auto-recover.")
 
     def imu_callback(self, msg):
