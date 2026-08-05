@@ -20,11 +20,13 @@ class JointLoggerNode(Node):
         self.declare_parameter('loss', 0)
         self.declare_parameter('iteration', 1)
         self.declare_parameter('alpha', 0.3)
+        self.declare_parameter('timestamp', '')
         
         algo = self.get_parameter('algo').value
         loss = self.get_parameter('loss').value
         iter_num = self.get_parameter('iteration').value
         ewma_alpha = self.get_parameter('alpha').value
+        self.run_timestamp = self.get_parameter('timestamp').value
         
         self.latest_trust_score = 100.00
         self.serial_port = None
@@ -117,7 +119,8 @@ class JointLoggerNode(Node):
         data_dir = os.path.join(workspace_dir, "data")
         os.makedirs(data_dir, exist_ok=True)
         ewma_str = f"ewma{int(ewma_alpha * 10)}"
-        self.filename = os.path.join(data_dir, f"trial_{algo}_loss{loss}_{ewma_str}_iter{iter_num}_{int(time.time())}.csv")
+        ts = self.run_timestamp if self.run_timestamp else str(int(time.time()))
+        self.filename = os.path.join(data_dir, f"trial_{algo}_loss{loss}_{ewma_str}_iter{iter_num}_{ts}.csv")
         
         try:
             self.file = open(self.filename, mode='w', newline='')

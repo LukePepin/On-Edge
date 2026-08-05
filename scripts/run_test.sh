@@ -94,14 +94,15 @@ fi
 echo "[2/4] Spooling up Loggers..."
 mkdir -p data/60_trial_run
 ALPHA_STR="ewma${ALPHA#0.}"
+TIMESTAMP=$(date +%s)
 
 # tshark drops root privileges when writing files, causing Permission Denied in user dirs.
 # We bypass this by writing to the world-writable /tmp dir, then moving it later.
-PCAP_TMP="/tmp/trial_${ALGO}_loss${LOSS}_${ALPHA_STR}_iter${ITER}.pcap"
+PCAP_TMP="/tmp/trial_${ALGO}_loss${LOSS}_${ALPHA_STR}_iter${ITER}_${TIMESTAMP}.pcap"
 taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:80 -w $PCAP_TMP &
 TSHARK_PID=$!
 
-taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p loss:=$LOSS -p iteration:=$ITER -p alpha:=$ALPHA &
+taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p loss:=$LOSS -p iteration:=$ITER -p alpha:=$ALPHA -p timestamp:=$TIMESTAMP &
 LOGGER_PID=$!
 
 echo "⏳ Waiting for Arduino Dynamic Handshake to complete (approx 5 seconds)..."
