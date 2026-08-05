@@ -237,6 +237,15 @@ class MockPickAndPlaceClient(Node):
         raise SystemExit
 
 def main(args=None):
+    import os
+    try:
+        # Elevate process to RTOS SCHED_FIFO with maximum priority (99)
+        param = os.sched_param(99)
+        os.sched_setscheduler(0, os.SCHED_FIFO, param)
+        print("✅ [RTOS] Successfully elevated to SCHED_FIFO (Priority 99).")
+    except Exception as e:
+        print(f"⚠️ [RTOS] Could not elevate scheduling priority: {e}")
+
     rclpy.init(args=args)
     node = MockPickAndPlaceClient()
     try:
