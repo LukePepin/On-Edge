@@ -113,6 +113,11 @@ sleep 4 # Allow operator to hit play on the teach pendant before kinematics exec
 # ------------------------------------------------------------------------------
 # 4. Execute Unified Kinematics + Attack hook
 # ------------------------------------------------------------------------------
+echo "Switching to pure passthrough kinematics to prevent UR5 controller jitter..."
+# We execute this swap AFTER the user presses Play (clearing the Safeguard Stop) 
+# to guarantee the UR5 driver doesn't deadlock while processing the switch request!
+taskset 0x7 ros2 control switch_controllers --activate passthrough_trajectory_controller --deactivate scaled_joint_trajectory_controller forward_position_controller > /dev/null 2>&1 || true
+
 echo "[3/4] Executing Kinematic Trajectory (Autonomous Attack Injection Enabled)..."
 # Pass ALGO to kinematics to dynamically select the 5s (ZKP) or 15s (CLOUD) sweep
 # Run in the FOREGROUND so bash natively blocks! (Timeout managed dynamically by Python)
