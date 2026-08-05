@@ -38,8 +38,6 @@ echo "   SINGLE-SHOT TRIAL: $ALGO | Nodes: $NODES | Jamming: $LOSS% | Iter: $ITE
 echo "==========================================================="
 
 cd $WORKSPACE_DIR
-echo "[0/4] Syncing Python Nodes (colcon build)..."
-colcon build --packages-select sentry_logic > /dev/null 2>&1
 source install/setup.bash
 
 # Ensure local telemetry is quarantined from the wireless jamming plane
