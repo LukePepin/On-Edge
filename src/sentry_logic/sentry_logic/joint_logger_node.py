@@ -54,20 +54,30 @@ class JointLoggerNode(Node):
             # --- DYNAMIC SERIAL CONFIGURATION HANDSHAKE ---
             config_payload = json.dumps({"algo": algo, "alpha": ewma_alpha}) + "\n"
             self.get_logger().info(f"Broadcasting Dynamic Config: {config_payload.strip()}")
-            self.serial_port.write(config_payload.encode('utf-8'))
-            self.serial_port.flush()
             
-            # Block and wait for {"status": "READY"}
+            # Block and wait for {"status": "READY"}, broadcasting repeatedly to catch it after bootloader
             ready = False
             start_wait = time.time()
-            while time.time() - start_wait < 2.0:
-                line = self.serial_port.readline().decode('utf-8').strip()
-                if line:
+            while time.time() - start_wait < 5.0:
+                self.serial_port.write(config_payload.encode('utf-8'))
+                self.serial_port.flush()
+                
+                # Try to read multiple lines in case there's garbage
+                lines_read = 0
+                while lines_read < 10:
+                    line = self.serial_port.readline().decode('utf-8').strip()
+                    if not line:
+                        break
                     self.get_logger().info(f"Arduino Handshake Reply: {line}")
-                if '"status": "READY"' in line or '"status":"READY"' in line:
-                    ready = True
+                    if '"status": "READY"' in line or '"status":"READY"' in line:
+                        ready = True
+                        break
+                    lines_read += 1
+                
+                if ready:
                     break
-                time.sleep(0.05)
+                    
+                time.sleep(0.2)
                 
             if not ready:
                 self.get_logger().error("FATAL: Arduino failed to respond with READY during handshake. Aborting to protect dataset.")
