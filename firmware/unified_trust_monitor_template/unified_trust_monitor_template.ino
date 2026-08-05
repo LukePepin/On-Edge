@@ -111,7 +111,7 @@ void execute_ecc_verification() {
   ARM_DWT_CYCCNT = 0;
   uint32_t start_cycles = ARM_DWT_CYCCNT;
   
-  // Base ECC Payload
+  // Base ECC Payload (1 loop = ~111.5ms on Cortex-M4)
   uECC_make_key(public_key, private_key);
   
   if (attack_mode_active) {
@@ -124,8 +124,9 @@ void execute_ecc_verification() {
   float exec_time_ms = (float)(end_cycles - start_cycles) / 64000.0;
   
   float current_trust = 100.0;
-  if (exec_time_ms > 100.0) {
-    float penalty = (float)(exec_time_ms - 100.0);
+  // Calibrated Threshold: 150.0ms (gives ~38ms of hardware jitter headroom)
+  if (exec_time_ms > 150.0) {
+    float penalty = (float)(exec_time_ms - 150.0);
     current_trust = max(0.0f, 100.0f - penalty); 
   }
   
@@ -154,13 +155,14 @@ void execute_zkp_verification() {
   ARM_DWT_CYCCNT = 0;
   uint32_t start_cycles = ARM_DWT_CYCCNT;
   
-  // Base ZKP Payload (Simulated via 10x ECC workload)
-  for(int i = 0; i < 10; i++) {
+  // Base ZKP Payload (Simulated via 3x ECC workload = ~334.5ms)
+  // This perfectly fits right under your 400ms threshold bound!
+  for(int i = 0; i < 3; i++) {
     uECC_make_key(public_key, private_key);
   }
   
   if (attack_mode_active) {
-    for(int i = 0; i < 10; i++) {
+    for(int i = 0; i < 6; i++) {
       uECC_make_key(public_key, private_key);
     }
   }
@@ -169,6 +171,7 @@ void execute_zkp_verification() {
   float exec_time_ms = (float)(end_cycles - start_cycles) / 64000.0;
   
   float current_trust = 100.0;
+  // Original Threshold: 400.0ms (gives ~65ms of hardware jitter headroom)
   if (exec_time_ms > 400.0) {
     float penalty = (float)(exec_time_ms - 400.0);
     current_trust = max(0.0f, 100.0f - penalty); 
