@@ -7,7 +7,6 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 from controller_manager_msgs.srv import SwitchController
 from std_srvs.srv import Trigger
 from sensor_msgs.msg import JointState
-from rclpy.qos import qos_profile_sensor_data
 import math
 import time
 
@@ -23,7 +22,7 @@ class MockPickAndPlaceClient(Node):
             JointState,
             '/joint_states',
             self.joint_state_callback,
-            qos_profile_sensor_data
+            10
         )
 
         self.joint_names = [
@@ -100,12 +99,12 @@ class MockPickAndPlaceClient(Node):
         os._exit(0)
 
     def run_phase1(self):
-        if self.current_joint_state is None:
-            self.get_logger().info('Waiting for /joint_states for Phase 1 p0 injection...')
+        if not self._action_client.server_is_ready():
+            self.get_logger().info('Waiting for trajectory action server... (Is the UR5 driver running?)')
             return
             
-        if not self._action_client.server_is_ready():
-            self.get_logger().info('Waiting for trajectory action server...')
+        if self.current_joint_state is None:
+            self.get_logger().info('Waiting for /joint_states for Phase 1 p0 injection...')
             return
             
         self.timer.cancel() # Stop timer, we will drive execution via action futures
