@@ -62,6 +62,13 @@ source install/setup.bash
 sudo ip link set dev lo multicast on
 export ROS_LOCALHOST_ONLY=1
 
+# --- PRE-FLIGHT ZOMBIE CLEANUP ---
+# If a previous trial was Ctrl+C'd, the logger stays alive in the background and will
+# violently clash over the serial port on the next run. We must purge it before starting.
+pkill -f "sentry_logic/joint_logger" || true
+sudo killall tshark 2>/dev/null || true
+# ---------------------------------
+
 # ------------------------------------------------------------------------------
 # 2. Network Jamming (Idempotent cleanup -> Inject)
 # ------------------------------------------------------------------------------
