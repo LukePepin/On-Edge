@@ -21,7 +21,6 @@ ALPHA="0.3"
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         -a|--algo) ALGO="$2"; shift ;;
-        -n|--nodes) NODES="$2"; shift ;;
         -l|--loss) LOSS="$2"; shift ;;
         -i|--iter) ITER="$2"; shift ;;
         -p|--alpha) ALPHA="$2"; shift ;;
@@ -30,8 +29,8 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-if [ -z "$ALGO" ] || [ -z "$NODES" ] || [ -z "$LOSS" ] || [ -z "$ITER" ]; then
-    echo "Usage: $0 --algo <ZKP/ECC/CLOUD> --nodes <int> --loss <25/50/75> --iter <int> [--alpha <float>]"
+if [ -z "$ALGO" ] || [ -z "$LOSS" ] || [ -z "$ITER" ]; then
+    echo "Usage: $0 --algo <ZKP/ECC/CLOUD> --loss <25/50/75> --iter <int> [--alpha <float>]"
     exit 1
 fi
 
@@ -52,7 +51,7 @@ if [ "$MEMLOCK" != "unlimited" ]; then
 fi
 
 echo "==========================================================="
-echo "   SINGLE-SHOT TRIAL: $ALGO | Nodes: $NODES | Jamming: $LOSS% | Iter: $ITER | Alpha: $ALPHA"
+echo "   SINGLE-SHOT TRIAL: $ALGO | Jamming: $LOSS% | Iter: $ITER | Alpha: $ALPHA"
 echo "==========================================================="
 
 cd $WORKSPACE_DIR
@@ -103,14 +102,14 @@ fi
 # ------------------------------------------------------------------------------
 echo "[2/4] Spooling up Loggers..."
 mkdir -p data/60_trial_run
-taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/60_trial_run/trial_${ALGO}_n${NODES}_loss${LOSS}_iter${ITER}.pcap > /dev/null 2>&1 &
+taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/60_trial_run/trial_${ALGO}_loss${LOSS}_alpha${ALPHA}_iter${ITER}.pcap > /dev/null 2>&1 &
 TSHARK_PID=$!
 
-taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p nodes:=$NODES -p loss:=$LOSS -p iteration:=$ITER -p alpha:=$ALPHA &
+taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p loss:=$LOSS -p iteration:=$ITER -p alpha:=$ALPHA &
 LOGGER_PID=$!
 
-echo "⚠️ SAFEGUARD CLEARED (Optocoupler RED). YOU HAVE 10 SECONDS TO PRESS 'PLAY' ON THE URCAP!"
-sleep 10 # Allow operator to hit play on the teach pendant before kinematics execute
+echo "⚠️ SAFEGUARD CLEARED (Optocoupler RED). YOU HAVE 2 SECONDS TO PRESS 'PLAY' ON THE URCAP!"
+sleep 2 # Allow operator to hit play on the teach pendant before kinematics execute
 
 # ------------------------------------------------------------------------------
 # 4. Execute Unified Kinematics + Attack hook

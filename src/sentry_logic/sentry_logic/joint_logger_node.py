@@ -16,16 +16,12 @@ class JointLoggerNode(Node):
     def __init__(self):
         super().__init__('joint_logger_node')
         
-        self.declare_parameter('trial', 0)
         self.declare_parameter('algo', 'UNKNOWN')
-        self.declare_parameter('nodes', 0)
         self.declare_parameter('loss', 0)
         self.declare_parameter('iteration', 1)
         self.declare_parameter('alpha', 0.3)
         
-        trial = self.get_parameter('trial').value
         algo = self.get_parameter('algo').value
-        nodes = self.get_parameter('nodes').value
         loss = self.get_parameter('loss').value
         iter_num = self.get_parameter('iteration').value
         ewma_alpha = self.get_parameter('alpha').value
@@ -104,7 +100,7 @@ class JointLoggerNode(Node):
         workspace_dir = os.path.abspath(os.getcwd())
         data_dir = os.path.join(workspace_dir, "data")
         os.makedirs(data_dir, exist_ok=True)
-        self.filename = os.path.join(data_dir, f"trial_{trial}_{algo}_n{nodes}_loss{loss}_iter{iter_num}_{int(time.time())}.csv")
+        self.filename = os.path.join(data_dir, f"trial_{algo}_loss{loss}_alpha{ewma_alpha}_iter{iter_num}_{int(time.time())}.csv")
         
         try:
             self.file = open(self.filename, mode='w', newline='')
