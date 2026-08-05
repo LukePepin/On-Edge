@@ -99,8 +99,7 @@ TIMESTAMP=$(date +%s)
 # tshark drops root privileges when writing files, causing Permission Denied in user dirs.
 # We bypass this by writing to the world-writable /tmp dir, then moving it later.
 PCAP_TMP="/tmp/trial_${ALGO}_loss${LOSS}_${ALPHA_STR}_iter${ITER}_${TIMESTAMP}.pcap"
-taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:80 -w $PCAP_TMP &
-TSHARK_PID=$!
+taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:80 -w $PCAP_TMP > /dev/null 2>&1 &
 
 taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p loss:=$LOSS -p iteration:=$ITER -p alpha:=$ALPHA -p timestamp:=$TIMESTAMP &
 LOGGER_PID=$!
@@ -128,7 +127,7 @@ sleep 3
 echo "[4/4] Archiving Data & Terminating Loggers..."
 pkill -f "sentry_logic/joint_logger" || true
 pkill -f "sentry_logic/stream_wrist_kinematics" || true
-sudo kill -2 $TSHARK_PID 2>/dev/null
+sudo killall tshark 2>/dev/null || true
 
 # Move the PCAP from /tmp to the secure data directory
 sudo mv $PCAP_TMP data/60_trial_run/ 2>/dev/null || true
@@ -138,5 +137,8 @@ while sudo iptables -D OUTPUT -p tcp --dport 8080 -j DROP 2>/dev/null; do :; don
 while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 0.3 -j DROP 2>/dev/null; do :; done
 while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 0.1 -j DROP 2>/dev/null; do :; done
 while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 1.0 -j DROP 2>/dev/null; do :; done
+
+# Forcibly restore terminal state in case a forcefully killed ROS 2 or tshark node mangled the TTY settings
+stty sane
 
 echo "✅ Trial Complete! Please restart URCap on Teach Pendant for next run."
