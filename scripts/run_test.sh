@@ -78,40 +78,35 @@ while sudo iptables -D OUTPUT -p tcp --dport 8080 -j DROP 2>/dev/null; do :; don
 while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 0.3 -j DROP 2>/dev/null; do :; done
 while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 0.1 -j DROP 2>/dev/null; do :; done
 while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 1.0 -j DROP 2>/dev/null; do :; done
-
-# Clean up any residual tc rules just in case they were left behind by older runs
-sudo tc qdisc del dev $WLAN_INTERFACE root 2>/dev/null || true
-sudo tc qdisc del dev eth0 root 2>/dev/null || true
-sudo tc qdisc del dev lo root 2>/dev/null || true
-
-if [ "$LOSS" -gt 0 ]; then
+# 2. Network Perturbation Injection (NetEm)
+# ------------------------------------------------------------------------------
+if [ "$ALGO" == "CLOUD" ] || [ "$ALGO" == "ZKP" ]; then
     echo "      Injecting $LOSS% Packet Loss on Cloud Auth (Port 8080)..."
-    
-    if [ "$LOSS" -eq 100 ]; then
-        sudo iptables -A OUTPUT -p tcp --dport 8080 -j DROP
-    else
-        # Convert percentage to a probability float (e.g. 10 -> 0.10)
-        PROB=$(echo "scale=2; $LOSS / 100" | bc)
-        sudo iptables -A OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability $PROB -j DROP
-    fi
-else
-    echo "      Clean Network (0% Loss)."
+    sudo tc qdisc del dev $WLAN_INTERFACE root 2>/dev/null || true
+    # Removed /dev/null to debug if interface exists
+    sudo tc qdisc add dev $WLAN_INTERFACE root netem loss $LOSS%
+    sudo iptables -A OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability $(echo "scale=2; $LOSS/100" | bc) -j DROP
 fi
 
 # ------------------------------------------------------------------------------
-# 3. Start Background Loggers
+# 3. Spool Up Data Loggers
 # ------------------------------------------------------------------------------
 echo "[2/4] Spooling up Loggers..."
 mkdir -p data/60_trial_run
 ALPHA_STR="ewma${ALPHA#0.}"
-taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:80 -w data/60_trial_run/trial_${ALGO}_loss${LOSS}_${ALPHA_STR}_iter${ITER}.pcap > /dev/null 2>&1 &
+
+# Removed /dev/null to see why tshark is failing to generate pcaps
+taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:80 -w data/60_trial_run/trial_${ALGO}_loss${LOSS}_${ALPHA_STR}_iter${ITER}.pcap &
 TSHARK_PID=$!
 
 taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p loss:=$LOSS -p iteration:=$ITER -p alpha:=$ALPHA &
 LOGGER_PID=$!
 
-echo "⚠️ SAFEGUARD CLEARED (Optocoupler RED). YOU HAVE 6 SECONDS TO PRESS 'PLAY' ON THE URCAP!"
-sleep 6 # Allow operator to hit play on the teach pendant before kinematics execute
+echo "⏳ Waiting for Arduino Dynamic Handshake to complete (approx 5 seconds)..."
+sleep 6 # Wait for the Python logger to finish its boot-loop and engage the Optocoupler HIGH
+
+echo "⚠️ SAFEGUARD CLEARED (Optocoupler RED). YOU NOW HAVE 4 SECONDS TO PRESS 'PLAY' ON THE URCAP!"
+sleep 4 # Allow operator to hit play on the teach pendant before kinematics execute
 
 # ------------------------------------------------------------------------------
 # 4. Execute Unified Kinematics + Attack hook
