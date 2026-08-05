@@ -94,22 +94,36 @@ void execute_zkp_verification() {
 // ------------------------------------------------------------------------------
 // Main Loop
 // ------------------------------------------------------------------------------
+String input_buffer = "";
+
 void loop() {
-  // 1. Listen for "ATTACK\n" from the Python Supervisor
-  if (Serial.available() > 0) {
-    String command = Serial.readStringUntil('\n');
-    command.trim();
-    
-    if (command == "ATTACK") {
-      // 2. Route the verification to the dynamically configured memory block
-      if (is_zkp_active) {
-        execute_zkp_verification();
-      } else if (is_ecc_active) {
-        execute_ecc_verification();
+  // 1. Listen for "ATTACK\n" from the Python Supervisor (NON-BLOCKING)
+  while (Serial.available() > 0) {
+    char c = Serial.read();
+    if (c == '\n') {
+      input_buffer.trim();
+      
+      if (input_buffer == "ATTACK") {
+        // 2. Route the verification to the dynamically configured memory block
+        if (is_zkp_active) {
+          execute_zkp_verification();
+        } else if (is_ecc_active) {
+          execute_ecc_verification();
+        }
+        
+        // 3. Serialize and broadcast the updated telemetry back to Python
+        // Example: Serial.println("{\"trust_score\": 90.0}");
       }
       
-      // 3. Serialize and broadcast the updated telemetry back to Python
-      // Example: Serial.println("{\"trust_score\": 90.0}");
+      input_buffer = ""; // Clear buffer for next command
+    } else {
+      // Accumulate characters
+      input_buffer += c;
+      
+      // Safety bound to prevent memory exhaustion on malformed data
+      if (input_buffer.length() > 50) {
+        input_buffer = "";
+      }
     }
   }
 }

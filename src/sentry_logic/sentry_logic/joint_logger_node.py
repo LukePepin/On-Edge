@@ -10,6 +10,7 @@ import os
 import serial
 import threading
 import json
+import collections
 
 class JointLoggerNode(Node):
     def __init__(self):
@@ -39,6 +40,11 @@ class JointLoggerNode(Node):
         self.alpha = 0.2  # Smoothing factor
         self.ema_accel = [0.0, 0.0, 0.0]
         self.first_imu_reading = True
+        self.imu_lock = threading.Lock()
+        
+        self.csv_queue = collections.deque()
+        self.csv_write_thread = threading.Thread(target=self.csv_writer_loop, daemon=True)
+        self.csv_write_thread.start()
         
         try:
             # ISO-13849 Compliance: Non-blocking serial read to prevent OS buffer lag at 50Hz
@@ -138,6 +144,14 @@ class JointLoggerNode(Node):
                 pass 
             time.sleep(0.005) # Prevent CPU pegging in non-blocking loop
 
+    def csv_writer_loop(self):
+        while self.running:
+            if self.csv_queue and hasattr(self, 'csv_writer') and self.csv_writer:
+                row = self.csv_queue.popleft()
+                self.csv_writer.writerow(row)
+            else:
+                time.sleep(0.01)
+
     def inject_attack_callback(self, request, response):
         self.get_logger().info("Attack requested! Spawning injection thread...")
         self.attack_active = True
@@ -155,7 +169,7 @@ class JointLoggerNode(Node):
         
         if algo == 'CLOUD':
             self.get_logger().warn("☁️ CLOUD MODE: Simulating Network Dependency...")
-            cloud_timeout = 5.0
+            cloud_timeout = 1.0
             last_auth_time = time.time()
             idp_url = 'http://192.168.0.161:8080/api/auth/lease'
             
@@ -199,16 +213,17 @@ class JointLoggerNode(Node):
         ay = msg.linear_acceleration.y
         az = msg.linear_acceleration.z
         
-        self.latest_raw_accel = [ax, ay, az]
-        
-        # Apply Exponential Moving Average (EMA) to suppress high-frequency vibrational noise
-        if self.first_imu_reading:
-            self.ema_accel = [ax, ay, az]
-            self.first_imu_reading = False
-        else:
-            self.ema_accel[0] = (self.alpha * ax) + ((1 - self.alpha) * self.ema_accel[0])
-            self.ema_accel[1] = (self.alpha * ay) + ((1 - self.alpha) * self.ema_accel[1])
-            self.ema_accel[2] = (self.alpha * az) + ((1 - self.alpha) * self.ema_accel[2])
+        with self.imu_lock:
+            self.latest_raw_accel = [ax, ay, az]
+            
+            # Apply Exponential Moving Average (EMA) to suppress high-frequency vibrational noise
+            if self.first_imu_reading:
+                self.ema_accel = [ax, ay, az]
+                self.first_imu_reading = False
+            else:
+                self.ema_accel[0] = (self.alpha * ax) + ((1 - self.alpha) * self.ema_accel[0])
+                self.ema_accel[1] = (self.alpha * ay) + ((1 - self.alpha) * self.ema_accel[1])
+                self.ema_accel[2] = (self.alpha * az) + ((1 - self.alpha) * self.ema_accel[2])
 
     def joint_state_callback(self, msg):
         if len(msg.position) >= 6 and len(msg.velocity) >= 6:
@@ -233,11 +248,14 @@ class JointLoggerNode(Node):
         row = [t_sec, t_nano, self.latest_trust_score]
         row.extend(self.latest_joint_state_msg.position[:6])
         row.extend(velocity)
-        row.extend(self.latest_raw_accel)
-        row.extend(self.ema_accel)
+        
+        with self.imu_lock:
+            row.extend(self.latest_raw_accel)
+            row.extend(self.ema_accel)
+            
         row.append(1 if self.attack_active else 0)
         
-        self.csv_writer.writerow(row)
+        self.csv_queue.append(row)
 
     def destroy_node(self):
         self.running = False
@@ -249,6 +267,27 @@ class JointLoggerNode(Node):
         super().destroy_node()
 
 def main(args=None):
+    import os
+    import ctypes
+    try:
+        MCL_CURRENT = 1
+        MCL_FUTURE = 2
+        libc = ctypes.CDLL("libc.so.6", use_errno=True)
+        if libc.mlockall(MCL_CURRENT | MCL_FUTURE) != 0:
+            print("⚠️ [RTOS] mlockall failed.")
+        else:
+            print("✅ [RTOS] Memory locked (mlockall) to prevent page faults.")
+    except Exception as e:
+        print(f"⚠️ [RTOS] Could not lock memory: {e}")
+
+    try:
+        # Elevate process to RTOS SCHED_FIFO with maximum priority (99)
+        param = os.sched_param(99)
+        os.sched_setscheduler(0, os.SCHED_FIFO, param)
+        print("✅ [RTOS] Successfully elevated to SCHED_FIFO (Priority 99).")
+    except Exception as e:
+        print(f"⚠️ [RTOS] Could not elevate scheduling priority: {e}")
+        
     rclpy.init(args=args)
     node = JointLoggerNode()
     try:

@@ -31,7 +31,7 @@ while [[ "$#" -gt 0 ]]; do
 done
 
 if [ -z "$ALGO" ] || [ -z "$NODES" ] || [ -z "$LOSS" ] || [ -z "$ITER" ]; then
-    echo "Usage: $0 --algo <ZKP/ECC/CLOUD> --nodes <int> --loss <0/10/20/30> --iter <int> [--alpha <float>]"
+    echo "Usage: $0 --algo <ZKP/ECC/CLOUD> --nodes <int> --loss <25/50/75> --iter <int> [--alpha <float>]"
     exit 1
 fi
 

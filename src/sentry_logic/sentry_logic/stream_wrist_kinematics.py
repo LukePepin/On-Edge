@@ -238,6 +238,18 @@ class MockPickAndPlaceClient(Node):
 
 def main(args=None):
     import os
+    import ctypes
+    try:
+        MCL_CURRENT = 1
+        MCL_FUTURE = 2
+        libc = ctypes.CDLL("libc.so.6", use_errno=True)
+        if libc.mlockall(MCL_CURRENT | MCL_FUTURE) != 0:
+            print("⚠️ [RTOS] mlockall failed.")
+        else:
+            print("✅ [RTOS] Memory locked (mlockall) to prevent page faults.")
+    except Exception as e:
+        print(f"⚠️ [RTOS] Could not lock memory: {e}")
+
     try:
         # Elevate process to RTOS SCHED_FIFO with maximum priority (99)
         param = os.sched_param(99)
