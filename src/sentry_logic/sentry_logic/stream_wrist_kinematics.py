@@ -123,11 +123,12 @@ class MockPickAndPlaceClient(Node):
             self.get_logger().info('Waiting for /joint_states for Phase 1 p0 injection...')
             return
             
+        if not self._action_client.server_is_ready():
+            self.get_logger().info('Waiting for trajectory action server...')
+            return
+            
         self.timer.cancel() # Stop timer, we will drive execution via action futures
         
-        while not self._action_client.wait_for_server(timeout_sec=1.0):
-            self.get_logger().info('Waiting for trajectory action server...')
-            
         goal_msg = FollowJointTrajectory.Goal()
         goal_msg.trajectory.joint_names = self.joint_names
         
