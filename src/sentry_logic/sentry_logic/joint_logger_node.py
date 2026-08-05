@@ -20,12 +20,14 @@ class JointLoggerNode(Node):
         self.declare_parameter('nodes', 0)
         self.declare_parameter('loss', 0)
         self.declare_parameter('iteration', 1)
+        self.declare_parameter('alpha', 0.3)
         
         trial = self.get_parameter('trial').value
         algo = self.get_parameter('algo').value
         nodes = self.get_parameter('nodes').value
         loss = self.get_parameter('loss').value
         iter_num = self.get_parameter('iteration').value
+        ewma_alpha = self.get_parameter('alpha').value
         
         self.latest_trust_score = 100.00
         self.serial_port = None
@@ -46,6 +48,30 @@ class JointLoggerNode(Node):
                 
             self.serial_port = serial.Serial(port_name, 115200, timeout=0)
             self.get_logger().info(f"Connected to Arduino on {port_name} (Non-Blocking Mode)")
+            
+            # --- DYNAMIC SERIAL CONFIGURATION HANDSHAKE ---
+            config_payload = json.dumps({"algo": algo, "alpha": ewma_alpha}) + "\n"
+            self.get_logger().info(f"Broadcasting Dynamic Config: {config_payload.strip()}")
+            self.serial_port.write(config_payload.encode('utf-8'))
+            self.serial_port.flush()
+            
+            # Block and wait for {"status": "READY"}
+            ready = False
+            start_wait = time.time()
+            while time.time() - start_wait < 2.0:
+                line = self.serial_port.readline().decode('utf-8').strip()
+                if line:
+                    self.get_logger().info(f"Arduino Handshake Reply: {line}")
+                if '"status": "READY"' in line or '"status":"READY"' in line:
+                    ready = True
+                    break
+                time.sleep(0.05)
+                
+            if not ready:
+                self.get_logger().error("FATAL: Arduino failed to respond with READY during handshake. Aborting to protect dataset.")
+                raise RuntimeError("Dynamic Serial Configuration Handshake Failed")
+            self.get_logger().info("Dynamic Serial Configuration Successful!")
+            # ----------------------------------------------
             
             self.serial_thread = threading.Thread(target=self.serial_read_loop, daemon=True)
             self.serial_thread.start()

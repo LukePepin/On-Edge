@@ -16,6 +16,7 @@ ALGO=""
 NODES=""
 LOSS=""
 ITER=""
+ALPHA="0.3"
 
 while [[ "$#" -gt 0 ]]; do
     case $1 in
@@ -23,18 +24,19 @@ while [[ "$#" -gt 0 ]]; do
         -n|--nodes) NODES="$2"; shift ;;
         -l|--loss) LOSS="$2"; shift ;;
         -i|--iter) ITER="$2"; shift ;;
+        -p|--alpha) ALPHA="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
     shift
 done
 
 if [ -z "$ALGO" ] || [ -z "$NODES" ] || [ -z "$LOSS" ] || [ -z "$ITER" ]; then
-    echo "Usage: $0 --algo <ZKP/ECC/CLOUD> --nodes <int> --loss <0/10/20/30> --iter <int>"
+    echo "Usage: $0 --algo <ZKP/ECC/CLOUD> --nodes <int> --loss <0/10/20/30> --iter <int> [--alpha <float>]"
     exit 1
 fi
 
 echo "==========================================================="
-echo "   SINGLE-SHOT TRIAL: $ALGO | Nodes: $NODES | Jamming: $LOSS% | Iter: $ITER"
+echo "   SINGLE-SHOT TRIAL: $ALGO | Nodes: $NODES | Jamming: $LOSS% | Iter: $ITER | Alpha: $ALPHA"
 echo "==========================================================="
 
 cd $WORKSPACE_DIR
@@ -81,7 +83,7 @@ mkdir -p data/60_trial_run
 taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/60_trial_run/trial_${ALGO}_n${NODES}_loss${LOSS}_iter${ITER}.pcap > /dev/null 2>&1 &
 TSHARK_PID=$!
 
-taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p nodes:=$NODES -p loss:=$LOSS -p iteration:=$ITER &
+taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p nodes:=$NODES -p loss:=$LOSS -p iteration:=$ITER -p alpha:=$ALPHA &
 LOGGER_PID=$!
 
 sleep 3 # Allow loggers and Arduino serial port to stabilize
