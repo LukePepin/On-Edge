@@ -209,6 +209,8 @@ class JointLoggerNode(Node):
                 
             if not self.running:
                 return  # Node is shutting down, exit cleanly without attacking!
+        elif algo == 'ECC':
+            self.get_logger().warn("🛡️ ECC MODE: Heavy Cryptographic Verification (Slower Severance)")
         else:
             self.get_logger().warn("🛡️ ZKP MODE: Local Cryptographic Mesh (Instant Severance)")
             
