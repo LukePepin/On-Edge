@@ -102,7 +102,8 @@ TSHARK_PID=$!
 taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p nodes:=$NODES -p loss:=$LOSS -p iteration:=$ITER -p alpha:=$ALPHA &
 LOGGER_PID=$!
 
-sleep 3 # Allow loggers and Arduino serial port to stabilize
+echo "⚠️ SAFEGUARD CLEARED (Optocoupler RED). YOU HAVE 10 SECONDS TO PRESS 'PLAY' ON THE URCAP!"
+sleep 10 # Allow operator to hit play on the teach pendant before kinematics execute
 
 # ------------------------------------------------------------------------------
 # 4. Execute Unified Kinematics + Attack hook
