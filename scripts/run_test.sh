@@ -118,14 +118,11 @@ sleep 6 # Allow operator to hit play on the teach pendant before kinematics exec
 # ------------------------------------------------------------------------------
 echo "[3/4] Executing Kinematic Trajectory (Autonomous Attack Injection Enabled)..."
 # Pass ALGO to kinematics to dynamically select the 5s (ZKP) or 15s (CLOUD) sweep
-taskset 0x7 ros2 run sentry_logic stream_wrist_kinematics --ros-args -p algo:=$ALGO &
+# Run in the FOREGROUND so bash natively blocks until the robot finishes moving!
+taskset 0x7 ros2 run sentry_logic stream_wrist_kinematics --ros-args -p algo:=$ALGO
 
-# Dynamically wait for the 10-second universal trajectory to safely finish, plus a 2-second mechanical buffer
-echo "      Waiting 12 seconds for the universal 10s trajectory and mechanical overrun buffer..."
-sleep 12
-
-echo "⏳ Waiting 5 seconds for trailing flatline data to stabilize and kinematics to exit..."
-sleep 5
+echo "⏳ Trajectory complete. Waiting 3 seconds for trailing flatline data to stabilize..."
+sleep 3
 
 # ------------------------------------------------------------------------------
 # 5. Data Archival & Cleanup
