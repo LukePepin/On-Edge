@@ -51,6 +51,9 @@ class JointLoggerNode(Node):
             self.serial_port = serial.Serial(port_name, 115200, timeout=0)
             self.get_logger().info(f"Connected to Arduino on {port_name} (Non-Blocking Mode)")
             
+            # Temporarily block up to 0.5s per readline to prevent fracturing USB packets
+            self.serial_port.timeout = 0.5
+            
             # --- DYNAMIC SERIAL CONFIGURATION HANDSHAKE ---
             config_payload = json.dumps({"algo": algo, "alpha": ewma_alpha}) + "\n"
             self.get_logger().info(f"Broadcasting Dynamic Config: {config_payload.strip()}")
@@ -58,7 +61,7 @@ class JointLoggerNode(Node):
             # Block and wait for {"status": "READY"}, broadcasting repeatedly to catch it after bootloader
             ready = False
             start_wait = time.time()
-            while time.time() - start_wait < 5.0:
+            while time.time() - start_wait < 6.0:
                 self.serial_port.write(config_payload.encode('utf-8'))
                 self.serial_port.flush()
                 
@@ -79,6 +82,9 @@ class JointLoggerNode(Node):
                     
                 time.sleep(0.2)
                 
+            # Restore 0-timeout for the high-speed 50Hz data loop
+            self.serial_port.timeout = 0
+            
             if not ready:
                 self.get_logger().error("FATAL: Arduino failed to respond with READY during handshake. Aborting to protect dataset.")
                 raise RuntimeError("Dynamic Serial Configuration Handshake Failed")
