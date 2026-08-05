@@ -104,6 +104,15 @@ class MockPickAndPlaceClient(Node):
         req = Trigger.Request()
         self.attack_client.call_async(req)
         self.attack_fired = True
+        
+        # We know the payload injection takes ~10.5 seconds.
+        # Wait 15 seconds to ensure we capture the entire attack + trailing flatline telemetry,
+        # then brutally terminate the node! This prevents the node (and by extension, the bash script)
+        # from hanging forever if the UR5 Action Server freezes due to a Safeguard Stop.
+        time.sleep(15)
+        self.get_logger().info("Trial execution mathematically bounded. Forcing clean exit to unblock bash orchestrator.")
+        import os
+        os._exit(0)
 
     def run_phase1(self):
         if self.current_joint_state is None:

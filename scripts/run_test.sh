@@ -115,9 +115,8 @@ sleep 4 # Allow operator to hit play on the teach pendant before kinematics exec
 # ------------------------------------------------------------------------------
 echo "[3/4] Executing Kinematic Trajectory (Autonomous Attack Injection Enabled)..."
 # Pass ALGO to kinematics to dynamically select the 5s (ZKP) or 15s (CLOUD) sweep
-# Run in the FOREGROUND so bash natively blocks, but wrap with a 25-second timeout!
-# If the robot enters a Safeguard Stop, the ROS 2 Action Server freezes forever. The timeout gracefully ends the trial.
-timeout 25 taskset 0x7 ros2 run sentry_logic stream_wrist_kinematics --ros-args -p algo:=$ALGO
+# Run in the FOREGROUND so bash natively blocks! (Timeout managed dynamically by Python)
+taskset 0x7 ros2 run sentry_logic stream_wrist_kinematics --ros-args -p algo:=$ALGO
 
 echo "⏳ Trajectory complete. Waiting 3 seconds for trailing flatline data to stabilize..."
 sleep 3
