@@ -51,7 +51,10 @@ class MockPickAndPlaceClient(Node):
         self.attack_client = self.create_client(Trigger, '/inject_attack')
         
         self.switch_client = self.create_client(SwitchController, '/controller_manager/switch_controller')
-        self._switch_to_joint_trajectory()
+        
+        # Fire switch request asynchronously. We don't block here.
+        # run_phase1 will naturally block via server_is_ready() until this switch succeeds!
+        self.controllers_switched = False
         
         self.timer = self.create_timer(1.0, self.run_phase1)
         self.current_state = 0
@@ -59,8 +62,9 @@ class MockPickAndPlaceClient(Node):
         self.is_standstill = False
 
     def _switch_to_joint_trajectory(self):
-        while not self.switch_client.wait_for_service(timeout_sec=1.0):
+        if not self.switch_client.service_is_ready():
             self.get_logger().info('Waiting for /controller_manager/switch_controller service...')
+            return False
 
         req = SwitchController.Request()
         if hasattr(req, 'start_controllers'):
@@ -71,9 +75,10 @@ class MockPickAndPlaceClient(Node):
             req.deactivate_controllers = ['scaled_joint_trajectory_controller', 'forward_position_controller']
         req.strictness = 1
 
+        self.get_logger().info('Firing async controller switch request...')
         future = self.switch_client.call_async(req)
-        rclpy.spin_until_future_complete(self, future)
-        self.get_logger().info('✅ Successfully activated passthrough_trajectory_controller!')
+        future.add_done_callback(lambda f: self.get_logger().info('✅ Successfully activated passthrough_trajectory_controller!'))
+        return True
 
     def joint_state_callback(self, msg):
         if self.current_joint_state is not None:
@@ -119,6 +124,12 @@ class MockPickAndPlaceClient(Node):
         os._exit(0)
 
     def run_phase1(self):
+        if not self.controllers_switched:
+            if not self._switch_to_joint_trajectory():
+                return
+            self.controllers_switched = True
+            return
+            
         if self.current_joint_state is None:
             self.get_logger().info('Waiting for /joint_states for Phase 1 p0 injection...')
             return
