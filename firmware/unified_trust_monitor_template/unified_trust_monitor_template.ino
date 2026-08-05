@@ -209,12 +209,34 @@ void loop() {
       
       if (input_buffer == "ATTACK") {
         attack_mode_active = true;
+      } else if (input_buffer.startsWith("{") && input_buffer.endsWith("}")) {
+        StaticJsonDocument<200> doc;
+        DeserializationError error = deserializeJson(doc, input_buffer);
+        if (!error && doc.containsKey("algo") && doc.containsKey("alpha")) {
+          // Reset the entire state machine!
+          current_algo = doc["algo"].as<String>();
+          ewma_alpha = doc["alpha"].as<float>();
+          trust_score = 100.0;
+          cycle_count = 0;
+          attack_mode_active = false;
+          
+          if (current_algo == "ZKP") {
+            is_zkp_active = true;
+            is_ecc_active = false;
+          } else if (current_algo == "ECC") {
+            is_zkp_active = false;
+            is_ecc_active = true;
+          }
+          
+          digitalWrite(SAFETY_PIN, HIGH);
+          Serial.println("{\"status\": \"READY\"}");
+        }
       }
       
       input_buffer = ""; // Clear buffer for next command
     } else {
       input_buffer += c;
-      if (input_buffer.length() > 50) input_buffer = "";
+      if (input_buffer.length() > 200) input_buffer = "";
     }
   }
 
