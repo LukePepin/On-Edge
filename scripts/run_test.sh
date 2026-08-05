@@ -104,7 +104,7 @@ fi
 echo "[2/4] Spooling up Loggers..."
 mkdir -p data/60_trial_run
 ALPHA_STR="ewma${ALPHA#0.}"
-taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/60_trial_run/trial_${ALGO}_loss${LOSS}_${ALPHA_STR}_iter${ITER}.pcap > /dev/null 2>&1 &
+taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:80 -w data/60_trial_run/trial_${ALGO}_loss${LOSS}_${ALPHA_STR}_iter${ITER}.pcap > /dev/null 2>&1 &
 TSHARK_PID=$!
 
 taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p loss:=$LOSS -p iteration:=$ITER -p alpha:=$ALPHA &
@@ -133,7 +133,7 @@ sleep 30
 echo "[4/4] Archiving Data & Terminating Loggers..."
 pkill -f "sentry_logic/joint_logger" || true
 pkill -f "sentry_logic/stream_wrist_kinematics" || true
-sudo kill $TSHARK_PID 2>/dev/null
+sudo kill -2 $TSHARK_PID 2>/dev/null
 
 echo "Cleaning up network rules..."
 while sudo iptables -D OUTPUT -p tcp --dport 8080 -j DROP 2>/dev/null; do :; done
