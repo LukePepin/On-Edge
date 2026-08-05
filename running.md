@@ -65,3 +65,7 @@ Before beginning the 54-run fractional factorial campaign, please manually verif
   *Purpose:* The central data ingestion hub. It executes the dynamic serial handshake with the Arduino, queries the UR5 IMU to calculate the Exponential Moving Average (EMA) mechanical deceleration, and outputs the final cycle-accurate timestamped CSV payload at exactly 50Hz.
 - **`src/sentry_logic/sentry_logic/stream_wrist_kinematics.py`**
   *Purpose:* The kinematic engine. It connects to the UR5 via the ROS 2 `ActionClient`, calculates the smooth cubic-spline robotic trajectory (avoiding quintic "whip-crack" errors), and dynamically spawns an async thread to execute the physical network attack exactly 0.5 seconds after motion begins.
+
+---
+
+> **Note:** Can we run control tests to validate before we go full experimental design?
