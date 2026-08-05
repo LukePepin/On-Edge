@@ -12,6 +12,31 @@
 String current_algo = "UNKNOWN";
 float ewma_alpha = 0.3; // Default alpha
 
+// Cryptographic Global State
+const float EVICTION_THRESHOLD = 30.0;
+float trust_score = 100.0;
+int cycle_count = 0;
+bool attack_mode_active = false;
+
+// ARM Cortex-M4 DWT Registers for precision cycle counting
+#define ARM_DWT_CYCCNT    (*(volatile uint32_t *)0xE0001004)
+#define ARM_DWT_CTRL      (*(volatile uint32_t *)0xE0001000)
+#define ARM_DEMCR         (*(volatile uint32_t *)0xE000EDFC)
+#define ARM_DEMCR_TRCENA  (1 << 24)
+#define ARM_DWT_CTRL_CYCCNTENA (1 << 0)
+
+#include <uECC.h>
+
+static int RNG(uint8_t *dest, unsigned size) {
+  while (size) {
+    uint8_t val = (uint8_t)rand();
+    *dest = val;
+    ++dest;
+    --size;
+  }
+  return 1;
+}
+
 // Simulated cryptographic pointers
 bool is_zkp_active = false;
 bool is_ecc_active = false;
@@ -78,29 +103,6 @@ void setup() {
 // ------------------------------------------------------------------------------
 // Cryptographic Blocks
 // ------------------------------------------------------------------------------
-const float EVICTION_THRESHOLD = 30.0;
-float trust_score = 100.0;
-int cycle_count = 0;
-bool attack_mode_active = false;
-
-// ARM Cortex-M4 DWT Registers for precision cycle counting
-#define ARM_DWT_CYCCNT    (*(volatile uint32_t *)0xE0001004)
-#define ARM_DWT_CTRL      (*(volatile uint32_t *)0xE0001000)
-#define ARM_DEMCR         (*(volatile uint32_t *)0xE000EDFC)
-#define ARM_DEMCR_TRCENA  (1 << 24)
-#define ARM_DWT_CTRL_CYCCNTENA (1 << 0)
-
-#include <uECC.h>
-
-static int RNG(uint8_t *dest, unsigned size) {
-  while (size) {
-    uint8_t val = (uint8_t)rand();
-    *dest = val;
-    ++dest;
-    --size;
-  }
-  return 1;
-}
 
 void execute_ecc_verification() {
   uint8_t private_key[uECC_BYTES];
