@@ -42,7 +42,7 @@ class JointLoggerNode(Node):
         self.first_imu_reading = True
         self.imu_lock = threading.Lock()
         
-        self.csv_queue = collections.deque()
+        self.csv_queue = collections.deque(maxlen=5000)
         self.csv_write_thread = threading.Thread(target=self.csv_writer_loop, daemon=True)
         self.csv_write_thread.start()
         

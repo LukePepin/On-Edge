@@ -35,6 +35,22 @@ if [ -z "$ALGO" ] || [ -z "$NODES" ] || [ -z "$LOSS" ] || [ -z "$ITER" ]; then
     exit 1
 fi
 
+if [[ "$LOSS" != "0" && "$LOSS" != "25" && "$LOSS" != "50" && "$LOSS" != "75" && "$LOSS" != "100" ]]; then
+    echo "ERROR: --loss must be exactly 25, 50, or 75 (0 and 100 permitted for extreme control tests)."
+    exit 1
+fi
+
+if [[ "$ALPHA" != "0.1" && "$ALPHA" != "0.3" && "$ALPHA" != "0.5" ]]; then
+    echo "ERROR: --alpha must be exactly 0.1, 0.3, or 0.5."
+    exit 1
+fi
+
+MEMLOCK=$(ulimit -l)
+if [ "$MEMLOCK" != "unlimited" ]; then
+    echo "ERROR: POSIX Memory lock limit (ulimit -l) is $MEMLOCK, but must be 'unlimited'. Check /etc/security/limits.conf"
+    exit 1
+fi
+
 echo "==========================================================="
 echo "   SINGLE-SHOT TRIAL: $ALGO | Nodes: $NODES | Jamming: $LOSS% | Iter: $ITER | Alpha: $ALPHA"
 echo "==========================================================="
