@@ -7,6 +7,7 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 from controller_manager_msgs.srv import SwitchController
 from std_srvs.srv import Trigger
 from sensor_msgs.msg import JointState
+from rclpy.qos import qos_profile_sensor_data
 import math
 import time
 
@@ -22,7 +23,7 @@ class MockPickAndPlaceClient(Node):
             JointState,
             '/joint_states',
             self.joint_state_callback,
-            10
+            qos_profile_sensor_data
         )
 
         self.joint_names = [
@@ -50,35 +51,10 @@ class MockPickAndPlaceClient(Node):
         # Async Attack Service Client for the Strike Zone
         self.attack_client = self.create_client(Trigger, '/inject_attack')
         
-        self.switch_client = self.create_client(SwitchController, '/controller_manager/switch_controller')
-        
-        # Fire switch request asynchronously. We don't block here.
-        # run_phase1 will naturally block via server_is_ready() until this switch succeeds!
-        self.controllers_switched = False
-        
         self.timer = self.create_timer(1.0, self.run_phase1)
         self.current_state = 0
         self.attack_fired = False
         self.is_standstill = False
-
-    def _switch_to_joint_trajectory(self):
-        if not self.switch_client.service_is_ready():
-            self.get_logger().info('Waiting for /controller_manager/switch_controller service...')
-            return False
-
-        req = SwitchController.Request()
-        if hasattr(req, 'start_controllers'):
-            req.start_controllers = ['passthrough_trajectory_controller']
-            req.stop_controllers = ['scaled_joint_trajectory_controller', 'forward_position_controller']
-        else:
-            req.activate_controllers = ['passthrough_trajectory_controller']
-            req.deactivate_controllers = ['scaled_joint_trajectory_controller', 'forward_position_controller']
-        req.strictness = 1
-
-        self.get_logger().info('Firing async controller switch request...')
-        future = self.switch_client.call_async(req)
-        future.add_done_callback(lambda f: self.get_logger().info('✅ Successfully activated passthrough_trajectory_controller!'))
-        return True
 
     def joint_state_callback(self, msg):
         if self.current_joint_state is not None:
@@ -124,12 +100,6 @@ class MockPickAndPlaceClient(Node):
         os._exit(0)
 
     def run_phase1(self):
-        if not self.controllers_switched:
-            if not self._switch_to_joint_trajectory():
-                return
-            self.controllers_switched = True
-            return
-            
         if self.current_joint_state is None:
             self.get_logger().info('Waiting for /joint_states for Phase 1 p0 injection...')
             return
