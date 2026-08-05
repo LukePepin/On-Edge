@@ -74,7 +74,8 @@ class MockPickAndPlaceClient(Node):
     def joint_state_callback(self, msg):
         if self.current_joint_state is not None:
             diff = sum(abs(curr - prev) for curr, prev in zip(msg.position, self.current_joint_state.position))
-            self.is_standstill = (diff < 1e-4)
+            # Relaxed to 2e-3 rad (approx 0.1 deg) to account for PID micro-jitter and encoder noise
+            self.is_standstill = (diff < 2e-3)
         self.current_joint_state = msg
 
     def normalize_target(self, current_rad, target_rad):
