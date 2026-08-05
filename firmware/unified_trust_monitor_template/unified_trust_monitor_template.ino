@@ -23,6 +23,12 @@ void setup() {
   Serial.begin(115200);
   pinMode(SAFETY_PIN, OUTPUT);
   digitalWrite(SAFETY_PIN, LOW); // Start in safe state (Category 0 Halt)
+  
+  // Enable DWT Cycle Counter hardware register
+  ARM_DEMCR |= ARM_DEMCR_TRCENA;
+  ARM_DWT_CTRL |= ARM_DWT_CTRL_CYCCNTENA;
+  
+  uECC_set_rng(&RNG);
 
   // Wait for serial connection
   while (!Serial) {
