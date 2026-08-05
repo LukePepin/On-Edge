@@ -100,7 +100,8 @@ class JointLoggerNode(Node):
         workspace_dir = os.path.abspath(os.getcwd())
         data_dir = os.path.join(workspace_dir, "data")
         os.makedirs(data_dir, exist_ok=True)
-        self.filename = os.path.join(data_dir, f"trial_{algo}_loss{loss}_alpha{ewma_alpha}_iter{iter_num}_{int(time.time())}.csv")
+        ewma_str = f"ewma{int(ewma_alpha * 10)}"
+        self.filename = os.path.join(data_dir, f"trial_{algo}_loss{loss}_{ewma_str}_iter{iter_num}_{int(time.time())}.csv")
         
         try:
             self.file = open(self.filename, mode='w', newline='')

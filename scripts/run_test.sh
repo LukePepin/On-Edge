@@ -102,7 +102,8 @@ fi
 # ------------------------------------------------------------------------------
 echo "[2/4] Spooling up Loggers..."
 mkdir -p data/60_trial_run
-taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/60_trial_run/trial_${ALGO}_loss${LOSS}_alpha${ALPHA}_iter${ITER}.pcap > /dev/null 2>&1 &
+ALPHA_STR="ewma${ALPHA#0.}"
+taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:30 -w data/60_trial_run/trial_${ALGO}_loss${LOSS}_${ALPHA_STR}_iter${ITER}.pcap > /dev/null 2>&1 &
 TSHARK_PID=$!
 
 taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p loss:=$LOSS -p iteration:=$ITER -p alpha:=$ALPHA &
