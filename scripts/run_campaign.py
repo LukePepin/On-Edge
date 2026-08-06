@@ -43,8 +43,8 @@ def main():
     print("   MASTER AUTOMATION ORCHESTRATOR (H1, H2, H3, H4)")
     print("=====================================================")
     
-    # The Full Factorial Matrix (36 Configurations)
-    algos = ["ZKP", "ECC", "CLOUD"]
+    # The Full Factorial Matrix (24 Configurations)
+    algos = ["ZKP", "ECC"]
     outages = [500, 1000, 2000, 5000]
     alphas = [0.5, 0.7, 0.9]
     
