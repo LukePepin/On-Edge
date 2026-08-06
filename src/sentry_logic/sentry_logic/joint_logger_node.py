@@ -120,7 +120,7 @@ class JointLoggerNode(Node):
         os.makedirs(data_dir, exist_ok=True)
         ewma_str = f"ewma{int(ewma_alpha * 10)}"
         ts = str(self.run_timestamp) if self.run_timestamp != 0 else str(int(time.time()))
-        self.filename = os.path.join(data_dir, f"trial_{algo}_loss{loss}_{ewma_str}_iter{iter_num}_{ts}.csv")
+        self.filename = os.path.join(data_dir, f"trial_{algo}_outage{loss}_{ewma_str}_iter{iter_num}_{ts}.csv")
         
         try:
             self.file = open(self.filename, mode='w', newline='')

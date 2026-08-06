@@ -78,7 +78,7 @@ while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --p
 # 3. Spool Up Data Loggers
 # ------------------------------------------------------------------------------
 echo "[2/4] Spooling up Loggers..."
-mkdir -p data/60_trial_run
+mkdir -p data
 ALPHA_STR="ewma${ALPHA#0.}"
 TIMESTAMP=$(date +%s)
 
@@ -125,7 +125,7 @@ pkill -f "sentry_logic/stream_wrist_kinematics" || true
 sudo killall tshark 2>/dev/null || true
 
 # Move the PCAP from /tmp to the secure data directory
-sudo mv $PCAP_TMP data/60_trial_run/ 2>/dev/null || true
+sudo mv $PCAP_TMP data/ 2>/dev/null || true
 
 echo "Cleaning up network rules..."
 while sudo iptables -D OUTPUT -p tcp --dport 8080 -j DROP 2>/dev/null; do :; done
