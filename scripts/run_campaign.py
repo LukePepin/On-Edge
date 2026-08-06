@@ -43,13 +43,32 @@ def main():
     print("   MASTER AUTOMATION ORCHESTRATOR (H1, H2, H3, H4)")
     print("=====================================================")
     
-    algos = ["ZKP", "ECC", "CLOUD"]
-    outages_ms = [500, 1000, 2000, 5000]
-    alphas = [0.1, 0.5, 0.9]
+    # The optimized 12-configuration Resolution IV Fractional Factorial matrix
+    configurations = [
+        # (Algo, Outage_ms, Alpha)
+        ("ZKP", 500, 0.1),
+        ("ZKP", 1000, 0.5),
+        ("ZKP", 2000, 0.9),
+        ("ZKP", 5000, 0.5),
+        ("ZKP", 500, 0.9),
+        ("ZKP", 5000, 0.1),
+        
+        ("ECC", 500, 0.1),
+        ("ECC", 1000, 0.5),
+        ("ECC", 2000, 0.9),
+        ("ECC", 5000, 0.5),
+        ("ECC", 500, 0.9),
+        ("ECC", 5000, 0.1)
+    ]
+    
     iters = list(range(1, 13))  # N=12 trials per configuration
     
     # Generate schedule
-    schedule = list(itertools.product(algos, outages_ms, alphas, iters))
+    schedule = []
+    for config in configurations:
+        for iter_num in iters:
+            schedule.append((*config, iter_num))
+            
     total_runs = len(schedule)
     
     print(f"Total Trials Scheduled: {total_runs}")
