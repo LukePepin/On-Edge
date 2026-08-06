@@ -38,8 +38,8 @@ def recover_robot():
     # Wait for controllers to be fully active before bash takes over
     print("--- RECOVERY COMPLETE, PROCEEDING TO NEXT TRIAL ---\n")
 
-import pandas as pd
 import glob
+import csv
 
 def validate_trial(algo, outage, alpha, iter_num):
     search_pattern = f"data/trial_{algo}_outage{outage}_ewma{int(alpha*10)}_iter{iter_num}_*.csv"
@@ -50,28 +50,51 @@ def validate_trial(algo, outage, alpha, iter_num):
         
     latest_file = max(files, key=os.path.getctime)
     try:
-        df = pd.read_csv(latest_file)
-        if len(df) < 50: return False
+        with open(latest_file, 'r') as f:
+            reader = csv.reader(f)
+            headers = next(reader)
             
-        t0 = df['timestamp_sec'].iloc[0] + (df['timestamp_nanosec'].iloc[0] * 1e-9)
-        df['time'] = (df['timestamp_sec'] + (df['timestamp_nanosec'] * 1e-9)) - t0
-        
-        attack_rows = df[df['attack_active'] == 1]
-        if len(attack_rows) == 0: return False
-        attack_t = attack_rows.iloc[0]['time']
-        
-        df['pos_diff'] = df[['shoulder_pan_pos', 'shoulder_lift_pos', 'elbow_pos', 'wrist_1_pos', 'wrist_2_pos', 'wrist_3_pos']].diff().abs().sum(axis=1)
-        
-        post_attack_df = df[df['time'] > attack_t]
-        eviction_rows = post_attack_df[post_attack_df['trust_score'] <= 30.0]
-        if len(eviction_rows) == 0: return False
-        eviction_t = eviction_rows.iloc[0]['time']
-        
-        post_evict_df = df[df['time'] > eviction_t]
-        for idx in range(len(post_evict_df) - 10):
-            window = post_evict_df.iloc[idx:idx+10]
-            if (window['pos_diff'] < 0.025).all():
-                return True
+            # Map column indices
+            t_sec_idx = headers.index('timestamp_sec')
+            t_nano_idx = headers.index('timestamp_nanosec')
+            trust_idx = headers.index('trust_score')
+            attack_idx = headers.index('attack_active')
+            pos_indices = [headers.index(f) for f in ['shoulder_pan_pos', 'shoulder_lift_pos', 'elbow_pos', 'wrist_1_pos', 'wrist_2_pos', 'wrist_3_pos']]
+            
+            rows = list(reader)
+            if len(rows) < 50: return False
+            
+            t0 = float(rows[0][t_sec_idx]) + (float(rows[0][t_nano_idx]) * 1e-9)
+            
+            attack_t = None
+            eviction_t = None
+            consecutive_still_frames = 0
+            
+            for i in range(1, len(rows)):
+                curr_row = rows[i]
+                prev_row = rows[i-1]
+                
+                t = (float(curr_row[t_sec_idx]) + (float(curr_row[t_nano_idx]) * 1e-9)) - t0
+                attack = int(curr_row[attack_idx])
+                trust = float(curr_row[trust_idx])
+                
+                if attack_t is None and attack == 1:
+                    attack_t = t
+                    
+                if attack_t is not None and eviction_t is None and trust <= 30.0:
+                    eviction_t = t
+                    
+                # Calculate pos_diff
+                pos_diff = sum(abs(float(curr_row[j]) - float(prev_row[j])) for j in pos_indices)
+                
+                if eviction_t is not None and t > eviction_t:
+                    if pos_diff < 0.025:
+                        consecutive_still_frames += 1
+                        if consecutive_still_frames >= 10:
+                            return True
+                    else:
+                        consecutive_still_frames = 0
+                        
         return False
     except Exception as e:
         print(f"[Validator] Exception parsing CSV: {e}")
