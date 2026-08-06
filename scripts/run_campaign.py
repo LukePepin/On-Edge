@@ -43,25 +43,14 @@ def main():
     print("   MASTER AUTOMATION ORCHESTRATOR (H1, H2, H3, H4)")
     print("=====================================================")
     
-    # The optimized 12-configuration Resolution IV Fractional Factorial matrix
-    configurations = [
-        # (Algo, Outage_ms, Alpha)
-        ("ZKP", 500, 0.1),
-        ("ZKP", 1000, 0.5),
-        ("ZKP", 2000, 0.9),
-        ("ZKP", 5000, 0.5),
-        ("ZKP", 500, 0.9),
-        ("ZKP", 5000, 0.1),
-        
-        ("ECC", 500, 0.1),
-        ("ECC", 1000, 0.5),
-        ("ECC", 2000, 0.9),
-        ("ECC", 5000, 0.5),
-        ("ECC", 500, 0.9),
-        ("ECC", 5000, 0.1)
-    ]
+    # The Full Factorial Matrix (36 Configurations)
+    algos = ["ZKP", "ECC", "CLOUD"]
+    outages = [500, 1000, 2000, 5000]
+    alphas = [0.5, 0.7, 0.9]
     
-    iters = list(range(1, 13))  # N=12 trials per configuration
+    configurations = list(itertools.product(algos, outages, alphas))
+    
+    iters = list(range(1, 6))  # N=5 trials per configuration (G*Power requirement)
     
     # Generate schedule
     schedule = []

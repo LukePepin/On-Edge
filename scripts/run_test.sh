@@ -85,10 +85,11 @@ TIMESTAMP=$(date +%s)
 # tshark drops root privileges when writing files, causing Permission Denied in user dirs.
 # We bypass this by writing to the world-writable /tmp dir, then moving it later.
 PCAP_TMP="/tmp/trial_${ALGO}_outage${OUTAGE}_${ALPHA_STR}_iter${ITER}_${TIMESTAMP}.pcap"
-taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:80 -w $PCAP_TMP > /dev/null 2>&1 &
+taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:120 -w $PCAP_TMP > /dev/null 2>&1 &
 
 taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p outage:=$OUTAGE -p iteration:=$ITER -p alpha:=$ALPHA -p timestamp:=$TIMESTAMP &
 LOGGER_PID=$!
+sudo chrt -f 99 -p $LOGGER_PID
 
 echo "⏳ Waiting for Arduino Dynamic Handshake to complete (approx 5 seconds)..."
 sleep 6 # Wait for the Python logger to finish its boot-loop and engage the Optocoupler HIGH
@@ -106,8 +107,11 @@ taskset 0x7 ros2 control switch_controllers --activate passthrough_trajectory_co
 
 echo "[3/4] Executing Kinematic Trajectory (Autonomous Attack Injection Enabled)..."
 # Pass ALGO to kinematics to dynamically select the 5s (ZKP) or 15s (CLOUD) sweep
-# Run in the FOREGROUND so bash natively blocks! (Timeout managed dynamically by Python)
-taskset 0x7 ros2 run sentry_logic stream_wrist_kinematics --ros-args -p algo:=$ALGO
+# Run in the background to apply chrt, then wait for it to unblock bash orchestrator
+taskset 0x7 ros2 run sentry_logic stream_wrist_kinematics --ros-args -p algo:=$ALGO &
+KINEMATICS_PID=$!
+sudo chrt -f 99 -p $KINEMATICS_PID
+wait $KINEMATICS_PID
 
 echo "⏳ Trajectory complete. Waiting 3 seconds for trailing flatline data to stabilize..."
 sleep 3
