@@ -38,6 +38,45 @@ def recover_robot():
     # Wait for controllers to be fully active before bash takes over
     print("--- RECOVERY COMPLETE, PROCEEDING TO NEXT TRIAL ---\n")
 
+import pandas as pd
+import glob
+
+def validate_trial(algo, outage, alpha, iter_num):
+    search_pattern = f"data/trial_{algo}_outage{outage}_ewma{int(alpha*10)}_iter{iter_num}_*.csv"
+    files = glob.glob(search_pattern)
+    if not files:
+        print("[Validator] No CSV found.")
+        return False
+        
+    latest_file = max(files, key=os.path.getctime)
+    try:
+        df = pd.read_csv(latest_file)
+        if len(df) < 50: return False
+            
+        t0 = df['timestamp_sec'].iloc[0] + (df['timestamp_nanosec'].iloc[0] * 1e-9)
+        df['time'] = (df['timestamp_sec'] + (df['timestamp_nanosec'] * 1e-9)) - t0
+        
+        attack_rows = df[df['attack_active'] == 1]
+        if len(attack_rows) == 0: return False
+        attack_t = attack_rows.iloc[0]['time']
+        
+        df['pos_diff'] = df[['shoulder_pan_pos', 'shoulder_lift_pos', 'elbow_pos', 'wrist_1_pos', 'wrist_2_pos', 'wrist_3_pos']].diff().abs().sum(axis=1)
+        
+        post_attack_df = df[df['time'] > attack_t]
+        eviction_rows = post_attack_df[post_attack_df['trust_score'] <= 30.0]
+        if len(eviction_rows) == 0: return False
+        eviction_t = eviction_rows.iloc[0]['time']
+        
+        post_evict_df = df[df['time'] > eviction_t]
+        for idx in range(len(post_evict_df) - 10):
+            window = post_evict_df.iloc[idx:idx+10]
+            if (window['pos_diff'] < 0.025).all():
+                return True
+        return False
+    except Exception as e:
+        print(f"[Validator] Exception parsing CSV: {e}")
+        return False
+
 def main():
     print("=====================================================")
     print("   MASTER AUTOMATION ORCHESTRATOR (H1, H2, H3, H4)")
@@ -50,41 +89,44 @@ def main():
     
     configurations = list(itertools.product(algos, outages, alphas))
     
-    iters = list(range(1, 6))  # N=5 trials per configuration (G*Power requirement)
-    
-    # Generate schedule
-    schedule = []
-    for config in configurations:
-        for iter_num in iters:
-            schedule.append((*config, iter_num))
-            
-    total_runs = len(schedule)
-    
-    print(f"Total Trials Scheduled: {total_runs}")
+    print(f"Total Configurations Scheduled: {len(configurations)}")
     print("Starting in 5 seconds. Please ensure you are clear of the robot cell!")
     time.sleep(5)
     
-    for i, (algo, outage, alpha, iter_num) in enumerate(schedule):
-        print(f"\n[{i+1}/{total_runs}] Starting Trial: {algo} | Outage {outage}ms | Alpha {alpha} | Iter {iter_num}")
+    for config_idx, (algo, outage, alpha) in enumerate(configurations):
+        valid_runs = 0
+        iter_num = 1
         
-        # 1. Execute the trial via bash
-        cmd = [
-            "./scripts/run_test.sh",
-            "--algo", algo,
-            "--outage", str(outage),
-            "--iter", str(iter_num),
-            "--alpha", str(alpha)
-        ]
-        
-        try:
-            # We use check=True so if bash fails entirely, we stop the campaign.
-            subprocess.run(cmd, check=True)
-        except subprocess.CalledProcessError as e:
-            print(f"Trial failed with exit code {e.returncode}. Aborting campaign.")
-            break
+        while valid_runs < 5:
+            print(f"\n[Config {config_idx+1}/{len(configurations)}] Starting Trial: {algo} | Outage {outage}ms | Alpha {alpha} | Valid N: {valid_runs}/5 (Attempt {iter_num})")
             
-        # 2. Autonomous Recovery via Dashboard Server
-        recover_robot()
+            # 1. Execute the trial via bash
+            cmd = [
+                "./scripts/run_test.sh",
+                "--algo", algo,
+                "--outage", str(outage),
+                "--iter", str(iter_num),
+                "--alpha", str(alpha)
+            ]
+            
+            try:
+                # We use check=True so if bash fails entirely, we stop the campaign.
+                subprocess.run(cmd, check=True)
+            except subprocess.CalledProcessError as e:
+                print(f"Trial failed with exit code {e.returncode}. Aborting campaign.")
+                return
+                
+            # 2. Validate the Trial
+            if validate_trial(algo, outage, alpha, iter_num):
+                print(f"✅ Trial mathematically valid! Incrementing Valid N.")
+                valid_runs += 1
+            else:
+                print(f"❌ Trial discarded (failed standstill bounds or missed eviction). Retrying.")
+            
+            iter_num += 1
+            
+            # 3. Autonomous Recovery via Dashboard Server
+            recover_robot()
 
 if __name__ == "__main__":
     main()

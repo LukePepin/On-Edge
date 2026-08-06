@@ -114,20 +114,20 @@ void execute_ecc_verification() {
   // Base ECC Payload (1 loop = ~111.5ms on Cortex-M4)
   uECC_make_key(public_key, private_key);
   
-  if (attack_mode_active) {
-    for(int i = 0; i < 7; i++) {
-      uECC_make_key(public_key, private_key);
-    }
-  }
-  
   uint32_t end_cycles = ARM_DWT_CYCCNT;
   float exec_time_ms = (float)(end_cycles - start_cycles) / 64000.0;
   
   float current_trust = 100.0;
-  // Calibrated Threshold: 150.0ms (gives ~38ms of hardware jitter headroom)
-  if (exec_time_ms > 150.0) {
-    float penalty = (float)(exec_time_ms - 150.0);
-    current_trust = max(0.0f, 100.0f - penalty); 
+  
+  if (attack_mode_active) {
+    // Immediate trust failure when network attack is active (simulates dropped packets without blocking thread)
+    current_trust = 0.0;
+  } else {
+    // Calibrated Threshold: 150.0ms (gives ~38ms of hardware jitter headroom)
+    if (exec_time_ms > 150.0) {
+      float penalty = (float)(exec_time_ms - 150.0);
+      current_trust = max(0.0f, 100.0f - penalty); 
+    }
   }
   
   trust_score = (ewma_alpha * current_trust) + ((1.0 - ewma_alpha) * trust_score);
@@ -161,20 +161,20 @@ void execute_zkp_verification() {
     uECC_make_key(public_key, private_key);
   }
   
-  if (attack_mode_active) {
-    for(int i = 0; i < 6; i++) {
-      uECC_make_key(public_key, private_key);
-    }
-  }
-  
   uint32_t end_cycles = ARM_DWT_CYCCNT;
   float exec_time_ms = (float)(end_cycles - start_cycles) / 64000.0;
   
   float current_trust = 100.0;
-  // Original Threshold: 400.0ms (gives ~65ms of hardware jitter headroom)
-  if (exec_time_ms > 400.0) {
-    float penalty = (float)(exec_time_ms - 400.0);
-    current_trust = max(0.0f, 100.0f - penalty); 
+  
+  if (attack_mode_active) {
+    // Immediate trust failure when network attack is active (simulates dropped packets without blocking thread)
+    current_trust = 0.0;
+  } else {
+    // Original Threshold: 400.0ms (gives ~65ms of hardware jitter headroom)
+    if (exec_time_ms > 400.0) {
+      float penalty = (float)(exec_time_ms - 400.0);
+      current_trust = max(0.0f, 100.0f - penalty); 
+    }
   }
   
   trust_score = (ewma_alpha * current_trust) + ((1.0 - ewma_alpha) * trust_score);
