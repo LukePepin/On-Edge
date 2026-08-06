@@ -21,7 +21,10 @@ ALPHA="0.3"
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         -a|--algo) ALGO="$2"; shift ;;
-        -l|--loss) LOSS="$2"; shift ;;
+        --outage)
+            OUTAGE="$2"
+            shift
+            ;;
         -i|--iter) ITER="$2"; shift ;;
         -p|--alpha) ALPHA="$2"; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
@@ -29,18 +32,8 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
-if [ -z "$ALGO" ] || [ -z "$LOSS" ] || [ -z "$ITER" ]; then
-    echo "Usage: $0 --algo <ZKP/ECC/CLOUD> --loss <25/50/75> --iter <int> [--alpha <float>]"
-    exit 1
-fi
-
-if [[ "$LOSS" != "0" && "$LOSS" != "25" && "$LOSS" != "50" && "$LOSS" != "75" && "$LOSS" != "100" ]]; then
-    echo "ERROR: --loss must be exactly 25, 50, or 75 (0 and 100 permitted for extreme control tests)."
-    exit 1
-fi
-
-if [[ "$ALPHA" != "0.1" && "$ALPHA" != "0.3" && "$ALPHA" != "0.5" ]]; then
-    echo "ERROR: --alpha must be exactly 0.1, 0.3, or 0.5."
+if [ -z "$ALGO" ] || [ -z "$OUTAGE" ] || [ -z "$ITER" ]; then
+    echo "Usage: $0 --algo <ZKP/ECC/CLOUD> --outage <int ms> --iter <int> [--alpha <float>]"
     exit 1
 fi
 
@@ -51,7 +44,7 @@ if [ "$MEMLOCK" != "unlimited" ]; then
 fi
 
 echo "==========================================================="
-echo "   SINGLE-SHOT TRIAL: $ALGO | Jamming: $LOSS% | Iter: $ITER | Alpha: $ALPHA"
+echo "   SINGLE-SHOT TRIAL: $ALGO | Outage: ${OUTAGE}ms | Iter: $ITER | Alpha: $ALPHA"
 echo "==========================================================="
 
 cd $WORKSPACE_DIR
@@ -78,15 +71,8 @@ while sudo iptables -D OUTPUT -p tcp --dport 8080 -j DROP 2>/dev/null; do :; don
 while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 0.3 -j DROP 2>/dev/null; do :; done
 while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 0.1 -j DROP 2>/dev/null; do :; done
 while sudo iptables -D OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability 1.0 -j DROP 2>/dev/null; do :; done
-# 2. Network Perturbation Injection (NetEm)
-# ------------------------------------------------------------------------------
-if [ "$ALGO" == "CLOUD" ] || [ "$ALGO" == "ZKP" ]; then
-    echo "      Injecting $LOSS% Packet Loss on Cloud Auth (Port 8080)..."
-    sudo tc qdisc del dev $WLAN_INTERFACE root 2>/dev/null || true
-    # Removed /dev/null to debug if interface exists
-    sudo tc qdisc add dev $WLAN_INTERFACE root netem loss $LOSS%
-    sudo iptables -A OUTPUT -p tcp --dport 8080 -m statistic --mode random --probability $(echo "scale=2; $LOSS/100" | bc) -j DROP
-fi
+# Note: Deterministic network outages are now dynamically triggered by the Python orchestrator
+# when the strike zone is reached.
 
 # ------------------------------------------------------------------------------
 # 3. Spool Up Data Loggers
@@ -98,10 +84,10 @@ TIMESTAMP=$(date +%s)
 
 # tshark drops root privileges when writing files, causing Permission Denied in user dirs.
 # We bypass this by writing to the world-writable /tmp dir, then moving it later.
-PCAP_TMP="/tmp/trial_${ALGO}_loss${LOSS}_${ALPHA_STR}_iter${ITER}_${TIMESTAMP}.pcap"
+PCAP_TMP="/tmp/trial_${ALGO}_outage${OUTAGE}_${ALPHA_STR}_iter${ITER}_${TIMESTAMP}.pcap"
 taskset 0x7 sudo tshark -i $WLAN_INTERFACE -f "udp" -a duration:80 -w $PCAP_TMP > /dev/null 2>&1 &
 
-taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p loss:=$LOSS -p iteration:=$ITER -p alpha:=$ALPHA -p timestamp:=$TIMESTAMP &
+taskset 0x7 ros2 run sentry_logic joint_logger --ros-args -p algo:=$ALGO -p outage:=$OUTAGE -p iteration:=$ITER -p alpha:=$ALPHA -p timestamp:=$TIMESTAMP &
 LOGGER_PID=$!
 
 echo "⏳ Waiting for Arduino Dynamic Handshake to complete (approx 5 seconds)..."

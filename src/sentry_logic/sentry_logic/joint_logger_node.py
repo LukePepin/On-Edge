@@ -16,14 +16,14 @@ class JointLoggerNode(Node):
     def __init__(self):
         super().__init__('joint_logger_node')
         
-        self.declare_parameter('algo', 'UNKNOWN')
-        self.declare_parameter('loss', 0)
-        self.declare_parameter('iteration', 1)
-        self.declare_parameter('alpha', 0.3)
+        self.declare_parameter('algo', 'ZKP')
+        self.declare_parameter('outage', 2000)
+        self.declare_parameter('iteration', 0)
+        self.declare_parameter('alpha', 0.5)
         self.declare_parameter('timestamp', 0)
         
         algo = self.get_parameter('algo').value
-        loss = self.get_parameter('loss').value
+        loss = self.get_parameter('outage').value
         iter_num = self.get_parameter('iteration').value
         ewma_alpha = self.get_parameter('alpha').value
         self.run_timestamp = self.get_parameter('timestamp').value
@@ -182,49 +182,38 @@ class JointLoggerNode(Node):
             return
             
         algo = self.get_parameter('algo').value
+        outage_ms = self.get_parameter('outage').value
+        outage_sec = outage_ms / 1000.0
+        
+        self.get_logger().warn(f"🧨 INJECTING {outage_ms}ms DETERMINISTIC OUTAGE...")
         
         if algo == 'CLOUD':
-            self.get_logger().warn("☁️ CLOUD MODE: Simulating Network Dependency...")
-            cloud_timeout = 1.0
-            last_auth_time = time.time()
-            idp_url = 'http://192.168.0.161:8080/api/auth/lease'
+            self.get_logger().warn("☁️ CLOUD MODE: Severing port 8080 via iptables...")
+            import subprocess
+            subprocess.run(["sudo", "iptables", "-A", "OUTPUT", "-p", "tcp", "--dport", "8080", "-j", "DROP"], check=False)
+            time.sleep(outage_sec)
+            subprocess.run(["sudo", "iptables", "-D", "OUTPUT", "-p", "tcp", "--dport", "8080", "-j", "DROP"], check=False)
+            self.get_logger().warn("☁️ CLOUD MODE: Restored port 8080.")
             
-            while self.running:
-                current_time = time.time()
-                
-                # Check for TTL Expiration FIRST
-                if current_time - last_auth_time > cloud_timeout:
-                    self.get_logger().error("🚨 CLOUD LEASE EXPIRED! Hardware Kill Switch Triggered!")
-                    break
-                    
-                try:
-                    response = requests.get(idp_url, timeout=1.0)
-                    if response.status_code == 200:
-                        self.get_logger().info("☁️ Cloud Auth OK.")
-                        last_auth_time = time.time()  # Successfully hit server, reset TTL!
-                except requests.exceptions.RequestException as e:
-                    self.get_logger().error(f"⚠️ Cloud Request Failed: {e}")
-                
-                time.sleep(0.1)
-                
-            if not self.running:
-                return  # Node is shutting down, exit cleanly without attacking!
-        elif algo == 'ECC':
-            self.get_logger().warn("🛡️ ECC MODE: Heavy Cryptographic Verification (Slower Severance)")
         else:
-            self.get_logger().warn("🛡️ ZKP MODE: Local Cryptographic Mesh (Instant Severance)")
+            if algo == 'ECC':
+                self.get_logger().warn("🛡️ ECC MODE: Heavy Cryptographic Verification (Slower Severance)")
+            else:
+                self.get_logger().warn("🛡️ ZKP MODE: Local Cryptographic Mesh (Instant Severance)")
+                
+            self.get_logger().warn(f"INJECTING {outage_sec}-SECOND CRYPTOGRAPHIC PAYLOAD...")
             
-        self.get_logger().warn("INJECTING 10-SECOND CRYPTOGRAPHIC PAYLOAD...")
-        with self.serial_lock:
-            # 14 iterations * 0.75s = ~10.5 seconds.
-            for i in range(14):
-                try:
-                    self.serial_port.write(b"ATTACK\n")
-                    self.serial_port.flush()
-                except Exception as e:
-                    self.get_logger().error(f"Write failed: {e}")
-                time.sleep(0.75)
-        self.get_logger().warn("PAYLOAD INJECTION COMPLETE. Hardware should auto-recover.")
+            start_time = time.time()
+            with self.serial_lock:
+                while (time.time() - start_time) < outage_sec:
+                    try:
+                        self.serial_port.write(b"ATTACK\n")
+                        self.serial_port.flush()
+                    except Exception as e:
+                        self.get_logger().error(f"Write failed: {e}")
+                    time.sleep(0.05) # Send at 20Hz during the outage block
+            
+            self.get_logger().warn("PAYLOAD INJECTION COMPLETE. Hardware should auto-recover.")
 
     def imu_callback(self, msg):
         ax = msg.linear_acceleration.x
