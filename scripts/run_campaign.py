@@ -100,6 +100,9 @@ def validate_trial(algo, outage, alpha, iter_num):
         print(f"[Validator] Exception parsing CSV: {e}")
         return False
 
+import random
+import itertools
+
 def main():
     print("=====================================================")
     print("   MASTER AUTOMATION ORCHESTRATOR (H1, H2, H3, H4)")
@@ -109,47 +112,76 @@ def main():
     algos = ["ZKP", "ECC"]
     outages = [500, 1000, 2000, 5000]
     alphas = [0.5, 0.7, 0.9]
+    iters = list(range(1, 6))
     
     configurations = list(itertools.product(algos, outages, alphas))
     
-    print(f"Total Configurations Scheduled: {len(configurations)}")
+    # 1. Generate a Flat Matrix of 120 scheduled runs
+    schedule = []
+    for config in configurations:
+        for iter_num in iters:
+            schedule.append({
+                'algo': config[0],
+                'outage': config[1],
+                'alpha': config[2],
+                'iter_num': iter_num,
+                'attempt': 1
+            })
+            
+    print(f"Total Unique Configurations: {len(configurations)}")
+    print(f"Total Physical Trials Scheduled: {len(schedule)}")
+    print("Applying pseudo-random shuffle (seed=42) to guarantee ANOVA i.i.d. error independence...")
+    
+    # 2. Apply Initial Shuffle
+    random.seed(42)
+    random.shuffle(schedule)
+    
+    target_runs = len(schedule)
+    valid_runs_completed = 0
+    
     print("Starting in 5 seconds. Please ensure you are clear of the robot cell!")
     time.sleep(5)
     
-    for config_idx, (algo, outage, alpha) in enumerate(configurations):
-        valid_runs = 0
-        iter_num = 1
+    # 3. Pop and Execute with Dynamic Handoff
+    while len(schedule) > 0:
+        trial = schedule.pop(0)
+        algo = trial['algo']
+        outage = trial['outage']
+        alpha = trial['alpha']
+        iter_num = trial['iter_num']
+        attempt = trial['attempt']
         
-        while valid_runs < 5:
-            print(f"\n[Config {config_idx+1}/{len(configurations)}] Starting Trial: {algo} | Outage {outage}ms | Alpha {alpha} | Valid N: {valid_runs}/5 (Attempt {iter_num})")
+        print(f"\n[{valid_runs_completed+1}/{target_runs}] Starting Trial: {algo} | Outage {outage}ms | Alpha {alpha} | Iter {iter_num} (Attempt {attempt})")
+        print(f"Remaining in Randomized Queue: {len(schedule) + 1}")
+        
+        cmd = [
+            "./scripts/run_test.sh",
+            "--algo", algo,
+            "--outage", str(outage),
+            "--iter", str(iter_num),
+            "--alpha", str(alpha)
+        ]
+        
+        try:
+            subprocess.run(cmd, check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Trial failed with exit code {e.returncode}. Aborting campaign.")
+            return
             
-            # 1. Execute the trial via bash
-            cmd = [
-                "./scripts/run_test.sh",
-                "--algo", algo,
-                "--outage", str(outage),
-                "--iter", str(iter_num),
-                "--alpha", str(alpha)
-            ]
+        # 4. Dynamic Self-Healing Catch
+        if validate_trial(algo, outage, alpha, iter_num):
+            print("✅ Trial mathematically valid! (Eviction and mechanical standstill verified).")
+            valid_runs_completed += 1
+        else:
+            # 5. Reshuffle the Remainder
+            print("❌ Trial discarded (failed standstill bounds or missed eviction).")
+            print("Appending replacement to the queue and reshuffling...")
+            trial['attempt'] += 1
+            schedule.append(trial)
+            random.shuffle(schedule)  # Reshuffle the remaining pool
             
-            try:
-                # We use check=True so if bash fails entirely, we stop the campaign.
-                subprocess.run(cmd, check=True)
-            except subprocess.CalledProcessError as e:
-                print(f"Trial failed with exit code {e.returncode}. Aborting campaign.")
-                return
-                
-            # 2. Validate the Trial
-            if validate_trial(algo, outage, alpha, iter_num):
-                print(f"✅ Trial mathematically valid! Incrementing Valid N.")
-                valid_runs += 1
-            else:
-                print(f"❌ Trial discarded (failed standstill bounds or missed eviction). Retrying.")
-            
-            iter_num += 1
-            
-            # 3. Autonomous Recovery via Dashboard Server
-            recover_robot()
+        # Autonomous Recovery via Dashboard Server
+        recover_robot()
 
 if __name__ == "__main__":
     main()
