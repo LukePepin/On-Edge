@@ -4,6 +4,7 @@ import time
 import socket
 import itertools
 import os
+import argparse
 
 UR_IP = "192.168.0.149"
 UR_PORT = 29999
@@ -104,14 +105,16 @@ import random
 import itertools
 
 def main():
+    parser = argparse.ArgumentParser(description="Master Automation Orchestrator")
+    parser.add_argument('--half', type=int, choices=[1, 2], help="Which half of the test to run (1 or 2)")
+    args = parser.parse_args()
+
     print("=====================================================")
     print("   MASTER AUTOMATION ORCHESTRATOR (H1, H2, H3, H4)")
-    print("=====================================================")
-    
-    # The Full Factorial Matrix (24 Configurations)
-    algos = ["ZKP", "ECC"]
-    outages = [500, 1000, 2000, 5000]
-    alphas = [0.5, 0.7, 0.9]
+    # The Mega-Test Full Matrix (Expansions A & B)
+    algos = ["CLOUD", "ZKP", "ECC"]
+    outages = [500, 1000, 2000, 5000] # Attack Duration (ms)
+    alphas = [0.1, 0.3, 0.5]
     iters = list(range(1, 6))
     
     configurations = list(itertools.product(algos, outages, alphas))
@@ -132,9 +135,17 @@ def main():
     print(f"Total Physical Trials Scheduled: {len(schedule)}")
     print("Applying pseudo-random shuffle (seed=42) to guarantee ANOVA i.i.d. error independence...")
     
-    # 2. Apply Initial Shuffle
+    # 2. Apply Initial Shuffle (Deterministic seed so both halves align)
     random.seed(42)
     random.shuffle(schedule)
+    
+    # Slice the schedule if requested
+    if args.half == 1:
+        schedule = schedule[:len(schedule)//2]
+        print(f"--- RUNNING FIRST HALF ({len(schedule)} Trials) ---")
+    elif args.half == 2:
+        schedule = schedule[len(schedule)//2:]
+        print(f"--- RUNNING SECOND HALF ({len(schedule)} Trials) ---")
     
     target_runs = len(schedule)
     valid_runs_completed = 0
@@ -151,7 +162,7 @@ def main():
         iter_num = trial['iter_num']
         attempt = trial['attempt']
         
-        print(f"\n[{valid_runs_completed+1}/{target_runs}] Starting Trial: {algo} | Outage {outage}ms | Alpha {alpha} | Iter {iter_num} (Attempt {attempt})")
+        print(f"\n[{valid_runs_completed+1}/{target_runs}] Starting Trial: {algo} | Outage/Spoof {outage}ms | Alpha {alpha} | Iter {iter_num} (Attempt {attempt})")
         print(f"Remaining in Randomized Queue: {len(schedule) + 1}")
         
         cmd = [
