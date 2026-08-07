@@ -111,8 +111,8 @@ def main():
 
     print("=====================================================")
     print("   MASTER AUTOMATION ORCHESTRATOR (H1, H2, H3, H4)")
-    # The Mega-Test Full Matrix (Expansions A & B)
-    algos = ["CLOUD", "ZKP", "ECC"]
+    # The Expansion B Latency Matrix (ZKP vs ECC)
+    algos = ["ZKP", "ECC"]
     outages = [500, 1000, 2000, 5000] # Attack Duration (ms)
     alphas = [0.1, 0.3, 0.5]
     iters = list(range(1, 6))
