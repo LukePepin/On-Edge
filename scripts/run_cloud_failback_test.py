@@ -13,7 +13,7 @@ import sys
 # 2. Asynchronously monitors the local edge mesh via ping.
 # 3. If the connection stabilizes for the threshold duration, it restores cloud authority.
 
-SECONDARY_PI_IP = "192.168.0.150" 
+SECONDARY_PI_IP = "on-edge-pi.local" 
 FAILBACK_THRESHOLD_SECONDS = 60 # Set to 60s for demo purposes (Thesis specifies 5 mins)
 
 class MockCloudIdP(BaseHTTPRequestHandler):
@@ -96,6 +96,7 @@ def monitor_secondary_node():
             else:
                 if continuous_uptime > 0:
                     print(f"[Failback Monitor] Connection lost! Resetting stability counter from {continuous_uptime}s to 0s.")
+                # Do not spam if already 0
                 continuous_uptime = 0
                 
         except Exception as e:
