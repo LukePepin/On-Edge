@@ -47,7 +47,7 @@ const int SAFETY_PIN = 12; // 24V PNP Optocoupler Bypass
 void setup() {
   Serial.begin(115200);
   pinMode(SAFETY_PIN, OUTPUT);
-  digitalWrite(SAFETY_PIN, LOW); // Start in safe state (Category 0 Halt)
+  digitalWrite(SAFETY_PIN, HIGH); // Start in active state to prevent reset jitter
   
   // Enable DWT Cycle Counter hardware register
   ARM_DEMCR |= ARM_DEMCR_TRCENA;

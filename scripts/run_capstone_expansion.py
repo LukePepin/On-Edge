@@ -39,8 +39,8 @@ def run_capstone_sequence(ser, iter_num):
     print(f"=======================================================\n")
     
     # 0. PRE-FLIGHT (Unlock safety pin to allow Cloud Phase movement)
-    # Inject a baseline payload to boot the Arduino into ECC and raise the safety pin
-    ser.write((json.dumps({"algo": "ECC", "alpha": 0.5}) + '\n').encode('utf-8'))
+    # Inject a baseline payload to boot the Arduino into CLOUD idle state
+    ser.write((json.dumps({"algo": "CLOUD", "alpha": 1.0}) + '\n').encode('utf-8'))
     while True:
         line = ser.readline().decode('utf-8', errors='ignore').strip()
         if line == '{"status": "READY"}':
