@@ -11,7 +11,7 @@ import threading
 
 UR_IP = "192.168.0.149"
 UR_PORT = 29999
-CLOUD_IP = "192.168.0.12" # Laptop IP (update if needed)
+CLOUD_IP = "192.168.0.161" # Laptop IP
 CLOUD_PORT = 8080
 
 def get_serial_ports():
@@ -91,6 +91,7 @@ def main():
                     print(f"\n[CLOUD ACTIVE] TCP Socket Connected to Laptop IdP ({CLOUD_IP})")
                     cloud_active_start = time.time()
                 except Exception:
+                    cloud_socket = None
                     time.sleep(1)
                     continue
 

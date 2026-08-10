@@ -16,6 +16,7 @@ import sys
 PORT = 8080
 server_active = True
 client_conn = None
+has_connected_once = False
 
 def interactive_toggle():
     global server_active, client_conn
@@ -37,10 +38,10 @@ def outage_tracker():
     """Visually tracks the deterministic edge mesh phases during a physical outage."""
     global client_conn
     while True:
-        if server_active and client_conn is None:
+        if server_active and client_conn is None and has_connected_once:
             # We lost connection. Track the autonomous edge mesh.
-            print("\n[IdP Dash] 🔴 OUTAGE DETECTED. Edge Mesh taking over.")
-            print("[IdP Dash] ⏳ T+0s: Edge Node calculating ZKP Identity Proofs...")
+            print("\n[IdP Dash] 🔴 OUTAGE DETECTED. TCP connection severed.")
+            print("[IdP Dash] ⏳ T+0s: Edge Node isolating... Bootstrapping ZKP Identity Proofs.")
             
             # Wait for ZKP to finish (5 seconds)
             time_waited = 0
@@ -49,7 +50,7 @@ def outage_tracker():
                 time_waited += 1
                 
             if client_conn is None:
-                print("\n[IdP Dash] ⚡ T+5s: ZKP Verified. Edge Node hot-swapping to ECC Kinematics...")
+                print("[IdP Dash] ⚡ T+5s: ZKP Mathematical Verification Complete. Hot-swapping to ECC Kinematics...")
                 
             # Wait for ECC to stabilize (10 seconds)
             while time_waited < 15 and client_conn is None:
@@ -57,7 +58,7 @@ def outage_tracker():
                 time_waited += 1
                 
             if client_conn is None:
-                print("\n[IdP Dash] 🛡️ T+15s: Edge Mesh stable. Awaiting network conditions to improve for Rejoin...")
+                print("[IdP Dash] 🛡️ T+15s: Continuous ECC Stability threshold met. Restoring Centralized Cloud Authority...")
                 
             # Wait until reconnected
             while client_conn is None:
@@ -85,6 +86,7 @@ def start_server():
                 server.settimeout(1.0)
                 conn, addr = server.accept()
                 client_conn = conn
+                has_connected_once = True
                 print(f"\n[IdP] 🟢 CENTRALIZED CLOUD AUTHORITY ACTIVE. Edge Node {addr} connected.")
                 
                 while server_active and client_conn:
