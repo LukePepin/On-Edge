@@ -113,6 +113,9 @@ def main():
                 sentry_ser.write(b'JAMMED\n')
                 crypto_ser.write(b'ATTACK\n') # Safely halt robot immediately
                 
+                # Flush buffer to prevent reading stale metrics from a previous trial
+                crypto_ser.reset_input_buffer()
+                
         elif state == "EDGE_MESH":
             # Listen to Sentry Arduino (The Brain)
             sentry_line = sentry_ser.readline().decode('utf-8', errors='ignore').strip()

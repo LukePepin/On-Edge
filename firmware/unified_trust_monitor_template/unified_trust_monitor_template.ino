@@ -84,6 +84,9 @@ void setup() {
             } else if (current_algo == "ECC") {
               is_zkp_active = false;
               is_ecc_active = true;
+            } else if (current_algo == "CLOUD") {
+              is_zkp_active = false;
+              is_ecc_active = false;
             }
 
             configured = true;
@@ -226,6 +229,9 @@ void loop() {
           } else if (current_algo == "ECC") {
             is_zkp_active = false;
             is_ecc_active = true;
+          } else if (current_algo == "CLOUD") {
+            is_zkp_active = false;
+            is_ecc_active = false;
           }
           
           digitalWrite(SAFETY_PIN, HIGH);
