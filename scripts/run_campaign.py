@@ -72,11 +72,12 @@ def validate_trial(algo, outage, alpha, iter_num):
                 if attack == 1:
                     attack_fired = True
                     
-                if trust < min_trust:
-                    min_trust = trust
-                    
-                if trust <= 30.0:
-                    stop_occurred = True
+                if attack_fired:
+                    if trust < min_trust:
+                        min_trust = trust
+                        
+                    if trust <= 30.0:
+                        stop_occurred = True
                         
         return attack_fired, stop_occurred, min_trust
     except Exception as e:
@@ -95,7 +96,7 @@ def main():
     print("   MASTER AUTOMATION ORCHESTRATOR (Sub-Eviction Sweep)")
     # The Sub-Eviction Outage Matrix
     algos = ["ECC"]
-    outages = [50, 100, 150, 200] # Attack Duration (ms)
+    outages = [250, 500, 1000, 2000] # Attack Duration (ms)
     alphas = [0.1, 0.3, 0.5]
     iters = list(range(1, 11))
     

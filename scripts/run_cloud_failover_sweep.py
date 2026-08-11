@@ -10,7 +10,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import itertools
 import os
 
-PORT = 'COM3'  # Arduino port
+PORT = 'COM32'  # Arduino port
 BAUD = 115200
 
 # Sweep Parameters
@@ -28,36 +28,40 @@ class CloudIdPHandler(BaseHTTPRequestHandler):
         
     def do_GET(self):
         global current_outage_pattern
-        
-        if current_outage_pattern == 'clean_drop':
-            # Simulate hard network drop (timeout)
-            time.sleep(2.0)
-            return
-            
-        elif current_outage_pattern == 'flapping':
-            # 500ms flap simulation (randomly drop half the requests)
-            if random.random() > 0.5:
-                time.sleep(1.0)
+        try:
+            if current_outage_pattern == 'clean_drop':
+                # Simulate hard network drop (timeout)
+                time.sleep(2.0)
                 return
-            else:
+                
+            elif current_outage_pattern == 'flapping':
+                # 500ms flap simulation (randomly drop half the requests)
+                if random.random() > 0.5:
+                    time.sleep(1.0)
+                    return
+                else:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'application/json')
+                    self.end_headers()
+                    self.wfile.write(b'{"auth": "valid", "status": "ok"}')
+                    
+            elif current_outage_pattern == 'degraded':
+                # High latency but successful (degraded)
+                time.sleep(1.5)
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
                 self.wfile.write(b'{"auth": "valid", "status": "ok"}')
                 
-        elif current_outage_pattern == 'degraded':
-            # High latency but successful (degraded)
-            time.sleep(1.5)
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(b'{"auth": "valid", "status": "ok"}')
-            
-        else: # Normal operation
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(b'{"auth": "valid", "status": "ok"}')
+            else: # Normal operation
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(b'{"auth": "valid", "status": "ok"}')
+        except Exception:
+            # Client timed out and closed the connection before we could write.
+            # Suppress the socket tracebacks.
+            pass
 
 def run_dummy_cloud():
     server = HTTPServer(('127.0.0.1', 8080), CloudIdPHandler)
@@ -132,6 +136,7 @@ def run_test_sweep():
             detection_latency = 0
             recovery_start = 0
             recovery_latency = 0
+            bootstrap_completion_time = None
             
             state = "CLOUD"
             last_state = "CLOUD"
@@ -150,7 +155,18 @@ def run_test_sweep():
             outage_end = time.time() + 10.0
             while time.time() < outage_end:
                 is_up = probe_cloud(probe_ms)
+                
+                # Active motion without verification
+                if state == "CLOUD" and not is_up:
+                    unmonitored_motion_ms += probe_ms
+                    
                 ser.write(b"CLOUD_UP\n" if is_up else b"CLOUD_DOWN\n")
+                
+                if bootstrap_completion_time and time.time() >= bootstrap_completion_time:
+                    try:
+                        ser.write(b"BOOTSTRAP_COMPLETE\n")
+                    except Exception: pass
+                    bootstrap_completion_time = None
                 
                 # Check for Serial Responses
                 while ser.in_waiting:
@@ -166,8 +182,8 @@ def run_test_sweep():
                                 state = new_state
                                 
                             if new_state == "ZKP_BOOTSTRAP":
-                                # Simulate crypto node bootstrapping
-                                threading.Timer(1.5, lambda: ser.write(b"BOOTSTRAP_COMPLETE\n")).start()
+                                # Simulate crypto node bootstrapping (handled in main loop)
+                                bootstrap_completion_time = time.time() + 1.5
                         except:
                             pass
                             
@@ -193,7 +209,18 @@ def run_test_sweep():
             recovery_end = time.time() + (dwell / 1000.0) + 10.0
             while time.time() < recovery_end:
                 is_up = probe_cloud(probe_ms)
+                
+                # Active motion without verification
+                if state == "CLOUD" and not is_up:
+                    unmonitored_motion_ms += probe_ms
+                    
                 ser.write(b"CLOUD_UP\n" if is_up else b"CLOUD_DOWN\n")
+                
+                if bootstrap_completion_time and time.time() >= bootstrap_completion_time:
+                    try:
+                        ser.write(b"BOOTSTRAP_COMPLETE\n")
+                    except Exception: pass
+                    bootstrap_completion_time = None
                 
                 while ser.in_waiting:
                     line = ser.readline().decode('utf-8', errors='ignore').strip()
@@ -211,14 +238,12 @@ def run_test_sweep():
                     
                 time.sleep(probe_ms / 1000.0)
 
-            # Strict Safety Check: If we ever entered CLOUD mode during an outage 
-            # and the handoff was fake/dropped, we would have unmonitored motion.
-            # But since our orchestrator enforces the handshake, it's 0.
-            if false_rejoins > 0 and current_outage_pattern == 'clean_drop':
-                unmonitored_motion_ms = 1000 # Penalize heavily if this safety failure occurs
+            # Subtract the expected baseline transitions (CLOUD -> ZKP_BOOTSTRAP -> ECC_STEADY -> CLOUD)
+            # to isolate excess churn.
+            excess_oscillations = max(0, oscillations - 3)
 
             writer.writerow([probe_ms, k, dwell, pattern, unmonitored_motion_ms, 
-                             false_rejoins, round(detection_latency,2), round(recovery_latency,2), oscillations])
+                             false_rejoins, round(detection_latency,2), round(recovery_latency,2), excess_oscillations])
             
             run += 1
             
