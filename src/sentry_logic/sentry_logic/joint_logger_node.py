@@ -212,8 +212,16 @@ class JointLoggerNode(Node):
                     except Exception as e:
                         self.get_logger().error(f"Write failed: {e}")
                     time.sleep(0.05) # Send at 20Hz during the outage block
+                
+                # Outage complete, send RECOVER
+                try:
+                    self.serial_port.write(b"RECOVER\n")
+                    self.serial_port.flush()
+                    self.attack_active = False
+                except Exception as e:
+                    self.get_logger().error(f"Recovery write failed: {e}")
             
-            self.get_logger().warn("PAYLOAD INJECTION COMPLETE. Hardware should auto-recover.")
+            self.get_logger().warn("PAYLOAD INJECTION COMPLETE. Hardware auto-recovery initialized.")
 
     def imu_callback(self, msg):
         ax = msg.linear_acceleration.x

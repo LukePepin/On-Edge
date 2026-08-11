@@ -47,7 +47,7 @@ def validate_trial(algo, outage, alpha, iter_num):
     files = glob.glob(search_pattern)
     if not files:
         print("[Validator] No CSV found.")
-        return False
+        return False, False, 100.0
         
     latest_file = max(files, key=os.path.getctime)
     try:
@@ -55,51 +55,33 @@ def validate_trial(algo, outage, alpha, iter_num):
             reader = csv.reader(f)
             headers = next(reader)
             
-            # Map column indices
-            t_sec_idx = headers.index('timestamp_sec')
-            t_nano_idx = headers.index('timestamp_nanosec')
             trust_idx = headers.index('trust_score')
             attack_idx = headers.index('attack_active')
-            pos_indices = [headers.index(f) for f in ['shoulder_pan_pos', 'shoulder_lift_pos', 'elbow_pos', 'wrist_1_pos', 'wrist_2_pos', 'wrist_3_pos']]
             
             rows = list(reader)
-            if len(rows) < 50: return False
+            if len(rows) < 50: return False, False, 100.0
             
-            t0 = float(rows[0][t_sec_idx]) + (float(rows[0][t_nano_idx]) * 1e-9)
+            attack_fired = False
+            stop_occurred = False
+            min_trust = 100.0
             
-            attack_t = None
-            eviction_t = None
-            consecutive_still_frames = 0
-            
-            for i in range(1, len(rows)):
-                curr_row = rows[i]
-                prev_row = rows[i-1]
+            for row in rows:
+                attack = int(row[attack_idx])
+                trust = float(row[trust_idx])
                 
-                t = (float(curr_row[t_sec_idx]) + (float(curr_row[t_nano_idx]) * 1e-9)) - t0
-                attack = int(curr_row[attack_idx])
-                trust = float(curr_row[trust_idx])
-                
-                if attack_t is None and attack == 1:
-                    attack_t = t
+                if attack == 1:
+                    attack_fired = True
                     
-                if attack_t is not None and eviction_t is None and trust <= 30.0:
-                    eviction_t = t
+                if trust < min_trust:
+                    min_trust = trust
                     
-                # Calculate pos_diff
-                pos_diff = sum(abs(float(curr_row[j]) - float(prev_row[j])) for j in pos_indices)
-                
-                if eviction_t is not None and t > eviction_t:
-                    if pos_diff < 0.025:
-                        consecutive_still_frames += 1
-                        if consecutive_still_frames >= 10:
-                            return True
-                    else:
-                        consecutive_still_frames = 0
+                if trust <= 30.0:
+                    stop_occurred = True
                         
-        return False
+        return attack_fired, stop_occurred, min_trust
     except Exception as e:
         print(f"[Validator] Exception parsing CSV: {e}")
-        return False
+        return False, False, 100.0
 
 import random
 import itertools
@@ -110,12 +92,12 @@ def main():
     args = parser.parse_args()
 
     print("=====================================================")
-    print("   MASTER AUTOMATION ORCHESTRATOR (H1, H2, H3, H4)")
-    # The Expansion B Latency Matrix (ZKP vs ECC)
-    algos = ["ZKP", "ECC"]
-    outages = [500, 1000, 2000, 5000] # Attack Duration (ms)
+    print("   MASTER AUTOMATION ORCHESTRATOR (Sub-Eviction Sweep)")
+    # The Sub-Eviction Outage Matrix
+    algos = ["ECC"]
+    outages = [50, 100, 150, 200] # Attack Duration (ms)
     alphas = [0.1, 0.3, 0.5]
-    iters = list(range(1, 6))
+    iters = list(range(1, 11))
     
     configurations = list(itertools.product(algos, outages, alphas))
     
@@ -180,12 +162,23 @@ def main():
             return
             
         # 4. Dynamic Self-Healing Catch
-        if validate_trial(algo, outage, alpha, iter_num):
-            print("✅ Trial mathematically valid! (Eviction and mechanical standstill verified).")
+        valid, stop_occurred, min_trust = validate_trial(algo, outage, alpha, iter_num)
+        if valid:
+            print(f"✅ Trial mathematically valid! Stop occurred: {stop_occurred}, Min Trust: {min_trust:.2f}")
             valid_runs_completed += 1
+            
+            # Log to sub-eviction summary
+            summary_file = 'data/sub_eviction_summary.csv'
+            file_exists = os.path.isfile(summary_file)
+            with open(summary_file, 'a', newline='', encoding='utf-8') as sf:
+                swriter = csv.writer(sf)
+                if not file_exists:
+                    swriter.writerow(['algo', 'outage_ms', 'alpha', 'iter_num', 'stop_occurred', 'min_trust'])
+                swriter.writerow([algo, outage, alpha, iter_num, int(stop_occurred), min_trust])
+                
         else:
             # 5. Reshuffle the Remainder
-            print("❌ Trial discarded (failed standstill bounds or missed eviction).")
+            print("❌ Trial discarded (Attack failed to fire or telemetry corrupted).")
             print("Appending replacement to the queue and reshuffling...")
             trial['attempt'] += 1
             schedule.append(trial)

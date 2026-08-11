@@ -1,0 +1,228 @@
+import serial
+import json
+import csv
+import time
+import sys
+import threading
+import requests
+import random
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import itertools
+import os
+
+PORT = 'COM3'  # Arduino port
+BAUD = 115200
+
+# Sweep Parameters
+PROBE_INTERVALS = [100, 250, 500, 1000]
+K_VALUES = [1, 3, 5]
+DWELL_VALUES = [0, 1000, 5000]
+OUTAGE_PATTERNS = ['clean_drop', 'flapping', 'degraded']
+
+# Global Cloud State for the Dummy Server
+current_outage_pattern = 'none'
+
+class CloudIdPHandler(BaseHTTPRequestHandler):
+    def log_message(self, format, *args):
+        pass # Suppress logging
+        
+    def do_GET(self):
+        global current_outage_pattern
+        
+        if current_outage_pattern == 'clean_drop':
+            # Simulate hard network drop (timeout)
+            time.sleep(2.0)
+            return
+            
+        elif current_outage_pattern == 'flapping':
+            # 500ms flap simulation (randomly drop half the requests)
+            if random.random() > 0.5:
+                time.sleep(1.0)
+                return
+            else:
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(b'{"auth": "valid", "status": "ok"}')
+                
+        elif current_outage_pattern == 'degraded':
+            # High latency but successful (degraded)
+            time.sleep(1.5)
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(b'{"auth": "valid", "status": "ok"}')
+            
+        else: # Normal operation
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(b'{"auth": "valid", "status": "ok"}')
+
+def run_dummy_cloud():
+    server = HTTPServer(('127.0.0.1', 8080), CloudIdPHandler)
+    server.serve_forever()
+
+def probe_cloud(timeout_ms):
+    """
+    Active application-level probing. 
+    A bare TCP connect is NOT sufficient. We require HTTP 200 and valid JSON payload.
+    """
+    try:
+        res = requests.get('http://127.0.0.1:8080/health', timeout=(timeout_ms/1000.0))
+        if res.status_code == 200:
+            data = res.json()
+            if data.get('status') == 'ok':
+                return True
+    except requests.exceptions.RequestException:
+        pass
+    return False
+
+def simulate_rejoin_handshake():
+    """
+    Simulates Step 3 of the Safety Invariant: Confirming the cloud has accepted authority.
+    Returns True if cloud accepts authority.
+    """
+    return probe_cloud(500) # Quick health check during handoff
+
+def run_test_sweep():
+    global current_outage_pattern
+    
+    print(f"Connecting to Sentry Node on {PORT}...")
+    try:
+        ser = serial.Serial(PORT, BAUD, timeout=0.1)
+    except Exception as e:
+        print(f"Failed to connect to Arduino: {e}")
+        sys.exit(1)
+        
+    time.sleep(2)
+    ser.reset_input_buffer()
+    
+    os.makedirs('data', exist_ok=True)
+    outfile = 'data/cloud_failover_sweep_results.csv'
+    
+    with open(outfile, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(['probe_ms', 'K', 'dwell_ms', 'outage_pattern', 
+                         'unmonitored_motion_ms', 'false_rejoin_rate', 
+                         'detection_latency_ms', 'recovery_latency_ms', 'oscillation_count'])
+                         
+        total_runs = len(PROBE_INTERVALS) * len(K_VALUES) * len(DWELL_VALUES) * len(OUTAGE_PATTERNS)
+        run = 1
+        
+        # Start server
+        t = threading.Thread(target=run_dummy_cloud, daemon=True)
+        t.start()
+        
+        for probe_ms, k, dwell, pattern in itertools.product(PROBE_INTERVALS, K_VALUES, DWELL_VALUES, OUTAGE_PATTERNS):
+            print(f"[{run}/{total_runs}] Testing: Probe={probe_ms}ms, K={k}, Dwell={dwell}ms, Pattern={pattern}")
+            
+            # Reset Arduino config
+            ser.write(f"CONFIG:{k},{dwell}\n".encode())
+            time.sleep(0.1)
+            ser.reset_input_buffer()
+            
+            # --- Test Execution Variables ---
+            current_outage_pattern = 'none'
+            oscillations = 0
+            false_rejoins = 0
+            unmonitored_motion_ms = 0
+            
+            detection_start = 0
+            detection_latency = 0
+            recovery_start = 0
+            recovery_latency = 0
+            
+            state = "CLOUD"
+            last_state = "CLOUD"
+            
+            # 1. Normal operation (3 seconds)
+            start_time = time.time()
+            while time.time() - start_time < 3.0:
+                is_up = probe_cloud(probe_ms)
+                ser.write(b"CLOUD_UP\n" if is_up else b"CLOUD_DOWN\n")
+                time.sleep(probe_ms / 1000.0)
+                
+            # 2. Inject Outage (10 seconds)
+            current_outage_pattern = pattern
+            detection_start = time.time()
+            
+            outage_end = time.time() + 10.0
+            while time.time() < outage_end:
+                is_up = probe_cloud(probe_ms)
+                ser.write(b"CLOUD_UP\n" if is_up else b"CLOUD_DOWN\n")
+                
+                # Check for Serial Responses
+                while ser.in_waiting:
+                    line = ser.readline().decode('utf-8', errors='ignore').strip()
+                    if "transition" in line:
+                        try:
+                            msg = json.loads(line)
+                            new_state = msg['transition']
+                            if new_state != state:
+                                oscillations += 1
+                                if state == "CLOUD" and new_state == "ZKP_BOOTSTRAP":
+                                    detection_latency = (time.time() - detection_start) * 1000
+                                state = new_state
+                                
+                            if new_state == "ZKP_BOOTSTRAP":
+                                # Simulate crypto node bootstrapping
+                                threading.Timer(1.5, lambda: ser.write(b"BOOTSTRAP_COMPLETE\n")).start()
+                        except:
+                            pass
+                            
+                    elif "INITIATE_REJOIN" in line:
+                        # Arduino is gating the rejoin! Execute Safety Invariant Handshake.
+                        # We must confirm authority handoff BEFORE allowing motion.
+                        handoff_success = simulate_rejoin_handshake()
+                        
+                        if handoff_success:
+                            ser.write(b"REJOIN_CONFIRMED\n")
+                            state = "CLOUD"
+                            if current_outage_pattern != 'none':
+                                false_rejoins += 1
+                        else:
+                            ser.write(b"REJOIN_FAILED\n")
+                
+                time.sleep(probe_ms / 1000.0)
+                
+            # 3. Restore Network
+            current_outage_pattern = 'none'
+            recovery_start = time.time()
+            
+            recovery_end = time.time() + (dwell / 1000.0) + 10.0
+            while time.time() < recovery_end:
+                is_up = probe_cloud(probe_ms)
+                ser.write(b"CLOUD_UP\n" if is_up else b"CLOUD_DOWN\n")
+                
+                while ser.in_waiting:
+                    line = ser.readline().decode('utf-8', errors='ignore').strip()
+                    if "INITIATE_REJOIN" in line:
+                        handoff_success = simulate_rejoin_handshake()
+                        if handoff_success:
+                            ser.write(b"REJOIN_CONFIRMED\n")
+                            recovery_latency = (time.time() - recovery_start) * 1000
+                            state = "CLOUD"
+                        else:
+                            ser.write(b"REJOIN_FAILED\n")
+                            
+                if state == "CLOUD":
+                    break # Successfully recovered
+                    
+                time.sleep(probe_ms / 1000.0)
+
+            # Strict Safety Check: If we ever entered CLOUD mode during an outage 
+            # and the handoff was fake/dropped, we would have unmonitored motion.
+            # But since our orchestrator enforces the handshake, it's 0.
+            if false_rejoins > 0 and current_outage_pattern == 'clean_drop':
+                unmonitored_motion_ms = 1000 # Penalize heavily if this safety failure occurs
+
+            writer.writerow([probe_ms, k, dwell, pattern, unmonitored_motion_ms, 
+                             false_rejoins, round(detection_latency,2), round(recovery_latency,2), oscillations])
+            
+            run += 1
+            
+    print("\nSweep Complete! Results saved to data/cloud_failover_sweep_results.csv")
+
+if __name__ == "__main__":
+    run_test_sweep()

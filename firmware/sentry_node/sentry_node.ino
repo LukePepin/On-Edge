@@ -1,73 +1,93 @@
 #include <ArduinoJson.h>
 
 // ==============================================================================
-// SENTRY NODE FIRMWARE (Node B - Cloud Viability Monitor)
+// SENTRY NODE FIRMWARE (Cloud Viability Monitor & State Machine)
 // ==============================================================================
-// This secondary Arduino acts as the decentralized "Brain" of the mesh.
-// It tracks network outage durations and mathematically determines when the 
-// Crypto Node (Node A) should transition from ZKP to ECC, and when the Pi 
-// is allowed to safely rejoin the Cloud.
+// This Arduino acts as the decentralized "Brain" of the mesh.
+// It tracks network health based on measured Pi telemetry and drives state 
+// transitions strictly using events and hysteresis, completely abandoning 
+// fixed-duration timers.
 // ==============================================================================
 
-String current_state = "IDLE";
-unsigned long outage_start_time = 0;
-const unsigned long ZKP_DURATION_MS = 5000;   // 5 seconds of ZKP initialization
-const unsigned long ECC_DURATION_MS = 10000;  // 10 seconds of ECC continuous
-// Total Outage = 15 seconds for the video demonstration (scales to 60s in production)
+String current_state = "CLOUD";
+
+// Tunable parameters from host (for sweeping)
+int K_passes_required = 3;
+unsigned long DWELL_MS = 1000;
+
+// Tracking
+int consecutive_cloud_up = 0;
+unsigned long first_cloud_up_time = 0;
 
 void setup() {
   Serial.begin(115200);
   while (!Serial) { ; }
-  Serial.println("{\"status\": \"SENTRY_ONLINE\"}");
+  Serial.println("{\"status\": \"SENTRY_ONLINE\", \"state\": \"CLOUD\"}");
 }
 
 void loop() {
-  // Listen for Pi Orchestrator telling us the Cloud TCP Socket dropped
   if (Serial.available() > 0) {
     String payload = Serial.readStringUntil('\n');
     payload.trim();
-    
-    if (payload == "JAMMED" && current_state == "IDLE") {
-      current_state = "ZKP_PHASE";
-      outage_start_time = millis();
-      
-      // Command the Pi to initialize the Crypto Arduino with ZKP
-      Serial.println("{\"cmd\": \"START_ZKP\", \"reason\": \"NETWORK_LOSS_DETECTED\"}");
-    }
-  }
 
-  // Autonomous Edge Mesh State Machine
-  if (current_state != "IDLE") {
-    unsigned long elapsed_outage = millis() - outage_start_time;
+    // Configuration Sweep Injection
+    if (payload.startsWith("CONFIG:")) {
+      sscanf(payload.c_str(), "CONFIG:%d,%lu", &K_passes_required, &DWELL_MS);
+      Serial.print("{\"status\": \"CONFIGURED\", \"K\":");
+      Serial.print(K_passes_required);
+      Serial.print(", \"DWELL_MS\":");
+      Serial.print(DWELL_MS);
+      Serial.println("}");
+      return;
+    }
     
-    if (current_state == "ZKP_PHASE") {
-      // Print reconnect progress every second
-      if (elapsed_outage % 1000 < 50) {
-        Serial.print("{\"progress\": \"ZKP_INIT\", \"elapsed_ms\": ");
-        Serial.print(elapsed_outage);
-        Serial.println("}");
-        delay(50); // debounce print
-      }
+    // Explicit completion signal from Crypto Node (Not a timer!)
+    if (payload == "BOOTSTRAP_COMPLETE" && current_state == "ZKP_BOOTSTRAP") {
+      current_state = "ECC_STEADY";
+      Serial.println("{\"transition\": \"ECC_STEADY\", \"reason\": \"CRYPTO_READY\"}");
+      return;
+    }
+
+    // Network Health Events emitted by the Pi's active probing
+    if (payload == "CLOUD_DOWN") {
+      consecutive_cloud_up = 0;
+      first_cloud_up_time = 0;
       
-      if (elapsed_outage >= ZKP_DURATION_MS) {
-        current_state = "ECC_PHASE";
-        // Command the Pi to hot-swap the Crypto Arduino to ECC
-        Serial.println("{\"cmd\": \"START_ECC\", \"reason\": \"IDENTITY_SECURED\"}");
+      if (current_state == "CLOUD") {
+        current_state = "ZKP_BOOTSTRAP";
+        Serial.println("{\"transition\": \"ZKP_BOOTSTRAP\", \"reason\": \"NETWORK_LOSS\"}");
       }
-      
-    } else if (current_state == "ECC_PHASE") {
-      if (elapsed_outage % 1000 < 50) {
-        Serial.print("{\"progress\": \"ECC_ACTIVE\", \"elapsed_ms\": ");
-        Serial.print(elapsed_outage);
-        Serial.println("}");
-        delay(50);
+    } 
+    else if (payload == "CLOUD_UP") {
+      if (current_state == "ECC_STEADY") {
+        if (consecutive_cloud_up == 0) {
+          first_cloud_up_time = millis();
+        }
+        
+        consecutive_cloud_up++;
+        unsigned long stable_duration = millis() - first_cloud_up_time;
+        
+        // Hysteresis Gate: K consecutive passes AND minimum Dwell time
+        if (consecutive_cloud_up >= K_passes_required && stable_duration >= DWELL_MS) {
+           // Output the command for the Pi to initiate the Rejoin Sequence.
+           // The safety invariant dictates we DO NOT change state to CLOUD until 
+           // the Pi confirms the cloud has actually accepted authority.
+           Serial.println("{\"cmd\": \"INITIATE_REJOIN\", \"reason\": \"CLOUD_STABLE\"}");
+        }
       }
-      
-      if (elapsed_outage >= (ZKP_DURATION_MS + ECC_DURATION_MS)) {
-        current_state = "IDLE";
-        // Command the Pi to restore the physical Cloud TCP socket
-        Serial.println("{\"cmd\": \"REJOIN_CLOUD\", \"reason\": \"VIABILITY_RESTORED\"}");
-      }
+    }
+    
+    // Confirmation from Pi that Cloud accepted authority (Step 3 of safety fix)
+    if (payload == "REJOIN_CONFIRMED" && current_state == "ECC_STEADY") {
+      current_state = "CLOUD";
+      Serial.println("{\"transition\": \"CLOUD\", \"reason\": \"AUTHORITY_HANDOFF_SUCCESS\"}");
+    }
+    
+    // If Rejoin fails, the Pi informs us to stay in Edge mode
+    if (payload == "REJOIN_FAILED" && current_state == "ECC_STEADY") {
+      consecutive_cloud_up = 0;
+      first_cloud_up_time = 0;
+      Serial.println("{\"log\": \"REJOIN_FAILED_STAYING_IN_EDGE_MODE\"}");
     }
   }
 }

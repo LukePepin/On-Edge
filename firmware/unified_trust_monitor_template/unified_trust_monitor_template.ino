@@ -212,6 +212,8 @@ void loop() {
       
       if (input_buffer == "ATTACK") {
         attack_mode_active = true;
+      } else if (input_buffer == "RECOVER") {
+        attack_mode_active = false;
       } else if (input_buffer.startsWith("{") && input_buffer.endsWith("}")) {
         StaticJsonDocument<200> doc;
         DeserializationError error = deserializeJson(doc, input_buffer);
