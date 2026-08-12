@@ -28,13 +28,16 @@ class CloudHealthHandler(BaseHTTPRequestHandler):
         
     def do_GET(self):
         global cloud_is_up
-        if cloud_is_up:
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            self.wfile.write(b'{"status": "ok"}')
-        else:
-            time.sleep(2.0) # Simulate a hard drop
+        try:
+            if cloud_is_up:
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(b'{"status": "ok"}')
+            else:
+                time.sleep(2.0) # Simulate a hard drop
+        except Exception:
+            pass
 
 def run_dummy_cloud():
     server = HTTPServer(('127.0.0.1', 8081), CloudHealthHandler)
@@ -171,9 +174,9 @@ def main():
             eviction_latency = (t_eviction - t_detection) * 1000
             total_exposure = (t_eviction - t_jam) * 1000
             
-            cycle_time = 125.0 if algo == "ECC" else 237.0
+            cycle_time = 125.0 if algo == "ECC" else 247.0
             n_cycles = 2 # for alpha=0.5
-            offset = 165.0 # midpoint of 130-200
+            offset = 123.5 # midpoint of 0-247
             predicted_total = (2 * p) + (n_cycles * cycle_time) + offset
             
             residual = total_exposure - predicted_total
