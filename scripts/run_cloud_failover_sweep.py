@@ -35,8 +35,8 @@ class CloudIdPHandler(BaseHTTPRequestHandler):
                 return
                 
             elif current_outage_pattern == 'flapping':
-                # 500ms flap simulation (randomly drop half the requests)
-                if random.random() > 0.5:
+                # Deterministic harsh flap: 500ms UP, 500ms DOWN
+                if (time.time() % 1.0) < 0.5:
                     time.sleep(1.0)
                     return
                 else:
@@ -89,6 +89,18 @@ def simulate_rejoin_handshake():
     """
     return probe_cloud(500) # Quick health check during handoff
 
+def process_serial_buffer(ser, serial_buf):
+    if ser.in_waiting:
+        serial_buf += ser.read(ser.in_waiting).decode('utf-8', errors='ignore')
+    
+    lines = []
+    while '\n' in serial_buf:
+        line, serial_buf = serial_buf.split('\n', 1)
+        line = line.strip()
+        if line:
+            lines.append(line)
+    return lines, serial_buf
+
 def run_test_sweep():
     global current_outage_pattern
     
@@ -103,7 +115,7 @@ def run_test_sweep():
     ser.reset_input_buffer()
     
     os.makedirs('data', exist_ok=True)
-    outfile = 'data/cloud_failover_sweep_results.csv'
+    outfile = 'data/cloud_failover_sweep_results_v3.csv'
     
     with open(outfile, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
@@ -127,6 +139,7 @@ def run_test_sweep():
             ser.reset_input_buffer()
             
             # --- Test Execution Variables ---
+            serial_buf = ""
             current_outage_pattern = 'none'
             oscillations = 0
             false_rejoins = 0
@@ -143,24 +156,39 @@ def run_test_sweep():
             
             # 1. Normal operation (3 seconds)
             start_time = time.time()
+            next_probe = time.time()
             while time.time() - start_time < 3.0:
-                is_up = probe_cloud(probe_ms)
-                ser.write(b"CLOUD_UP\n" if is_up else b"CLOUD_DOWN\n")
-                time.sleep(probe_ms / 1000.0)
+                if time.time() >= next_probe:
+                    is_up = probe_cloud(probe_ms)
+                    ser.write(b"CLOUD_UP\n" if is_up else b"CLOUD_DOWN\n")
+                    next_probe = time.time() + (probe_ms / 1000.0)
+                    
+                lines, serial_buf = process_serial_buffer(ser, serial_buf)
+                for line in lines:
+                    if "transition" in line:
+                        try:
+                            state = json.loads(line)['transition']
+                        except Exception as e:
+                            print(f"[V2 Parse Error] {e} on line: {line}")
+                        
+                time.sleep(0.01)
                 
             # 2. Inject Outage (10 seconds)
             current_outage_pattern = pattern
             detection_start = time.time()
-            
             outage_end = time.time() + 10.0
+            next_probe = time.time()
+            
             while time.time() < outage_end:
-                is_up = probe_cloud(probe_ms)
-                
-                # Active motion without verification
-                if state == "CLOUD" and not is_up:
-                    unmonitored_motion_ms += probe_ms
+                if time.time() >= next_probe:
+                    is_up = probe_cloud(probe_ms)
                     
-                ser.write(b"CLOUD_UP\n" if is_up else b"CLOUD_DOWN\n")
+                    # Active motion without verification
+                    if state == "CLOUD" and not is_up:
+                        unmonitored_motion_ms += probe_ms
+                        
+                    ser.write(b"CLOUD_UP\n" if is_up else b"CLOUD_DOWN\n")
+                    next_probe = time.time() + (probe_ms / 1000.0)
                 
                 if bootstrap_completion_time and time.time() >= bootstrap_completion_time:
                     try:
@@ -169,8 +197,8 @@ def run_test_sweep():
                     bootstrap_completion_time = None
                 
                 # Check for Serial Responses
-                while ser.in_waiting:
-                    line = ser.readline().decode('utf-8', errors='ignore').strip()
+                lines, serial_buf = process_serial_buffer(ser, serial_buf)
+                for line in lines:
                     if "transition" in line:
                         try:
                             msg = json.loads(line)
@@ -178,14 +206,15 @@ def run_test_sweep():
                             if new_state != state:
                                 oscillations += 1
                                 if state == "CLOUD" and new_state == "ZKP_BOOTSTRAP":
-                                    detection_latency = (time.time() - detection_start) * 1000
+                                    # Use max(1, ...) so it doesn't log 0 if it triggers instantly
+                                    detection_latency = max(1, (time.time() - detection_start) * 1000)
                                 state = new_state
                                 
                             if new_state == "ZKP_BOOTSTRAP":
                                 # Simulate crypto node bootstrapping (handled in main loop)
                                 bootstrap_completion_time = time.time() + 1.5
-                        except:
-                            pass
+                        except Exception as e:
+                            print(f"[V2 Parse Error] {e} on line: {line}")
                             
                     elif "INITIATE_REJOIN" in line:
                         # Arduino is gating the rejoin! Execute Safety Invariant Handshake.
@@ -200,21 +229,24 @@ def run_test_sweep():
                         else:
                             ser.write(b"REJOIN_FAILED\n")
                 
-                time.sleep(probe_ms / 1000.0)
+                time.sleep(0.01)
                 
             # 3. Restore Network
             current_outage_pattern = 'none'
             recovery_start = time.time()
-            
             recovery_end = time.time() + (dwell / 1000.0) + 10.0
+            next_probe = time.time()
+            
             while time.time() < recovery_end:
-                is_up = probe_cloud(probe_ms)
-                
-                # Active motion without verification
-                if state == "CLOUD" and not is_up:
-                    unmonitored_motion_ms += probe_ms
+                if time.time() >= next_probe:
+                    is_up = probe_cloud(probe_ms)
                     
-                ser.write(b"CLOUD_UP\n" if is_up else b"CLOUD_DOWN\n")
+                    # Active motion without verification
+                    if state == "CLOUD" and not is_up:
+                        unmonitored_motion_ms += probe_ms
+                        
+                    ser.write(b"CLOUD_UP\n" if is_up else b"CLOUD_DOWN\n")
+                    next_probe = time.time() + (probe_ms / 1000.0)
                 
                 if bootstrap_completion_time and time.time() >= bootstrap_completion_time:
                     try:
@@ -222,13 +254,15 @@ def run_test_sweep():
                     except Exception: pass
                     bootstrap_completion_time = None
                 
-                while ser.in_waiting:
-                    line = ser.readline().decode('utf-8', errors='ignore').strip()
+                lines, serial_buf = process_serial_buffer(ser, serial_buf)
+                for line in lines:
                     if "INITIATE_REJOIN" in line:
                         handoff_success = simulate_rejoin_handshake()
                         if handoff_success:
                             ser.write(b"REJOIN_CONFIRMED\n")
-                            recovery_latency = (time.time() - recovery_start) * 1000
+                            # Only set recovery latency on the FIRST successful handoff
+                            if recovery_latency == 0:
+                                recovery_latency = (time.time() - recovery_start) * 1000
                             state = "CLOUD"
                         else:
                             ser.write(b"REJOIN_FAILED\n")
@@ -236,7 +270,7 @@ def run_test_sweep():
                 if state == "CLOUD":
                     break # Successfully recovered
                     
-                time.sleep(probe_ms / 1000.0)
+                time.sleep(0.01)
 
             # Subtract the expected baseline transitions (CLOUD -> ZKP_BOOTSTRAP -> ECC_STEADY -> CLOUD)
             # to isolate excess churn.
