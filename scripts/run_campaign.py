@@ -93,12 +93,12 @@ def main():
     args = parser.parse_args()
 
     print("=====================================================")
-    print("   MASTER AUTOMATION ORCHESTRATOR (Sub-Eviction Sweep)")
-    # The Sub-Eviction Outage Matrix
-    algos = ["ECC"]
-    outages = [250, 500, 1000, 2000] # Attack Duration (ms)
+    print("   MASTER AUTOMATION ORCHESTRATOR (V7 Real-ZKP Confirmatory Campaign)")
+    # The V7 Real-ZKP Confirmatory Matrix (75 trials)
+    algos = ["ZKP"]
+    outages = [250, 500, 1000, 3000, 5000] # Attack Duration (ms)
     alphas = [0.1, 0.3, 0.5]
-    iters = list(range(1, 11))
+    iters = list(range(1, 6))
     
     configurations = list(itertools.product(algos, outages, alphas))
     
