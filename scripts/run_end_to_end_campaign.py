@@ -8,7 +8,7 @@ import requests
 import itertools
 import os
 
-PORT = 'COM3'  # Arduino port
+PORT = '/dev/ttyACM0'  # Arduino port on the Pi
 BAUD = 115200
 
 # End-to-End Composition Block Parameters
