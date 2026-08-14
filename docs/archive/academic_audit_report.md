@@ -1,3 +1,5 @@
+**ARCHIVED — superseded by ground_truth.md; retained for history (early audit that flagged the mock-crypto and prover/verifier flaws — part of the audit trail the methodology chapter cites).**
+
 # Academic Audit: Phase 2 Experimental Methodology
 
 As your advisor, I am reviewing your methodology for Phase 2.4 and 2.5. While the infrastructure is excellent, if you submit this methodology as it currently stands in a thesis defense, your defense committee will tear it apart. 

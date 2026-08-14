@@ -1,10 +1,7 @@
 # ROS 2 Source Directory
 
-This directory is the root of the `colcon` workspace.
-Place your ROS 2 packages and Arduino firmware projects inside this directory.
+Root of the `colcon` workspace. Contains only ROS 2 packages — Arduino firmware lives in `firmware/` (bare-metal, flashed separately), and analysis scripts live in `scripts/`.
 
-## Suggested Structure
-- `edge_firmware/`: Arduino PlatformIO or Arduino IDE projects for the Cortex-M4 nodes.
-- `supervisor_node/`: ROS 2 package for the Raspberry Pi 4 arbiter/supervisor logic.
-- `ns3_simulation/`: NS-3 network simulation scripts.
-- `data_analysis/`: Jupyter notebooks and Python scripts for processing IMU and DWT_CYCCNT telemetry.
+## Packages
+- `sentry_logic/`: Raspberry Pi 4 supervisor logic — UR5 integration, serial handshake with the Arduinos, and 50 Hz telemetry logging (`joint_logger_node.py`, `stream_wrist_kinematics.py`).
+- `edge_node/`: placeholder (empty).

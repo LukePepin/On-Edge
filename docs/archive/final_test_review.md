@@ -1,3 +1,5 @@
+**ARCHIVED — superseded by ground_truth.md; retained for history (second-round audit of the pre-campaign test rig — part of the audit trail the methodology chapter cites).**
+
 # Academic Audit 2.0: Final Test Review
 
 As your advisor, I have reviewed the newly overhauled testing architecture (8-cycle payload holds, timeseries data collection, and Python-injected RTOS network jitter). 

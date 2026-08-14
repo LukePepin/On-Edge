@@ -8,15 +8,15 @@ A chronological map of the major architectural pivots that shaped the decentrali
 
 ### Pivot 2: Cryptographic Payload Segmentation
 *   **Initial Design:** Evaluating massive, single-constraint ZKP payloads.
-*   **The Pivot:** Massive payloads suffered extreme latency spikes (~540ms), triggering false-positive evictions. By segmenting the payload into 64-byte chunks with independent constraints, we mathematically invoked the Central Limit Theorem. The variance averaged out, bounding the execution window cleanly between 301ms and 346ms.
+*   **The Pivot:** Massive payloads suffered extreme latency spikes (~540ms), triggering false-positive evictions, and the verification workload was restructured. The earlier account of this pivot — that segmenting into 64-byte chunks with independent constraints invoked the Central Limit Theorem and bounded execution between 301ms and 346ms — is **withdrawn** (see `ground_truth.md` §5.2): the firmware never executed 64 independent constraints, and the eventual workload was deterministic (sd 0.17ms). What survives is the engineering lesson that verification cycle time must be controlled and measured; the workloads actually run were ~111.5ms (ECC) and ~334.7ms (the "ZKP" stub).
 
 ### Pivot 3: Probabilistic EWMA Trust Decay
 *   **Initial Design:** Binary authentication state (authenticated vs. rejected) triggered upon a single dropped packet.
 *   **The Pivot:** Binary states caused extreme kinetic jitter during transient signal loss. We pivoted to a continuous Exponentially Weighted Moving Average (EWMA) Trust Score, mapping probabilistically smoothed network health to physical safety limits.
 
-### Pivot 4: Overcoming the M/M/1 ROS 2 Livelock
+### Pivot 4: Overcoming the ROS 2 Boot-Storm Livelock
 *   **Initial Design:** Default ROS 2 `RELIABLE / KEEP_ALL` QoS profiles.
-*   **The Pivot:** During post-jamming boot storms, the Pi 4 queue grew infinitely as the edge nodes bottlenecked on the cryptographic math. This Head-of-Line blocking dropped safety packets. We pivoted to `BEST_EFFORT / KEEP_LAST (Depth=1)`, reducing the queue to a stable M/D/1 mathematical model and shedding 99.6% of stale boot-storm traffic.
+*   **The Pivot:** During post-jamming boot storms, the Pi 4 queue grew unboundedly as the edge nodes bottlenecked on the cryptographic math. This Head-of-Line blocking dropped safety packets. We pivoted to `BEST_EFFORT / KEEP_LAST (Depth=1)`, which sheds stale boot-storm traffic and resolved the livelock. (The queueing-theory characterization previously given here — a stable M/D/1 model and a 99.6% shedding figure — does not trace to retained data [WITHDRAWN — see ground_truth.md]; the QoS change survives as an engineering fix.)
 
 ### Pivot 5: Trajectory Generation offloading (Kinematics)
 *   **Initial Design:** Using ROS 2 `scaled_joint_trajectory_controller` to compute splines on the Pi 4.
@@ -32,4 +32,4 @@ A chronological map of the major architectural pivots that shaped the decentrali
 
 ### Pivot 8: The C192A4 Electromechanical Timing Limitation
 *   **Initial Design:** Assuming a clean resumption of robotic motion after a DIL outage.
-*   **The Pivot:** Integration revealed a severe electromechanical timing limitation. Because the hardware bypass uses dual-channel safety, microscopic timing discrepancies between Channel 1 and Channel 2 during Trust Score restoration force the UR5 to trigger a **C192A4 Safeguard Stop Disagreement** fault. While effectively locking down the machinery and enforcing a "Human-in-the-Loop" reset, this is formally recognized as a hardware timing fault, highlighting the severe mechanical trade-offs of utilizing an uncontrolled Category 0 STO (Safe Torque Off) to meet cryptographic latency goals.
+*   **The Pivot:** Integration revealed a severe electromechanical timing limitation. Because the hardware bypass uses dual-channel safety, microscopic timing discrepancies between Channel 1 and Channel 2 during Trust Score restoration force the UR5 to trigger a **C192A4 Safeguard Stop Disagreement** fault. While effectively locking down the machinery and enforcing a "Human-in-the-Loop" reset, this is formally recognized as a hardware *timing fault on restoration*, not a designed latching stop. The designed stop through the SI0/SI1 safeguard inputs is a **Category 2** safeguard stop (auto-resuming on restore); once the C192A4 fault latches, however, the controller's safety-fault state performs a **Category 0 halt** until manual reset (`ground_truth.md` §5.3). The fault highlights the mechanical trade-offs of driving dual-channel safety inputs from cryptographic trust logic.

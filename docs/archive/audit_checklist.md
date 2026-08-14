@@ -1,3 +1,5 @@
+**ARCHIVED — superseded by ground_truth.md; retained for history.**
+
 # Codebase Audit Checklist (Final Video Run)
 
 This strict notebook audit must be completed *before* filming the N=2 (and potentially N=4) final Phase 3 thesis videos.

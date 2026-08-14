@@ -1,3 +1,5 @@
+**ARCHIVED — superseded by ground_truth.md; retained for history.**
+
 # On-Edge: Automated Testing Runbook
 
 This guide contains the exact terminal commands required to execute the fractional factorial kinematic testing on the Raspberry Pi 4 supervisor.

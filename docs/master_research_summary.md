@@ -1,0 +1,23 @@
+# Master Research Summary
+
+The proposed decentralized framework is an edge-compute authorization system engineered for industrial robotics operating in Disconnected, Intermittent, and Limited (DIL) environments. (As built, it is a USB-serial star topology — a Raspberry Pi supervisor plus Arduino verification nodes; an earlier wireless MANET/mesh design was abandoned.)
+
+## The Operational Threat Model
+Modern Industry 4.0 and DoD expeditionary manufacturing (e.g., USMC EARCs) rely heavily on "Cloud-First" Identity Providers (IdP). When tactical Electronic Warfare (EW) jamming or network partitions sever the backhaul link, active robotic machinery involuntarily halts as authorization leases expire. This paralyses production and compromises the physical security of the robotic cell. 
+
+Furthermore, in multi-tenant coalition environments, sovereign nodes cannot broadcast raw identities or telemetry to untrusted local peers without violating Operational Security (OPSEC).
+
+## The Decentralized Solution
+The proposed framework transitions robotic control from "Permission-Based" (cloud-tethered) to **"Persistence-Based" (edge-first) authority**. It implements a dual-path, decentralized architecture:
+1.  **Zero-Knowledge Proofs (ZKP)**: Used selectively for out-of-band bootstrapping and coalition attribute disclosure. (Note: the "ZKP" path exercised in the early trial campaigns was a stub — three ECC keypair generations; real ZKP has since been profiled at 224.86 ms per cycle on the Cortex-M4.)
+2.  **Elliptic Curve Cryptography (ECC)**: Used for the real-time, 50Hz kinematic safety loop.
+
+## The Cyber-Physical Intercept
+Because ROS 2 middleware software preemption (e.g., TCP/IP URScript commands) takes over 368ms, the proposed framework completely bypasses the software stack. The Arduino Nano 33 BLE edge nodes are hardwired directly into the UR5's 24V Safety Control Board via a PNP optocoupler block. 
+
+A continuous Exponentially Weighted Moving Average (EWMA) Trust Score grades the network's health. To prevent self-inflicted penalties when local QoS configurations shed traffic, a "Hold-Down" state machine temporarily suspends the EWMA decay parameter while the Cortex-M4 CPU is actively processing a legitimate cryptographic hash. (This suspension is currently unbounded — a known denial-of-safety gap; see `gaps.md` §5.) If a malicious packet injection or true DIL jamming attack degrades verification, the Trust Score bleeds down. At $<30.0$, the edge node drops the 24V line, triggering a hardware Safeguard Stop — a **Category 2** stop via the SI0/SI1 inputs, which auto-resumes on signal restoration. (If channel restoration mis-times, the latched C192A4 disagreement fault escalates to a **Category 0 halt** requiring manual reset — an observed timing fault, not a designed latch; `ground_truth.md` §5.3.) The 500 ms stop target is a **self-imposed design budget**, not an ISO 13849-1 requirement (the standard sets no stop-time ceiling); measured eviction latency meets that budget only at the fastest setting (ECC, α = 0.5: observed 291–505 ms, with the maximum just over the line).
+
+## Theoretical Contributions
+1.  **The Eviction Latency Model**: Under attack the trust score decays as `trust(t+1) = (1 − α)·trust(t)`, so eviction takes `ceil(log 0.3 / log(1 − α))` cycles; stop latency = cycles × cycle period + detection offset. Verification cycle time drives eviction latency — the ~3× slower path evicts ~2.8× later. (The former first contribution here, the "64-Byte CLT Stabilization Phenomenon," is withdrawn entirely — the workload was not 64 independent constraints and had no variance to compress; see `ground_truth.md` §5.2.)
+2.  **QoS Livelock Mitigation**: Cryptographic processing on single-threaded edge devices creates a processing bottleneck, causing Head-of-Line (HoL) blocking within the **DDS network buffers (CycloneDDS subscription queues) on the Raspberry Pi 4 supervisor**. The architecture mitigates this by tuning ROS 2 QoS from `RELIABLE/KEEP_ALL` to `BEST_EFFORT/KEEP_LAST(1)`. This survives as an engineering fix; the earlier M/M/1→M/D/1 queueing-theory numbers attached to it are withdrawn.
+3.  **The Security Tax**: Real ZKP profiling on the Cortex-M4 (224.86 ms crypto, ~247 ms/cycle with overhead) predicts a fastest-possible eviction of ~600–700 ms at α = 0.5 — outside the self-imposed 500 ms design budget at every α tested. (The earlier version of this claim — that a trial-era ANOVA proved "ZKP" violates the budget — is withdrawn: the trial-era "ZKP" was a stub, and the "~325 ms CLT-segmented" mitigation was fabricated. The cycle-time effect size, Cohen's d = 2.398, is reported descriptively.)

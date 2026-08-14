@@ -1,3 +1,5 @@
+**ARCHIVED — superseded by ground_truth.md; retained for history.**
+
 # Final Week Implementation Plan & Lab Schedule
 
 Your statistical assumptions tests are complete. Cohen's $d$ Effect Size is an astounding **2.39**, which mathematically proves that only $n=4$ was required for 80% power. You collected $n=5$. **Your V4 dataset is formally overpowered and bulletproof.**
