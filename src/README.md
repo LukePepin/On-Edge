@@ -1,7 +1,7 @@
-# ROS 2 Source Directory
+# src/
 
-Root of the `colcon` workspace. Contains only ROS 2 packages — Arduino firmware lives in `firmware/` (bare-metal, flashed separately), and analysis scripts live in `scripts/`.
+ROS 2 workspace source. Only `sentry_logic` is built (`colcon build --packages-select sentry_logic`).
 
-## Packages
-- `sentry_logic/`: Raspberry Pi 4 supervisor logic — UR5 integration, serial handshake with the Arduinos, and 50 Hz telemetry logging (`joint_logger_node.py`, `stream_wrist_kinematics.py`).
-- `edge_node/`: placeholder (empty).
+- `sentry_logic/joint_logger_node.py` — 50 Hz CSV logger, serial handshake with the trust monitor, attack injection service.
+- `sentry_logic/stream_wrist_kinematics.py` — two-phase UR5 trajectory, calls the attack service 0.5 s into phase 2.
+- `sentry_logic/supervisor_node.py` — BEST_EFFORT/KEEP_LAST auth-request service with the `c_src/` `uECC_verify` timing wrapper (Pi-side service-rate profiling).

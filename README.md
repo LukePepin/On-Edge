@@ -1,68 +1,65 @@
-# On-Edge: Edge-Local Trust Monitoring for Industrial Robots
+# On-Edge
 
-Source code, orchestration scripts, firmware, and data for the Master's thesis project **On-Edge** (Luke Pepin, University of Rhode Island).
+Master's thesis repository (Luke Pepin, URI Industrial and Systems Engineering, 2026):
+edge-side authorization for an industrial manipulator when its cloud identity provider is
+unreachable, and the time it takes to reach a safe state.
 
-## Overview
+**Read first:** [`ground_truth_v2.md`](ground_truth_v2.md) — the audited, file-traced statement of
+what the system does and what the data support. It supersedes every other prose document.
+[`docs/project_summary_review.md`](docs/project_summary_review.md) explains the project from
+first principles. [`todoist.md`](todoist.md) is the task list.
 
-Industrial robots draw authorization from a cloud identity provider: sever the network and the lease expires and the robot halts. That involuntary halt is a kill switch. On-Edge moves the authorization decision onto edge hardware beside the robot so it keeps operating through the outage. Because there is no longer an external authority that can revoke permission, the edge node must be able to stop the robot **itself**: it runs an EWMA trust score that decays when local verification degrades, and below 30 it drops a 24 V line through an optocoupler into a UR5's safeguard inputs and the arm halts — the final step is hardware, with no software in the loop.
+## What was built
 
-The measured contribution is a **latency model** that predicts, from two numbers (verification cycle time and the EWMA weight α), how fast that stop happens — validated across **335 physical trials**.
+- A **trust monitor** on an Arduino Nano 33 BLE (Cortex-M4) that runs a cryptographic
+  workload every cycle (ECC keygen, or a *ZKP-cost proxy* of two secp256r1 scalar
+  multiplications), keeps an EWMA trust score, and opens the UR5's safeguard-stop input
+  (Category 2 stop) when the score falls below 30.
+- A **supervisor** (Raspberry Pi 4, ROS 2 Humble) that drives the UR5 trajectory, injects
+  network-outage events over USB serial, and logs joint state, IMU and trust at 50 Hz.
+- A **bench harness** (Arduino plus a local mock cloud) that measures the loop timing
+  losslessly, and a **sentry node** state machine for cloud rejoin gating.
 
-## System at a Glance
+Naming: the workload in the ZKP path is always called the *ZKP-cost proxy*. No proof is
+verified anywhere in this repository.
 
-| Component | Role |
-|---|---|
-| Raspberry Pi 4 | Supervisor/orchestrator — runs campaign scripts, probes cloud viability, logs telemetry |
-| Arduino Nano 33 BLE ×2 (Cortex-M4) | **Crypto node** — verification workload, EWMA trust score, safety pin. **Sentry node** — cloud-viability state machine (CLOUD → ZKP → ECC → rejoin) |
-| Dual-channel 24 V PNP optocoupler | Hardware safety intercept into the UR5's SI0/SI1 safeguard inputs (Category 2 stop; active-high, fail-safe on power loss) |
-| Universal Robots UR5 | Industrial manipulator under test |
+## Layout
 
-Communication is a **USB-serial star** (Pi ↔ Arduinos). An earlier wireless MANET / "ZKP authorization mesh" design was abandoned — see `docs/project_truth.md` §6.
+| Path | Contents |
+| --- | --- |
+| `firmware/unified_trust_monitor_template/` | trust-monitor firmware (canonical) |
+| `firmware/zkp_real_profiler/` | stand-alone cost profiler for the proxy |
+| `firmware/sentry_node/` | cloud-viability state machine (bench) |
+| `scripts/run_test.sh`, `run_campaign.py` | one robot trial; the randomized campaign |
+| `scripts/run_real_zkp_test.py` | proxy profiling host script (`data/real_zkp_profiling.csv`) |
+| `scripts/run_end_to_end_campaign.py` | bench block (`data/v7_logs/e2e_composition_results.csv`) |
+| `scripts/run_cloud_failover_sweep.py` | sentry sweep (`data/cloud_failover_sweep_results*.csv`) |
+| `scripts/combine_v6_sub_eviction.py`, `combine_v7_logs.py` | campaign CSV concatenation (note: `combine_v7_logs.py` still globs `data/trial_ZKP_outage*.csv`; the V7 files moved to `data/v7_logs/` on 2026-08-14) |
+| `src/sentry_logic/` | ROS 2 package: `joint_logger_node.py`, `stream_wrist_kinematics.py`, `supervisor_node.py`, `c_src/` (Pi-side `uECC_verify` wrapper) |
+| `data/` | V5 (`v5_spoofing_archive/`, latched-attack baseline), V6 (`v6_logs/`), V7 (`v7_logs/`, trials plus bench results), profile, sweep, summaries |
+| `data/archive_pre_v5/` | V1–V4 and the Aug-10 swapover log: superseded firmware, kept for provenance only |
+| `audit/` | recomputation scripts, phase notes, `ground_truth_v1_2026-08-11.md`, `decontamination_report_2026-08-14.md` |
+| `docs/` | project review, literature review, `gaps.md`, original proposal |
 
-## Repository Structure
-
-- `docs/` — project documentation. **Start with `docs/ground_truth.md` and `docs/project_truth.md`** — the authoritative record of verified results and withdrawn claims; they supersede every other document where they conflict. Superseded material lives in `docs/archive/`.
-- `firmware/` — bare-metal Arduino sketches: unified trust monitor, sentry node, real-ZKP profiler, cloud failback.
-- `scripts/` — campaign orchestration and analysis (Python/bash), run on the Pi supervisor (`run_campaign.py`, `run_test.sh`, `analyze_*.py`, …).
-- `src/` — ROS 2 packages (`sentry_logic`) for UR5 integration and telemetry logging.
-- `data/` — CSV and PCAP trial data.
-- `requirements.txt` — Python dependencies for data analysis and network disruption.
-
-## Getting Started
-
-On the Raspberry Pi supervisor:
-
-1. Install Python dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. Build the workspace (needed for the `sentry_logic` package and UR5 driver integration):
-   ```bash
-   colcon build --symlink-install
-   ```
-3. Source the setup script:
-   ```bash
-   source install/setup.bash
-   ```
-
-Arduino firmware in `firmware/` is flashed separately (Arduino IDE / PlatformIO); it is not built by `colcon`.
-
-## Accessing the Supervisor (Raspberry Pi)
-
-The Pi is configured with mDNS, so no static IP is needed:
+## Reproducing the numbers
 
 ```bash
-ssh seeker@on-edge-pi.local
+python audit/inventory_trials.py          # matrices, validity, duplicates
+python audit/eviction_latency.py data/v6_logs v6
+python audit/eviction_latency.py "data/v7_logs/trial_ZKP_outage*.csv" v7
+python audit/physical_stop_crosstab.py data/v6_logs V6
+python audit/zkp_profile_stats.py
+python audit/make_thesis_figures.py <output-dir>
 ```
 
-## Documentation Map
+## Running a robot trial (requires the UR5 cell)
 
-| Document | Contents |
-|---|---|
-| `docs/ground_truth.md` | The verified-numbers ledger — every retained figure traced to a file; withdrawn claims marked |
-| `docs/project_truth.md` | The prose spine — what the project is, all retained and withdrawn claims |
-| `docs/conclusion.md`, `docs/empirical_conclusions.md` | Corrected results narratives |
-| `docs/system_architecture.md` | As-built topology and data flow |
-| `docs/experimental_pivots.md` | Engineering-evolution history (micro-ROS → serial star, Ned2 → UR5, software stop → hardware intercept, …) |
-| `docs/gaps.md` | Open vulnerabilities and future work (incl. the unbounded hold-down denial-of-safety gap) |
-| `docs/decontamination_report.md` | Record of the 2026-08 documentation audit and cleanup |
+See the header of `scripts/run_test.sh`. Supervisor build: `colcon build --packages-select sentry_logic`
+then `source install/setup.bash`. The trust-monitor firmware is flashed with the PlatformIO
+extension; the flashed source must match the committed source (`git log -1 -- firmware/`).
+
+## Bench work possible without the robot
+
+- Proxy profile on the Pi: flash `zkp_real_profiler.ino`, run `run_real_zkp_test.py` with `PORT='/dev/ttyACM0'`.
+- Sentry sweep: flash `sentry_node.ino`, run `run_cloud_failover_sweep.py` (writes `..._v3.csv`).
+- Loop timing: flash the trust monitor, run `run_end_to_end_campaign.py`.

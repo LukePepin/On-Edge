@@ -1,0 +1,803 @@
+dir,file,algo,kind,level,ewma,iter,epoch,epoch_iso,rows,attack_fired,stop_occurred,min_trust_after_attack,first_attack_row,status
+data,trial_ZKP_outage5000_ewma5_iter99_1786549691.csv,ZKP,outage,5000,5,99,1786549691,2026-08-12 15:48:11Z,4277,1,1,0.0,1111,ok
+data,trial_ZKP_outage3000_ewma1_iter2_1786550079.csv,ZKP,outage,3000,1,2,1786550079,2026-08-12 15:54:39Z,4201,1,1,28.24,1033,ok
+data,trial_ZKP_outage500_ewma1_iter4_1786550177.csv,ZKP,outage,500,1,4,1786550177,2026-08-12 15:56:17Z,1697,1,0,81.0,1037,ok
+data,trial_ZKP_outage1000_ewma3_iter2_1786550225.csv,ZKP,outage,1000,3,2,1786550225,2026-08-12 15:57:05Z,4205,1,1,16.81,1040,ok
+data,trial_ZKP_outage250_ewma3_iter4_1786550323.csv,ZKP,outage,250,3,4,1786550323,2026-08-12 15:58:43Z,1791,1,0,70.0,1133,ok
+data,trial_ZKP_outage250_ewma3_iter3_1786550373.csv,ZKP,outage,250,3,3,1786550373,2026-08-12 15:59:33Z,927,0,0,100.0,,INVALID(run_campaign rule)
+data,trial_ZKP_outage3000_ewma3_iter1_1786550405.csv,ZKP,outage,3000,3,1,1786550405,2026-08-12 16:00:05Z,886,0,0,100.0,,INVALID(run_campaign rule)
+data,trial_ZKP_outage500_ewma1_iter1_1786550437.csv,ZKP,outage,500,1,1,1786550437,2026-08-12 16:00:37Z,1690,1,0,81.0,1030,ok
+data,trial_ZKP_outage250_ewma5_iter4_1786550485.csv,ZKP,outage,250,5,4,1786550485,2026-08-12 16:01:25Z,1720,1,0,50.0,1061,ok
+data,trial_ZKP_outage3000_ewma1_iter1_1786550533.csv,ZKP,outage,3000,1,1,1786550533,2026-08-12 16:02:13Z,4198,1,1,28.24,1034,ok
+data,trial_ZKP_outage250_ewma3_iter1_1786550631.csv,ZKP,outage,250,3,1,1786550631,2026-08-12 16:03:51Z,981,0,0,100.0,,INVALID(run_campaign rule)
+data,trial_ZKP_outage3000_ewma5_iter1_1786550664.csv,ZKP,outage,3000,5,1,1786550664,2026-08-12 16:04:24Z,4270,1,1,0.02,1105,ok
+data,trial_ZKP_outage5000_ewma5_iter2_1786550763.csv,ZKP,outage,5000,5,2,1786550763,2026-08-12 16:06:03Z,4210,1,1,0.0,1044,ok
+data,trial_ZKP_outage250_ewma1_iter5_1786550861.csv,ZKP,outage,250,1,5,1786550861,2026-08-12 16:07:41Z,1784,1,0,90.0,1127,ok
+data,trial_ZKP_outage1000_ewma3_iter1_1786550910.csv,ZKP,outage,1000,3,1,1786550910,2026-08-12 16:08:30Z,4226,1,1,24.01,1061,ok
+data,trial_ZKP_outage5000_ewma5_iter4_1786551009.csv,ZKP,outage,5000,5,4,1786551009,2026-08-12 16:10:09Z,4267,1,1,0.0,1101,ok
+data,trial_ZKP_outage3000_ewma3_iter3_1786551108.csv,ZKP,outage,3000,3,3,1786551108,2026-08-12 16:11:48Z,4218,1,1,0.97,1053,ok
+data,trial_ZKP_outage3000_ewma3_iter2_1786551206.csv,ZKP,outage,3000,3,2,1786551206,2026-08-12 16:13:26Z,4199,1,1,0.97,1034,ok
+data,trial_ZKP_outage500_ewma3_iter3_1786551304.csv,ZKP,outage,500,3,3,1786551304,2026-08-12 16:15:04Z,1727,1,0,49.0,1070,ok
+data,trial_ZKP_outage250_ewma3_iter2_1786551352.csv,ZKP,outage,250,3,2,1786551352,2026-08-12 16:15:52Z,1712,1,0,70.0,1054,ok
+data,trial_ZKP_outage250_ewma3_iter1_1786551400.csv,ZKP,outage,250,3,1,1786551400,2026-08-12 16:16:40Z,1712,1,0,70.0,1052,ok
+data,trial_ZKP_outage5000_ewma1_iter2_1786551448.csv,ZKP,outage,5000,1,2,1786551448,2026-08-12 16:17:28Z,4165,1,1,12.16,999,ok
+data,trial_ZKP_outage500_ewma3_iter4_1786551546.csv,ZKP,outage,500,3,4,1786551546,2026-08-12 16:19:06Z,1733,1,0,64.3,1074,ok
+data,trial_ZKP_outage5000_ewma3_iter4_1786551594.csv,ZKP,outage,5000,3,4,1786551594,2026-08-12 16:19:54Z,4214,1,1,0.06,1049,ok
+data,trial_ZKP_outage3000_ewma3_iter4_1786551692.csv,ZKP,outage,3000,3,4,1786551692,2026-08-12 16:21:32Z,4301,1,1,0.97,1136,ok
+data,trial_ZKP_outage500_ewma1_iter2_1786551792.csv,ZKP,outage,500,1,2,1786551792,2026-08-12 16:23:12Z,1741,1,0,82.9,1083,ok
+data,trial_ZKP_outage3000_ewma5_iter2_1786551841.csv,ZKP,outage,3000,5,2,1786551841,2026-08-12 16:24:01Z,4212,1,1,0.01,1046,ok
+data,trial_ZKP_outage500_ewma3_iter2_1786551939.csv,ZKP,outage,500,3,2,1786551939,2026-08-12 16:25:39Z,1806,1,0,49.0,1148,ok
+data,trial_ZKP_outage250_ewma3_iter3_1786551989.csv,ZKP,outage,250,3,3,1786551989,2026-08-12 16:26:29Z,1691,1,0,70.0,1033,ok
+data,trial_ZKP_outage1000_ewma3_iter4_1786552036.csv,ZKP,outage,1000,3,4,1786552036,2026-08-12 16:27:16Z,951,0,0,100.0,,INVALID(run_campaign rule)
+data,trial_ZKP_outage1000_ewma1_iter4_1786552069.csv,ZKP,outage,1000,1,4,1786552069,2026-08-12 16:27:49Z,1711,1,0,59.05,1053,ok
+data,trial_ZKP_outage250_ewma5_iter1_1786552117.csv,ZKP,outage,250,5,1,1786552117,2026-08-12 16:28:37Z,1705,1,0,50.0,1045,ok
+data,trial_ZKP_outage250_ewma5_iter2_1786552165.csv,ZKP,outage,250,5,2,1786552165,2026-08-12 16:29:25Z,1712,1,0,50.0,1054,ok
+data,trial_ZKP_outage3000_ewma5_iter5_1786552213.csv,ZKP,outage,3000,5,5,1786552213,2026-08-12 16:30:13Z,4196,1,1,0.01,1030,ok
+data,trial_ZKP_outage3000_ewma1_iter4_1786552311.csv,ZKP,outage,3000,1,4,1786552311,2026-08-12 16:31:51Z,4199,1,1,25.42,1034,ok
+data,trial_ZKP_outage5000_ewma3_iter5_1786552410.csv,ZKP,outage,5000,3,5,1786552410,2026-08-12 16:33:30Z,4308,1,1,0.06,1142,ok
+data,trial_ZKP_outage250_ewma1_iter1_1786552510.csv,ZKP,outage,250,1,1,1786552510,2026-08-12 16:35:10Z,1744,1,0,90.0,1084,ok
+data,trial_ZKP_outage1000_ewma5_iter5_1786552559.csv,ZKP,outage,1000,5,5,1786552559,2026-08-12 16:35:59Z,4184,1,1,3.12,1017,ok
+data,trial_ZKP_outage3000_ewma1_iter3_1786552657.csv,ZKP,outage,3000,1,3,1786552657,2026-08-12 16:37:37Z,4252,1,1,25.42,1086,ok
+data,trial_ZKP_outage250_ewma1_iter2_1786552755.csv,ZKP,outage,250,1,2,1786552755,2026-08-12 16:39:15Z,1659,1,0,90.0,1000,ok
+data,trial_ZKP_outage250_ewma1_iter4_1786552804.csv,ZKP,outage,250,1,4,1786552804,2026-08-12 16:40:04Z,1696,1,0,90.0,1036,ok
+data,trial_ZKP_outage3000_ewma1_iter5_1786552851.csv,ZKP,outage,3000,1,5,1786552851,2026-08-12 16:40:51Z,4187,1,1,25.42,1021,ok
+data,trial_ZKP_outage500_ewma3_iter5_1786552949.csv,ZKP,outage,500,3,5,1786552949,2026-08-12 16:42:29Z,1690,1,0,49.0,1030,ok
+data,trial_ZKP_outage3000_ewma3_iter1_1786552996.csv,ZKP,outage,3000,3,1,1786552996,2026-08-12 16:43:16Z,4214,1,1,0.97,1049,ok
+data,trial_ZKP_outage5000_ewma5_iter1_1786553094.csv,ZKP,outage,5000,5,1,1786553094,2026-08-12 16:44:54Z,954,0,0,100.0,,INVALID(run_campaign rule)
+data,trial_ZKP_outage5000_ewma3_iter1_1786553127.csv,ZKP,outage,5000,3,1,1786553127,2026-08-12 16:45:27Z,4217,1,1,0.04,1052,ok
+data,trial_ZKP_outage5000_ewma1_iter1_1786553226.csv,ZKP,outage,5000,1,1,1786553226,2026-08-12 16:47:06Z,4218,1,1,9.85,1052,ok
+data,trial_ZKP_outage500_ewma1_iter3_1786553324.csv,ZKP,outage,500,1,3,1786553324,2026-08-12 16:48:44Z,1732,1,0,72.9,1074,ok
+data,trial_ZKP_outage500_ewma1_iter5_1786553372.csv,ZKP,outage,500,1,5,1786553372,2026-08-12 16:49:32Z,1675,1,0,81.0,1016,ok
+data,trial_ZKP_outage500_ewma5_iter3_1786553420.csv,ZKP,outage,500,5,3,1786553420,2026-08-12 16:50:20Z,4199,1,1,25.0,1034,ok
+data,trial_ZKP_outage1000_ewma3_iter5_1786553518.csv,ZKP,outage,1000,3,5,1786553518,2026-08-12 16:51:58Z,4305,1,0,34.3,1139,ok
+data,trial_ZKP_outage3000_ewma5_iter4_1786553618.csv,ZKP,outage,3000,5,4,1786553618,2026-08-12 16:53:38Z,4191,1,1,0.01,1026,ok
+data,trial_ZKP_outage1000_ewma1_iter2_1786553715.csv,ZKP,outage,1000,1,2,1786553715,2026-08-12 16:55:15Z,1702,1,0,59.05,1043,ok
+data,trial_ZKP_outage500_ewma3_iter1_1786553764.csv,ZKP,outage,500,3,1,1786553764,2026-08-12 16:56:04Z,1729,1,0,49.0,1069,ok
+data,trial_ZKP_outage500_ewma5_iter4_1786553813.csv,ZKP,outage,500,5,4,1786553813,2026-08-12 16:56:53Z,4219,1,1,25.0,1053,ok
+data,trial_ZKP_outage1000_ewma3_iter3_1786553911.csv,ZKP,outage,1000,3,3,1786553911,2026-08-12 16:58:31Z,4235,1,1,24.01,1069,ok
+data,trial_ZKP_outage250_ewma3_iter5_1786554010.csv,ZKP,outage,250,3,5,1786554010,2026-08-12 17:00:10Z,1685,1,0,70.0,1026,ok
+data,trial_ZKP_outage5000_ewma1_iter3_1786554057.csv,ZKP,outage,5000,1,3,1786554057,2026-08-12 17:00:57Z,4203,1,1,10.94,1037,ok
+data,trial_ZKP_outage1000_ewma1_iter1_1786554155.csv,ZKP,outage,1000,1,1,1786554155,2026-08-12 17:02:35Z,1688,1,0,65.61,1030,ok
+data,trial_ZKP_outage1000_ewma1_iter5_1786554202.csv,ZKP,outage,1000,1,5,1786554202,2026-08-12 17:03:22Z,1733,1,0,59.05,1074,ok
+data,trial_ZKP_outage3000_ewma5_iter3_1786554251.csv,ZKP,outage,3000,5,3,1786554251,2026-08-12 17:04:11Z,4177,1,1,0.01,1011,ok
+data,trial_ZKP_outage5000_ewma5_iter3_1786554349.csv,ZKP,outage,5000,5,3,1786554349,2026-08-12 17:05:49Z,4239,1,1,0.0,1074,ok
+data,trial_ZKP_outage250_ewma5_iter5_1786554448.csv,ZKP,outage,250,5,5,1786554448,2026-08-12 17:07:28Z,1764,1,0,75.0,1104,ok
+data,trial_ZKP_outage5000_ewma3_iter2_1786554497.csv,ZKP,outage,5000,3,2,1786554497,2026-08-12 17:08:17Z,4227,1,1,0.08,1060,ok
+data,trial_ZKP_outage500_ewma5_iter1_1786554595.csv,ZKP,outage,500,5,1,1786554595,2026-08-12 17:09:55Z,4303,1,1,25.0,1138,ok
+data,trial_ZKP_outage1000_ewma3_iter4_1786554695.csv,ZKP,outage,1000,3,4,1786554695,2026-08-12 17:11:35Z,4196,1,1,24.01,1030,ok
+data,trial_ZKP_outage1000_ewma5_iter2_1786554793.csv,ZKP,outage,1000,5,2,1786554793,2026-08-12 17:13:13Z,4244,1,1,3.12,1078,ok
+data,trial_ZKP_outage250_ewma1_iter3_1786554891.csv,ZKP,outage,250,1,3,1786554891,2026-08-12 17:14:51Z,1857,1,0,90.0,1198,ok
+data,trial_ZKP_outage5000_ewma1_iter5_1786554942.csv,ZKP,outage,5000,1,5,1786554942,2026-08-12 17:15:42Z,4154,1,1,10.94,987,ok
+data,trial_ZKP_outage1000_ewma5_iter4_1786555040.csv,ZKP,outage,1000,5,4,1786555040,2026-08-12 17:17:20Z,918,0,0,100.0,,INVALID(run_campaign rule)
+data,trial_ZKP_outage3000_ewma3_iter5_1786555072.csv,ZKP,outage,3000,3,5,1786555072,2026-08-12 17:17:52Z,4210,1,1,0.97,1044,ok
+data,trial_ZKP_outage5000_ewma3_iter3_1786555171.csv,ZKP,outage,5000,3,3,1786555171,2026-08-12 17:19:31Z,4274,1,1,0.04,1108,ok
+data,trial_ZKP_outage1000_ewma1_iter3_1786555270.csv,ZKP,outage,1000,1,3,1786555270,2026-08-12 17:21:10Z,2204,1,0,65.61,1545,ok
+data,trial_ZKP_outage500_ewma5_iter5_1786555328.csv,ZKP,outage,500,5,5,1786555328,2026-08-12 17:22:08Z,4259,1,1,25.0,1094,ok
+data,trial_ZKP_outage500_ewma5_iter2_1786555427.csv,ZKP,outage,500,5,2,1786555427,2026-08-12 17:23:47Z,4177,1,1,25.0,1010,ok
+data,trial_ZKP_outage5000_ewma5_iter5_1786555525.csv,ZKP,outage,5000,5,5,1786555525,2026-08-12 17:25:25Z,4183,1,1,0.0,1018,ok
+data,trial_ZKP_outage1000_ewma5_iter1_1786555623.csv,ZKP,outage,1000,5,1,1786555623,2026-08-12 17:27:03Z,4267,1,1,3.12,1102,ok
+data,trial_ZKP_outage1000_ewma5_iter4_1786555722.csv,ZKP,outage,1000,5,4,1786555722,2026-08-12 17:28:42Z,4208,1,1,3.12,1043,ok
+data,trial_ZKP_outage5000_ewma5_iter1_1786555820.csv,ZKP,outage,5000,5,1,1786555820,2026-08-12 17:30:20Z,4217,1,1,0.0,1051,ok
+data,trial_ZKP_outage5000_ewma1_iter4_1786555918.csv,ZKP,outage,5000,1,4,1786555918,2026-08-12 17:31:58Z,4285,1,1,10.94,1119,ok
+data,trial_ZKP_outage1000_ewma5_iter3_1786556017.csv,ZKP,outage,1000,5,3,1786556017,2026-08-12 17:33:37Z,4255,1,1,3.12,1090,ok
+data,trial_ZKP_outage250_ewma5_iter3_1786556117.csv,ZKP,outage,250,5,3,1786556117,2026-08-12 17:35:17Z,1709,1,0,50.0,1048,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss75_ewma5_iter1_1785969444.csv,ZKP,loss,75,5,1,1785969444,2026-08-05 22:37:24Z,2062,1,1,0.0,1146,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss50_ewma1_iter1_1785969504.csv,ECC,loss,50,1,1,1785969504,2026-08-05 22:38:24Z,1747,1,1,22.88,1087,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss50_ewma3_iter1_1785969556.csv,ECC,loss,50,3,1,1785969556,2026-08-05 22:39:16Z,1930,1,1,0.11,1013,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss25_ewma5_iter1_1785969716.csv,ZKP,loss,25,5,1,1785969716,2026-08-05 22:41:56Z,1990,1,1,0.0,1074,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss75_ewma1_iter1_1785969817.csv,ZKP,loss,75,1,1,1785969817,2026-08-05 22:43:37Z,1694,1,1,28.24,1036,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss50_ewma1_iter1_1785969869.csv,ZKP,loss,50,1,1,1785969869,2026-08-05 22:44:29Z,1699,1,0,31.38,1039,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss75_ewma1_iter1_1785969922.csv,ECC,loss,75,1,1,1785969922,2026-08-05 22:45:22Z,1671,1,1,22.88,1012,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss25_ewma1_iter1_1785969970.csv,ZKP,loss,25,1,1,1785969970,2026-08-05 22:46:10Z,1740,1,1,28.24,1080,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss75_ewma3_iter1_1785970026.csv,ECC,loss,75,3,1,1785970026,2026-08-05 22:47:06Z,1917,1,1,0.23,1001,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss50_ewma5_iter1_1785970080.csv,ECC,loss,50,5,1,1785970080,2026-08-05 22:48:00Z,1949,1,1,0.0,1034,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss75_ewma5_iter1_1785970141.csv,ECC,loss,75,5,1,1785970141,2026-08-05 22:49:01Z,1939,1,1,0.0,1024,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss25_ewma5_iter1_1785970199.csv,ECC,loss,25,5,1,1785970199,2026-08-05 22:49:59Z,1978,1,1,0.0,1062,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss25_ewma3_iter1_1785970257.csv,ECC,loss,25,3,1,1785970257,2026-08-05 22:50:57Z,1973,1,1,0.11,1057,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss50_ewma5_iter1_1785970319.csv,ZKP,loss,50,5,1,1785970319,2026-08-05 22:51:59Z,1965,1,1,0.0,1049,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss75_ewma3_iter1_1785970406.csv,ZKP,loss,75,3,1,1785970406,2026-08-05 22:53:26Z,1960,1,1,0.23,1043,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss50_ewma3_iter1_1785970505.csv,ZKP,loss,50,3,1,1785970505,2026-08-05 22:55:05Z,1927,1,1,0.16,1011,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss25_ewma1_iter1_1785970561.csv,ECC,loss,25,1,1,1785970561,2026-08-05 22:56:01Z,1652,1,1,25.42,993,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss25_ewma3_iter1_1785970611.csv,ZKP,loss,25,3,1,1785970611,2026-08-05 22:56:51Z,1955,1,1,0.16,1039,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss75_ewma5_iter2_1785970712.csv,ECC,loss,75,5,2,1785970712,2026-08-05 22:58:32Z,1969,1,1,0.0,1054,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss50_ewma5_iter2_1785970768.csv,ZKP,loss,50,5,2,1785970768,2026-08-05 22:59:28Z,1929,1,1,0.0,1013,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss25_ewma1_iter2_1785970823.csv,ECC,loss,25,1,2,1785970823,2026-08-05 23:00:23Z,1647,1,1,25.42,988,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss50_ewma5_iter2_1785970927.csv,ECC,loss,50,5,2,1785970927,2026-08-05 23:02:07Z,1958,1,1,0.0,1042,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss25_ewma5_iter2_1785970982.csv,ECC,loss,25,5,2,1785970982,2026-08-05 23:03:02Z,1997,1,1,0.0,1080,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss75_ewma5_iter2_1785971051.csv,ZKP,loss,75,5,2,1785971051,2026-08-05 23:04:11Z,1937,1,1,0.0,1021,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss75_ewma3_iter2_1785971108.csv,ZKP,loss,75,3,2,1785971108,2026-08-05 23:05:08Z,1904,1,1,0.23,989,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss25_ewma3_iter2_1785971169.csv,ECC,loss,25,3,2,1785971169,2026-08-05 23:06:09Z,1987,1,1,0.16,1070,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss25_ewma3_iter2_1785971230.csv,ZKP,loss,25,3,2,1785971230,2026-08-05 23:07:10Z,1926,1,1,0.16,1010,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss50_ewma1_iter2_1785971287.csv,ECC,loss,50,1,2,1785971287,2026-08-05 23:08:07Z,1734,1,1,28.24,1076,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss25_ewma1_iter2_1785971338.csv,ZKP,loss,25,1,2,1785971338,2026-08-05 23:08:58Z,1696,1,1,25.42,1037,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss50_ewma3_iter2_1785971390.csv,ZKP,loss,50,3,2,1785971390,2026-08-05 23:09:50Z,2010,1,1,0.33,1093,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss75_ewma1_iter2_1785971451.csv,ECC,loss,75,1,2,1785971451,2026-08-05 23:10:51Z,1731,1,1,22.88,1073,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss75_ewma1_iter2_1785971520.csv,ZKP,loss,75,1,2,1785971520,2026-08-05 23:12:00Z,1657,1,1,25.42,998,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss25_ewma5_iter2_1785971576.csv,ZKP,loss,25,5,2,1785971576,2026-08-05 23:12:56Z,1926,1,1,0.0,1011,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss50_ewma1_iter2_1785971630.csv,ZKP,loss,50,1,2,1785971630,2026-08-05 23:13:50Z,1677,1,1,28.24,1019,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss75_ewma3_iter2_1785971704.csv,ECC,loss,75,3,2,1785971704,2026-08-05 23:15:04Z,1918,1,1,0.16,1003,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss50_ewma3_iter2_1785971760.csv,ECC,loss,50,3,2,1785971760,2026-08-05 23:16:00Z,1914,1,1,0.08,998,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss25_ewma1_iter3_1785971820.csv,ECC,loss,25,1,3,1785971820,2026-08-05 23:17:00Z,1691,1,1,22.88,1031,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss50_ewma1_iter3_1785971880.csv,ECC,loss,50,1,3,1785971880,2026-08-05 23:18:00Z,1718,1,1,22.88,1059,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss50_ewma1_iter3_1785971950.csv,ZKP,loss,50,1,3,1785971950,2026-08-05 23:19:10Z,1711,1,1,28.24,1052,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss25_ewma5_iter3_1785972020.csv,ECC,loss,25,5,3,1785972020,2026-08-05 23:20:20Z,1943,1,1,0.0,1027,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss75_ewma1_iter3_1785972077.csv,ZKP,loss,75,1,3,1785972077,2026-08-05 23:21:17Z,1770,1,0,31.38,1111,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss25_ewma5_iter3_1785972129.csv,ZKP,loss,25,5,3,1785972129,2026-08-05 23:22:09Z,1922,1,1,0.0,1007,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss75_ewma5_iter3_1785972196.csv,ECC,loss,75,5,3,1785972196,2026-08-05 23:23:16Z,1928,1,1,0.0,1012,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss25_ewma3_iter3_1785972254.csv,ECC,loss,25,3,3,1785972254,2026-08-05 23:24:14Z,2061,1,1,0.16,1145,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss75_ewma3_iter3_1785972309.csv,ZKP,loss,75,3,3,1785972309,2026-08-05 23:25:09Z,1947,1,1,0.23,1032,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss75_ewma3_iter3_1785972366.csv,ZKP,loss,75,3,3,1785972366,2026-08-05 23:26:06Z,2401,1,1,0.23,1485,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss25_ewma1_iter3_1785972433.csv,ZKP,loss,25,1,3,1785972433,2026-08-05 23:27:13Z,1666,1,1,25.42,1007,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss50_ewma5_iter3_1785972511.csv,ZKP,loss,50,5,3,1785972511,2026-08-05 23:28:31Z,1902,1,1,0.0,987,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss50_ewma5_iter3_1785972576.csv,ECC,loss,50,5,3,1785972576,2026-08-05 23:29:36Z,1940,1,1,0.0,1025,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss25_ewma3_iter3_1785972639.csv,ZKP,loss,25,3,3,1785972639,2026-08-05 23:30:39Z,1971,1,1,0.33,1055,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss50_ewma3_iter3_1785972710.csv,ZKP,loss,50,3,3,1785972710,2026-08-05 23:31:50Z,1909,1,1,0.23,993,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss75_ewma1_iter3_1785972761.csv,ECC,loss,75,1,3,1785972761,2026-08-05 23:32:41Z,1667,1,1,22.88,1008,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ECC_loss50_ewma3_iter3_1785972817.csv,ECC,loss,50,3,3,1785972817,2026-08-05 23:33:37Z,1969,1,1,0.08,1053,ok
+data/v1_probabilistic_archive/58_trial_confirmed,trial_ZKP_loss75_ewma5_iter3_1785972888.csv,ZKP,loss,75,5,3,1785972888,2026-08-05 23:34:48Z,1929,1,1,0.0,1013,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma1_iter1_1785976685.csv,ZKP,loss,500,1,1,1785976685,2026-08-06 00:38:05Z,1658,1,1,28.24,998,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma1_iter2_1785976733.csv,ZKP,loss,500,1,2,1785976733,2026-08-06 00:38:53Z,1645,1,0,31.38,986,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma1_iter3_1785976780.csv,ZKP,loss,500,1,3,1785976780,2026-08-06 00:39:40Z,1656,1,0,31.38,996,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma1_iter4_1785976828.csv,ZKP,loss,500,1,4,1785976828,2026-08-06 00:40:28Z,1697,1,1,28.24,1038,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma1_iter5_1785976877.csv,ZKP,loss,500,1,5,1785976877,2026-08-06 00:41:17Z,888,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma1_iter6_1785976909.csv,ZKP,loss,500,1,6,1785976909,2026-08-06 00:41:49Z,1732,1,0,31.38,1073,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma1_iter7_1785976957.csv,ZKP,loss,500,1,7,1785976957,2026-08-06 00:42:37Z,1682,1,1,28.24,1023,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma1_iter8_1785977004.csv,ZKP,loss,500,1,8,1785977004,2026-08-06 00:43:24Z,1672,1,0,31.38,1011,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma1_iter9_1785977052.csv,ZKP,loss,500,1,9,1785977052,2026-08-06 00:44:12Z,1821,1,1,28.24,1160,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma1_iter10_1785977103.csv,ZKP,loss,500,1,10,1785977103,2026-08-06 00:45:03Z,1789,1,1,28.24,1131,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma1_iter11_1785977153.csv,ZKP,loss,500,1,11,1785977153,2026-08-06 00:45:53Z,1699,1,1,28.24,1041,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma1_iter12_1785977202.csv,ZKP,loss,500,1,12,1785977202,2026-08-06 00:46:42Z,1653,1,0,31.38,995,ok
+data/v2_deterministic_archive,trial_ZKP_loss1000_ewma5_iter1_1785977250.csv,ZKP,loss,1000,5,1,1785977250,2026-08-06 00:47:30Z,2432,1,1,0.0,1517,ok
+data/v2_deterministic_archive,trial_ZKP_loss1000_ewma5_iter2_1785977313.csv,ZKP,loss,1000,5,2,1785977313,2026-08-06 00:48:33Z,1956,1,1,0.0,1040,ok
+data/v2_deterministic_archive,trial_ZKP_loss1000_ewma5_iter3_1785977367.csv,ZKP,loss,1000,5,3,1785977367,2026-08-06 00:49:27Z,881,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ZKP_loss1000_ewma5_iter4_1785977399.csv,ZKP,loss,1000,5,4,1785977399,2026-08-06 00:49:59Z,2005,1,1,0.0,1090,ok
+data/v2_deterministic_archive,trial_ZKP_loss1000_ewma5_iter5_1785977453.csv,ZKP,loss,1000,5,5,1785977453,2026-08-06 00:50:53Z,1963,1,1,0.0,1047,ok
+data/v2_deterministic_archive,trial_ZKP_loss1000_ewma5_iter6_1785977506.csv,ZKP,loss,1000,5,6,1785977506,2026-08-06 00:51:46Z,1930,1,1,0.0,1014,ok
+data/v2_deterministic_archive,trial_ZKP_loss1000_ewma5_iter7_1785977559.csv,ZKP,loss,1000,5,7,1785977559,2026-08-06 00:52:39Z,2031,1,1,0.0,1115,ok
+data/v2_deterministic_archive,trial_ZKP_loss1000_ewma5_iter8_1785977614.csv,ZKP,loss,1000,5,8,1785977614,2026-08-06 00:53:34Z,1930,1,1,0.0,1013,ok
+data/v2_deterministic_archive,trial_ZKP_loss1000_ewma5_iter9_1785977667.csv,ZKP,loss,1000,5,9,1785977667,2026-08-06 00:54:27Z,1935,1,1,0.0,1019,ok
+data/v2_deterministic_archive,trial_ZKP_loss1000_ewma5_iter10_1785977721.csv,ZKP,loss,1000,5,10,1785977721,2026-08-06 00:55:21Z,1879,1,1,0.0,1013,ok
+data/v2_deterministic_archive,trial_ZKP_loss1000_ewma5_iter11_1785977774.csv,ZKP,loss,1000,5,11,1785977774,2026-08-06 00:56:14Z,1936,1,1,0.0,1020,ok
+data/v2_deterministic_archive,trial_ZKP_loss1000_ewma5_iter12_1785977827.csv,ZKP,loss,1000,5,12,1785977827,2026-08-06 00:57:07Z,1971,1,1,0.0,1055,ok
+data/v2_deterministic_archive,trial_ZKP_loss2000_ewma9_iter1_1785977880.csv,ZKP,loss,2000,9,1,1785977880,2026-08-06 00:58:00Z,2042,1,1,0.0,1127,ok
+data/v2_deterministic_archive,trial_ZKP_loss2000_ewma9_iter2_1785977936.csv,ZKP,loss,2000,9,2,1785977936,2026-08-06 00:58:56Z,1987,1,1,0.0,1071,ok
+data/v2_deterministic_archive,trial_ZKP_loss2000_ewma9_iter3_1785977990.csv,ZKP,loss,2000,9,3,1785977990,2026-08-06 00:59:50Z,1933,1,1,0.0,1016,ok
+data/v2_deterministic_archive,trial_ZKP_loss2000_ewma9_iter4_1785978043.csv,ZKP,loss,2000,9,4,1785978043,2026-08-06 01:00:43Z,1924,1,1,0.0,1008,ok
+data/v2_deterministic_archive,trial_ZKP_loss2000_ewma9_iter5_1785978097.csv,ZKP,loss,2000,9,5,1785978097,2026-08-06 01:01:37Z,928,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ZKP_loss2000_ewma9_iter6_1785978130.csv,ZKP,loss,2000,9,6,1785978130,2026-08-06 01:02:10Z,1940,1,1,0.0,1024,ok
+data/v2_deterministic_archive,trial_ZKP_loss2000_ewma9_iter7_1785978183.csv,ZKP,loss,2000,9,7,1785978183,2026-08-06 01:03:03Z,1977,1,1,0.0,1061,ok
+data/v2_deterministic_archive,trial_ZKP_loss2000_ewma9_iter8_1785978237.csv,ZKP,loss,2000,9,8,1785978237,2026-08-06 01:03:57Z,1943,1,1,0.0,1027,ok
+data/v2_deterministic_archive,trial_ZKP_loss2000_ewma9_iter9_1785978290.csv,ZKP,loss,2000,9,9,1785978290,2026-08-06 01:04:50Z,1971,1,1,0.0,1055,ok
+data/v2_deterministic_archive,trial_ZKP_loss2000_ewma9_iter10_1785978344.csv,ZKP,loss,2000,9,10,1785978344,2026-08-06 01:05:44Z,1977,1,1,0.0,1060,ok
+data/v2_deterministic_archive,trial_ZKP_loss2000_ewma9_iter11_1785978398.csv,ZKP,loss,2000,9,11,1785978398,2026-08-06 01:06:38Z,2022,1,1,0.0,1105,ok
+data/v2_deterministic_archive,trial_ZKP_loss2000_ewma9_iter12_1785978453.csv,ZKP,loss,2000,9,12,1785978453,2026-08-06 01:07:33Z,1945,1,1,0.0,1030,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma5_iter1_1785978507.csv,ZKP,loss,5000,5,1,1785978507,2026-08-06 01:08:27Z,1898,1,1,0.0,983,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma5_iter2_1785978559.csv,ZKP,loss,5000,5,2,1785978559,2026-08-06 01:09:19Z,883,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma5_iter3_1785978591.csv,ZKP,loss,5000,5,3,1785978591,2026-08-06 01:09:51Z,1953,1,1,0.0,1037,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma5_iter4_1785978644.csv,ZKP,loss,5000,5,4,1785978644,2026-08-06 01:10:44Z,1932,1,1,0.0,1015,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma5_iter5_1785978697.csv,ZKP,loss,5000,5,5,1785978697,2026-08-06 01:11:37Z,1938,1,1,0.0,1022,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma5_iter6_1785978750.csv,ZKP,loss,5000,5,6,1785978750,2026-08-06 01:12:30Z,1932,1,1,0.0,1016,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma5_iter7_1785978803.csv,ZKP,loss,5000,5,7,1785978803,2026-08-06 01:13:23Z,1973,1,1,0.0,1057,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma5_iter8_1785978857.csv,ZKP,loss,5000,5,8,1785978857,2026-08-06 01:14:17Z,1977,1,1,0.0,1061,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma5_iter9_1785978911.csv,ZKP,loss,5000,5,9,1785978911,2026-08-06 01:15:11Z,1905,1,1,0.0,989,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma5_iter10_1785978964.csv,ZKP,loss,5000,5,10,1785978964,2026-08-06 01:16:04Z,932,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma5_iter11_1785978997.csv,ZKP,loss,5000,5,11,1785978997,2026-08-06 01:16:37Z,1969,1,1,0.0,1052,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma5_iter12_1785979050.csv,ZKP,loss,5000,5,12,1785979050,2026-08-06 01:17:30Z,893,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma9_iter1_1785979082.csv,ZKP,loss,500,9,1,1785979082,2026-08-06 01:18:02Z,1940,1,1,0.0,1024,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma9_iter2_1785979135.csv,ZKP,loss,500,9,2,1785979135,2026-08-06 01:18:55Z,1906,1,1,0.0,989,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma9_iter3_1785979187.csv,ZKP,loss,500,9,3,1785979187,2026-08-06 01:19:47Z,1941,1,1,0.0,1026,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma9_iter4_1785979240.csv,ZKP,loss,500,9,4,1785979240,2026-08-06 01:20:40Z,1920,1,1,0.0,1004,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma9_iter5_1785979293.csv,ZKP,loss,500,9,5,1785979293,2026-08-06 01:21:33Z,1982,1,1,0.0,1066,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma9_iter6_1785979347.csv,ZKP,loss,500,9,6,1785979347,2026-08-06 01:22:27Z,2001,1,1,0.0,1086,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma9_iter7_1785979402.csv,ZKP,loss,500,9,7,1785979402,2026-08-06 01:23:22Z,1918,1,1,0.0,1002,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma9_iter8_1785979455.csv,ZKP,loss,500,9,8,1785979455,2026-08-06 01:24:15Z,1922,1,1,0.0,1006,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma9_iter9_1785979507.csv,ZKP,loss,500,9,9,1785979507,2026-08-06 01:25:07Z,1991,1,1,0.0,1074,ok
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma9_iter10_1785979561.csv,ZKP,loss,500,9,10,1785979561,2026-08-06 01:26:01Z,879,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma9_iter11_1785979593.csv,ZKP,loss,500,9,11,1785979593,2026-08-06 01:26:33Z,911,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ZKP_loss500_ewma9_iter12_1785979625.csv,ZKP,loss,500,9,12,1785979625,2026-08-06 01:27:05Z,1953,1,1,0.0,1036,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma1_iter1_1785979678.csv,ZKP,loss,5000,1,1,1785979678,2026-08-06 01:27:58Z,1694,1,0,31.38,1033,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma1_iter2_1785979727.csv,ZKP,loss,5000,1,2,1785979727,2026-08-06 01:28:47Z,1027,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma1_iter3_1785979761.csv,ZKP,loss,5000,1,3,1785979761,2026-08-06 01:29:21Z,1701,1,0,31.38,1042,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma1_iter4_1785979809.csv,ZKP,loss,5000,1,4,1785979809,2026-08-06 01:30:09Z,2146,1,0,34.87,1487,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma1_iter5_1785979867.csv,ZKP,loss,5000,1,5,1785979867,2026-08-06 01:31:07Z,1460,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma1_iter6_1785979910.csv,ZKP,loss,5000,1,6,1785979910,2026-08-06 01:31:50Z,1671,1,0,31.38,1012,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma1_iter7_1785979957.csv,ZKP,loss,5000,1,7,1785979957,2026-08-06 01:32:37Z,1674,1,0,31.38,1015,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma1_iter8_1785980005.csv,ZKP,loss,5000,1,8,1785980005,2026-08-06 01:33:25Z,923,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma1_iter9_1785980038.csv,ZKP,loss,5000,1,9,1785980038,2026-08-06 01:33:58Z,1683,1,0,31.38,1023,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma1_iter10_1785980085.csv,ZKP,loss,5000,1,10,1785980085,2026-08-06 01:34:45Z,1662,1,1,28.24,1002,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma1_iter11_1785980133.csv,ZKP,loss,5000,1,11,1785980133,2026-08-06 01:35:33Z,1663,1,0,31.38,1003,ok
+data/v2_deterministic_archive,trial_ZKP_loss5000_ewma1_iter12_1785980181.csv,ZKP,loss,5000,1,12,1785980181,2026-08-06 01:36:21Z,1718,1,1,28.24,1059,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma1_iter1_1785980230.csv,ECC,loss,500,1,1,1785980230,2026-08-06 01:37:10Z,1746,1,1,25.42,1086,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma1_iter2_1785980278.csv,ECC,loss,500,1,2,1785980278,2026-08-06 01:37:58Z,1656,1,1,22.88,997,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma1_iter3_1785980326.csv,ECC,loss,500,1,3,1785980326,2026-08-06 01:38:46Z,1660,1,1,28.24,1000,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma1_iter4_1785980374.csv,ECC,loss,500,1,4,1785980374,2026-08-06 01:39:34Z,1703,1,1,22.88,1043,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma1_iter5_1785980422.csv,ECC,loss,500,1,5,1785980422,2026-08-06 01:40:22Z,928,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ECC_loss500_ewma1_iter6_1785980454.csv,ECC,loss,500,1,6,1785980454,2026-08-06 01:40:54Z,1641,1,1,25.42,982,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma1_iter7_1785980502.csv,ECC,loss,500,1,7,1785980502,2026-08-06 01:41:42Z,1719,1,1,22.88,1059,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma1_iter8_1785980551.csv,ECC,loss,500,1,8,1785980551,2026-08-06 01:42:31Z,1677,1,1,28.24,1017,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma1_iter9_1785980598.csv,ECC,loss,500,1,9,1785980598,2026-08-06 01:43:18Z,1738,1,1,28.24,1079,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma1_iter10_1785980647.csv,ECC,loss,500,1,10,1785980647,2026-08-06 01:44:07Z,938,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ECC_loss500_ewma1_iter11_1785980680.csv,ECC,loss,500,1,11,1785980680,2026-08-06 01:44:40Z,1686,1,0,31.38,1026,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma1_iter12_1785980727.csv,ECC,loss,500,1,12,1785980727,2026-08-06 01:45:27Z,906,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ECC_loss1000_ewma5_iter1_1785980760.csv,ECC,loss,1000,5,1,1785980760,2026-08-06 01:46:00Z,1955,1,1,0.0,1039,ok
+data/v2_deterministic_archive,trial_ECC_loss1000_ewma5_iter2_1785980813.csv,ECC,loss,1000,5,2,1785980813,2026-08-06 01:46:53Z,1939,1,1,0.0,1023,ok
+data/v2_deterministic_archive,trial_ECC_loss1000_ewma5_iter3_1785980865.csv,ECC,loss,1000,5,3,1785980865,2026-08-06 01:47:45Z,1930,1,1,0.0,1014,ok
+data/v2_deterministic_archive,trial_ECC_loss1000_ewma5_iter4_1785980918.csv,ECC,loss,1000,5,4,1785980918,2026-08-06 01:48:38Z,1937,1,1,0.0,1021,ok
+data/v2_deterministic_archive,trial_ECC_loss1000_ewma5_iter5_1785980971.csv,ECC,loss,1000,5,5,1785980971,2026-08-06 01:49:31Z,1924,1,1,0.0,1008,ok
+data/v2_deterministic_archive,trial_ECC_loss1000_ewma5_iter6_1785981024.csv,ECC,loss,1000,5,6,1785981024,2026-08-06 01:50:24Z,1895,1,1,0.0,979,ok
+data/v2_deterministic_archive,trial_ECC_loss1000_ewma5_iter7_1785981077.csv,ECC,loss,1000,5,7,1785981077,2026-08-06 01:51:17Z,1921,1,1,0.0,1006,ok
+data/v2_deterministic_archive,trial_ECC_loss1000_ewma5_iter8_1785981130.csv,ECC,loss,1000,5,8,1785981130,2026-08-06 01:52:10Z,2030,1,1,0.0,1112,ok
+data/v2_deterministic_archive,trial_ECC_loss1000_ewma5_iter9_1785981185.csv,ECC,loss,1000,5,9,1785981185,2026-08-06 01:53:05Z,1998,1,1,0.0,1081,ok
+data/v2_deterministic_archive,trial_ECC_loss1000_ewma5_iter10_1785981240.csv,ECC,loss,1000,5,10,1785981240,2026-08-06 01:54:00Z,939,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ECC_loss1000_ewma5_iter11_1785981273.csv,ECC,loss,1000,5,11,1785981273,2026-08-06 01:54:33Z,906,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ECC_loss1000_ewma5_iter12_1785981306.csv,ECC,loss,1000,5,12,1785981306,2026-08-06 01:55:06Z,1946,1,1,0.0,1030,ok
+data/v2_deterministic_archive,trial_ECC_loss2000_ewma9_iter1_1785981358.csv,ECC,loss,2000,9,1,1785981358,2026-08-06 01:55:58Z,1934,1,1,0.0,1019,ok
+data/v2_deterministic_archive,trial_ECC_loss2000_ewma9_iter2_1785981411.csv,ECC,loss,2000,9,2,1785981411,2026-08-06 01:56:51Z,1901,1,1,0.0,985,ok
+data/v2_deterministic_archive,trial_ECC_loss2000_ewma9_iter3_1785981464.csv,ECC,loss,2000,9,3,1785981464,2026-08-06 01:57:44Z,1939,1,1,0.0,1023,ok
+data/v2_deterministic_archive,trial_ECC_loss2000_ewma9_iter4_1785981517.csv,ECC,loss,2000,9,4,1785981517,2026-08-06 01:58:37Z,1925,1,1,0.0,1009,ok
+data/v2_deterministic_archive,trial_ECC_loss2000_ewma9_iter5_1785981570.csv,ECC,loss,2000,9,5,1785981570,2026-08-06 01:59:30Z,1939,1,1,0.0,1023,ok
+data/v2_deterministic_archive,trial_ECC_loss2000_ewma9_iter6_1785981623.csv,ECC,loss,2000,9,6,1785981623,2026-08-06 02:00:23Z,1991,1,1,0.0,1075,ok
+data/v2_deterministic_archive,trial_ECC_loss2000_ewma9_iter7_1785981678.csv,ECC,loss,2000,9,7,1785981678,2026-08-06 02:01:18Z,1910,1,1,0.0,994,ok
+data/v2_deterministic_archive,trial_ECC_loss2000_ewma9_iter8_1785981731.csv,ECC,loss,2000,9,8,1785981731,2026-08-06 02:02:11Z,1923,1,1,0.0,1006,ok
+data/v2_deterministic_archive,trial_ECC_loss2000_ewma9_iter9_1785981783.csv,ECC,loss,2000,9,9,1785981783,2026-08-06 02:03:03Z,1927,1,1,0.0,1011,ok
+data/v2_deterministic_archive,trial_ECC_loss2000_ewma9_iter10_1785981836.csv,ECC,loss,2000,9,10,1785981836,2026-08-06 02:03:56Z,963,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ECC_loss2000_ewma9_iter11_1785981870.csv,ECC,loss,2000,9,11,1785981870,2026-08-06 02:04:30Z,1950,1,1,0.0,1034,ok
+data/v2_deterministic_archive,trial_ECC_loss2000_ewma9_iter12_1785981923.csv,ECC,loss,2000,9,12,1785981923,2026-08-06 02:05:23Z,1923,1,1,0.0,1007,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma5_iter1_1785981976.csv,ECC,loss,5000,5,1,1785981976,2026-08-06 02:06:16Z,1972,1,1,0.0,1056,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma5_iter2_1785982030.csv,ECC,loss,5000,5,2,1785982030,2026-08-06 02:07:10Z,2004,1,1,0.0,1088,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma5_iter3_1785982084.csv,ECC,loss,5000,5,3,1785982084,2026-08-06 02:08:04Z,1946,1,1,0.0,1029,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma5_iter4_1785982138.csv,ECC,loss,5000,5,4,1785982138,2026-08-06 02:08:58Z,1941,1,1,0.0,1025,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma5_iter5_1785982191.csv,ECC,loss,5000,5,5,1785982191,2026-08-06 02:09:51Z,2477,1,1,0.0,1561,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma5_iter6_1785982255.csv,ECC,loss,5000,5,6,1785982255,2026-08-06 02:10:55Z,925,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma5_iter7_1785982288.csv,ECC,loss,5000,5,7,1785982288,2026-08-06 02:11:28Z,2472,1,1,0.0,1557,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma5_iter8_1785982352.csv,ECC,loss,5000,5,8,1785982352,2026-08-06 02:12:32Z,1928,1,1,0.0,1012,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma5_iter9_1785982404.csv,ECC,loss,5000,5,9,1785982404,2026-08-06 02:13:24Z,1949,1,1,0.0,1033,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma5_iter10_1785982458.csv,ECC,loss,5000,5,10,1785982458,2026-08-06 02:14:18Z,1949,1,1,0.0,1034,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma5_iter11_1785982512.csv,ECC,loss,5000,5,11,1785982512,2026-08-06 02:15:12Z,1919,1,1,0.0,1004,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma5_iter12_1785982565.csv,ECC,loss,5000,5,12,1785982565,2026-08-06 02:16:05Z,1894,1,1,0.0,978,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma9_iter1_1785982618.csv,ECC,loss,500,9,1,1785982618,2026-08-06 02:16:58Z,1999,1,1,0.0,1083,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma9_iter2_1785982672.csv,ECC,loss,500,9,2,1785982672,2026-08-06 02:17:52Z,1985,1,1,0.0,1069,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma9_iter3_1785982726.csv,ECC,loss,500,9,3,1785982726,2026-08-06 02:18:46Z,1950,1,1,0.0,1034,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma9_iter4_1785982780.csv,ECC,loss,500,9,4,1785982780,2026-08-06 02:19:40Z,1924,1,1,0.0,1008,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma9_iter5_1785982832.csv,ECC,loss,500,9,5,1785982832,2026-08-06 02:20:32Z,1921,1,1,0.0,1004,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma9_iter6_1785982885.csv,ECC,loss,500,9,6,1785982885,2026-08-06 02:21:25Z,1925,1,1,0.0,1009,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma9_iter7_1785982938.csv,ECC,loss,500,9,7,1785982938,2026-08-06 02:22:18Z,1949,1,1,0.0,1032,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma9_iter8_1785982992.csv,ECC,loss,500,9,8,1785982992,2026-08-06 02:23:12Z,1981,1,1,0.0,1065,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma9_iter9_1785983046.csv,ECC,loss,500,9,9,1785983046,2026-08-06 02:24:06Z,1922,1,1,0.0,1007,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma9_iter10_1785983099.csv,ECC,loss,500,9,10,1785983099,2026-08-06 02:24:59Z,1947,1,1,0.0,1031,ok
+data/v2_deterministic_archive,trial_ECC_loss500_ewma9_iter11_1785983152.csv,ECC,loss,500,9,11,1785983152,2026-08-06 02:25:52Z,944,0,0,100.0,,INVALID(run_campaign rule)
+data/v2_deterministic_archive,trial_ECC_loss500_ewma9_iter12_1785983185.csv,ECC,loss,500,9,12,1785983185,2026-08-06 02:26:25Z,1961,1,1,0.0,1046,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma1_iter1_1785983238.csv,ECC,loss,5000,1,1,1785983238,2026-08-06 02:27:18Z,1738,1,1,25.42,1079,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma1_iter2_1785983288.csv,ECC,loss,5000,1,2,1785983288,2026-08-06 02:28:08Z,1691,1,1,25.42,1030,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma1_iter3_1785983336.csv,ECC,loss,5000,1,3,1785983336,2026-08-06 02:28:56Z,1746,1,1,22.88,1086,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma1_iter4_1785983385.csv,ECC,loss,5000,1,4,1785983385,2026-08-06 02:29:45Z,1634,1,1,25.42,976,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma1_iter5_1785983432.csv,ECC,loss,5000,1,5,1785983432,2026-08-06 02:30:32Z,1738,1,1,22.88,1079,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma1_iter6_1785983481.csv,ECC,loss,5000,1,6,1785983481,2026-08-06 02:31:21Z,1785,1,1,25.42,1127,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma1_iter7_1785983531.csv,ECC,loss,5000,1,7,1785983531,2026-08-06 02:32:11Z,1752,1,1,22.88,1093,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma1_iter8_1785983580.csv,ECC,loss,5000,1,8,1785983580,2026-08-06 02:33:00Z,1689,1,1,22.88,1028,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma1_iter9_1785983628.csv,ECC,loss,5000,1,9,1785983628,2026-08-06 02:33:48Z,1731,1,1,25.42,1072,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma1_iter10_1785983677.csv,ECC,loss,5000,1,10,1785983677,2026-08-06 02:34:37Z,1760,1,1,22.88,1099,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma1_iter11_1785983726.csv,ECC,loss,5000,1,11,1785983726,2026-08-06 02:35:26Z,1673,1,1,22.88,1014,ok
+data/v2_deterministic_archive,trial_ECC_loss5000_ewma1_iter12_1785983774.csv,ECC,loss,5000,1,12,1785983774,2026-08-06 02:36:14Z,1677,1,1,22.88,1018,ok
+data/v3_deterministic_archive,trial_ZKP_loss1000_ewma5_iter0_1786034814.csv,ZKP,loss,1000,5,0,1786034814,2026-08-06 16:46:54Z,1884,1,1,0.0,969,ok
+data/v3_deterministic_archive,trial_ZKP_loss500_ewma1_iter1_1786034902.csv,ZKP,loss,500,1,1,1786034902,2026-08-06 16:48:22Z,1683,1,1,25.42,1022,ok
+data/v3_deterministic_archive,trial_ZKP_loss500_ewma1_iter2_1786034950.csv,ZKP,loss,500,1,2,1786034950,2026-08-06 16:49:10Z,1711,1,1,28.24,1052,ok
+data/v3_deterministic_archive,trial_ZKP_loss500_ewma1_iter3_1786034998.csv,ZKP,loss,500,1,3,1786034998,2026-08-06 16:49:58Z,1063,1,0,100.0,986,ok
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma5_iter1_1786035180.csv,ZKP,outage,500,5,1,1786035180,2026-08-06 16:53:00Z,4178,1,1,0.0,1013,ok
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma5_iter2_1786035278.csv,ZKP,outage,500,5,2,1786035278,2026-08-06 16:54:38Z,933,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma5_iter3_1786035310.csv,ZKP,outage,500,5,3,1786035310,2026-08-06 16:55:10Z,4197,1,1,0.0,1032,ok
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma5_iter4_1786035408.csv,ZKP,outage,500,5,4,1786035408,2026-08-06 16:56:48Z,4207,1,1,0.0,1041,ok
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma5_iter5_1786035507.csv,ZKP,outage,500,5,5,1786035507,2026-08-06 16:58:27Z,4257,1,1,0.0,1092,ok
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma7_iter1_1786035607.csv,ZKP,outage,500,7,1,1786035607,2026-08-06 17:00:07Z,4250,1,1,0.0,1086,ok
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma7_iter2_1786035707.csv,ZKP,outage,500,7,2,1786035707,2026-08-06 17:01:47Z,910,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma7_iter3_1786035739.csv,ZKP,outage,500,7,3,1786035739,2026-08-06 17:02:19Z,4206,1,1,0.0,1041,ok
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma7_iter4_1786035837.csv,ZKP,outage,500,7,4,1786035837,2026-08-06 17:03:57Z,4197,1,1,0.0,1032,ok
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma7_iter5_1786035935.csv,ZKP,outage,500,7,5,1786035935,2026-08-06 17:05:35Z,4209,1,1,0.0,1044,ok
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma9_iter1_1786036033.csv,ZKP,outage,500,9,1,1786036033,2026-08-06 17:07:13Z,912,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma9_iter2_1786036065.csv,ZKP,outage,500,9,2,1786036065,2026-08-06 17:07:45Z,4240,1,1,0.0,1074,ok
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma9_iter3_1786036164.csv,ZKP,outage,500,9,3,1786036164,2026-08-06 17:09:24Z,4169,1,1,0.0,1003,ok
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma9_iter4_1786036261.csv,ZKP,outage,500,9,4,1786036261,2026-08-06 17:11:01Z,4160,1,1,0.0,996,ok
+data/v3_deterministic_archive,trial_ZKP_outage500_ewma9_iter5_1786036359.csv,ZKP,outage,500,9,5,1786036359,2026-08-06 17:12:39Z,4266,1,1,0.0,1100,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma5_iter1_1786036459.csv,ZKP,outage,1000,5,1,1786036459,2026-08-06 17:14:19Z,4260,1,1,0.0,1095,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma5_iter2_1786036558.csv,ZKP,outage,1000,5,2,1786036558,2026-08-06 17:15:58Z,4156,1,1,0.0,991,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma5_iter3_1786036656.csv,ZKP,outage,1000,5,3,1786036656,2026-08-06 17:17:36Z,4206,1,1,0.0,1041,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma5_iter4_1786036755.csv,ZKP,outage,1000,5,4,1786036755,2026-08-06 17:19:15Z,4171,1,1,0.0,1006,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma5_iter5_1786036853.csv,ZKP,outage,1000,5,5,1786036853,2026-08-06 17:20:53Z,4172,1,1,0.0,1006,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma7_iter1_1786036951.csv,ZKP,outage,1000,7,1,1786036951,2026-08-06 17:22:31Z,4228,1,1,0.0,1063,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma7_iter2_1786037050.csv,ZKP,outage,1000,7,2,1786037050,2026-08-06 17:24:10Z,4214,1,1,0.0,1049,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma7_iter3_1786037148.csv,ZKP,outage,1000,7,3,1786037148,2026-08-06 17:25:48Z,4171,1,1,0.0,1006,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma7_iter4_1786037246.csv,ZKP,outage,1000,7,4,1786037246,2026-08-06 17:27:26Z,4162,1,1,0.0,996,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma7_iter5_1786037343.csv,ZKP,outage,1000,7,5,1786037343,2026-08-06 17:29:03Z,1051,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma9_iter1_1786037378.csv,ZKP,outage,1000,9,1,1786037378,2026-08-06 17:29:38Z,4224,1,1,0.0,1058,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma9_iter2_1786037476.csv,ZKP,outage,1000,9,2,1786037476,2026-08-06 17:31:16Z,4198,1,1,0.0,1033,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma9_iter3_1786037575.csv,ZKP,outage,1000,9,3,1786037575,2026-08-06 17:32:55Z,4223,1,1,0.0,1057,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma9_iter4_1786037674.csv,ZKP,outage,1000,9,4,1786037674,2026-08-06 17:34:34Z,4226,1,1,0.0,1060,ok
+data/v3_deterministic_archive,trial_ZKP_outage1000_ewma9_iter5_1786037773.csv,ZKP,outage,1000,9,5,1786037773,2026-08-06 17:36:13Z,4219,1,1,0.0,1054,ok
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma5_iter1_1786037872.csv,ZKP,outage,2000,5,1,1786037872,2026-08-06 17:37:52Z,4181,1,1,0.0,1016,ok
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma5_iter2_1786037970.csv,ZKP,outage,2000,5,2,1786037970,2026-08-06 17:39:30Z,4169,1,1,0.0,1004,ok
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma5_iter3_1786038068.csv,ZKP,outage,2000,5,3,1786038068,2026-08-06 17:41:08Z,4206,1,1,0.0,1040,ok
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma5_iter4_1786038167.csv,ZKP,outage,2000,5,4,1786038167,2026-08-06 17:42:47Z,4151,1,1,0.0,985,ok
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma5_iter5_1786038264.csv,ZKP,outage,2000,5,5,1786038264,2026-08-06 17:44:24Z,4299,1,1,0.0,1133,ok
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma7_iter1_1786038364.csv,ZKP,outage,2000,7,1,1786038364,2026-08-06 17:46:04Z,870,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma7_iter2_1786038396.csv,ZKP,outage,2000,7,2,1786038396,2026-08-06 17:46:36Z,918,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma7_iter3_1786038428.csv,ZKP,outage,2000,7,3,1786038428,2026-08-06 17:47:08Z,4232,1,1,0.0,1067,ok
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma7_iter4_1786038527.csv,ZKP,outage,2000,7,4,1786038527,2026-08-06 17:48:47Z,4153,1,1,0.0,988,ok
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma7_iter5_1786038624.csv,ZKP,outage,2000,7,5,1786038624,2026-08-06 17:50:24Z,4166,1,1,0.0,1001,ok
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma9_iter1_1786038722.csv,ZKP,outage,2000,9,1,1786038722,2026-08-06 17:52:02Z,4165,1,1,0.0,1000,ok
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma9_iter2_1786038820.csv,ZKP,outage,2000,9,2,1786038820,2026-08-06 17:53:40Z,4238,1,1,0.0,1072,ok
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma9_iter3_1786038919.csv,ZKP,outage,2000,9,3,1786038919,2026-08-06 17:55:19Z,898,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma9_iter4_1786038952.csv,ZKP,outage,2000,9,4,1786038952,2026-08-06 17:55:52Z,4202,1,1,0.0,1037,ok
+data/v3_deterministic_archive,trial_ZKP_outage2000_ewma9_iter5_1786039049.csv,ZKP,outage,2000,9,5,1786039049,2026-08-06 17:57:29Z,4161,1,1,0.0,997,ok
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma5_iter1_1786039147.csv,ZKP,outage,5000,5,1,1786039147,2026-08-06 17:59:07Z,4215,1,1,0.0,1050,ok
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma5_iter2_1786039245.csv,ZKP,outage,5000,5,2,1786039245,2026-08-06 18:00:45Z,4352,1,1,0.0,1186,ok
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma5_iter3_1786039346.csv,ZKP,outage,5000,5,3,1786039346,2026-08-06 18:02:26Z,4163,1,1,0.0,998,ok
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma5_iter4_1786039444.csv,ZKP,outage,5000,5,4,1786039444,2026-08-06 18:04:04Z,4158,1,1,0.0,993,ok
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma5_iter5_1786039542.csv,ZKP,outage,5000,5,5,1786039542,2026-08-06 18:05:42Z,987,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma7_iter1_1786039576.csv,ZKP,outage,5000,7,1,1786039576,2026-08-06 18:06:16Z,923,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma7_iter2_1786039609.csv,ZKP,outage,5000,7,2,1786039609,2026-08-06 18:06:49Z,1002,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma7_iter3_1786039642.csv,ZKP,outage,5000,7,3,1786039642,2026-08-06 18:07:22Z,4251,1,1,0.0,1085,ok
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma7_iter4_1786039742.csv,ZKP,outage,5000,7,4,1786039742,2026-08-06 18:09:02Z,4166,1,1,0.0,1001,ok
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma7_iter5_1786039839.csv,ZKP,outage,5000,7,5,1786039839,2026-08-06 18:10:39Z,4208,1,1,0.0,1043,ok
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma9_iter1_1786039938.csv,ZKP,outage,5000,9,1,1786039938,2026-08-06 18:12:18Z,4279,1,1,0.0,1114,ok
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma9_iter2_1786040039.csv,ZKP,outage,5000,9,2,1786040039,2026-08-06 18:13:59Z,4246,1,1,0.0,1079,ok
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma9_iter3_1786040137.csv,ZKP,outage,5000,9,3,1786040137,2026-08-06 18:15:37Z,4160,1,1,0.0,995,ok
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma9_iter4_1786040235.csv,ZKP,outage,5000,9,4,1786040235,2026-08-06 18:17:15Z,4201,1,1,0.0,1035,ok
+data/v3_deterministic_archive,trial_ZKP_outage5000_ewma9_iter5_1786040333.csv,ZKP,outage,5000,9,5,1786040333,2026-08-06 18:18:53Z,4174,1,1,0.0,1009,ok
+data/v3_deterministic_archive,trial_ECC_outage500_ewma5_iter1_1786040431.csv,ECC,outage,500,5,1,1786040431,2026-08-06 18:20:31Z,4335,1,1,0.0,1169,ok
+data/v3_deterministic_archive,trial_ECC_outage500_ewma5_iter2_1786040531.csv,ECC,outage,500,5,2,1786040531,2026-08-06 18:22:11Z,4208,1,1,0.0,1042,ok
+data/v3_deterministic_archive,trial_ECC_outage500_ewma5_iter3_1786040630.csv,ECC,outage,500,5,3,1786040630,2026-08-06 18:23:50Z,956,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ECC_outage500_ewma5_iter4_1786040663.csv,ECC,outage,500,5,4,1786040663,2026-08-06 18:24:23Z,893,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ECC_outage500_ewma5_iter5_1786040695.csv,ECC,outage,500,5,5,1786040695,2026-08-06 18:24:55Z,1017,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ECC_outage500_ewma7_iter1_1786040729.csv,ECC,outage,500,7,1,1786040729,2026-08-06 18:25:29Z,4703,1,1,0.0,1537,ok
+data/v3_deterministic_archive,trial_ECC_outage500_ewma7_iter2_1786040837.csv,ECC,outage,500,7,2,1786040837,2026-08-06 18:27:17Z,4236,1,1,0.0,1070,ok
+data/v3_deterministic_archive,trial_ECC_outage500_ewma7_iter3_1786040936.csv,ECC,outage,500,7,3,1786040936,2026-08-06 18:28:56Z,940,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ECC_outage500_ewma7_iter4_1786040968.csv,ECC,outage,500,7,4,1786040968,2026-08-06 18:29:28Z,4192,1,1,0.0,1026,ok
+data/v3_deterministic_archive,trial_ECC_outage500_ewma7_iter5_1786041066.csv,ECC,outage,500,7,5,1786041066,2026-08-06 18:31:06Z,4167,1,1,0.0,1002,ok
+data/v3_deterministic_archive,trial_ECC_outage500_ewma9_iter1_1786041164.csv,ECC,outage,500,9,1,1786041164,2026-08-06 18:32:44Z,4191,1,1,0.0,1026,ok
+data/v3_deterministic_archive,trial_ECC_outage500_ewma9_iter2_1786041262.csv,ECC,outage,500,9,2,1786041262,2026-08-06 18:34:22Z,4188,1,1,0.0,1023,ok
+data/v3_deterministic_archive,trial_ECC_outage500_ewma9_iter3_1786041360.csv,ECC,outage,500,9,3,1786041360,2026-08-06 18:36:00Z,904,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ECC_outage500_ewma9_iter4_1786041392.csv,ECC,outage,500,9,4,1786041392,2026-08-06 18:36:32Z,4182,1,1,0.0,1016,ok
+data/v3_deterministic_archive,trial_ECC_outage500_ewma9_iter5_1786041490.csv,ECC,outage,500,9,5,1786041490,2026-08-06 18:38:10Z,4175,1,1,0.0,1009,ok
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma5_iter1_1786041587.csv,ECC,outage,1000,5,1,1786041587,2026-08-06 18:39:47Z,912,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma5_iter2_1786041619.csv,ECC,outage,1000,5,2,1786041619,2026-08-06 18:40:19Z,994,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma5_iter3_1786041653.csv,ECC,outage,1000,5,3,1786041653,2026-08-06 18:40:53Z,4191,1,1,0.0,1024,ok
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma5_iter4_1786041751.csv,ECC,outage,1000,5,4,1786041751,2026-08-06 18:42:31Z,4302,1,1,0.0,1136,ok
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma5_iter5_1786041851.csv,ECC,outage,1000,5,5,1786041851,2026-08-06 18:44:11Z,4206,1,1,0.0,1040,ok
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma7_iter1_1786041950.csv,ECC,outage,1000,7,1,1786041950,2026-08-06 18:45:50Z,4194,1,1,0.0,1029,ok
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma7_iter2_1786042048.csv,ECC,outage,1000,7,2,1786042048,2026-08-06 18:47:28Z,4236,1,1,0.0,1071,ok
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma7_iter3_1786042146.csv,ECC,outage,1000,7,3,1786042146,2026-08-06 18:49:06Z,953,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma7_iter4_1786042179.csv,ECC,outage,1000,7,4,1786042179,2026-08-06 18:49:39Z,4219,1,1,0.0,1055,ok
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma7_iter5_1786042279.csv,ECC,outage,1000,7,5,1786042279,2026-08-06 18:51:19Z,4178,1,1,0.0,1013,ok
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma9_iter1_1786042376.csv,ECC,outage,1000,9,1,1786042376,2026-08-06 18:52:56Z,4175,1,1,0.0,1010,ok
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma9_iter2_1786042474.csv,ECC,outage,1000,9,2,1786042474,2026-08-06 18:54:34Z,4245,1,1,0.0,1080,ok
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma9_iter3_1786042573.csv,ECC,outage,1000,9,3,1786042573,2026-08-06 18:56:13Z,4238,1,1,0.0,1073,ok
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma9_iter4_1786042671.csv,ECC,outage,1000,9,4,1786042671,2026-08-06 18:57:51Z,4186,1,1,0.0,1020,ok
+data/v3_deterministic_archive,trial_ECC_outage1000_ewma9_iter5_1786042769.csv,ECC,outage,1000,9,5,1786042769,2026-08-06 18:59:29Z,4149,1,1,0.0,984,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma5_iter1_1786042867.csv,ECC,outage,2000,5,1,1786042867,2026-08-06 19:01:07Z,4194,1,1,0.0,1029,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma5_iter2_1786042965.csv,ECC,outage,2000,5,2,1786042965,2026-08-06 19:02:45Z,4237,1,1,0.0,1072,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma5_iter3_1786043064.csv,ECC,outage,2000,5,3,1786043064,2026-08-06 19:04:24Z,4181,1,1,0.0,1015,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma5_iter4_1786043161.csv,ECC,outage,2000,5,4,1786043161,2026-08-06 19:06:01Z,4188,1,1,0.0,1022,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma5_iter5_1786043259.csv,ECC,outage,2000,5,5,1786043259,2026-08-06 19:07:39Z,4243,1,1,0.0,1077,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma7_iter1_1786043358.csv,ECC,outage,2000,7,1,1786043358,2026-08-06 19:09:18Z,4230,1,1,0.0,1065,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma7_iter2_1786043457.csv,ECC,outage,2000,7,2,1786043457,2026-08-06 19:10:57Z,4259,1,1,0.0,1093,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma7_iter3_1786043556.csv,ECC,outage,2000,7,3,1786043556,2026-08-06 19:12:36Z,4189,1,1,0.0,1024,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma7_iter4_1786043654.csv,ECC,outage,2000,7,4,1786043654,2026-08-06 19:14:14Z,4693,1,1,0.0,1527,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma7_iter5_1786043762.csv,ECC,outage,2000,7,5,1786043762,2026-08-06 19:16:02Z,871,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma9_iter1_1786043794.csv,ECC,outage,2000,9,1,1786043794,2026-08-06 19:16:34Z,4202,1,1,0.0,1037,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma9_iter2_1786043892.csv,ECC,outage,2000,9,2,1786043892,2026-08-06 19:18:12Z,4206,1,1,0.0,1039,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma9_iter3_1786043990.csv,ECC,outage,2000,9,3,1786043990,2026-08-06 19:19:50Z,4229,1,1,0.0,1064,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma9_iter4_1786044089.csv,ECC,outage,2000,9,4,1786044089,2026-08-06 19:21:29Z,4197,1,1,0.0,1032,ok
+data/v3_deterministic_archive,trial_ECC_outage2000_ewma9_iter5_1786044187.csv,ECC,outage,2000,9,5,1786044187,2026-08-06 19:23:07Z,4240,1,1,0.0,1074,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma5_iter1_1786044286.csv,ECC,outage,5000,5,1,1786044286,2026-08-06 19:24:46Z,4202,1,1,0.0,1036,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma5_iter2_1786044384.csv,ECC,outage,5000,5,2,1786044384,2026-08-06 19:26:24Z,4217,1,1,0.0,1052,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma5_iter3_1786044483.csv,ECC,outage,5000,5,3,1786044483,2026-08-06 19:28:03Z,4215,1,1,0.0,1050,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma5_iter4_1786044581.csv,ECC,outage,5000,5,4,1786044581,2026-08-06 19:29:41Z,4277,1,1,0.0,1112,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma5_iter5_1786044681.csv,ECC,outage,5000,5,5,1786044681,2026-08-06 19:31:21Z,4189,1,1,0.0,1023,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma7_iter1_1786044780.csv,ECC,outage,5000,7,1,1786044780,2026-08-06 19:33:00Z,4182,1,1,0.0,1016,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma7_iter2_1786044877.csv,ECC,outage,5000,7,2,1786044877,2026-08-06 19:34:37Z,4211,1,1,0.0,1045,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma7_iter3_1786044975.csv,ECC,outage,5000,7,3,1786044975,2026-08-06 19:36:15Z,4250,1,1,0.0,1084,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma7_iter4_1786045074.csv,ECC,outage,5000,7,4,1786045074,2026-08-06 19:37:54Z,4289,1,1,0.0,1123,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma7_iter5_1786045174.csv,ECC,outage,5000,7,5,1786045174,2026-08-06 19:39:34Z,4248,1,1,0.0,1083,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma9_iter1_1786045273.csv,ECC,outage,5000,9,1,1786045273,2026-08-06 19:41:13Z,4184,1,1,0.0,1019,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma9_iter2_1786045371.csv,ECC,outage,5000,9,2,1786045371,2026-08-06 19:42:51Z,4280,1,1,0.0,1115,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma9_iter3_1786045471.csv,ECC,outage,5000,9,3,1786045471,2026-08-06 19:44:31Z,954,0,0,100.0,,INVALID(run_campaign rule)
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma9_iter4_1786045504.csv,ECC,outage,5000,9,4,1786045504,2026-08-06 19:45:04Z,4706,1,1,0.0,1541,ok
+data/v3_deterministic_archive,trial_ECC_outage5000_ewma9_iter5_1786045612.csv,ECC,outage,5000,9,5,1786045612,2026-08-06 19:46:52Z,4199,1,1,0.0,1034,ok
+data/v4_logs,trial_ZKP_outage500_ewma5_iter1_1786048425.csv,ZKP,outage,500,5,1,1786048425,2026-08-06 20:33:45Z,4353,1,1,0.0,1188,ok
+data/v4_logs,trial_ZKP_outage500_ewma5_iter2_1786048526.csv,ZKP,outage,500,5,2,1786048526,2026-08-06 20:35:26Z,211,0,0,100.0,,INVALID(run_campaign rule)
+data/v4_logs,trial_ZKP_outage500_ewma7_iter5_1786049204.csv,ZKP,outage,500,7,5,1786049204,2026-08-06 20:46:44Z,4146,1,1,0.0,980,ok
+data/v4_logs,trial_ECC_outage1000_ewma7_iter5_1786049302.csv,ECC,outage,1000,7,5,1786049302,2026-08-06 20:48:22Z,4195,1,1,0.0,1030,ok
+data/v4_logs,trial_ECC_outage2000_ewma7_iter1_1786049400.csv,ECC,outage,2000,7,1,1786049400,2026-08-06 20:50:00Z,4190,1,1,0.0,1024,ok
+data/v4_logs,trial_ECC_outage5000_ewma7_iter5_1786049497.csv,ECC,outage,5000,7,5,1786049497,2026-08-06 20:51:37Z,4240,1,1,0.0,1074,ok
+data/v4_logs,trial_ECC_outage2000_ewma5_iter3_1786049596.csv,ECC,outage,2000,5,3,1786049596,2026-08-06 20:53:16Z,4199,1,1,0.0,1032,ok
+data/v4_logs,trial_ZKP_outage2000_ewma5_iter1_1786049695.csv,ZKP,outage,2000,5,1,1786049695,2026-08-06 20:54:55Z,4196,1,1,0.0,1031,ok
+data/v4_logs,trial_ECC_outage2000_ewma5_iter4_1786049793.csv,ECC,outage,2000,5,4,1786049793,2026-08-06 20:56:33Z,4229,1,1,0.0,1061,ok
+data/v4_logs,trial_ECC_outage1000_ewma9_iter3_1786049892.csv,ECC,outage,1000,9,3,1786049892,2026-08-06 20:58:12Z,4150,1,1,0.0,985,ok
+data/v4_logs,trial_ECC_outage2000_ewma7_iter2_1786049990.csv,ECC,outage,2000,7,2,1786049990,2026-08-06 20:59:50Z,4183,1,1,0.0,1018,ok
+data/v4_logs,trial_ECC_outage5000_ewma5_iter5_1786050087.csv,ECC,outage,5000,5,5,1786050087,2026-08-06 21:01:27Z,4277,1,1,0.0,1111,ok
+data/v4_logs,trial_ZKP_outage5000_ewma5_iter3_1786050187.csv,ZKP,outage,5000,5,3,1786050187,2026-08-06 21:03:07Z,4200,1,1,0.0,1034,ok
+data/v4_logs,trial_ECC_outage1000_ewma5_iter5_1786050286.csv,ECC,outage,1000,5,5,1786050286,2026-08-06 21:04:46Z,4154,1,1,0.0,989,ok
+data/v4_logs,trial_ECC_outage1000_ewma9_iter4_1786050384.csv,ECC,outage,1000,9,4,1786050384,2026-08-06 21:06:24Z,4199,1,1,0.0,1034,ok
+data/v4_logs,trial_ZKP_outage2000_ewma5_iter3_1786050481.csv,ZKP,outage,2000,5,3,1786050481,2026-08-06 21:08:01Z,4205,1,1,0.0,1038,ok
+data/v4_logs,trial_ZKP_outage1000_ewma5_iter2_1786050579.csv,ZKP,outage,1000,5,2,1786050579,2026-08-06 21:09:39Z,4205,1,1,0.0,1040,ok
+data/v4_logs,trial_ECC_outage500_ewma5_iter3_1786050678.csv,ECC,outage,500,5,3,1786050678,2026-08-06 21:11:18Z,4194,1,1,0.0,1028,ok
+data/v4_logs,trial_ECC_outage1000_ewma7_iter3_1786050775.csv,ECC,outage,1000,7,3,1786050775,2026-08-06 21:12:55Z,4211,1,1,0.0,1046,ok
+data/v4_logs,trial_ECC_outage2000_ewma7_iter3_1786050873.csv,ECC,outage,2000,7,3,1786050873,2026-08-06 21:14:33Z,4196,1,1,0.0,1032,ok
+data/v4_logs,trial_ZKP_outage5000_ewma7_iter2_1786050971.csv,ZKP,outage,5000,7,2,1786050971,2026-08-06 21:16:11Z,4308,1,1,0.0,1143,ok
+data/v4_logs,trial_ECC_outage500_ewma7_iter4_1786051071.csv,ECC,outage,500,7,4,1786051071,2026-08-06 21:17:51Z,4250,1,1,0.0,1084,ok
+data/v4_logs,trial_ZKP_outage500_ewma7_iter4_1786051171.csv,ZKP,outage,500,7,4,1786051171,2026-08-06 21:19:31Z,4260,1,1,0.0,1095,ok
+data/v4_logs,trial_ECC_outage500_ewma5_iter2_1786051270.csv,ECC,outage,500,5,2,1786051270,2026-08-06 21:21:10Z,4216,1,1,0.0,1049,ok
+data/v4_logs,trial_ECC_outage2000_ewma7_iter4_1786051368.csv,ECC,outage,2000,7,4,1786051368,2026-08-06 21:22:48Z,4199,1,1,0.0,1033,ok
+data/v4_logs,trial_ECC_outage5000_ewma5_iter4_1786051466.csv,ECC,outage,5000,5,4,1786051466,2026-08-06 21:24:26Z,4218,1,1,0.0,1053,ok
+data/v4_logs,trial_ZKP_outage500_ewma7_iter3_1786051564.csv,ZKP,outage,500,7,3,1786051564,2026-08-06 21:26:04Z,4202,1,1,0.0,1037,ok
+data/v4_logs,trial_ZKP_outage500_ewma5_iter2_1786051662.csv,ZKP,outage,500,5,2,1786051662,2026-08-06 21:27:42Z,4245,1,1,0.0,1079,ok
+data/v4_logs,trial_ECC_outage1000_ewma5_iter4_1786051761.csv,ECC,outage,1000,5,4,1786051761,2026-08-06 21:29:21Z,906,0,0,100.0,,INVALID(run_campaign rule)
+data/v4_logs,trial_ECC_outage500_ewma9_iter5_1786051793.csv,ECC,outage,500,9,5,1786051793,2026-08-06 21:29:53Z,4197,1,1,0.0,1032,ok
+data/v4_logs,trial_ZKP_outage1000_ewma5_iter4_1786051890.csv,ZKP,outage,1000,5,4,1786051890,2026-08-06 21:31:30Z,4283,1,1,0.0,1117,ok
+data/v4_logs,trial_ZKP_outage500_ewma7_iter1_1786051990.csv,ZKP,outage,500,7,1,1786051990,2026-08-06 21:33:10Z,4227,1,1,0.0,1062,ok
+data/v4_logs,trial_ECC_outage5000_ewma9_iter3_1786052089.csv,ECC,outage,5000,9,3,1786052089,2026-08-06 21:34:49Z,4253,1,1,0.0,1087,ok
+data/v4_logs,trial_ZKP_outage5000_ewma9_iter4_1786052188.csv,ZKP,outage,5000,9,4,1786052188,2026-08-06 21:36:28Z,4186,1,1,0.0,1021,ok
+data/v4_logs,trial_ZKP_outage5000_ewma9_iter3_1786052286.csv,ZKP,outage,5000,9,3,1786052286,2026-08-06 21:38:06Z,4183,1,1,0.0,1018,ok
+data/v4_logs,trial_ZKP_outage500_ewma9_iter3_1786052384.csv,ZKP,outage,500,9,3,1786052384,2026-08-06 21:39:44Z,4147,1,1,0.0,981,ok
+data/v4_logs,trial_ECC_outage500_ewma7_iter1_1786052482.csv,ECC,outage,500,7,1,1786052482,2026-08-06 21:41:22Z,4265,1,1,0.0,1100,ok
+data/v4_logs,trial_ZKP_outage500_ewma5_iter1_1786052581.csv,ZKP,outage,500,5,1,1786052581,2026-08-06 21:43:01Z,4254,1,1,0.0,1088,ok
+data/v4_logs,trial_ECC_outage5000_ewma7_iter3_1786052680.csv,ECC,outage,5000,7,3,1786052680,2026-08-06 21:44:40Z,4199,1,1,0.0,1033,ok
+data/v4_logs,trial_ECC_outage2000_ewma9_iter3_1786052778.csv,ECC,outage,2000,9,3,1786052778,2026-08-06 21:46:18Z,4309,1,1,0.0,1143,ok
+data/v4_logs,trial_ECC_outage1000_ewma5_iter1_1786052879.csv,ECC,outage,1000,5,1,1786052879,2026-08-06 21:47:59Z,4274,1,1,0.0,1109,ok
+data/v4_logs,trial_ECC_outage5000_ewma7_iter2_1786052978.csv,ECC,outage,5000,7,2,1786052978,2026-08-06 21:49:38Z,922,0,0,100.0,,INVALID(run_campaign rule)
+data/v4_logs,trial_ZKP_outage5000_ewma5_iter5_1786053010.csv,ZKP,outage,5000,5,5,1786053010,2026-08-06 21:50:10Z,4266,1,1,0.0,1100,ok
+data/v4_logs,trial_ZKP_outage1000_ewma7_iter4_1786053110.csv,ZKP,outage,1000,7,4,1786053110,2026-08-06 21:51:50Z,4238,1,1,0.0,1072,ok
+data/v4_logs,trial_ZKP_outage2000_ewma5_iter2_1786053208.csv,ZKP,outage,2000,5,2,1786053208,2026-08-06 21:53:28Z,4211,1,1,0.0,1045,ok
+data/v4_logs,trial_ECC_outage2000_ewma9_iter1_1786053306.csv,ECC,outage,2000,9,1,1786053306,2026-08-06 21:55:06Z,4180,1,1,0.0,1015,ok
+data/v4_logs,trial_ZKP_outage2000_ewma9_iter5_1786053404.csv,ZKP,outage,2000,9,5,1786053404,2026-08-06 21:56:44Z,4199,1,1,0.0,1034,ok
+data/v4_logs,trial_ECC_outage2000_ewma9_iter5_1786053502.csv,ECC,outage,2000,9,5,1786053502,2026-08-06 21:58:22Z,911,0,0,100.0,,INVALID(run_campaign rule)
+data/v4_logs,trial_ECC_outage1000_ewma5_iter4_1786053534.csv,ECC,outage,1000,5,4,1786053534,2026-08-06 21:58:54Z,4200,1,1,0.0,1034,ok
+data/v4_logs,trial_ECC_outage500_ewma9_iter3_1786053632.csv,ECC,outage,500,9,3,1786053632,2026-08-06 22:00:32Z,4259,1,1,0.0,1093,ok
+data/v4_logs,trial_ECC_outage5000_ewma5_iter3_1786053731.csv,ECC,outage,5000,5,3,1786053731,2026-08-06 22:02:11Z,4248,1,1,0.0,1083,ok
+data/v4_logs,trial_ECC_outage1000_ewma7_iter2_1786053830.csv,ECC,outage,1000,7,2,1786053830,2026-08-06 22:03:50Z,4151,1,1,0.0,985,ok
+data/v4_logs,trial_ECC_outage5000_ewma5_iter1_1786053927.csv,ECC,outage,5000,5,1,1786053927,2026-08-06 22:05:27Z,933,0,0,100.0,,INVALID(run_campaign rule)
+data/v4_logs,trial_ZKP_outage2000_ewma7_iter3_1786053960.csv,ZKP,outage,2000,7,3,1786053960,2026-08-06 22:06:00Z,4141,1,1,0.0,975,ok
+data/v4_logs,trial_ZKP_outage1000_ewma5_iter3_1786054057.csv,ZKP,outage,1000,5,3,1786054057,2026-08-06 22:07:37Z,4250,1,1,0.0,1084,ok
+data/v4_logs,trial_ECC_outage500_ewma9_iter4_1786054157.csv,ECC,outage,500,9,4,1786054157,2026-08-06 22:09:17Z,4156,1,1,0.0,990,ok
+data/v4_logs,trial_ZKP_outage5000_ewma7_iter3_1786054255.csv,ZKP,outage,5000,7,3,1786054255,2026-08-06 22:10:55Z,4206,1,1,0.0,1039,ok
+data/v4_logs,trial_ECC_outage500_ewma7_iter3_1786054353.csv,ECC,outage,500,7,3,1786054353,2026-08-06 22:12:33Z,4195,1,1,0.0,1029,ok
+data/v4_logs,trial_ZKP_outage5000_ewma5_iter1_1786054452.csv,ZKP,outage,5000,5,1,1786054452,2026-08-06 22:14:12Z,4138,1,1,0.0,972,ok
+data/v4_logs,trial_ZKP_outage500_ewma7_iter2_1786054550.csv,ZKP,outage,500,7,2,1786054550,2026-08-06 22:15:50Z,947,0,0,100.0,,INVALID(run_campaign rule)
+data/v4_logs,trial_ZKP_outage500_ewma5_iter3_1786054583.csv,ZKP,outage,500,5,3,1786054583,2026-08-06 22:16:23Z,4194,1,1,0.0,1029,ok
+data/v4_logs,trial_ECC_outage2000_ewma5_iter2_1786054680.csv,ECC,outage,2000,5,2,1786054680,2026-08-06 22:18:00Z,4210,1,1,0.0,1044,ok
+data/v4_logs,trial_ECC_outage1000_ewma9_iter5_1786054779.csv,ECC,outage,1000,9,5,1786054779,2026-08-06 22:19:39Z,4199,1,1,0.0,1033,ok
+data/v4_logs,trial_ZKP_outage500_ewma9_iter1_1786054878.csv,ZKP,outage,500,9,1,1786054878,2026-08-06 22:21:18Z,4229,1,1,0.0,1062,ok
+data/v4_logs,trial_ZKP_outage2000_ewma9_iter1_1786054976.csv,ZKP,outage,2000,9,1,1786054976,2026-08-06 22:22:56Z,4274,1,1,0.0,1108,ok
+data/v4_logs,trial_ZKP_outage2000_ewma9_iter3_1786055076.csv,ZKP,outage,2000,9,3,1786055076,2026-08-06 22:24:36Z,4195,1,1,0.0,1029,ok
+data/v4_logs,trial_ECC_outage5000_ewma7_iter2_1786055173.csv,ECC,outage,5000,7,2,1786055173,2026-08-06 22:26:13Z,4244,1,1,0.0,1078,ok
+data/v4_logs,trial_ZKP_outage500_ewma9_iter4_1786055273.csv,ZKP,outage,500,9,4,1786055273,2026-08-06 22:27:53Z,4217,1,1,0.0,1051,ok
+data/v4_logs,trial_ECC_outage5000_ewma9_iter1_1786055371.csv,ECC,outage,5000,9,1,1786055371,2026-08-06 22:29:31Z,4213,1,1,0.0,1047,ok
+data/v4_logs,trial_ZKP_outage1000_ewma7_iter5_1786055469.csv,ZKP,outage,1000,7,5,1786055469,2026-08-06 22:31:09Z,4207,1,1,0.0,1043,ok
+data/v4_logs,trial_ECC_outage2000_ewma9_iter4_1786055567.csv,ECC,outage,2000,9,4,1786055567,2026-08-06 22:32:47Z,4272,1,1,0.0,1107,ok
+data/v4_logs,trial_ECC_outage1000_ewma5_iter3_1786055667.csv,ECC,outage,1000,5,3,1786055667,2026-08-06 22:34:27Z,4266,1,1,0.0,1100,ok
+data/v4_logs,trial_ZKP_outage5000_ewma9_iter2_1786055766.csv,ZKP,outage,5000,9,2,1786055766,2026-08-06 22:36:06Z,4201,1,1,0.0,1036,ok
+data/v4_logs,trial_ZKP_outage2000_ewma7_iter2_1786055864.csv,ZKP,outage,2000,7,2,1786055864,2026-08-06 22:37:44Z,4186,1,1,0.0,1021,ok
+data/v4_logs,trial_ECC_outage500_ewma7_iter5_1786055962.csv,ECC,outage,500,7,5,1786055962,2026-08-06 22:39:22Z,4309,1,1,0.0,1141,ok
+data/v4_logs,trial_ECC_outage2000_ewma5_iter1_1786056062.csv,ECC,outage,2000,5,1,1786056062,2026-08-06 22:41:02Z,4266,1,1,0.0,1100,ok
+data/v4_logs,trial_ECC_outage5000_ewma5_iter1_1786056163.csv,ECC,outage,5000,5,1,1786056163,2026-08-06 22:42:43Z,4171,1,1,0.0,1005,ok
+data/v4_logs,trial_ECC_outage1000_ewma7_iter1_1786056261.csv,ECC,outage,1000,7,1,1786056261,2026-08-06 22:44:21Z,4156,1,1,0.0,991,ok
+data/v4_logs,trial_ZKP_outage5000_ewma7_iter4_1786056359.csv,ZKP,outage,5000,7,4,1786056359,2026-08-06 22:45:59Z,903,0,0,100.0,,INVALID(run_campaign rule)
+data/v4_logs,trial_ZKP_outage500_ewma9_iter5_1786056392.csv,ZKP,outage,500,9,5,1786056392,2026-08-06 22:46:32Z,4165,1,1,0.0,1000,ok
+data/v4_logs,trial_ZKP_outage1000_ewma7_iter1_1786056490.csv,ZKP,outage,1000,7,1,1786056490,2026-08-06 22:48:10Z,4250,1,1,0.0,1084,ok
+data/v4_logs,trial_ECC_outage5000_ewma7_iter1_1786056589.csv,ECC,outage,5000,7,1,1786056589,2026-08-06 22:49:49Z,4216,1,1,0.0,1049,ok
+data/v4_logs,trial_ZKP_outage1000_ewma5_iter5_1786056687.csv,ZKP,outage,1000,5,5,1786056687,2026-08-06 22:51:27Z,4253,1,1,0.0,1087,ok
+data/v4_logs,trial_ECC_outage500_ewma5_iter4_1786056786.csv,ECC,outage,500,5,4,1786056786,2026-08-06 22:53:06Z,4250,1,1,0.0,1085,ok
+data/v4_logs,trial_ZKP_outage5000_ewma5_iter4_1786056885.csv,ZKP,outage,5000,5,4,1786056885,2026-08-06 22:54:45Z,4217,1,1,0.0,1049,ok
+data/v4_logs,trial_ZKP_outage500_ewma5_iter5_1786056983.csv,ZKP,outage,500,5,5,1786056983,2026-08-06 22:56:23Z,921,0,0,100.0,,INVALID(run_campaign rule)
+data/v4_logs,trial_ZKP_outage1000_ewma5_iter1_1786057015.csv,ZKP,outage,1000,5,1,1786057015,2026-08-06 22:56:55Z,4207,1,1,0.0,1041,ok
+data/v4_logs,trial_ECC_outage1000_ewma5_iter2_1786057113.csv,ECC,outage,1000,5,2,1786057113,2026-08-06 22:58:33Z,4212,1,1,0.0,1047,ok
+data/v4_logs,trial_ECC_outage2000_ewma5_iter5_1786057211.csv,ECC,outage,2000,5,5,1786057211,2026-08-06 23:00:11Z,4247,1,1,0.0,1081,ok
+data/v4_logs,trial_ECC_outage500_ewma7_iter2_1786057310.csv,ECC,outage,500,7,2,1786057310,2026-08-06 23:01:50Z,4303,1,1,0.0,1136,ok
+data/v4_logs,trial_ZKP_outage2000_ewma5_iter5_1786057410.csv,ZKP,outage,2000,5,5,1786057410,2026-08-06 23:03:30Z,4205,1,1,0.0,1039,ok
+data/v4_logs,trial_ZKP_outage2000_ewma9_iter2_1786057508.csv,ZKP,outage,2000,9,2,1786057508,2026-08-06 23:05:08Z,4202,1,1,0.0,1037,ok
+data/v4_logs,trial_ECC_outage5000_ewma9_iter4_1786057606.csv,ECC,outage,5000,9,4,1786057606,2026-08-06 23:06:46Z,4141,1,1,0.0,975,ok
+data/v4_logs,trial_ECC_outage500_ewma5_iter5_1786057704.csv,ECC,outage,500,5,5,1786057704,2026-08-06 23:08:24Z,4219,1,1,0.0,1053,ok
+data/v4_logs,trial_ZKP_outage1000_ewma9_iter1_1786057802.csv,ZKP,outage,1000,9,1,1786057802,2026-08-06 23:10:02Z,4211,1,1,0.0,1046,ok
+data/v4_logs,trial_ZKP_outage5000_ewma9_iter1_1786057900.csv,ZKP,outage,5000,9,1,1786057900,2026-08-06 23:11:40Z,915,0,0,100.0,,INVALID(run_campaign rule)
+data/v4_logs,trial_ECC_outage5000_ewma9_iter2_1786057932.csv,ECC,outage,5000,9,2,1786057932,2026-08-06 23:12:12Z,4193,1,1,0.0,1028,ok
+data/v4_logs,trial_ZKP_outage2000_ewma9_iter4_1786058030.csv,ZKP,outage,2000,9,4,1786058030,2026-08-06 23:13:50Z,4194,1,1,0.0,1028,ok
+data/v4_logs,trial_ECC_outage1000_ewma9_iter1_1786058128.csv,ECC,outage,1000,9,1,1786058128,2026-08-06 23:15:28Z,4261,1,1,0.0,1094,ok
+data/v4_logs,trial_ECC_outage500_ewma9_iter1_1786058227.csv,ECC,outage,500,9,1,1786058227,2026-08-06 23:17:07Z,4232,1,1,0.0,1066,ok
+data/v4_logs,trial_ZKP_outage5000_ewma9_iter1_1786058325.csv,ZKP,outage,5000,9,1,1786058325,2026-08-06 23:18:45Z,4204,1,1,0.0,1039,ok
+data/v4_logs,trial_ZKP_outage2000_ewma5_iter4_1786058423.csv,ZKP,outage,2000,5,4,1786058423,2026-08-06 23:20:23Z,4164,1,1,0.0,998,ok
+data/v4_logs,trial_ZKP_outage5000_ewma5_iter2_1786058522.csv,ZKP,outage,5000,5,2,1786058522,2026-08-06 23:22:02Z,4200,1,1,0.0,1034,ok
+data/v4_logs,trial_ZKP_outage2000_ewma7_iter1_1786058619.csv,ZKP,outage,2000,7,1,1786058619,2026-08-06 23:23:39Z,4277,1,1,0.0,1111,ok
+data/v4_logs,trial_ECC_outage2000_ewma7_iter5_1786058719.csv,ECC,outage,2000,7,5,1786058719,2026-08-06 23:25:19Z,4217,1,1,0.0,1050,ok
+data/v4_logs,trial_ZKP_outage1000_ewma9_iter2_1786058817.csv,ZKP,outage,1000,9,2,1786058817,2026-08-06 23:26:57Z,4197,1,1,0.0,1029,ok
+data/v4_logs,trial_ZKP_outage5000_ewma7_iter4_1786058915.csv,ZKP,outage,5000,7,4,1786058915,2026-08-06 23:28:35Z,4220,1,1,0.0,1054,ok
+data/v4_logs,trial_ZKP_outage5000_ewma7_iter1_1786059013.csv,ZKP,outage,5000,7,1,1786059013,2026-08-06 23:30:13Z,4154,1,1,0.0,988,ok
+data/v4_logs,trial_ECC_outage5000_ewma5_iter2_1786059111.csv,ECC,outage,5000,5,2,1786059111,2026-08-06 23:31:51Z,4199,1,1,0.0,1032,ok
+data/v4_logs,trial_ECC_outage2000_ewma9_iter5_1786059209.csv,ECC,outage,2000,9,5,1786059209,2026-08-06 23:33:29Z,4209,1,1,0.0,1043,ok
+data/v4_logs,trial_ZKP_outage1000_ewma9_iter3_1786059307.csv,ZKP,outage,1000,9,3,1786059307,2026-08-06 23:35:07Z,4154,1,1,0.0,989,ok
+data/v4_logs,trial_ZKP_outage2000_ewma7_iter5_1786059405.csv,ZKP,outage,2000,7,5,1786059405,2026-08-06 23:36:45Z,4205,1,1,0.0,1040,ok
+data/v4_logs,trial_ZKP_outage500_ewma9_iter2_1786059503.csv,ZKP,outage,500,9,2,1786059503,2026-08-06 23:38:23Z,4188,1,1,0.0,1022,ok
+data/v4_logs,trial_ECC_outage5000_ewma9_iter5_1786059600.csv,ECC,outage,5000,9,5,1786059600,2026-08-06 23:40:00Z,4286,1,1,0.0,1121,ok
+data/v4_logs,trial_ZKP_outage1000_ewma7_iter2_1786059700.csv,ZKP,outage,1000,7,2,1786059700,2026-08-06 23:41:40Z,4200,1,1,0.0,1035,ok
+data/v4_logs,trial_ECC_outage500_ewma5_iter1_1786059798.csv,ECC,outage,500,5,1,1786059798,2026-08-06 23:43:18Z,904,0,0,100.0,,INVALID(run_campaign rule)
+data/v4_logs,trial_ZKP_outage500_ewma7_iter2_1786059830.csv,ZKP,outage,500,7,2,1786059830,2026-08-06 23:43:50Z,4239,1,1,0.0,1074,ok
+data/v4_logs,trial_ZKP_outage5000_ewma7_iter5_1786059929.csv,ZKP,outage,5000,7,5,1786059929,2026-08-06 23:45:29Z,4205,1,1,0.0,1039,ok
+data/v4_logs,trial_ECC_outage1000_ewma9_iter2_1786060027.csv,ECC,outage,1000,9,2,1786060027,2026-08-06 23:47:07Z,4265,1,1,0.0,1100,ok
+data/v4_logs,trial_ZKP_outage2000_ewma7_iter4_1786060126.csv,ZKP,outage,2000,7,4,1786060126,2026-08-06 23:48:46Z,4167,1,1,0.0,1001,ok
+data/v4_logs,trial_ZKP_outage5000_ewma9_iter5_1786060225.csv,ZKP,outage,5000,9,5,1786060225,2026-08-06 23:50:25Z,4182,1,1,0.0,1016,ok
+data/v4_logs,trial_ZKP_outage1000_ewma9_iter4_1786060322.csv,ZKP,outage,1000,9,4,1786060322,2026-08-06 23:52:02Z,4244,1,1,0.0,1078,ok
+data/v4_logs,trial_ECC_outage2000_ewma9_iter2_1786060421.csv,ECC,outage,2000,9,2,1786060421,2026-08-06 23:53:41Z,911,0,0,100.0,,INVALID(run_campaign rule)
+data/v4_logs,trial_ECC_outage500_ewma9_iter2_1786060453.csv,ECC,outage,500,9,2,1786060453,2026-08-06 23:54:13Z,4207,1,1,0.0,1041,ok
+data/v4_logs,trial_ZKP_outage500_ewma5_iter5_1786060551.csv,ZKP,outage,500,5,5,1786060551,2026-08-06 23:55:51Z,4201,1,1,0.0,1036,ok
+data/v4_logs,trial_ECC_outage5000_ewma7_iter4_1786060650.csv,ECC,outage,5000,7,4,1786060650,2026-08-06 23:57:30Z,4202,1,1,0.0,1036,ok
+data/v4_logs,trial_ZKP_outage1000_ewma7_iter3_1786060748.csv,ZKP,outage,1000,7,3,1786060748,2026-08-06 23:59:08Z,4148,1,1,0.0,982,ok
+data/v4_logs,trial_ECC_outage2000_ewma9_iter2_1786060846.csv,ECC,outage,2000,9,2,1786060846,2026-08-07 00:00:46Z,4194,1,1,0.0,1029,ok
+data/v4_logs,trial_ECC_outage500_ewma5_iter1_1786060944.csv,ECC,outage,500,5,1,1786060944,2026-08-07 00:02:24Z,4204,1,1,0.0,1039,ok
+data/v4_logs,trial_ZKP_outage500_ewma5_iter4_1786061042.csv,ZKP,outage,500,5,4,1786061042,2026-08-07 00:04:02Z,909,0,0,100.0,,INVALID(run_campaign rule)
+data/v4_logs,trial_ECC_outage1000_ewma7_iter4_1786061074.csv,ECC,outage,1000,7,4,1786061074,2026-08-07 00:04:34Z,4219,1,1,0.0,1054,ok
+data/v4_logs,trial_ZKP_outage500_ewma5_iter4_1786061173.csv,ZKP,outage,500,5,4,1786061173,2026-08-07 00:06:13Z,4217,1,1,0.0,1051,ok
+data/v4_logs,trial_ZKP_outage1000_ewma9_iter5_1786061271.csv,ZKP,outage,1000,9,5,1786061271,2026-08-07 00:07:51Z,4161,1,1,0.0,995,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma3_iter5_1786121599.csv,ZKP,outage,500,3,5,1786121599,2026-08-07 16:53:19Z,4277,1,1,0.0,1110,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma3_iter5_1786121700.csv,ECC,outage,1000,3,5,1786121700,2026-08-07 16:55:00Z,4200,1,1,0.0,1035,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma3_iter1_1786121798.csv,ECC,outage,2000,3,1,1786121798,2026-08-07 16:56:38Z,4206,1,1,0.0,1040,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma3_iter5_1786121896.csv,ECC,outage,5000,3,5,1786121896,2026-08-07 16:58:16Z,4215,1,1,0.0,1050,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma1_iter3_1786121995.csv,ECC,outage,2000,1,3,1786121995,2026-08-07 16:59:55Z,911,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma3_iter4_1786122027.csv,ZKP,outage,500,3,4,1786122027,2026-08-07 17:00:27Z,4322,1,1,0.0,1155,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma5_iter1_1786122127.csv,ZKP,outage,2000,5,1,1786122127,2026-08-07 17:02:07Z,4195,1,1,0.0,1029,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma1_iter4_1786122225.csv,ECC,outage,2000,1,4,1786122225,2026-08-07 17:03:45Z,4203,1,1,0.0,1038,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma3_iter3_1786122323.csv,ECC,outage,1000,3,3,1786122323,2026-08-07 17:05:23Z,4204,1,1,0.0,1040,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma1_iter2_1786122421.csv,ECC,outage,1000,1,2,1786122421,2026-08-07 17:07:01Z,4263,1,1,0.0,1096,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma5_iter4_1786122520.csv,ECC,outage,2000,5,4,1786122520,2026-08-07 17:08:40Z,4265,1,1,0.0,1100,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma1_iter4_1786122619.csv,ECC,outage,5000,1,4,1786122619,2026-08-07 17:10:19Z,4209,1,1,0.0,1043,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma3_iter1_1786122718.csv,ZKP,outage,5000,3,1,1786122718,2026-08-07 17:11:58Z,924,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma3_iter2_1786122751.csv,ECC,outage,2000,3,2,1786122751,2026-08-07 17:12:31Z,4201,1,1,0.0,1036,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma1_iter3_1786122849.csv,ZKP,outage,5000,1,3,1786122849,2026-08-07 17:14:09Z,974,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma5_iter2_1786122882.csv,ZKP,outage,5000,5,2,1786122882,2026-08-07 17:14:42Z,4204,1,1,0.0,1038,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma1_iter3_1786122980.csv,ZKP,outage,5000,1,3,1786122980,2026-08-07 17:16:20Z,4249,1,1,0.0,1084,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma3_iter3_1786123079.csv,ECC,outage,2000,3,3,1786123079,2026-08-07 17:17:59Z,4245,1,1,0.0,1079,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma5_iter1_1786123177.csv,ECC,outage,500,5,1,1786123177,2026-08-07 17:19:37Z,4213,1,1,0.0,1047,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma3_iter3_1786123275.csv,ZKP,outage,5000,3,3,1786123275,2026-08-07 17:21:15Z,4253,1,1,0.0,1088,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma1_iter4_1786123374.csv,ZKP,outage,1000,1,4,1786123374,2026-08-07 17:22:54Z,4200,1,1,0.0,1034,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma3_iter1_1786123472.csv,ECC,outage,500,3,1,1786123472,2026-08-07 17:24:32Z,4202,1,1,0.0,1036,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma3_iter2_1786123570.csv,ZKP,outage,500,3,2,1786123570,2026-08-07 17:26:10Z,4184,1,1,0.0,1019,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma5_iter4_1786123668.csv,ECC,outage,1000,5,4,1786123668,2026-08-07 17:27:48Z,4184,1,1,0.0,1019,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma5_iter5_1786123765.csv,ZKP,outage,5000,5,5,1786123765,2026-08-07 17:29:25Z,4250,1,1,0.0,1083,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma5_iter4_1786123864.csv,ECC,outage,5000,5,4,1786123864,2026-08-07 17:31:04Z,4237,1,1,0.0,1072,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma3_iter1_1786123963.csv,ZKP,outage,5000,3,1,1786123963,2026-08-07 17:32:43Z,4194,1,1,0.0,1029,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma3_iter5_1786124061.csv,ZKP,outage,1000,3,5,1786124061,2026-08-07 17:34:21Z,4647,1,1,0.0,1482,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma5_iter3_1786124169.csv,ECC,outage,1000,5,3,1786124169,2026-08-07 17:36:09Z,4191,1,1,0.0,1025,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma1_iter1_1786124266.csv,ZKP,outage,2000,1,1,1786124266,2026-08-07 17:37:46Z,906,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma5_iter3_1786124299.csv,ZKP,outage,2000,5,3,1786124299,2026-08-07 17:38:19Z,4283,1,1,0.0,1117,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma3_iter3_1786124399.csv,ZKP,outage,500,3,3,1786124399,2026-08-07 17:39:59Z,4213,1,1,0.0,1047,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma1_iter5_1786124497.csv,ECC,outage,1000,1,5,1786124497,2026-08-07 17:41:37Z,4294,1,1,0.0,1128,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma3_iter4_1786124597.csv,ZKP,outage,1000,3,4,1786124597,2026-08-07 17:43:17Z,4219,1,1,0.0,1054,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma3_iter3_1786124695.csv,ZKP,outage,1000,3,3,1786124695,2026-08-07 17:44:55Z,4197,1,1,0.0,1032,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma3_iter2_1786124793.csv,ECC,outage,500,3,2,1786124793,2026-08-07 17:46:33Z,1002,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma1_iter1_1786124827.csv,ZKP,outage,2000,1,1,1786124827,2026-08-07 17:47:07Z,4327,1,1,0.0,1162,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma3_iter4_1786124927.csv,ECC,outage,500,3,4,1786124927,2026-08-07 17:48:47Z,4210,1,1,0.0,1045,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma1_iter3_1786125025.csv,ECC,outage,500,1,3,1786125025,2026-08-07 17:50:25Z,4203,1,1,0.0,1037,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma3_iter1_1786125123.csv,ECC,outage,1000,3,1,1786125123,2026-08-07 17:52:03Z,4189,1,1,0.0,1024,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma1_iter5_1786125221.csv,ZKP,outage,5000,1,5,1786125221,2026-08-07 17:53:41Z,4275,1,1,0.0,1109,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma1_iter3_1786125320.csv,ZKP,outage,500,1,3,1786125320,2026-08-07 17:55:20Z,902,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma3_iter4_1786125352.csv,ZKP,outage,2000,3,4,1786125352,2026-08-07 17:55:52Z,892,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma1_iter5_1786125384.csv,ECC,outage,5000,1,5,1786125384,2026-08-07 17:56:24Z,4197,1,1,0.0,1031,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma3_iter4_1786125482.csv,ZKP,outage,2000,3,4,1786125482,2026-08-07 17:58:02Z,4173,1,1,0.0,1006,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma1_iter1_1786125579.csv,ECC,outage,2000,1,1,1786125579,2026-08-07 17:59:39Z,4204,1,1,0.0,1039,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma1_iter3_1786125677.csv,ZKP,outage,500,1,3,1786125677,2026-08-07 18:01:17Z,4208,1,1,0.0,1043,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma1_iter2_1786125775.csv,ZKP,outage,1000,1,2,1786125775,2026-08-07 18:02:55Z,1017,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma1_iter3_1786125809.csv,ECC,outage,2000,1,3,1786125809,2026-08-07 18:03:29Z,4203,1,1,0.0,1038,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma5_iter1_1786125907.csv,ZKP,outage,5000,5,1,1786125907,2026-08-07 18:05:07Z,906,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ECC_outage500_ewma1_iter2_1786125939.csv,ECC,outage,500,1,2,1786125939,2026-08-07 18:05:39Z,921,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma1_iter2_1786125971.csv,ZKP,outage,1000,1,2,1786125971,2026-08-07 18:06:11Z,4213,1,1,0.0,1048,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma3_iter5_1786126070.csv,ZKP,outage,2000,3,5,1786126070,2026-08-07 18:07:50Z,4260,1,1,0.0,1094,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma3_iter2_1786126170.csv,ECC,outage,500,3,2,1786126170,2026-08-07 18:09:30Z,4196,1,1,0.0,1029,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma3_iter2_1786126268.csv,ZKP,outage,1000,3,2,1786126268,2026-08-07 18:11:08Z,4255,1,1,0.0,1090,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma1_iter4_1786126367.csv,ECC,outage,500,1,4,1786126367,2026-08-07 18:12:47Z,4145,1,1,0.0,980,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma3_iter3_1786126465.csv,ECC,outage,500,3,3,1786126465,2026-08-07 18:14:25Z,4198,1,1,0.0,1032,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma3_iter4_1786126563.csv,ECC,outage,2000,3,4,1786126563,2026-08-07 18:16:03Z,4245,1,1,0.0,1080,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma1_iter3_1786126661.csv,ZKP,outage,2000,1,3,1786126661,2026-08-07 18:17:41Z,4141,1,1,0.0,976,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma1_iter2_1786126759.csv,ZKP,outage,500,1,2,1786126759,2026-08-07 18:19:19Z,4187,1,1,0.0,1021,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma5_iter1_1786126857.csv,ZKP,outage,5000,5,1,1786126857,2026-08-07 18:20:57Z,4709,1,1,0.0,1544,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma1_iter1_1786126965.csv,ECC,outage,500,1,1,1786126965,2026-08-07 18:22:45Z,4149,1,1,0.0,983,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma1_iter4_1786127063.csv,ECC,outage,1000,1,4,1786127063,2026-08-07 18:24:23Z,964,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma3_iter2_1786127096.csv,ZKP,outage,5000,3,2,1786127096,2026-08-07 18:24:56Z,4302,1,1,0.0,1137,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma3_iter5_1786127196.csv,ECC,outage,2000,3,5,1786127196,2026-08-07 18:26:36Z,4204,1,1,0.0,1038,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma1_iter5_1786127295.csv,ZKP,outage,2000,1,5,1786127295,2026-08-07 18:28:15Z,4164,1,1,0.0,999,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma1_iter2_1786127393.csv,ECC,outage,500,1,2,1786127393,2026-08-07 18:29:53Z,4208,1,1,0.0,1042,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma5_iter2_1786127491.csv,ZKP,outage,1000,5,2,1786127491,2026-08-07 18:31:31Z,4150,1,1,0.0,985,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma3_iter3_1786127589.csv,ECC,outage,5000,3,3,1786127589,2026-08-07 18:33:09Z,4272,1,1,0.0,1106,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma1_iter4_1786127688.csv,ECC,outage,1000,1,4,1786127688,2026-08-07 18:34:48Z,946,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma5_iter2_1786127721.csv,ZKP,outage,2000,5,2,1786127721,2026-08-07 18:35:21Z,4208,1,1,0.0,1043,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma1_iter4_1786127819.csv,ECC,outage,1000,1,4,1786127819,2026-08-07 18:36:59Z,4192,1,1,0.0,1026,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma5_iter3_1786129557.csv,ECC,outage,500,5,3,1786129557,2026-08-07 19:05:57Z,4193,1,1,0.0,1026,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma5_iter4_1786129655.csv,ECC,outage,500,5,4,1786129655,2026-08-07 19:07:35Z,4187,1,1,0.0,1022,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma3_iter2_1786129752.csv,ZKP,outage,2000,3,2,1786129752,2026-08-07 19:09:12Z,966,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma3_iter3_1786129786.csv,ZKP,outage,2000,3,3,1786129786,2026-08-07 19:09:46Z,4187,1,1,0.0,1022,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma5_iter5_1786129883.csv,ECC,outage,2000,5,5,1786129883,2026-08-07 19:11:23Z,4164,1,1,0.0,998,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma1_iter5_1786129981.csv,ECC,outage,2000,1,5,1786129981,2026-08-07 19:13:01Z,948,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma5_iter3_1786130014.csv,ZKP,outage,500,5,3,1786130014,2026-08-07 19:13:34Z,4236,1,1,0.0,1071,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma3_iter4_1786130113.csv,ZKP,outage,5000,3,4,1786130113,2026-08-07 19:15:13Z,4218,1,1,0.0,1053,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma5_iter1_1786130211.csv,ZKP,outage,500,5,1,1786130211,2026-08-07 19:16:51Z,4174,1,1,0.0,1008,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma3_iter4_1786130310.csv,ECC,outage,1000,3,4,1786130310,2026-08-07 19:18:30Z,4243,1,1,0.0,1077,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma1_iter5_1786130409.csv,ECC,outage,2000,1,5,1786130409,2026-08-07 19:20:09Z,4334,1,1,0.0,1168,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma5_iter4_1786130509.csv,ZKP,outage,500,5,4,1786130509,2026-08-07 19:21:49Z,4166,1,1,0.0,1001,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma5_iter5_1786130607.csv,ECC,outage,500,5,5,1786130607,2026-08-07 19:23:27Z,4237,1,1,0.0,1072,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma5_iter5_1786130706.csv,ZKP,outage,2000,5,5,1786130706,2026-08-07 19:25:06Z,855,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma1_iter5_1786130738.csv,ZKP,outage,1000,1,5,1786130738,2026-08-07 19:25:38Z,4200,1,1,0.0,1035,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma1_iter3_1786130836.csv,ZKP,outage,1000,1,3,1786130836,2026-08-07 19:27:16Z,4141,1,1,0.0,976,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma5_iter3_1786130934.csv,ZKP,outage,5000,5,3,1786130934,2026-08-07 19:28:54Z,4257,1,1,0.0,1091,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma5_iter1_1786131034.csv,ECC,outage,1000,5,1,1786131034,2026-08-07 19:30:34Z,4178,1,1,0.0,1013,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma5_iter4_1786131131.csv,ZKP,outage,2000,5,4,1786131131,2026-08-07 19:32:11Z,4194,1,1,0.0,1028,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma3_iter1_1786131229.csv,ZKP,outage,500,3,1,1786131229,2026-08-07 19:33:49Z,4255,1,1,0.0,1089,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma1_iter5_1786131328.csv,ZKP,outage,500,1,5,1786131328,2026-08-07 19:35:28Z,4212,1,1,0.0,1047,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma3_iter2_1786131427.csv,ZKP,outage,2000,3,2,1786131427,2026-08-07 19:37:07Z,4146,1,1,0.0,981,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma5_iter1_1786131524.csv,ECC,outage,5000,5,1,1786131524,2026-08-07 19:38:44Z,4302,1,1,0.0,1137,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma5_iter1_1786131624.csv,ZKP,outage,1000,5,1,1786131624,2026-08-07 19:40:24Z,4229,1,1,0.0,1064,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma1_iter2_1786131723.csv,ZKP,outage,2000,1,2,1786131723,2026-08-07 19:42:03Z,4299,1,1,0.0,1134,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma5_iter4_1786131822.csv,ZKP,outage,5000,5,4,1786131822,2026-08-07 19:43:42Z,4305,1,1,0.0,1139,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma5_iter2_1786131922.csv,ECC,outage,500,5,2,1786131922,2026-08-07 19:45:22Z,961,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma1_iter2_1786131955.csv,ECC,outage,2000,1,2,1786131955,2026-08-07 19:45:55Z,4228,1,1,0.0,1061,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma1_iter2_1786132054.csv,ECC,outage,5000,1,2,1786132054,2026-08-07 19:47:34Z,4259,1,1,0.0,1093,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma5_iter5_1786132153.csv,ZKP,outage,2000,5,5,1786132153,2026-08-07 19:49:13Z,4211,1,1,0.0,1045,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma5_iter2_1786132251.csv,ECC,outage,1000,5,2,1786132251,2026-08-07 19:50:51Z,4299,1,1,0.0,1133,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma3_iter1_1786132350.csv,ECC,outage,5000,3,1,1786132350,2026-08-07 19:52:30Z,4204,1,1,0.0,1039,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma5_iter5_1786132448.csv,ZKP,outage,1000,5,5,1786132448,2026-08-07 19:54:08Z,902,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma1_iter1_1786132481.csv,ECC,outage,1000,1,1,1786132481,2026-08-07 19:54:41Z,4188,1,1,0.0,1022,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma1_iter5_1786132578.csv,ECC,outage,500,1,5,1786132578,2026-08-07 19:56:18Z,4241,1,1,0.0,1075,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma5_iter3_1786132677.csv,ECC,outage,2000,5,3,1786132677,2026-08-07 19:57:57Z,4239,1,1,0.0,1074,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma1_iter3_1786132776.csv,ECC,outage,5000,1,3,1786132776,2026-08-07 19:59:36Z,4240,1,1,0.0,1075,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma1_iter4_1786132876.csv,ZKP,outage,500,1,4,1786132876,2026-08-07 20:01:16Z,4251,1,1,0.0,1086,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma5_iter5_1786132974.csv,ZKP,outage,1000,5,5,1786132974,2026-08-07 20:02:54Z,4147,1,1,0.0,982,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma3_iter5_1786133072.csv,ZKP,outage,5000,3,5,1786133072,2026-08-07 20:04:32Z,4266,1,1,0.0,1100,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma3_iter5_1786133171.csv,ECC,outage,500,3,5,1786133171,2026-08-07 20:06:11Z,4255,1,1,0.0,1089,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma1_iter3_1786133270.csv,ECC,outage,1000,1,3,1786133270,2026-08-07 20:07:50Z,4248,1,1,0.0,1083,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma5_iter2_1786133369.csv,ZKP,outage,500,5,2,1786133369,2026-08-07 20:09:29Z,4151,1,1,0.0,986,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma5_iter3_1786133467.csv,ECC,outage,5000,5,3,1786133467,2026-08-07 20:11:07Z,4249,1,1,0.0,1083,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma5_iter4_1786133566.csv,ZKP,outage,1000,5,4,1786133566,2026-08-07 20:12:46Z,4141,1,1,0.0,978,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma5_iter2_1786133664.csv,ECC,outage,5000,5,2,1786133664,2026-08-07 20:14:24Z,4164,1,1,0.0,998,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma1_iter1_1786133762.csv,ECC,outage,5000,1,1,1786133762,2026-08-07 20:16:02Z,4199,1,1,0.0,1034,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma5_iter5_1786133860.csv,ECC,outage,5000,5,5,1786133860,2026-08-07 20:17:40Z,4265,1,1,0.0,1098,ok
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma5_iter2_1786133959.csv,ECC,outage,2000,5,2,1786133959,2026-08-07 20:19:19Z,4214,1,1,0.0,1049,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma5_iter5_1786134057.csv,ZKP,outage,500,5,5,1786134057,2026-08-07 20:20:57Z,4311,1,1,0.0,1146,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma3_iter4_1786134157.csv,ECC,outage,5000,3,4,1786134157,2026-08-07 20:22:37Z,4225,1,1,0.0,1060,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma5_iter3_1786134256.csv,ZKP,outage,1000,5,3,1786134256,2026-08-07 20:24:16Z,4207,1,1,0.0,1042,ok
+data/v5_spoofing_archive,trial_ZKP_outage500_ewma1_iter1_1786134354.csv,ZKP,outage,500,1,1,1786134354,2026-08-07 20:25:54Z,4207,1,1,0.0,1041,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma1_iter1_1786134452.csv,ZKP,outage,5000,1,1,1786134452,2026-08-07 20:27:32Z,4182,1,1,0.0,1017,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma1_iter1_1786134549.csv,ZKP,outage,1000,1,1,1786134549,2026-08-07 20:29:09Z,4160,1,1,0.0,994,ok
+data/v5_spoofing_archive,trial_ZKP_outage1000_ewma3_iter1_1786134647.csv,ZKP,outage,1000,3,1,1786134647,2026-08-07 20:30:47Z,4184,1,1,0.0,1019,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma5_iter2_1786134745.csv,ECC,outage,500,5,2,1786134745,2026-08-07 20:32:25Z,967,0,0,100.0,,INVALID(run_campaign rule)
+data/v5_spoofing_archive,trial_ECC_outage2000_ewma5_iter1_1786134778.csv,ECC,outage,2000,5,1,1786134778,2026-08-07 20:32:58Z,4195,1,1,0.0,1031,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma5_iter5_1786134876.csv,ECC,outage,1000,5,5,1786134876,2026-08-07 20:34:36Z,4197,1,1,0.0,1032,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma3_iter1_1786134974.csv,ZKP,outage,2000,3,1,1786134974,2026-08-07 20:36:14Z,4217,1,1,0.0,1052,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma1_iter4_1786135072.csv,ZKP,outage,5000,1,4,1786135072,2026-08-07 20:37:52Z,4236,1,1,0.0,1069,ok
+data/v5_spoofing_archive,trial_ECC_outage500_ewma5_iter2_1786135171.csv,ECC,outage,500,5,2,1786135171,2026-08-07 20:39:31Z,4248,1,1,0.0,1082,ok
+data/v5_spoofing_archive,trial_ZKP_outage2000_ewma1_iter4_1786135270.csv,ZKP,outage,2000,1,4,1786135270,2026-08-07 20:41:10Z,4250,1,1,0.0,1083,ok
+data/v5_spoofing_archive,trial_ZKP_outage5000_ewma1_iter2_1786135368.csv,ZKP,outage,5000,1,2,1786135368,2026-08-07 20:42:48Z,4224,1,1,0.0,1059,ok
+data/v5_spoofing_archive,trial_ECC_outage1000_ewma3_iter2_1786135467.csv,ECC,outage,1000,3,2,1786135467,2026-08-07 20:44:27Z,4218,1,1,0.0,1053,ok
+data/v5_spoofing_archive,trial_ECC_outage5000_ewma3_iter2_1786135565.csv,ECC,outage,5000,3,2,1786135565,2026-08-07 20:46:05Z,4210,1,1,0.0,1045,ok
+data/v6_logs,trial_ECC_outage250_ewma1_iter10_1786489957.csv,ECC,outage,250,1,10,1786489957,2026-08-11 23:12:37Z,1696,1,0,81.0,1036,ok
+data/v6_logs,trial_ECC_outage1000_ewma5_iter5_1786490007.csv,ECC,outage,1000,5,5,1786490007,2026-08-11 23:13:27Z,4248,1,1,0.2,1082,ok
+data/v6_logs,trial_ECC_outage2000_ewma1_iter6_1786490107.csv,ECC,outage,2000,1,6,1786490107,2026-08-11 23:15:07Z,4201,1,1,16.68,1033,ok
+data/v6_logs,trial_ECC_outage2000_ewma5_iter5_1786490206.csv,ECC,outage,2000,5,5,1786490206,2026-08-11 23:16:46Z,4205,1,1,0.0,1039,ok
+data/v6_logs,trial_ECC_outage2000_ewma1_iter3_1786490304.csv,ECC,outage,2000,1,3,1786490304,2026-08-11 23:18:24Z,4194,1,1,16.68,1028,ok
+data/v6_logs,trial_ECC_outage500_ewma1_iter1_1786490403.csv,ECC,outage,500,1,1,1786490403,2026-08-11 23:20:03Z,1732,1,0,65.61,1074,ok
+data/v6_logs,trial_ECC_outage2000_ewma1_iter4_1786490451.csv,ECC,outage,2000,1,4,1786490451,2026-08-11 23:20:51Z,968,0,0,100.0,,INVALID(run_campaign rule)
+data/v6_logs,trial_ECC_outage250_ewma1_iter7_1786490485.csv,ECC,outage,250,1,7,1786490485,2026-08-11 23:21:25Z,1792,1,0,81.0,1133,ok
+data/v6_logs,trial_ECC_outage500_ewma1_iter6_1786490535.csv,ECC,outage,500,1,6,1786490535,2026-08-11 23:22:15Z,1696,1,0,59.05,1036,ok
+data/v6_logs,trial_ECC_outage1000_ewma5_iter3_1786490583.csv,ECC,outage,1000,5,3,1786490583,2026-08-11 23:23:03Z,897,0,0,100.0,,INVALID(run_campaign rule)
+data/v6_logs,trial_ECC_outage500_ewma1_iter7_1786490614.csv,ECC,outage,500,1,7,1786490614,2026-08-11 23:23:34Z,1755,1,0,65.61,1095,ok
+data/v6_logs,trial_ECC_outage2000_ewma3_iter4_1786490663.csv,ECC,outage,2000,3,4,1786490663,2026-08-11 23:24:23Z,4231,1,1,0.23,1064,ok
+data/v6_logs,trial_ECC_outage2000_ewma5_iter6_1786490761.csv,ECC,outage,2000,5,6,1786490761,2026-08-11 23:26:01Z,4216,1,1,0.0,1050,ok
+data/v6_logs,trial_ECC_outage500_ewma5_iter3_1786490859.csv,ECC,outage,500,5,3,1786490859,2026-08-11 23:27:39Z,4145,1,1,3.12,980,ok
+data/v6_logs,trial_ECC_outage250_ewma5_iter9_1786490957.csv,ECC,outage,250,5,9,1786490957,2026-08-11 23:29:17Z,4199,1,0,50.0,1034,ok
+data/v6_logs,trial_ECC_outage500_ewma5_iter10_1786491055.csv,ECC,outage,500,5,10,1786491055,2026-08-11 23:30:55Z,4207,1,1,6.25,1040,ok
+data/v6_logs,trial_ECC_outage2000_ewma3_iter9_1786491153.csv,ECC,outage,2000,3,9,1786491153,2026-08-11 23:32:33Z,4189,1,1,0.23,1024,ok
+data/v6_logs,trial_ECC_outage2000_ewma3_iter1_1786491252.csv,ECC,outage,2000,3,1,1786491252,2026-08-11 23:34:12Z,4367,1,1,0.33,1202,ok
+data/v6_logs,trial_ECC_outage500_ewma5_iter1_1786491353.csv,ECC,outage,500,5,1,1786491353,2026-08-11 23:35:53Z,4198,1,1,6.25,1033,ok
+data/v6_logs,trial_ECC_outage2000_ewma3_iter3_1786491452.csv,ECC,outage,2000,3,3,1786491452,2026-08-11 23:37:32Z,4189,1,1,0.33,1023,ok
+data/v6_logs,trial_ECC_outage2000_ewma5_iter8_1786491549.csv,ECC,outage,2000,5,8,1786491549,2026-08-11 23:39:09Z,4229,1,1,0.0,1061,ok
+data/v6_logs,trial_ECC_outage500_ewma1_iter5_1786491648.csv,ECC,outage,500,1,5,1786491648,2026-08-11 23:40:48Z,1664,1,0,65.61,1006,ok
+data/v6_logs,trial_ECC_outage2000_ewma5_iter1_1786491696.csv,ECC,outage,2000,5,1,1786491696,2026-08-11 23:41:36Z,4313,1,1,0.0,1146,ok
+data/v6_logs,trial_ECC_outage2000_ewma3_iter7_1786491796.csv,ECC,outage,2000,3,7,1786491796,2026-08-11 23:43:16Z,4205,1,1,0.33,1039,ok
+data/v6_logs,trial_ECC_outage2000_ewma1_iter1_1786491895.csv,ECC,outage,2000,1,1,1786491895,2026-08-11 23:44:55Z,4251,1,1,18.53,1085,ok
+data/v6_logs,trial_ECC_outage2000_ewma5_iter3_1786491994.csv,ECC,outage,2000,5,3,1786491994,2026-08-11 23:46:34Z,4164,1,1,0.0,999,ok
+data/v6_logs,trial_ECC_outage1000_ewma3_iter6_1786492092.csv,ECC,outage,1000,3,6,1786492092,2026-08-11 23:48:12Z,4265,1,1,4.04,1099,ok
+data/v6_logs,trial_ECC_outage500_ewma5_iter7_1786492191.csv,ECC,outage,500,5,7,1786492191,2026-08-11 23:49:51Z,4300,1,1,3.12,1135,ok
+data/v6_logs,trial_ECC_outage1000_ewma5_iter7_1786492291.csv,ECC,outage,1000,5,7,1786492291,2026-08-11 23:51:31Z,4220,1,1,0.2,1055,ok
+data/v6_logs,trial_ECC_outage250_ewma3_iter8_1786492390.csv,ECC,outage,250,3,8,1786492390,2026-08-11 23:53:10Z,1703,1,0,49.0,1045,ok
+data/v6_logs,trial_ECC_outage500_ewma3_iter1_1786492437.csv,ECC,outage,500,3,1,1786492437,2026-08-11 23:53:57Z,973,0,0,100.0,,INVALID(run_campaign rule)
+data/v6_logs,trial_ECC_outage1000_ewma1_iter8_1786492471.csv,ECC,outage,1000,1,8,1786492471,2026-08-11 23:54:31Z,1708,1,0,43.05,1049,ok
+data/v6_logs,trial_ECC_outage250_ewma1_iter2_1786492519.csv,ECC,outage,250,1,2,1786492519,2026-08-11 23:55:19Z,1693,1,0,81.0,1035,ok
+data/v6_logs,trial_ECC_outage500_ewma5_iter5_1786492566.csv,ECC,outage,500,5,5,1786492566,2026-08-11 23:56:06Z,4248,1,1,6.25,1082,ok
+data/v6_logs,trial_ECC_outage1000_ewma3_iter9_1786492665.csv,ECC,outage,1000,3,9,1786492665,2026-08-11 23:57:45Z,4154,1,1,4.04,989,ok
+data/v6_logs,trial_ECC_outage250_ewma5_iter10_1786492762.csv,ECC,outage,250,5,10,1786492762,2026-08-11 23:59:22Z,4156,1,0,50.0,990,ok
+data/v6_logs,trial_ECC_outage250_ewma1_iter6_1786492860.csv,ECC,outage,250,1,6,1786492860,2026-08-12 00:01:00Z,1695,1,0,81.0,1037,ok
+data/v6_logs,trial_ECC_outage500_ewma3_iter10_1786492909.csv,ECC,outage,500,3,10,1786492909,2026-08-12 00:01:49Z,4229,1,1,24.01,1062,ok
+data/v6_logs,trial_ECC_outage2000_ewma5_iter9_1786493008.csv,ECC,outage,2000,5,9,1786493008,2026-08-12 00:03:28Z,4204,1,1,0.0,1038,ok
+data/v6_logs,trial_ECC_outage2000_ewma3_iter8_1786493106.csv,ECC,outage,2000,3,8,1786493106,2026-08-12 00:05:06Z,4203,1,1,0.23,1038,ok
+data/v6_logs,trial_ECC_outage1000_ewma5_iter9_1786493204.csv,ECC,outage,1000,5,9,1786493204,2026-08-12 00:06:44Z,4199,1,1,0.2,1034,ok
+data/v6_logs,trial_ECC_outage1000_ewma1_iter7_1786493303.csv,ECC,outage,1000,1,7,1786493303,2026-08-12 00:08:23Z,1715,1,0,43.05,1055,ok
+data/v6_logs,trial_ECC_outage2000_ewma1_iter4_1786493351.csv,ECC,outage,2000,1,4,1786493351,2026-08-12 00:09:11Z,4268,1,1,18.53,1101,ok
+data/v6_logs,trial_ECC_outage500_ewma3_iter6_1786493450.csv,ECC,outage,500,3,6,1786493450,2026-08-12 00:10:50Z,4206,1,1,24.01,1039,ok
+data/v6_logs,trial_ECC_outage2000_ewma5_iter4_1786493549.csv,ECC,outage,2000,5,4,1786493549,2026-08-12 00:12:29Z,4251,1,1,0.0,1085,ok
+data/v6_logs,trial_ECC_outage250_ewma1_iter3_1786493649.csv,ECC,outage,250,1,3,1786493649,2026-08-12 00:14:09Z,1700,1,0,81.0,1042,ok
+data/v6_logs,trial_ECC_outage1000_ewma3_iter10_1786493698.csv,ECC,outage,1000,3,10,1786493698,2026-08-12 00:14:58Z,4701,1,1,5.76,1534,ok
+data/v6_logs,trial_ECC_outage2000_ewma3_iter2_1786493806.csv,ECC,outage,2000,3,2,1786493806,2026-08-12 00:16:46Z,4243,1,1,0.33,1078,ok
+data/v6_logs,trial_ECC_outage1000_ewma5_iter6_1786493904.csv,ECC,outage,1000,5,6,1786493904,2026-08-12 00:18:24Z,4192,1,1,0.2,1026,ok
+data/v6_logs,trial_ECC_outage500_ewma3_iter8_1786494002.csv,ECC,outage,500,3,8,1786494002,2026-08-12 00:20:02Z,4245,1,1,24.01,1079,ok
+data/v6_logs,trial_ECC_outage1000_ewma5_iter8_1786494101.csv,ECC,outage,1000,5,8,1786494101,2026-08-12 00:21:41Z,4294,1,1,0.39,1128,ok
+data/v6_logs,trial_ECC_outage500_ewma3_iter2_1786494201.csv,ECC,outage,500,3,2,1786494201,2026-08-12 00:23:21Z,4196,1,1,24.01,1030,ok
+data/v6_logs,trial_ECC_outage250_ewma1_iter1_1786494299.csv,ECC,outage,250,1,1,1786494299,2026-08-12 00:24:59Z,1700,1,0,81.0,1041,ok
+data/v6_logs,trial_ECC_outage250_ewma5_iter6_1786494346.csv,ECC,outage,250,5,6,1786494346,2026-08-12 00:25:46Z,4219,1,0,50.0,1053,ok
+data/v6_logs,trial_ECC_outage2000_ewma3_iter5_1786494445.csv,ECC,outage,2000,3,5,1786494445,2026-08-12 00:27:25Z,4234,1,1,0.33,1068,ok
+data/v6_logs,trial_ECC_outage250_ewma5_iter4_1786494543.csv,ECC,outage,250,5,4,1786494543,2026-08-12 00:29:03Z,4247,1,0,50.0,1081,ok
+data/v6_logs,trial_ECC_outage2000_ewma3_iter6_1786494642.csv,ECC,outage,2000,3,6,1786494642,2026-08-12 00:30:42Z,4254,1,1,0.23,1088,ok
+data/v6_logs,trial_ECC_outage2000_ewma1_iter10_1786494742.csv,ECC,outage,2000,1,10,1786494742,2026-08-12 00:32:22Z,4226,1,1,16.68,1061,ok
+data/v6_logs,trial_ECC_outage500_ewma5_iter6_1786494841.csv,ECC,outage,500,5,6,1786494841,2026-08-12 00:34:01Z,4194,1,1,6.25,1029,ok
+data/v6_logs,trial_ECC_outage1000_ewma3_iter7_1786494939.csv,ECC,outage,1000,3,7,1786494939,2026-08-12 00:35:39Z,4224,1,1,8.24,1059,ok
+data/v6_logs,trial_ECC_outage250_ewma3_iter2_1786495038.csv,ECC,outage,250,3,2,1786495038,2026-08-12 00:37:18Z,1737,1,0,49.0,1079,ok
+data/v6_logs,trial_ECC_outage500_ewma3_iter7_1786495086.csv,ECC,outage,500,3,7,1786495086,2026-08-12 00:38:06Z,4203,1,0,34.3,1086,ok
+data/v6_logs,trial_ECC_outage250_ewma3_iter7_1786495185.csv,ECC,outage,250,3,7,1786495185,2026-08-12 00:39:45Z,1740,1,0,49.0,1082,ok
+data/v6_logs,trial_ECC_outage500_ewma5_iter2_1786495235.csv,ECC,outage,500,5,2,1786495235,2026-08-12 00:40:35Z,4223,1,1,6.25,1058,ok
+data/v6_logs,trial_ECC_outage250_ewma3_iter4_1786495333.csv,ECC,outage,250,3,4,1786495333,2026-08-12 00:42:13Z,1691,1,0,49.0,1031,ok
+data/v6_logs,trial_ECC_outage250_ewma3_iter1_1786495381.csv,ECC,outage,250,3,1,1786495381,2026-08-12 00:43:01Z,1748,1,0,49.0,1089,ok
+data/v6_logs,trial_ECC_outage250_ewma3_iter10_1786495430.csv,ECC,outage,250,3,10,1786495430,2026-08-12 00:43:50Z,1735,1,0,49.0,1078,ok
+data/v6_logs,trial_ECC_outage500_ewma1_iter9_1786495479.csv,ECC,outage,500,1,9,1786495479,2026-08-12 00:44:39Z,1783,1,0,69.05,1125,ok
+data/v6_logs,trial_ECC_outage1000_ewma3_iter3_1786495528.csv,ECC,outage,1000,3,3,1786495528,2026-08-12 00:45:28Z,4252,1,1,8.24,1087,ok
+data/v6_logs,trial_ECC_outage500_ewma3_iter3_1786495627.csv,ECC,outage,500,3,3,1786495627,2026-08-12 00:47:07Z,4254,1,1,24.01,1088,ok
+data/v6_logs,trial_ECC_outage250_ewma3_iter6_1786495725.csv,ECC,outage,250,3,6,1786495725,2026-08-12 00:48:45Z,1707,1,0,49.0,1048,ok
+data/v6_logs,trial_ECC_outage2000_ewma1_iter7_1786495773.csv,ECC,outage,2000,1,7,1786495773,2026-08-12 00:49:33Z,4242,1,1,18.53,1077,ok
+data/v6_logs,trial_ECC_outage1000_ewma5_iter2_1786495872.csv,ECC,outage,1000,5,2,1786495872,2026-08-12 00:51:12Z,4296,1,1,0.39,1129,ok
+data/v6_logs,trial_ECC_outage1000_ewma5_iter4_1786495973.csv,ECC,outage,1000,5,4,1786495973,2026-08-12 00:52:53Z,4165,1,1,0.2,1000,ok
+data/v6_logs,trial_ECC_outage500_ewma3_iter4_1786496071.csv,ECC,outage,500,3,4,1786496071,2026-08-12 00:54:31Z,4201,1,1,24.01,1035,ok
+data/v6_logs,trial_ECC_outage1000_ewma1_iter9_1786496169.csv,ECC,outage,1000,1,9,1786496169,2026-08-12 00:56:09Z,1676,1,0,43.05,1018,ok
+data/v6_logs,trial_ECC_outage250_ewma5_iter8_1786496217.csv,ECC,outage,250,5,8,1786496217,2026-08-12 00:56:57Z,4204,1,0,50.0,1037,ok
+data/v6_logs,trial_ECC_outage250_ewma1_iter9_1786496316.csv,ECC,outage,250,1,9,1786496316,2026-08-12 00:58:36Z,1746,1,0,81.0,1087,ok
+data/v6_logs,trial_ECC_outage1000_ewma5_iter1_1786496364.csv,ECC,outage,1000,5,1,1786496364,2026-08-12 00:59:24Z,4252,1,1,0.2,1087,ok
+data/v6_logs,trial_ECC_outage250_ewma1_iter4_1786496463.csv,ECC,outage,250,1,4,1786496463,2026-08-12 01:01:03Z,1811,1,0,81.0,1152,ok
+data/v6_logs,trial_ECC_outage250_ewma5_iter7_1786496513.csv,ECC,outage,250,5,7,1786496513,2026-08-12 01:01:53Z,4215,1,1,25.0,1050,ok
+data/v6_logs,trial_ECC_outage1000_ewma1_iter1_1786496611.csv,ECC,outage,1000,1,1,1786496611,2026-08-12 01:03:31Z,931,0,0,100.0,,INVALID(run_campaign rule)
+data/v6_logs,trial_ECC_outage1000_ewma1_iter4_1786496643.csv,ECC,outage,1000,1,4,1786496643,2026-08-12 01:04:03Z,1796,1,0,38.74,1137,ok
+data/v6_logs,trial_ECC_outage1000_ewma3_iter5_1786496693.csv,ECC,outage,1000,3,5,1786496693,2026-08-12 01:04:53Z,4209,1,1,8.24,1044,ok
+data/v6_logs,trial_ECC_outage250_ewma3_iter9_1786496791.csv,ECC,outage,250,3,9,1786496791,2026-08-12 01:06:31Z,1712,1,0,49.0,1053,ok
+data/v6_logs,trial_ECC_outage1000_ewma1_iter10_1786496839.csv,ECC,outage,1000,1,10,1786496839,2026-08-12 01:07:19Z,1717,1,0,38.74,1058,ok
+data/v6_logs,trial_ECC_outage500_ewma3_iter5_1786496887.csv,ECC,outage,500,3,5,1786496887,2026-08-12 01:08:07Z,4178,1,1,24.01,1013,ok
+data/v6_logs,trial_ECC_outage2000_ewma5_iter7_1786496985.csv,ECC,outage,2000,5,7,1786496985,2026-08-12 01:09:45Z,4310,1,1,0.0,1142,ok
+data/v6_logs,trial_ECC_outage2000_ewma3_iter10_1786497086.csv,ECC,outage,2000,3,10,1786497086,2026-08-12 01:11:26Z,4200,1,1,0.23,1034,ok
+data/v6_logs,trial_ECC_outage1000_ewma3_iter1_1786497185.csv,ECC,outage,1000,3,1,1786497185,2026-08-12 01:13:05Z,4222,1,1,5.76,1057,ok
+data/v6_logs,trial_ECC_outage1000_ewma1_iter3_1786497284.csv,ECC,outage,1000,1,3,1786497284,2026-08-12 01:14:44Z,1696,1,0,43.05,1037,ok
+data/v6_logs,trial_ECC_outage1000_ewma1_iter2_1786497332.csv,ECC,outage,1000,1,2,1786497332,2026-08-12 01:15:32Z,1697,1,0,43.05,1037,ok
+data/v6_logs,trial_ECC_outage250_ewma5_iter1_1786497379.csv,ECC,outage,250,5,1,1786497379,2026-08-12 01:16:19Z,4264,1,1,25.0,1098,ok
+data/v6_logs,trial_ECC_outage1000_ewma1_iter5_1786497478.csv,ECC,outage,1000,1,5,1786497478,2026-08-12 01:17:58Z,1734,1,0,43.05,1075,ok
+data/v6_logs,trial_ECC_outage500_ewma3_iter9_1786497527.csv,ECC,outage,500,3,9,1786497527,2026-08-12 01:18:47Z,4192,1,1,24.01,1024,ok
+data/v6_logs,trial_ECC_outage500_ewma1_iter2_1786497625.csv,ECC,outage,500,1,2,1786497625,2026-08-12 01:20:25Z,1645,1,0,65.61,986,ok
+data/v6_logs,trial_ECC_outage1000_ewma3_iter8_1786497672.csv,ECC,outage,1000,3,8,1786497672,2026-08-12 01:21:12Z,4196,1,1,5.76,1030,ok
+data/v6_logs,trial_ECC_outage500_ewma5_iter4_1786497771.csv,ECC,outage,500,5,4,1786497771,2026-08-12 01:22:51Z,4688,1,1,3.12,1522,ok
+data/v6_logs,trial_ECC_outage500_ewma3_iter1_1786497880.csv,ECC,outage,500,3,1,1786497880,2026-08-12 01:24:40Z,4252,1,1,16.81,1086,ok
+data/v6_logs,trial_ECC_outage500_ewma1_iter3_1786497978.csv,ECC,outage,500,1,3,1786497978,2026-08-12 01:26:18Z,926,0,0,100.0,,INVALID(run_campaign rule)
+data/v6_logs,trial_ECC_outage250_ewma3_iter3_1786498011.csv,ECC,outage,250,3,3,1786498011,2026-08-12 01:26:51Z,1694,1,0,64.3,1033,ok
+data/v6_logs,trial_ECC_outage500_ewma1_iter3_1786498058.csv,ECC,outage,500,1,3,1786498058,2026-08-12 01:27:38Z,1653,1,0,65.61,995,ok
+data/v6_logs,trial_ECC_outage500_ewma5_iter8_1786498106.csv,ECC,outage,500,5,8,1786498106,2026-08-12 01:28:26Z,4209,1,1,6.25,1043,ok
+data/v6_logs,trial_ECC_outage2000_ewma5_iter2_1786498205.csv,ECC,outage,2000,5,2,1786498205,2026-08-12 01:30:05Z,4199,1,1,0.0,1032,ok
+data/v6_logs,trial_ECC_outage1000_ewma3_iter4_1786498303.csv,ECC,outage,1000,3,4,1786498303,2026-08-12 01:31:43Z,1005,0,0,100.0,,INVALID(run_campaign rule)
+data/v6_logs,trial_ECC_outage2000_ewma1_iter5_1786498337.csv,ECC,outage,2000,1,5,1786498337,2026-08-12 01:32:17Z,4212,1,1,16.68,1046,ok
+data/v6_logs,trial_ECC_outage500_ewma1_iter10_1786498436.csv,ECC,outage,500,1,10,1786498436,2026-08-12 01:33:56Z,1695,1,0,65.61,1036,ok
+data/v6_logs,trial_ECC_outage2000_ewma1_iter9_1786498484.csv,ECC,outage,2000,1,9,1786498484,2026-08-12 01:34:44Z,4250,1,1,16.68,1084,ok
+data/v6_logs,trial_ECC_outage500_ewma5_iter9_1786498583.csv,ECC,outage,500,5,9,1786498583,2026-08-12 01:36:23Z,4283,1,1,6.25,1117,ok
+data/v6_logs,trial_ECC_outage1000_ewma5_iter10_1786498682.csv,ECC,outage,1000,5,10,1786498682,2026-08-12 01:38:02Z,4151,1,1,0.78,984,ok
+data/v6_logs,trial_ECC_outage250_ewma5_iter3_1786498780.csv,ECC,outage,250,5,3,1786498780,2026-08-12 01:39:40Z,4248,1,1,25.0,1082,ok
+data/v6_logs,trial_ECC_outage1000_ewma5_iter3_1786498879.csv,ECC,outage,1000,5,3,1786498879,2026-08-12 01:41:19Z,4305,1,1,0.2,1140,ok
+data/v6_logs,trial_ECC_outage250_ewma5_iter2_1786498979.csv,ECC,outage,250,5,2,1786498979,2026-08-12 01:42:59Z,4296,1,0,50.0,1130,ok
+data/v6_logs,trial_ECC_outage1000_ewma3_iter2_1786499079.csv,ECC,outage,1000,3,2,1786499079,2026-08-12 01:44:39Z,4184,1,1,5.76,1017,ok
+data/v6_logs,trial_ECC_outage1000_ewma3_iter4_1786499177.csv,ECC,outage,1000,3,4,1786499177,2026-08-12 01:46:17Z,4246,1,1,5.76,1079,ok
+data/v6_logs,trial_ECC_outage1000_ewma1_iter1_1786499276.csv,ECC,outage,1000,1,1,1786499276,2026-08-12 01:47:56Z,2198,1,0,47.83,1538,ok
+data/v6_logs,trial_ECC_outage250_ewma3_iter5_1786499334.csv,ECC,outage,250,3,5,1786499334,2026-08-12 01:48:54Z,1816,1,0,49.0,1158,ok
+data/v6_logs,trial_ECC_outage500_ewma1_iter8_1786499384.csv,ECC,outage,500,1,8,1786499384,2026-08-12 01:49:44Z,1687,1,0,65.61,1028,ok
+data/v6_logs,trial_ECC_outage250_ewma1_iter8_1786499432.csv,ECC,outage,250,1,8,1786499432,2026-08-12 01:50:32Z,1699,1,0,81.0,1040,ok
+data/v6_logs,trial_ECC_outage500_ewma1_iter4_1786499480.csv,ECC,outage,500,1,4,1786499480,2026-08-12 01:51:20Z,1750,1,0,65.61,1092,ok
+data/v6_logs,trial_ECC_outage2000_ewma1_iter2_1786499529.csv,ECC,outage,2000,1,2,1786499529,2026-08-12 01:52:09Z,878,0,0,100.0,,INVALID(run_campaign rule)
+data/v6_logs,trial_ECC_outage2000_ewma5_iter10_1786499561.csv,ECC,outage,2000,5,10,1786499561,2026-08-12 01:52:41Z,4249,1,1,0.0,1084,ok
+data/v6_logs,trial_ECC_outage250_ewma1_iter5_1786499660.csv,ECC,outage,250,1,5,1786499660,2026-08-12 01:54:20Z,1702,1,0,81.0,1043,ok
+data/v6_logs,trial_ECC_outage1000_ewma1_iter6_1786499708.csv,ECC,outage,1000,1,6,1786499708,2026-08-12 01:55:08Z,1713,1,0,38.74,1054,ok
+data/v6_logs,trial_ECC_outage250_ewma5_iter5_1786499757.csv,ECC,outage,250,5,5,1786499757,2026-08-12 01:55:57Z,4196,1,1,25.0,1030,ok
+data/v6_logs,trial_ECC_outage2000_ewma1_iter2_1786499855.csv,ECC,outage,2000,1,2,1786499855,2026-08-12 01:57:35Z,4145,1,1,16.68,980,ok
+data/v6_logs,trial_ECC_outage2000_ewma1_iter8_1786499952.csv,ECC,outage,2000,1,8,1786499952,2026-08-12 01:59:12Z,4205,1,1,16.68,1040,ok
