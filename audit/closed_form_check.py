@@ -46,8 +46,11 @@ for (algo, p), xs in sorted(g.items()):
     print(f"{algo:5s} probe {p:4d} n={len(xs)} meas mean {st.mean(xs):6.1f} min {min(xs):6.1f} max {max(xs):6.1f} | "
           f"cf mean {(n+0.5)*t:6.1f} min {n*t:6.1f} max {(n+1)*t:6.1f} | mean-cf {st.mean(xs)-(n+0.5)*t:+6.1f}")
 
-print("\nInterpretation: robot means exceed the closed form by ~40-90 ms (logger 20 ms sampling + dropped-line bias");
-print("q*T with q~0.15-0.2); robot minima sit within ~15 ms of n*T, as predicted; bench means sit ~30-50 ms BELOW")
-print("(n+1/2)*T, i.e. the effective partial cycle is shorter than a full uniform cycle: ATTACK sent during the")
-print("10 ms delay/serial phase is picked up sooner than during the crypto phase. Draft 2 should state the model")
-print("as an approximation with these two instrument/phase terms named.")
+print()
+print("Interpretation: on the robot, means exceed (n+1/2)*T by 40-110 ms and minima exceed n*T by 30-75 ms:")
+print("a positive offset t_s (serial + 50 Hz logger sampling, ~20-40 ms) plus the dropped-line bias (one extra")
+print("cycle in a fraction q~0.15-0.2 of trials, which lifts the mean by q*T). On the bench, minima sit ~30 ms")
+print("above n*T (serial only) while three of four means sit 30-50 ms BELOW (n+1/2)*T: the effective partial")
+print("cycle is shorter than a full uniform cycle because an ATTACK sent during the delay/serial phase is read")
+print("sooner than one sent during the crypto phase. Draft 2 states the closed form as an approximation with")
+print("t_s and the phase term named, and reports min/max bounds rather than a fitted mean.")
