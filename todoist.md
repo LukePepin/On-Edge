@@ -1,4 +1,4 @@
-# Thesis task list (reviewed 2026-09-08 against ground_truth_v2.md)
+# Thesis task list (reviewed 2026-09-08 against ground_truth_v2.md; updated 2026-09-08 evening)
 
 Legend: **[orig]** = from the existing Todoist list · **[audit]** = added or changed by the
 2026-09-07 audit · p1–p4 = priority · dates are due / hard deadline.
@@ -6,7 +6,23 @@ Today is Tue 9/8. Draft 1 is due today; the Sodhi meeting is tomorrow 9/9.
 
 ---
 
-## 0. Today (9/8) — in order
+## 0. Done 9/8
+- [x] Draft 1 skeleton, chapter map, working title (Thesis repo 6218d0a)
+- [x] Firmware contradiction reconciled in draft (ch3 §3.1) and On-Edge README
+- [x] Draft 1 Methods + Results built (Thesis repo b53c68d and later); tables ruled; system flow diagram
+- [x] Limitations paragraph (ch3 §3.10, ch6 §6.2)
+- [x] On-Edge cleanup rebased onto the 08-14 reorganization and pushed (517933c)
+- [x] `ground_truth_v2.md` authoritative; v1 and the 08-14 decontamination report archived in `audit/`
+- [x] `docs/project_summary_review.md` first edition (Parts I–V)
+- [x] `docs/claude_project_setup.md` (sources list + advisor prompt)
+- [x] Placeholder text in chapters 1, 2, 5, 6
+
+## 0a. Next (before the 9/9 meeting)
+- [ ] Read the full PDF once; note anything to raise with Sodhi
+- [ ] Re-create the Claude project from `docs/claude_project_setup.md`; upload tier 1–4
+- [ ] Email Draft 1 to Sodhi after own review
+
+## 0b. Original plan for 9/8 (kept for the record)
 
 1. **[orig, overdue 9/7] Build Draft 1 skeleton** — p1. Use `ground_truth_v2.md` §9 as the results
    spine: one subsection per A/B claim, in table order.
@@ -30,7 +46,7 @@ Today is Tue 9/8. Draft 1 is due today; the Sodhi meeting is tomorrow 9/9.
 ## 1. Writing (drafts)
 
 - **[orig] Triage Sodhi's Draft 1 feedback into revision list** — 9/18, p2.
-- **[orig → audit rescoped] Propagate ground_truth_v2 §8 corrections through contaminated docs** — p2, start after 9/9.
+- **[DONE 9/8, superseded] Propagate ground_truth_v2 §8 corrections** — the contaminated files were deleted instead (cleanup commit 517933c); only `docs/gaps.md` §4–5 still needs a rewrite (proxy wording, Cat 2, hold-down as proposed).
   Rewrite: `audit/conclusion.md`, `audit/conclusion2.md`, `audit/master_research_summary.md`,
   `audit/empirical_conclusions.md`, `audit/outline_v2.md`, `audit/system_architecture.md`,
   `audit/gaps.md` §4–5, `audit/experimental_pivots.md` (Pivots 2, 4, 7, 8), `docs/master.md`,
@@ -40,8 +56,7 @@ Today is Tue 9/8. Draft 1 is due today; the Sodhi meeting is tomorrow 9/9.
   `docs/thesis_conclusions.md`, `docs/thesis_code_analysis.md`, `docs/final_test_review.md`,
   `docs/academic_audit_report.md`, `docs/cloud_edge_cloud_runbook.md`.
   Leave: `audit/original_thesis_proposal.md`.
-- **[audit] Replace `ground_truth.md` with `ground_truth_v2.md`** as the single reference (move v1 to
-  `audit/ground_truth_v1_2026-08-11.md`) — p2, 9/10.
+- **[DONE 9/8]** `ground_truth_v2.md` is the single reference; v1 archived in `audit/`.
 - **[orig → audit rescoped] Draft 2 (unified model + hold-down)** — deadline 10/10, p2.
   Hold-down must be written as a *proposed* mechanism (§6.3: nothing in code); use cycle times
   120 / 232 ms, not 125 / 247.
@@ -117,7 +132,9 @@ Today is Tue 9/8. Draft 1 is due today; the Sodhi meeting is tomorrow 9/9.
   `src/README.md` or move to `archive/` — p4.
 - **[audit]** Recover `md1_profiling_serialized_n1000_1785266590.csv` from git
   (`git show 5414336:data/…`) into `data/` if the μ = 103.63/s figure is cited — p3.
-- **[audit]** Commit `ground_truth_v2.md`, `audit/*.py`, `audit/phase*.md`, `todoist.md` — p2.
+- **[DONE 9/8]** audit outputs, v2, todoist committed.
+- **[audit]** Rewrite `docs/gaps.md` §4 (ZKP-cost proxy wording, design-budget language, Cat 2) and §5 (hold-down as *proposed*) — p2, 9/12.
+- **[audit]** Deepen `docs/project_summary_review.md` where the advisor sessions find thin spots (Part I ch. 4–5 crypto, Part IV ch. 27) — p3, rolling.
 
 ---
 
