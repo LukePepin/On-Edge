@@ -1,12 +1,12 @@
 # Theoretical Vulnerabilities and Future Work
 
-While the Decentralized Verification Framework successfully achieved the Phase 5 Capstone parameters, rigorous systems-engineering audits reveal several unmitigated vulnerabilities and theoretical gaps. These gaps serve as the foundation for the "Future Work" section of the thesis.
+Open gaps in the built system and in the design it stands in for. Sections 1-3 are design-level gaps carried from the proposal; sections 4-6 were rewritten on 2026-09-08 to match `ground_truth_v2.md`. Everything here is future work; nothing here is a measured result.
 
 ---
 
 ## 1. Local UART Serial Unencryption
-The Decentralized Edge-Compute Star Topology relies on a Raspberry Pi 4 (the "Vault") to route JSON payloads via a physical UART serial bridge to the Arduino Nano 33 BLE worker nodes. 
-**The Gap:** This serial connection is entirely unencrypted (plaintext). If an adversary physically compromises the Pi 4 or intercepts the UART data lines (via side-channel wiretapping), they can completely bypass the mesh cryptography and inject falsified `{"algo": "ECC"}` packets directly into the Arduinos.
+The Decentralized Edge-Compute Star Topology relies on a Raspberry Pi 4 supervisor to send configuration and attack/recover keywords via a physical UART serial bridge to the Arduino Nano 33 BLE worker nodes. 
+**The Gap:** This serial connection is entirely unencrypted (plaintext). If an adversary physically compromises the Pi 4 or intercepts the UART data lines (via side-channel wiretapping), they can completely reconfigure the trust monitor (a configuration message resets trust to 100 and re-closes the safeguard loop) or withhold `ATTACK` so that trust never decays. See section 6.
 **Future Work:** The UART bridge must be secured using a hardware-accelerated symmetrical cipher (e.g., AES-128-GCM) or a physically un-clonable function (PUF) to authenticate the physical transmission layer between the Pi and the microcontrollers.
 
 ## 2. Static EWMA Alpha Parameterization
@@ -19,14 +19,23 @@ While the Star Topology physically resolved the M/M/1 Queue Saturation vulnerabi
 **The Gap:** The Raspberry Pi 4 supervisor currently accepts all inbound cryptographic payloads without pre-filtering. In the event of a volumetric Distributed Denial of Service (DDoS) attack, the Pi's TCP socket buffer could saturate, resulting in memory exhaustion or Kernel panics before the malicious packets ever reach the Arduino worker nodes for evaluation.
 **Future Work:** Network-layer traffic shaping is required. The implementation of a Token Bucket admission control algorithm or Topology-Embedded Routing Algorithms (TERA) would strictly throttle inbound cryptographic requests, explicitly separating identity-verification streams from deterministic kinetic C2 traffic at the physical switch layer.
 
-## 4. EMI Susceptibility on ZKP Bootstrapping
-Real ZKP profiling measured Zero-Knowledge Proof bootstrapping at a mean of $224.86$ ms (sd 0.21, 300 runs), under the $400$ ms out-of-band initialization budget — a **self-imposed design budget**, not a requirement of any standard (ISO 13849-1 sets no stop-time ceiling).
-**The Gap:** While this leaves headroom of $175$ ms ($43.7\%$) against that budget, the measured figure is a mathematical lower-bound proxy (timing two raw scalar multiplications without the associated hashing and point additions required for a complete Schnorr verification). Real-world Schnorr verification will consume a portion of this margin. Furthermore, expeditionary operations routinely experience extreme physical shock, vibration, and EMI that can marginally slow clock cycles or interrupt the RTOS scheduler. If ambient interference consumes the remaining headroom, the edge node will fail to complete bootstrap verification and the trust collapse will drop the safeguard-stop line during deployment (a Category 2 stop via SI0/SI1; if channel restoration then mis-times, the latched C192A4 fault escalates to a Category 0 halt requiring manual reset).
-**Future Work:** The cryptographic budget headroom must be expanded. Migrating the worker nodes from the 64MHz Cortex-M4 (Arduino Nano) to a dedicated FPGA or ASIC would drastically accelerate the elliptic-curve operations required for ZKP, widening the margin against the self-imposed budget and immunizing the node against environmental timing anomalies.
+## 4. Headroom of ZKP-class verification on 64 MHz-class hardware
+The ZKP-cost proxy (two secp256r1 scalar multiplications, the arithmetic of a minimal Schnorr verification without hash, point addition or comparison) costs 224.86 ms (sd 0.21, n = 300) on the Nano 33 BLE without hardware acceleration, and the full trust-loop period with that workload is 232.1 ms (bench, n = 10). No proof was verified; the figure is a lower bound on any real verification.
 
-## 5. EWMA Hold-Down State Machine Suspension
-The hold-down state machine suspends EWMA trust decay while the Cortex-M4 is actively computing a legitimate cryptographic hash. This exists so the node does not penalize itself for the latency of its own work.
+**The Gap:** with that period, eviction takes n(alpha) x 232 ms plus a partial cycle: 624 ms mean at alpha = 0.5, and no alpha tested reaches a 500 ms mean. (500 ms is a self-imposed design budget; ISO 13849-1 sets no stop time.) A real selective-disclosure verification would add several more scalar multiplications per hidden attribute. Environmental effects (EMI, thermal) were not measured; the 300-run profile shows no drift, but it was taken on a bench.
 
-**The Gap:** the suspension is unbounded. An adversary who can keep the crypto node continuously busy — by flooding it with verification requests that appear legitimate enough to begin processing — holds the trust score frozen indefinitely. The safety stop is never triggered, because the mechanism that detects degraded verification has been placed in suspension by the attack it is meant to detect. This is a denial-of-safety condition: the attacker does not need to defeat the cryptography, only to saturate the processor. It is distinct from the M/M/1 queue saturation vulnerability, which concerns dropped packets rather than a suspended safety mechanism.
+**Future Work:** (a) measure a complete Schnorr verification and a small selective-disclosure verification on the same device; (b) use the nRF52840's CryptoCell-310 or a faster core and re-measure the loop period; (c) decouple the verification cadence from the trust-update cadence so that the trust loop can run at ECC-class period while verification runs less often; (d) re-profile under interrupt load (serial flood) and across temperature.
 
-**Future Work:** the hold-down must be bounded — capped at N consecutive suspended cycles or M milliseconds of cumulative suspension, after which decay resumes regardless of CPU state. Choosing that cap is a measurable tradeoff between false-positive evictions under legitimate load and exposure window under attack. Because the vulnerability is one of logic and timing rather than kinematics, it can be characterized entirely in simulated multi-node experiments without robot hardware, with a single confirmation run on the physical cell afterward.
+## 5. Hold-down suspension (proposed mechanism, not built)
+Earlier design documents describe a hold-down state that suspends EWMA decay while the node is busy with legitimate cryptographic work. **No such mechanism exists in the firmware**; under `ATTACK` the trust observation is forced to zero regardless of CPU state. This section analyses the proposal.
+
+**The Gap:** if decay were suspended during verification, an adversary who keeps the node busy with verification requests that look legitimate enough to start would hold trust frozen indefinitely: denial of safety without defeating the cryptography. Any bound on the suspension (N cycles or M ms) trades false stops under legitimate load against exposure under attack.
+
+**Future Work:** analyse the proposal on paper with the measured periods (120.4 / 232.1 ms) and alpha in {0.1, 0.3, 0.5}; simulate; and compare with the watchdog design in section 6. This is Draft 2 material (chapter 5 of the thesis).
+
+## 6. Trust decays only on the supervisor's signal (built system)
+In the built firmware the trust observation is 0 when the supervisor has asserted `ATTACK` and 100 otherwise; the workload's own execution-time penalty (thresholds 400 / 150 ms) never fires because the workloads run at about 60 % of those thresholds. The edge node therefore detects nothing on its own.
+
+**The Gap:** a supervisor that is silenced, crashed, or compromised leaves trust at 100 and the safeguard loop closed forever. A compromised supervisor can also send a configuration message that resets trust and re-closes the loop after an eviction. This is the code-traceable denial-of-safety condition in the system as built.
+
+**Future Work:** a wall-clock watchdog on the edge node: if no well-formed heartbeat (or no completed verification of supervisor-supplied data) arrives within W ms, treat the cycle as failed and let trust decay. Predicted stop latency becomes W + n(alpha) x T_cycle + partial cycle. Bench-testable with one Arduino (withhold the heartbeat, time the pin). Configuration messages after boot should require authentication, which folds back into section 1.

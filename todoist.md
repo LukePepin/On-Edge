@@ -18,9 +18,9 @@ Today is Tue 9/8. Draft 1 is due today; the Sodhi meeting is tomorrow 9/9.
 - [x] Placeholder text in chapters 1, 2, 5, 6
 
 ## 0a. Next (before the 9/9 meeting)
-- [ ] Read the full PDF once; note anything to raise with Sodhi
-- [ ] Re-create the Claude project from `docs/claude_project_setup.md`; upload tier 1–4
-- [ ] Email Draft 1 to Sodhi after own review
+- [ ] Read the full PDF once; note anything to raise with Sodhi (agenda drafted: `docs/sodhi_meeting_2026-09-09.md`)
+- [x] Claude project re-created
+- [ ] Email Draft 1 to Sodhi — moved to during/after the 9/9 meeting
 
 ## 0b. Original plan for 9/8 (kept for the record)
 
@@ -70,7 +70,7 @@ Today is Tue 9/8. Draft 1 is due today; the Sodhi meeting is tomorrow 9/9.
 
 ## 2. Analysis / research
 
-- **[orig → audit rescoped] Derive unified time-to-safe-state closed form** — due 9/10, p1.
+- **[orig → audit rescoped, STARTED 9/8] Derive unified time-to-safe-state closed form** — due 9/10, p1. `audit/closed_form_check.py` compares (n(α)+½)·T against V6/V7/bench; result and residual terms ready to write into ch5 §5.2.
   Anchor on the measured structure (§3.5): `T_evict ≈ n(α)·T_cycle + U(0, T_cycle) + t_serial`,
   plus detection window (probe interval × count) and mechanical deceleration (currently
   UNTRACED — treat as a symbol). Validate against `audit/eviction_v6.csv`, `eviction_v7.csv`,
@@ -133,7 +133,7 @@ Today is Tue 9/8. Draft 1 is due today; the Sodhi meeting is tomorrow 9/9.
 - **[audit]** Recover `md1_profiling_serialized_n1000_1785266590.csv` from git
   (`git show 5414336:data/…`) into `data/` if the μ = 103.63/s figure is cited — p3.
 - **[DONE 9/8]** audit outputs, v2, todoist committed.
-- **[audit]** Rewrite `docs/gaps.md` §4 (ZKP-cost proxy wording, design-budget language, Cat 2) and §5 (hold-down as *proposed*) — p2, 9/12.
+- **[DONE 9/8]** `docs/gaps.md` §4–6 rewritten (proxy headroom; hold-down as proposed; supervisor-signal gap + watchdog).
 - **[audit]** Deepen `docs/project_summary_review.md` where the advisor sessions find thin spots (Part I ch. 4–5 crypto, Part IV ch. 27) — p3, rolling.
 
 ---
