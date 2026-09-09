@@ -18,7 +18,8 @@ Today is Tue 9/8. Draft 1 is due today; the Sodhi meeting is tomorrow 9/9.
 - [x] Placeholder text in chapters 1, 2, 5, 6
 
 ## 0a. Next (before the 9/9 meeting)
-- [ ] Read the full PDF once; note anything to raise with Sodhi (agenda drafted: `docs/sodhi_meeting_2026-09-09.md`)
+- [~] PDF read briefly (9/8); full read deferred — Draft 1 goes out as the audited baseline
+- [ ] Tonight (90 min): quiz round 1; rewrite ch1 §1.2 problem statement in own words; add `% AI-draft` markers to ch3/ch4 for Draft 2 rewrite tracking
 - [x] Claude project re-created
 - [ ] Email Draft 1 to Sodhi — moved to during/after the 9/9 meeting
 
@@ -43,6 +44,29 @@ Today is Tue 9/8. Draft 1 is due today; the Sodhi meeting is tomorrow 9/9.
    Pi-driven ATTACK signal is the only failure input (§6.3); logger drops; motion onset after
    attack; failover sweep demo-grade; 500/400 ms are design budgets (§5.5).
 
+## 0c. Knowledge plan (defense 12/11) — added 9/8
+Goal: be able to explain and defend every claim in `ground_truth_v2.md` §9 without notes, at master's level.
+Method: one 60–90 min session per weekday; each session = read one chapter of `docs/project_summary_review.md`,
+explain it back to the Claude project advisor in own words, take a 5-question quiz, then rewrite one thesis
+paragraph in own words. Log scores in `docs/knowledge_log.md` (date, chapter, score, weak points).
+
+| Week | Dates | Theme | Review chapters | Milestone |
+| --- | --- | --- | --- | --- |
+| 1 | 9/9–9/15 | Safety + trust core: stop categories, EWMA algebra, the loop | 1, 2, 6, 7, 11 | Can derive n(α) and the closed form on a whiteboard; can state Cat 2 vs Cat 0 |
+| 2 | 9/16–9/22 | Crypto: curves, keygen vs verify, Schnorr, the proxy | 4, 5 | Can explain exactly what the proxy computes and what it omits |
+| 3 | 9/23–9/29 | The built system: every file, every path | 10, 12, 13, 14, 15 | Can draw the flow diagram from memory; knows the 14 not-built items |
+| 4 | 9/30–10/6 | The experiments: campaigns, definitions, defects | 16, 17, 21 | Can explain the dropped-line defect and the stationary-arm finding unprompted |
+| 5 | 10/7–10/13 | Results + Draft 2 handoff | 18, 19, 20, 22, 23 | Draft 2 out 10/10; owns every number in ch4 |
+| 6 | 10/14–10/20 | Interpretation: model as design tool, threats to validity | 24, 25, 26, 27 | Can run the inversion table by hand |
+| 7 | 10/21–10/27 | Queueing + ROS 2 + literature (ch2 support) | 8, 9 + lit review | ch2 sources chosen |
+| 8 | 10/28–11/3 | Mock defense I (Claude project, hostile mode) | 28 | ≥ 80 % on the 12 anticipated questions |
+| 9 | 11/4–11/10 | Draft 3 polish; weak-spot drills | as needed | Draft 3 out 11/11 |
+| 10–12 | 11/11–12/10 | Mock defense II & III (one with a human: Sodhi or lab peer); slides | — | Slides final 12/4 |
+
+Standing rules: (1) every number spoken in a drill must be traceable to `ground_truth_v2.md`; (2) never say
+"verification" for the proxy; (3) when a question stumps you, write it into `docs/knowledge_log.md` and it
+becomes the next session's first item.
+
 ## 1. Writing (drafts)
 
 - **[orig] Triage Sodhi's Draft 1 feedback into revision list** — 9/18, p2.
@@ -57,9 +81,11 @@ Today is Tue 9/8. Draft 1 is due today; the Sodhi meeting is tomorrow 9/9.
   `docs/academic_audit_report.md`, `docs/cloud_edge_cloud_runbook.md`.
   Leave: `audit/original_thesis_proposal.md`.
 - **[DONE 9/8]** `ground_truth_v2.md` is the single reference; v1 archived in `audit/`.
-- **[orig → audit rescoped] Draft 2 (unified model + hold-down)** — deadline 10/10, p2.
-  Hold-down must be written as a *proposed* mechanism (§6.3: nothing in code); use cycle times
-  120 / 232 ms, not 125 / 247.
+- **[orig → rescoped 9/8] Draft 2 = every section drafted** — deadline 10/10, p1. Scope: ch1–6 all with
+  full text (ch1 threat model professionalized; ch2 sources added; ch5 closed form + supervisor-signal
+  gap + hold-down as *proposed* + watchdog; ch6 limitations/future work). Cycle times 120.4 / 232.1 ms.
+  **Authorship rule for Draft 2:** every paragraph is either written by Luke or rewritten by Luke in his
+  own words after an explain-back session; AI-drafted text is marked `% AI-draft` until it is.
 - **[orig] Draft 3 (full thesis)** — deadline 11/11, p2.
 - **[audit] Decide fate of 368 ms URScript figure** — p2, before Draft 2. UNTRACED (§7). Either find
   the June/July analysis output or state the bypass motivation qualitatively.
