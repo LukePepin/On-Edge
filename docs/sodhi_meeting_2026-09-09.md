@@ -5,10 +5,19 @@
 - Everything in it traces to `On-Edge/ground_truth_v2.md`; the audit that produced it is in `On-Edge/audit/`.
 - Ask: comments on scope and framing of chapters 3-4; turnaround by 9/18 so Draft 2 (10/10) can absorb them.
 
-## Three decisions I want from the meeting
-1. **Term:** the ZKP path is called the "ZKP-cost proxy" (two secp256r1 scalar multiplications). Agree the term, or propose another. No proof is verified anywhere; the thesis says so.
-2. **The stationary-arm finding:** every stop under 500 ms happened before the arm started moving (attack at +0.5 s, motion from +0.5-1.0 s). I report it as "commanded trajectory not executed", not as arresting a moving arm. Agree the framing.
-3. **Bench work vs writing:** two bench runs are possible at home without the UR5 (Pi-side proxy profile; failover sweep re-run, n >= 3). Worth the time before Draft 2, or write first?
+## Purpose of the meeting (Luke, 9/8)
+Get Sodhi's general read of the project: does the framing hold, is the contribution the right size for an M.S., what would he push on. Not a line-edit session.
+
+## Decisions already made (state, don't ask)
+- The ZKP path is the "ZKP-cost proxy" (two secp256r1 scalar multiplications; no proof verified).
+- Sub-500 ms stops are reported as "commanded trajectory not executed"; the arm was stationary at eviction.
+- Bench work first (Pi-side proxy profile, failover sweep re-run), then Draft 2 writing.
+
+## Questions for Sodhi (open-ended)
+1. Does the one-sentence contribution land: a measured, inverted latency model for an EWMA trust monitor driving a hardware safety input, validated at two cryptographic loop periods?
+2. Is the honest scope (cost proxy, Category 2, stationary arm) a problem for the committee, or a strength if presented as an audited pipeline?
+3. Which chapter would he want strongest for this committee: the model (ch5), the experiments (ch4), or the safety framing (ch1/ch6)?
+4. Anything he wants added to Draft 2 that is not in the chapter map?
 
 ## Facts that changed since August (so nothing surprises anyone later)
 - Cycle times: 120.4 ms (ECC), 232.1 ms (proxy), measured on one clock. The 247 ms figure is withdrawn.

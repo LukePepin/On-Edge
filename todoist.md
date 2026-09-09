@@ -101,10 +101,10 @@ becomes the next session's first item.
   plus detection window (probe interval × count) and mechanical deceleration (currently
   UNTRACED — treat as a symbol). Validate against `audit/eviction_v6.csv`, `eviction_v7.csv`,
   and the e2e CSV; the +1-cycle logger bias (§6.5) is the residual to explain.
-- **[audit] Pi-side ZKP-cost-proxy profile** — p1, this week (Pi out of storage). Flash
+- **[audit, DECIDED 9/8: bench first, then writing] Pi-side ZKP-cost-proxy profile** — p1, this week (Pi out of storage). Flash
   `zkp_real_profiler.ino`, run `run_real_zkp_test.py` with `PORT='/dev/ttyACM0'`, save as
   `data/real_zkp_profiling_pi.csv`, commit. Expect 224.9 ± 1 ms. Closes ground_truth_v2 §10 Q1.
-- **[audit] Re-run cloud failover sweep** — p2, this week; needs only the sentry Arduino + PC or
+- **[audit, DECIDED 9/8: bench first] Re-run cloud failover sweep** — p1, this week; needs only the sentry Arduino + PC or
   Pi. Flash `sentry_node.ino` (HEAD), run `run_cloud_failover_sweep.py` (HEAD → `…_v3.csv`),
   n ≥ 3 per configuration. Replaces the file with 27 corrupt probe=1000 rows (§6.7). Until
   done, the sweep is demo-grade.
@@ -141,9 +141,8 @@ becomes the next session's first item.
 - **[orig] Sodhi meeting 9/9** — p1. Subtasks: chair confirmation (Rosseau), 12/11 date,
   committee (Maier-Speredelozzi, Sun), Draft 1 scope/turnaround, workshop paper venue,
   Wednesday absences, Industry 4.0 certificate.
-  **[audit] add:** (a) agree the term "ZKP-cost proxy"; (b) agree that sub-500 ms stops were
-  stationary-arm stops and how to present that; (c) whether to spend time on the failover re-run
-  vs. writing.
+  **[decided 9/8]** proxy term, stationary-arm framing, bench-first are Luke's calls; the meeting is for
+  Sodhi's general read of the project (see `docs/sodhi_meeting_2026-09-09.md`).
 - **[orig] Schedule defense with full committee** — deadline 11/11, p1 (blocked on Sodhi + Rosseau).
 - **[orig] Nomination for Graduation** — due 10/12, deadline 10/14, p1.
 - **[orig] Request to Schedule Oral Defense form** — due 11/17, deadline 11/20 (verify vs 11/15), p2.
