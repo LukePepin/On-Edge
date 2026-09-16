@@ -1,24 +1,30 @@
 # On-Edge
 
-Master's thesis repository (Luke Pepin, URI Industrial and Systems Engineering, 2026):
-edge-side authorization for an industrial manipulator when its cloud identity provider is
-unreachable, and the time it takes to reach a safe state.
+Implementation and evidence repository for Luke Pepin's thesis timing experiment: how
+computational workload, EWMA weight, and injected failure duration affect an embedded
+trust monitor's response. The broader DIL/authorization system is motivation, not a
+completed implementation. Corrected V8 timing and physical measurements are planned.
 
-**Read first:** [`ground_truth_v2.md`](ground_truth_v2.md) — the audited, file-traced statement of
-what the system does and what the data support. It supersedes every other prose document.
-[`docs/project_summary_review.md`](docs/project_summary_review.md) explains the project from
-first principles. [`todoist.md`](todoist.md) is the task list.
+**Writing tomorrow? Start with [docs/WRITING_START_HERE.md](docs/WRITING_START_HERE.md).**
+The [September 16 evidence addendum](audit/writing_evidence_status_2026-09-16.md) qualifies
+older interpretations in `ground_truth_v2.md` and `docs/project_summary_review.md`.
+Those files remain useful historical source maps, not unquestionable authorities.
+[`todoist.md`](todoist.md) is an old snapshot; live Todoist holds the approved delivery plan.
+Thesis prose belongs in the separate [Thesis repository](https://github.com/LukePepin/Thesis).
 
 ## What was built
 
 - A **trust monitor** on an Arduino Nano 33 BLE (Cortex-M4) that runs a cryptographic
   workload every cycle (ECC keygen, or a *ZKP-cost proxy* of two secp256r1 scalar
-  multiplications), keeps an EWMA trust score, and opens the UR5's safeguard-stop input
-  (Category 2 stop) when the score falls below 30.
+  multiplications), keeps an EWMA trust score, and commands D12 low when the score
+  falls below 30. The documented connection to the robot's safeguard inputs is not
+  independent evidence of physical stopping time or a validated safety interface.
 - A **supervisor** (Raspberry Pi 4, ROS 2 Humble) that drives the UR5 trajectory, injects
-  network-outage events over USB serial, and logs joint state, IMU and trust at 50 Hz.
+  failure indications over USB serial, and logs joint state, IMU and trust at a nominal
+  50 Hz. Historical host provenance and logger defects must be stated with the data.
 - A **bench harness** (Arduino plus a local mock cloud) that measures the loop timing
-  losslessly, and a **sentry node** state machine for cloud rejoin gating.
+  using buffered serial reads, and a separate **sentry node** state machine for cloud
+  rejoin gating. The latter is outside the current thesis core.
 
 Naming: the workload in the ZKP path is always called the *ZKP-cost proxy*. No proof is
 verified anywhere in this repository.
@@ -42,6 +48,11 @@ verified anywhere in this repository.
 | `docs/` | project review, literature review, `gaps.md`, original proposal |
 
 ## Reproducing the numbers
+
+Historical commands below are a source index, not a verified writing checklist. Some
+write audit outputs. In particular, the physical-stop classifier does not resolve
+stale-feedback zero filling and must not be treated as independent motion evidence.
+No reruns are needed just to begin writing.
 
 ```bash
 python audit/inventory_trials.py          # matrices, validity, duplicates

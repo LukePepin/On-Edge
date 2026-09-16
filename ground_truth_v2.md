@@ -1,5 +1,7 @@
 # Ground Truth v2
 
+> Writing update, September 16, 2026: read [the current evidence addendum](audit/writing_evidence_status_2026-09-16.md) before using claims below. The original review is preserved as historical evidence; its physical-stop inference, fixed timing-error descriptions, and some implementation interpretations are qualified by the later review. The original “authoritative” designation below does not override those corrections or Luke's later decisions.
+
 **Authoritative reference. Supersedes `ground_truth.md` (2026-08-11) and all prose documents
 where they conflict.**
 

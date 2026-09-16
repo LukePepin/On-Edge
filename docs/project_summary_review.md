@@ -1,5 +1,7 @@
 # On-Edge Project Summary and Review
 
+> Writing update, September 16, 2026: this is the historical broad review. Use [WRITING_START_HERE.md](WRITING_START_HERE.md) and [the evidence corrections](../audit/writing_evidence_status_2026-09-16.md) for the current timing thesis. Do not import old physical-stop claims, the permission-lease narrative, or proposed future mechanisms as implemented facts. The current study guide and cut list are in the separate Thesis repository.
+
 Status: COMPLETE first edition (2026-09-08). Parts I–V assembled from docs/review_parts/.
 Audience: the author, preparing to defend the work. Purpose: explain the project from first
 principles up to the audited results, so that every claim in the thesis can be explained,
@@ -1653,4 +1655,3 @@ Repository `On-Edge` after the 2026-09-08 cleanup.
 ---
 
 *End of Part V.*
-
