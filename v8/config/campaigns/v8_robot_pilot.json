@@ -4,9 +4,9 @@
   "config_version": 1,
   "title": "V8 robot pilot: monitor decision vs controller report vs telemetry standstill (UR5)",
   "kind": "research",
-  "status": "proposed",
-  "approved_by": null,
-  "approved_on": null,
+  "status": "approved",
+  "approved_by": "Luke Pepin",
+  "approved_on": "2026-09-28",
   "purpose": "With the arm confirmed moving on fresh telemetry before injection, record the device-timed crossing and D12-low command, the controller's reported safeguard stop (host receipt), and the declared telemetry standstill criterion, keeping these events separate. Includes a brief-failure and a no-injection control. A pilot: establishes feasibility and variability, not a stopping-time guarantee.",
   "procedure": "robot",
   "factors": {

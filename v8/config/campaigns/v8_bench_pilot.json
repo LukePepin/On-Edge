@@ -4,9 +4,9 @@
   "config_version": 1,
   "title": "V8 bench pilot: device-timed response of the trust monitor (Pi + Nano, no robot)",
   "kind": "research",
-  "status": "proposed",
-  "approved_by": null,
-  "approved_on": null,
+  "status": "approved",
+  "approved_by": "Luke Pepin",
+  "approved_on": "2026-09-28",
   "purpose": "Validate the V8 instrumentation (complete record capture, event ordering, clock relationship) and measure, on the device clock, how workload, EWMA alpha and injected failure duration shape the time from ATTACK processing to the first update below 30, including which failures end before crossing. Estimates variability to size the October V8 study. Not a physical-stop measurement.",
   "procedure": "bench",
   "factors": {

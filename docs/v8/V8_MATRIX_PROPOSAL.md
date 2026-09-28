@@ -1,10 +1,10 @@
 # V8 pilot matrix — proposal for Luke's decision
 
-Status: **PROPOSED (2026-09-28). Not approved. No V8 data have been collected.**
+Status: **APPROVED as proposed by Luke Pepin, 2026-09-28** (pilot matrices for 9/29–9/30; final V8 matrix still due Oct 7). No V8 data have been collected.
 Configs: [`v8/config/campaigns/v8_bench_pilot.json`](../../v8/config/campaigns/v8_bench_pilot.json),
 [`v8/config/campaigns/v8_robot_pilot.json`](../../v8/config/campaigns/v8_robot_pilot.json).
-Both carry `"status": "proposed"`; the dashboard labels them so until you set `"status": "approved"`,
-`"approved_by"`, `"approved_on"` (and bump `config_version` if you change anything else).
+Both now carry `"status": "approved"`, `"approved_by": "Luke Pepin"`, `"approved_on": "2026-09-28"` at
+`config_version` 1 (levels unchanged). Bump `config_version` if anything is changed later.
 
 Todoist places the final V8 matrix decision on **October 7** ("use September bench/pilot findings to select
 workload/alpha contrasts and failure durations"). These are therefore **pilot** matrices for 9/29–9/30:
@@ -66,7 +66,7 @@ phase 1 approach (5 s) → settle (telemetry standstill criterion) → phase 2 s
 moving is confirmed on fresh telemetry** (≥ 0.05 rad/s for 100 ms) → +800 ms + seeded 0–300 ms → ATTACK →
 failure window → RECOVER → 2 s observation → wait for the trajectory result.
 
-Proposed operational criteria (declared, not standards; recorded with every trial):
+Operational criteria (approved by Luke 2026-09-28; declared, not standards; recorded with every trial):
 standstill = all joints |q̇| < 0.01 rad/s for 250 ms with no telemetry gap > 40 ms; moving = max |q̇| ≥
 0.05 rad/s for 100 ms. Tune after seeing the real joint_states rate and noise at the lab.
 

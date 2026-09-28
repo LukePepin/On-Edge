@@ -177,8 +177,8 @@ what you previewed; if the file changed, preview again.
 
 | Campaign | Use |
 | --- | --- |
-| `v8-bench-pilot` | research, bench, 150 trials (**proposed**) |
-| `v8-robot-pilot` | research, robot, 15 trials (**proposed**) |
+| `v8-bench-pilot` | research, bench, 150 trials (**approved** 2026-09-28) |
+| `v8-robot-pilot` | research, robot, 15 trials (**approved** 2026-09-28) |
 | `v8-demo-bench`, `v8-demo-robot` | demonstration presets, 4 trials, labelled as demonstration |
 | `sim-smoke`, `sim-robot-demo` | software tests with the simulator |
 

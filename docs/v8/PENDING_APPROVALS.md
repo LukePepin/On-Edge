@@ -7,7 +7,7 @@ host-compiled firmware logic, an ARM compile of the firmware). Nothing here has 
 
 | # | Decision | Where |
 | --- | --- | --- |
-| A1 | Approve/modify the V8 bench and robot pilot matrices | **open**, see [V8_MATRIX_PROPOSAL.md](V8_MATRIX_PROPOSAL.md) |
+| A1 | Approve/modify the V8 bench and robot pilot matrices | **approved as proposed by Luke 2026-09-28** (bench 150, robot 15; configs `status: approved`), see [V8_MATRIX_PROPOSAL.md](V8_MATRIX_PROPOSAL.md) |
 | A2 | Firmware build machine | **resolved 2026-09-28**: the lunchbox. `uECC.h` (pre-1.0 API) comes from the Arduino mbed_nano 4.6.0 core (Cordio BLE stack), not from a separate library; ArduinoJson 7.4.3. See [FIRMWARE_V8.md](FIRMWARE_V8.md) |
 | A3 | Program resume policy: operator presses Play | **approved by Luke 2026-09-28** (default `trial.motion.resume_program`) |
 | A4 | Standstill / moving criteria (0.01 rad/s · 250 ms · 40 ms gap; 0.05 rad/s · 100 ms) | **approved by Luke 2026-09-28** |
@@ -46,8 +46,10 @@ if several boards are attached again. Still open:
   packages follow ur_robot_driver for ROS 2 Humble and must be checked with `ros2 topic list`.
 * Actual `/joint_states` rate, QoS, joint name order (the historical CSVs indicate the driver's order starts
   with shoulder_lift), and whether telemetry continues during a safeguard stop.
-* UR controller model and dashboard-server command set (CB3 vs e-series); controller IP at URI
-  (historical 192.168.0.149); lunchbox↔Pi SSH at URI.
+* UR controller model and dashboard-server command set (CB3 vs e-series) and controller IP at URI
+  (historical 192.168.0.149): Luke to check at URI on 9/29. Lunchbox↔Pi SSH at URI.
+* Driver launch: plain `ros2 launch ur_robot_driver ur_control.launch.py` (Luke, 2026-09-28); `ur_type`,
+  `robot_ip` and any other arguments still to be confirmed.
 
 Firmware on the Nano:
 * Compiles for `arduino:mbed_nano:nano33ble` with the core-bundled uECC (102,264 B flash, 44,952 B RAM,
