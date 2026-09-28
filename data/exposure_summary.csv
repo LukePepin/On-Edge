@@ -1,0 +1,7 @@
+path,cycle_ms,alpha,pred_cycles,det_mean,det_n,detection_2p_ms,onset_mean,evict_mean,evict_min,evict_max,evict_n,measured_total,worstcase_total,budget_ms,eviction_source,detection_source
+ECC,123,0.5,2,108.33,5,200.0,142.99,374.28,290.95,504.92,20,482.62,574.28,500.0,data/v5_spoofing_archive (ground_truth §3),data/v7_logs/e2e_composition_results.csv probe=100 (claim 3.8)
+ECC,123,0.3,4,108.33,5,200.0,142.99,620.18,531.57,764.49,20,728.51,820.18,500.0,data/v5_spoofing_archive (ground_truth §3),data/v7_logs/e2e_composition_results.csv probe=100 (claim 3.8)
+ECC,123,0.1,12,108.33,5,200.0,142.99,1578.8,1500.4,1735.82,20,1687.13,1778.8,500.0,data/v5_spoofing_archive (ground_truth §3),data/v7_logs/e2e_composition_results.csv probe=100 (claim 3.8)
+ZKP,247,0.5,2,108.19,5,200.0,300.62,658.8,515.44,742.13,5,766.99,858.8,500.0,data/v7_logs/combined_v7_campaign.csv outage=5000 (claim 3.6),data/v7_logs/e2e_composition_results.csv probe=100 (claim 3.8)
+ZKP,247,0.3,4,108.19,5,200.0,300.62,1122.43,990.8,1250.1,5,1230.62,1322.43,500.0,data/v7_logs/combined_v7_campaign.csv outage=5000 (claim 3.6),data/v7_logs/e2e_composition_results.csv probe=100 (claim 3.8)
+ZKP,247,0.1,12,108.19,5,200.0,300.62,3030.14,2950.51,3233.92,5,3138.33,3230.14,500.0,data/v7_logs/combined_v7_campaign.csv outage=5000 (claim 3.6),data/v7_logs/e2e_composition_results.csv probe=100 (claim 3.8)
