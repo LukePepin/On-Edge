@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "v8-sim-daemon",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["v8/scripts/daemon.py", "--config", "v8/config/daemon/sim_local.json"],
+      "port": 8765
+    },
+    {
+      "name": "v8-dashboard",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["v8/dashboard/server.py", "--pi", "http://127.0.0.1:8765", "--port", "8080"],
+      "port": 8080
+    }
+  ]
+}

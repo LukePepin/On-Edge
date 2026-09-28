@@ -1,0 +1,13 @@
+{
+  "schema": "onedge.v8.daemon/1",
+  "mode": "hardware",
+  "note": "Raspberry Pi + Nano bench: real serial monitor, no robot interface (joint telemetry reported as unavailable).",
+  "data_root": "data/v8",
+  "campaign_dir": "v8/config/campaigns",
+  "api": {"bind": "127.0.0.1", "port": 8765, "serve_dashboard": true},
+  "serial": {"port": "auto", "baud": 115200, "by_id_pattern": "*Arduino*Nano_33_BLE*"},
+  "robot": {"interface": "none"},
+  "telemetry": {"device_stale_ms": 1000, "joint_stale_ms": 100},
+  "realtime": {"try_sched_fifo": false, "priority": 50},
+  "operator": {"heartbeat_timeout_s": 10}
+}

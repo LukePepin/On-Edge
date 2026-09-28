@@ -1,0 +1,23 @@
+{
+  "schema": "onedge.v8.daemon/1",
+  "mode": "hardware",
+  "note": "Raspberry Pi + Nano + UR5 via ROS 2 (source /opt/ros/humble/setup.bash and the UR driver workspace first). VERIFY ur_host, topics and controller names at the lab before use.",
+  "data_root": "data/v8",
+  "campaign_dir": "v8/config/campaigns",
+  "api": {"bind": "127.0.0.1", "port": 8765, "serve_dashboard": true},
+  "serial": {"port": "auto", "baud": 115200, "by_id_pattern": "*Arduino*Nano_33_BLE*"},
+  "robot": {
+    "interface": "ros",
+    "ur_host": "192.168.0.149",
+    "dashboard_port": 29999,
+    "joint_topic": "/joint_states",
+    "joint_qos": "reliable",
+    "safety_mode_topic": "/io_and_status_controller/safety_mode",
+    "program_running_topic": "/io_and_status_controller/robot_program_running",
+    "trajectory_action": "/passthrough_trajectory_controller/follow_joint_trajectory",
+    "trajectory_controller": "passthrough_trajectory_controller"
+  },
+  "telemetry": {"device_stale_ms": 1000, "joint_stale_ms": 100},
+  "realtime": {"try_sched_fifo": false, "priority": 50},
+  "operator": {"heartbeat_timeout_s": 10}
+}

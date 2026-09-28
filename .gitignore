@@ -45,3 +45,6 @@ archive/
 camera/
 
 data/combined_v5_spoofing.*
+
+# V8 software-simulation data (never mixed with hardware data)
+data/v8_sim/

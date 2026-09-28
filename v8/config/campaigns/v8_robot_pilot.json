@@ -1,0 +1,85 @@
+{
+  "schema": "onedge.v8.campaign/1",
+  "campaign_id": "v8-robot-pilot",
+  "config_version": 1,
+  "title": "V8 robot pilot: monitor decision vs controller report vs telemetry standstill (UR5)",
+  "kind": "research",
+  "status": "proposed",
+  "approved_by": null,
+  "approved_on": null,
+  "purpose": "With the arm confirmed moving on fresh telemetry before injection, record the device-timed crossing and D12-low command, the controller's reported safeguard stop (host receipt), and the declared telemetry standstill criterion, keeping these events separate. Includes a brief-failure and a no-injection control. A pilot: establishes feasibility and variability, not a stopping-time guarantee.",
+  "procedure": "robot",
+  "factors": {
+    "workload": [
+      {"level": "ECC", "purpose": "ECC key generation workload"},
+      {"level": "ZKP", "purpose": "two scalar multiplications (ZKP-cost proxy)"}
+    ],
+    "alpha": [
+      {"level": 0.1, "purpose": "slow response (12 updates)"},
+      {"level": 0.3, "purpose": "intermediate (4 updates)"},
+      {"level": 0.5, "purpose": "fast response (2 updates)"}
+    ],
+    "failure_ms": [
+      {"level": 0, "purpose": "no-injection control"},
+      {"level": 250, "purpose": "brief failure"},
+      {"level": 3000, "purpose": "sustained failure"}
+    ]
+  },
+  "design": {
+    "type": "explicit",
+    "conditions": [
+      {"workload": "ECC", "alpha": 0.5, "failure_ms": 3000, "purpose": "sustained failure, fastest configured decision: stop characterization while moving"},
+      {"workload": "ZKP", "alpha": 0.5, "failure_ms": 3000, "purpose": "workload contrast at the same alpha: later decision, robot faster/further along the sweep"},
+      {"workload": "ECC", "alpha": 0.1, "failure_ms": 3000, "purpose": "alpha contrast: slow decision (about 1.4 s) during motion"},
+      {"workload": "ZKP", "alpha": 0.3, "failure_ms": 250, "purpose": "brief-failure control: expected to end before crossing; the sweep should complete without a safeguard stop"},
+      {"workload": "ECC", "alpha": 0.3, "failure_ms": 0, "purpose": "no-injection control: no stop expected; checks telemetry continuity through a full sweep"}
+    ]
+  },
+  "repetitions": 3,
+  "ordering": {"method": "randomized_complete_blocks", "seed": 20260930},
+  "trial": {
+    "baseline_ms": 1000,
+    "injection_jitter_ms": 300,
+    "post_recover_ms": 2000,
+    "attack_resend_interval_ms": 0,
+    "config_ack_timeout_ms": 1500,
+    "config_attempts": 3,
+    "attack_ack_timeout_ms": 1000,
+    "recover_ack_timeout_ms": 1000,
+    "inter_trial_ms": 1000,
+    "motion": {
+      "program": "pick_place_v1",
+      "approach_s": 5.0,
+      "settle_timeout_ms": 6000,
+      "inject_after_moving_ms": 800,
+      "moving_timeout_ms": 4000,
+      "require_moving": true,
+      "trajectory_timeout_s": 20.0,
+      "resume_program": "operator_pendant",
+      "program_wait_s": 90.0,
+      "time_scale": 1.0
+    }
+  },
+  "telemetry": {
+    "device_stale_ms": 1000,
+    "joint_stale_ms": 100,
+    "standstill": {"v_still_rad_s": 0.01, "hold_ms": 250, "max_gap_ms": 40},
+    "moving": {"v_move_rad_s": 0.05, "hold_ms": 100}
+  },
+  "progression": {"mode": "operator_confirm_each_trial", "pause_on_operator_disconnect": true},
+  "controls": [
+    "no-injection sweep (ECC alpha 0.3, 0 ms)",
+    "brief-failure sweep expected to complete (ZKP alpha 0.3, 250 ms)",
+    "motion confirmed on fresh telemetry before any injection; otherwise no injection and the attempt is recorded as failed_precondition"
+  ],
+  "confounds": [
+    "Arm speed and pose at the decision instant differ between conditions (a later decision happens further along the sweep), which affects deceleration and stopping behaviour.",
+    "The controller safeguard-stop report is a host receipt time through the UR driver; it is not the electrical input time.",
+    "Standstill is the declared telemetry criterion (all joints below 0.01 rad/s for 250 ms, no gap over 40 ms); a different criterion gives a different time.",
+    "The electrical D12 transition is not measured unless an oscilloscope or wired input is added and aligned.",
+    "One D12 signal feeds both safeguard inputs in parallel: not a validated redundant safety design; lab safety review required.",
+    "Controller safety configuration (stopping limits, reset behaviour) is not controlled by this experiment.",
+    "Command phase and host scheduling as in the bench pilot."
+  ],
+  "notes": "Proposed 2026-09-28. Requires Luke's agreement and lab safety approval before any robot motion. 15 trials; each includes an operator-confirmed reset and Play on the pendant."
+}

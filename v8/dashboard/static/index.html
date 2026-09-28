@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>On-Edge V8 Console</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">On-Edge V8 <span class="sub">trust-monitor timing experiment</span></div>
+  <div id="modeBadge" class="badge off">STARTING</div>
+  <div class="indicators" id="indicators"></div>
+  <div class="safety">Software abort is <b>not</b> an emergency stop. Use the teach-pendant E-stop.</div>
+</header>
+<nav class="tabs">
+  <button data-view="live" class="active">Live</button>
+  <button data-view="replay">Replay &amp; compare</button>
+  <button data-view="campaigns">Campaigns</button>
+  <span class="spacer"></span>
+  <label class="op">Operator <input id="operator" size="14" placeholder="your name"></label>
+</nav>
+<div id="modeDetail" class="mode-detail"></div>
+
+<main>
+<!-- ============================ LIVE ============================ -->
+<section id="view-live" class="view">
+  <div class="col left">
+    <div class="card" id="campaignCard"></div>
+    <div class="card" id="controlsCard"></div>
+    <div class="card" id="manualCard">
+      <h3>Manual monitor commands</h3>
+      <p class="hint">Recorded and flagged as departures from the selected procedure. During an attempt they
+        must be confirmed explicitly.</p>
+      <div class="row"><button data-manual="ATTACK" class="warn">Send ATTACK</button>
+        <button data-manual="RECOVER">Send RECOVER</button></div>
+      <div class="row"><select id="manWl"><option>ECC</option><option>ZKP</option></select>
+        <label>α <input id="manAlpha" size="4" value="0.3"></label>
+        <button data-manual="CONFIG">Send configuration</button></div>
+      <div class="hint" id="manualNote"></div>
+    </div>
+    <div class="card" id="robotCard"></div>
+    <div class="card"><h3>Operator note</h3>
+      <div class="row"><input id="noteText" placeholder="recorded with a timestamp" class="grow">
+        <button id="noteBtn">Add</button></div></div>
+  </div>
+
+  <div class="col center">
+    <div class="card plots">
+      <div class="plot-head"><h3>Trust score</h3>
+        <span class="hint" id="liveAxisNote"></span>
+        <select id="liveWindow"><option value="20">20 s</option><option value="45" selected>45 s</option><option value="120">120 s</option></select></div>
+      <canvas id="pTrust" class="plot tall"></canvas>
+      <div class="legend" id="legTrust"></div>
+      <h3>Workload execution time and device loop period</h3>
+      <canvas id="pExec" class="plot"></canvas>
+      <h3>Joint speed, max |q̇| (fresh samples only)</h3>
+      <canvas id="pJoint" class="plot"></canvas>
+      <h3>Event timeline (current attempt)</h3>
+      <canvas id="tLive" class="timeline"></canvas>
+    </div>
+  </div>
+
+  <div class="col right">
+    <div class="card"><h3>What is happening</h3><div id="narration" class="narration"></div></div>
+    <div class="card"><h3>Current attempt <span class="hint">live estimate; final values are in the attempt summary</span></h3>
+      <div id="liveMeasures"></div></div>
+    <div class="card"><h3>Acquisition quality</h3><div id="quality"></div></div>
+    <div class="card"><h3>Event log</h3><div id="log" class="log"></div></div>
+  </div>
+</section>
+
+<!-- ============================ REPLAY ============================ -->
+<section id="view-replay" class="view" hidden>
+  <div class="col left">
+    <div class="card">
+      <h3>Recorded data</h3>
+      <div class="row"><select id="rpRoot"></select><button id="rpRefresh">Refresh</button></div>
+      <div class="row"><button id="rpSync">Copy closed sessions from the Pi</button></div>
+      <div class="hint" id="rpSyncNote"></div>
+      <div id="rpSessions" class="list"></div>
+    </div>
+  </div>
+  <div class="col center wide">
+    <div class="card">
+      <div id="rpSessionHead"></div>
+      <div class="row"><label><input type="checkbox" id="rpShowExcluded" checked> show excluded</label>
+        <span class="hint" id="rpCounts"></span>
+        <span class="spacer"></span><button id="rpCompareBtn">Compare selected</button></div>
+      <div id="rpAttempts" class="table-wrap"></div>
+    </div>
+    <div class="card plots" id="rpPlots">
+      <div class="plot-head"><h3 id="rpTitle">Select an attempt</h3>
+        <span class="spacer"></span>
+        <button id="rpPlay">▶ Play</button>
+        <select id="rpSpeed"><option value="1">1×</option><option value="2">2×</option><option value="5">5×</option></select>
+        <input type="range" id="rpScrub" min="0" max="1000" value="1000" class="grow"></div>
+      <canvas id="rTrust" class="plot tall"></canvas>
+      <h3>Workload execution time and device loop period</h3>
+      <canvas id="rExec" class="plot"></canvas>
+      <h3>Joint speed, max |q̇| (display envelope; recorded data are full rate)</h3>
+      <canvas id="rJoint" class="plot"></canvas>
+      <h3>Event timeline</h3>
+      <canvas id="tReplay" class="timeline"></canvas>
+    </div>
+    <div class="card" id="rpCompare" hidden>
+      <h3>Comparison (trust vs device time since ATTACK was processed)</h3>
+      <canvas id="cTrust" class="plot tall"></canvas>
+      <div id="cTable" class="table-wrap"></div>
+    </div>
+  </div>
+  <div class="col right">
+    <div class="card"><h3>Attempt summary <span class="hint">derived from the recorded files</span></h3>
+      <div id="rpSummary"></div></div>
+    <div class="card"><h3>Manual exclusion</h3>
+      <p class="hint">Stored separately from raw data, reversible, and always with a reason. Acquisition-quality
+        warnings are shown in the summary and never exclude anything automatically.</p>
+      <div id="rpExclusion"></div></div>
+  </div>
+</section>
+
+<!-- ============================ CAMPAIGNS ============================ -->
+<section id="view-campaigns" class="view" hidden>
+  <div class="col left">
+    <div class="card"><h3>Campaign configurations on the acquisition host</h3>
+      <div class="row"><button id="cgRefresh">Refresh</button></div>
+      <div id="cgList" class="list"></div></div>
+  </div>
+  <div class="col center wide">
+    <div class="card" id="cgPreview"><p class="hint">Select a campaign to see its full matrix and trial order.</p></div>
+  </div>
+</section>
+</main>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-box">
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"></div>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "schema": "onedge.v8.campaign/1",
+  "campaign_id": "v8-demo-robot",
+  "config_version": 1,
+  "title": "V8 demonstration (UR5): normal, brief failure, sustained failure, slow response",
+  "kind": "demonstration",
+  "status": "proposed",
+  "approved_by": null,
+  "approved_on": null,
+  "purpose": "Short labeled demonstration of the implemented signal path using the same acquisition pipeline. NOT a complete experimental campaign; results are illustrative and recorded as demonstration data.",
+  "procedure": "robot",
+  "factors": {
+    "workload": [{"level": "ECC", "purpose": "ECC key generation"}, {"level": "ZKP", "purpose": "two scalar multiplications"}],
+    "alpha": [{"level": 0.1, "purpose": "slow"}, {"level": 0.3, "purpose": "intermediate"}, {"level": 0.5, "purpose": "fast"}],
+    "failure_ms": [{"level": 0, "purpose": "none"}, {"level": 250, "purpose": "brief"}, {"level": 3000, "purpose": "sustained"}]
+  },
+  "design": {
+    "type": "explicit",
+    "conditions": [
+      {"workload": "ECC", "alpha": 0.3, "failure_ms": 0, "purpose": "normal operation: trust stays at 100, the sweep completes"},
+      {"workload": "ECC", "alpha": 0.3, "failure_ms": 250, "purpose": "brief failure: trust dips and recovers without crossing; no stop"},
+      {"workload": "ECC", "alpha": 0.5, "failure_ms": 3000, "purpose": "sustained failure: crossing, D12 low command, safeguard stop"},
+      {"workload": "ZKP", "alpha": 0.1, "failure_ms": 3000, "purpose": "slow configuration: many updates of the heavier workload before crossing"}
+    ]
+  },
+  "repetitions": 1,
+  "ordering": {"method": "explicit_sequence",
+               "sequence": ["ECC-a0.30-f0", "ECC-a0.30-f250", "ECC-a0.50-f3000", "ZKP-a0.10-f3000"]},
+  "trial": {
+    "baseline_ms": 1000, "injection_jitter_ms": 0, "post_recover_ms": 2000, "attack_resend_interval_ms": 0,
+    "config_ack_timeout_ms": 1500, "config_attempts": 3, "attack_ack_timeout_ms": 1000, "recover_ack_timeout_ms": 1000,
+    "inter_trial_ms": 1000,
+    "motion": {"program": "pick_place_v1", "approach_s": 5.0, "settle_timeout_ms": 6000, "inject_after_moving_ms": 800,
+               "moving_timeout_ms": 4000, "require_moving": true, "trajectory_timeout_s": 20.0,
+               "resume_program": "operator_pendant", "program_wait_s": 120.0, "time_scale": 1.0}
+  },
+  "telemetry": {"device_stale_ms": 1000, "joint_stale_ms": 100,
+                "standstill": {"v_still_rad_s": 0.01, "hold_ms": 250, "max_gap_ms": 40},
+                "moving": {"v_move_rad_s": 0.05, "hold_ms": 100}},
+  "progression": {"mode": "operator_confirm_each_trial", "pause_on_operator_disconnect": true},
+  "notes": "Demonstration preset. Requires the same approvals as any robot motion."
+}

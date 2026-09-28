@@ -1,0 +1,15 @@
+{
+  "schema": "onedge.v8.daemon/1",
+  "mode": "simulated",
+  "note": "SOFTWARE SIMULATION of the monitor, serial link and robot. Data go to data/v8_sim and are labeled simulated.",
+  "data_root": "data/v8_sim",
+  "campaign_dir": "v8/config/campaigns",
+  "api": {"bind": "127.0.0.1", "port": 8765, "serve_dashboard": true},
+  "sim": {
+    "monitor": {"protocol": "v8", "ecc_ms": 111.54, "zkp_mult_ms": 112.43, "jitter_ms": 0.3,
+                "loop_delay_ms": 10.0, "report_cost_ms": 0.15, "drift_ppm": 25.0, "faults": {"seed": 1}}
+  },
+  "robot": {"interface": "sim", "rate_hz": 125.0, "controller_delay_ms": 12.0, "decel_ms": 320.0},
+  "telemetry": {"device_stale_ms": 1000, "joint_stale_ms": 100},
+  "operator": {"heartbeat_timeout_s": 10}
+}

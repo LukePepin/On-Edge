@@ -1,0 +1,34 @@
+{
+  "schema": "onedge.v8.campaign/1",
+  "campaign_id": "v8-demo-bench",
+  "config_version": 1,
+  "title": "V8 demonstration (bench, no robot): normal, brief failure, sustained failure, slow response",
+  "kind": "demonstration",
+  "status": "proposed",
+  "approved_by": null,
+  "approved_on": null,
+  "purpose": "Fallback demonstration with the Pi and Nano only. Shows trust response and the D12 command reports. NOT a complete experimental campaign and not evidence of robot stopping.",
+  "procedure": "bench",
+  "factors": {
+    "workload": [{"level": "ECC", "purpose": "ECC key generation"}, {"level": "ZKP", "purpose": "two scalar multiplications"}],
+    "alpha": [{"level": 0.1, "purpose": "slow"}, {"level": 0.3, "purpose": "intermediate"}, {"level": 0.5, "purpose": "fast"}],
+    "failure_ms": [{"level": 0, "purpose": "none"}, {"level": 250, "purpose": "brief"}, {"level": 3000, "purpose": "sustained"}]
+  },
+  "design": {
+    "type": "explicit",
+    "conditions": [
+      {"workload": "ECC", "alpha": 0.3, "failure_ms": 0, "purpose": "normal operation: trust stays at 100"},
+      {"workload": "ECC", "alpha": 0.3, "failure_ms": 250, "purpose": "brief failure: dip and recovery without crossing"},
+      {"workload": "ECC", "alpha": 0.5, "failure_ms": 3000, "purpose": "sustained failure: crossing and D12-low command report"},
+      {"workload": "ZKP", "alpha": 0.1, "failure_ms": 3000, "purpose": "slow configuration: many updates of the heavier workload"}
+    ]
+  },
+  "repetitions": 1,
+  "ordering": {"method": "explicit_sequence",
+               "sequence": ["ECC-a0.30-f0", "ECC-a0.30-f250", "ECC-a0.50-f3000", "ZKP-a0.10-f3000"]},
+  "trial": {"baseline_ms": 3000, "injection_jitter_ms": 0, "post_recover_ms": 4000, "attack_resend_interval_ms": 0,
+            "config_ack_timeout_ms": 1500, "config_attempts": 3, "attack_ack_timeout_ms": 1000,
+            "recover_ack_timeout_ms": 1000, "inter_trial_ms": 3000},
+  "progression": {"mode": "automatic", "pause_on_operator_disconnect": true},
+  "notes": "Demonstration preset. Pause between trials from the dashboard to narrate."
+}

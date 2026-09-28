@@ -1,0 +1,20 @@
+{
+  "schema": "onedge.v8.campaign/1",
+  "campaign_id": "sim-smoke",
+  "config_version": 1,
+  "title": "Software smoke test (simulated monitor): full pipeline check",
+  "kind": "software_test",
+  "status": "proposed",
+  "purpose": "Exercise configuration, ordering, execution, recording, summaries and replay through the simulated transport. Produces software-simulation data only.",
+  "procedure": "bench",
+  "factors": {
+    "workload": [{"level": "ECC", "purpose": "workload A"}, {"level": "ZKP", "purpose": "workload B"}],
+    "alpha": [{"level": 0.3, "purpose": "intermediate"}, {"level": 0.5, "purpose": "fast"}],
+    "failure_ms": [{"level": 0, "purpose": "control"}, {"level": 250, "purpose": "brief"}, {"level": 1000, "purpose": "sustained"}]
+  },
+  "design": {"type": "full_factorial"},
+  "repetitions": 1,
+  "ordering": {"method": "randomized_complete_blocks", "seed": 42},
+  "trial": {"baseline_ms": 1000, "injection_jitter_ms": 250, "post_recover_ms": 1500, "inter_trial_ms": 500},
+  "progression": {"mode": "automatic", "pause_on_operator_disconnect": true}
+}
