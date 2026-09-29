@@ -1,0 +1,2 @@
+# Recorded experiment data: never convert line endings (session manifests store SHA-256 of the exact bytes)
+data/v8/** -text
