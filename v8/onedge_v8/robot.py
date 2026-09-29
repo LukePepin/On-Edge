@@ -46,6 +46,9 @@ class NullRobot:
     def cancel_trajectory(self):
         pass
 
+    def trajectory_active(self) -> bool:
+        return False
+
     def dashboard(self, command: str) -> dict:
         return {"ok": False, "response": "no robot interface configured"}
 
@@ -221,6 +224,12 @@ class RosRobot:
         if gh is not None:
             gh.cancel_goal_async()
             self._on_event({"event": "trajectory", "status": "cancel_requested"})
+
+    def trajectory_active(self) -> bool:
+        """True while a goal sent by this process has no result. A goal left by an earlier daemon
+        run is not visible here: stop the External Control program at the pendant after a fault."""
+        with self._lock:
+            return self._goal is not None
 
     def dashboard(self, command: str) -> dict:
         if self.dash is None:

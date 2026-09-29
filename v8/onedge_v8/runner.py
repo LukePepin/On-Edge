@@ -300,8 +300,7 @@ class CampaignRunner:
                 raise RunnerError("no decision pending")
             if decision not in self.hold["allowed"]:
                 raise RunnerError(f"decision must be one of {self.hold['allowed']}")
-            if not reason or len(reason.strip()) < 4:
-                raise RunnerError("a reason is required")
+            reason = _reason(reason)
             trial = self._next_trial()
             self._session_event("operator_decision", decision=decision, reason=reason, operator=operator,
                                 trial_id=trial["trial_id"], attempt_id=self.hold.get("attempt_id"))
@@ -323,8 +322,7 @@ class CampaignRunner:
     def manual_command(self, cmd: str, reason: str, operator: str, confirm_departure: bool = False,
                        workload: str | None = None, alpha: float | None = None) -> dict:
         """Operator ATTACK / RECOVER / CONFIG. Always recorded; flagged as a procedure departure."""
-        if not reason or len(reason.strip()) < 4:
-            raise RunnerError("a reason is required for manual commands")
+        reason = _reason(reason)
         with self._lock:
             active = self.current is not None
             if active and not confirm_departure:
@@ -359,8 +357,7 @@ class CampaignRunner:
             with self._lock:
                 if self.current is not None:
                     raise RunnerError("state-changing robot commands are not allowed during an attempt")
-            if not reason or len(reason.strip()) < 4:
-                raise RunnerError("a reason is required for state-changing robot commands")
+            reason = _reason(reason)
         elif cmd not in READ_ONLY_DASHBOARD:
             raise RunnerError("command not allowed")
         res = self.robot.dashboard(cmd)
@@ -748,6 +745,14 @@ class CampaignRunner:
         name = self.rm.safety_name()
         if name in FAULT_SAFETY:
             raise TrialAbort("fault_robot", f"robot safety mode {name}: resolve at the teach pendant")
+        if self.robot.trajectory_active():
+            # never raise D12 while a goal is active: the real UR5 resumes a paused goal when the loop closes
+            self._host_event("stale_trajectory_cancel",
+                             note="a trajectory goal from an earlier attempt is still active; cancelling before re-arming")
+            self.robot.cancel_trajectory()
+            if not self._wait(ctx, 5.0, allow_safeguard=True, until=lambda: not self.robot.trajectory_active()):
+                raise TrialAbort("fault_robot", "an earlier trajectory goal is still active: stop the External Control "
+                                                "program at the teach pendant (Stop, not Pause) before retrying")
         self._phase(ctx, "configure")
         self._configure(ctx, allow_safeguard=True)   # raises D12 -> safeguard loop closes
         if self.rm.caps.get("safety_mode"):
@@ -818,12 +823,41 @@ class CampaignRunner:
             self._inject(ctx)
         self._phase(ctx, "observe", ms=t["post_recover_ms"])
         self._wait(ctx, t["post_recover_ms"] / 1000.0, allow_safeguard=self._out_low_seen(ctx))
+        if self._out_low_seen(ctx):
+            self._end_stopped_sweep(ctx, n_ev, crit, m)
+            return
         self._phase(ctx, "await_trajectory_end")
         res = self._await_traj(ctx, 2, n_ev, ("succeeded", "aborted", "canceled", "rejected", "finished"),
                                float(m["trajectory_timeout_s"]), allow_safeguard=True)
         if res.get("status") in ("aborted", "canceled") and not self._out_low_seen(ctx):
             raise TrialAbort("fault_robot", f"sweep trajectory {res.get('status')} without the monitor commanding D12 low")
         self._phase(ctx, "complete", trajectory=res.get("status"))
+
+    def _end_stopped_sweep(self, ctx, n_ev: int, crit, m):
+        """The monitor commanded D12 low. The real UR5 pauses the sweep goal in the safeguard stop (no
+        result) and resumes it when the loop closes (URI, 2026-09-29), so waiting for the result only
+        times out. Record the held stop, then cancel the goal while D12 is still low."""
+        t_low = ctx["out_low"]["rx_mono_ns"]
+        ended = lambda: self._traj_event(n_ev, 2, ("succeeded", "aborted", "canceled", "finished"))
+        self._phase(ctx, "await_standstill")
+        self._wait(ctx, float(m["trajectory_timeout_s"]), allow_safeguard=True,
+                   until=lambda: ended() or find_standstill(self.rm.recent(t_low), t_low, crit).status == "reached")
+        self._wait(ctx, 1.0, allow_safeguard=True)           # keep recording the held stop briefly
+        res = ended()
+        if res is None:
+            self._phase(ctx, "cancel_trajectory")
+            self.robot.cancel_trajectory()
+            res = self._wait(ctx, 5.0, allow_safeguard=True, until=ended)
+            if not res:
+                raise TrialAbort("fault_robot", "sweep goal still active after cancel: stop the External Control "
+                                                "program at the teach pendant (Stop, not Pause) before continuing")
+        self._phase(ctx, "complete", trajectory=res.get("status"), stop="commanded by the monitor")
+
+    def _traj_event(self, n_ev: int, phase: int, statuses):
+        for e in list(self.rm.events)[n_ev:]:
+            if e.get("event") == "trajectory" and e.get("phase") in (phase, None) and e.get("status") in statuses:
+                return e
+        return None
 
     def _await_traj(self, ctx, phase: int, n_ev: int, statuses, timeout_s: float, allow_safeguard: bool = False) -> dict:
         wanted = (statuses,) if isinstance(statuses, str) else tuple(statuses)
@@ -842,6 +876,11 @@ class CampaignRunner:
         if r is None:
             raise TrialAbort("fault_robot", f"timeout waiting for phase-{phase} trajectory {wanted}")
         return r
+
+
+def _reason(reason) -> str:
+    """Operator reasons are optional (Luke, 2026-09-29); an empty one is recorded explicitly."""
+    return reason.strip() if isinstance(reason, str) and reason.strip() else "(no reason given)"
 
 
 def _clock_doc() -> dict:

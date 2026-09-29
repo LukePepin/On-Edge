@@ -188,6 +188,12 @@ on`, and `cyclonedds_pi4.xml` exists in the repo. Start the driver exactly as th
 in the session notes. The daemon must use the **same** ROS environment variables (domain, localhost-only,
 RMW).
 
+**Safeguard stop pauses, it does not end, the sweep (URI, 2026-09-29).** On this UR5 the passthrough goal
+stays active in a safeguard stop and **resumes when the loop closes again**. Since `onedge_v8` 0.1.3 the runner
+cancels the goal while D12 is still low and refuses to re-arm while any goal it sent is active. A goal left by
+an earlier daemon run is not visible to it: after a robot fault or a daemon restart, **Stop** (not Pause) the
+External Control program on the pendant, then press Play, before the next trial.
+
 ### 6.3 Daemon (Pi terminal 2, tmux)
 ```bash
 source /opt/ros/humble/setup.bash        # plus the driver workspace setup if messages come from there

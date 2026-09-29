@@ -404,6 +404,7 @@ class SimRobot:
         self.safety = 1
         self.program_running = True
         self._traj = None
+        self._held = None          # trajectory paused by a safeguard stop (resumes like the real UR5)
         self._stop_until = None
         self._decel_from = None
         self._running = False
@@ -442,12 +443,17 @@ class SimRobot:
 
     def cancel_trajectory(self):
         with self._lock:
-            tr = self._traj
-            self._traj = None
-            if tr:
+            tr = self._traj or (self._held["tr"] if self._held else None)
+            moving = self._traj is not None
+            self._traj = self._held = None
+            if moving:
                 self._decel_from = (time.monotonic(), list(self.qd))
         if tr:
             self._event({"event": "trajectory", "phase": tr["phase"], "status": "canceled"})
+
+    def trajectory_active(self) -> bool:
+        with self._lock:
+            return self._traj is not None or self._held is not None
 
     def dashboard(self, command: str) -> dict:
         c = command.strip()
@@ -547,6 +553,11 @@ class SimRobot:
                 if k == 0.0:
                     self._decel_from = None
                     self.qd = [0.0] * 6
+            elif self._held is not None and self.safety == 1 and self.program_running:
+                # Real UR5 (URI, 2026-09-29): the paused passthrough goal resumed when the loop closed
+                tr = self._held["tr"]
+                tr["t0"] += now - self._held["t_pause"]
+                self._traj, self._held = tr, None
             elif self._traj is not None:
                 self._follow(now)
             else:
@@ -562,7 +573,10 @@ class SimRobot:
         tr = self._traj
         self._traj = None
         self._decel_from = (now, list(self.qd))
-        if tr:
+        if tr and mode == 5:
+            # Real UR5: a safeguard stop pauses the goal; it stays active (no result) until cancelled
+            self._held = {"tr": tr, "t_pause": now}
+        elif tr:
             threading.Thread(target=self._event, args=({"event": "trajectory", "phase": tr["phase"],
                                                          "status": "aborted",
                                                          "reason": f"simulated {SAFETY_MODES[mode]}"},),

@@ -256,6 +256,23 @@ class RobotProcedureTests(Base):
         self.assertIn("aligned_out_low_to_standstill", summ["key_intervals"])
         control = by["ECC-a0.50-f0"]
         self.assertEqual(control["status"], "completed")
+        # a safeguard stop pauses the sweep goal (as on the real UR5); the runner must cancel it while D12
+        # is low, so it cannot resume when the next configuration closes the loop (URI, 2026-09-29)
+        self.assertEqual(crossing["status"], "completed")
+        evs = [json.loads(l) for l in open(os.path.join(s.session_dir(sid), "attempts", crossing["attempt_id"],
+                                                       "host_events.jsonl"), encoding="utf-8")]
+        self.assertTrue(any(e.get("event") == "trajectory" and e.get("status") == "canceled" for e in evs))
+        self.assertFalse(s.runner.robot.trajectory_active())
+
+    def test_decision_reason_is_optional(self):
+        s = self.stack(config=ROBOT, robot="sim",
+                       robot_faults=SimRobotFaults(telemetry_dropout_at_s=0.0, telemetry_dropout_s=60.0))
+        s.start(acks=["robot_motion_authorized"])
+        s.wait_state("AWAITING_CONFIRMATION", 20)
+        s.runner.confirm_next("op")
+        s.wait_state("HOLD", 30)
+        s.runner.decide("skip", "", "op")
+        s.wait_state(("AWAITING_CONFIRMATION", "COMPLETED", "HOLD"), 20)
 
     def test_telemetry_dropout_prevents_injection(self):
         s = self.stack(config=ROBOT, robot="sim",
