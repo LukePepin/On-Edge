@@ -108,7 +108,7 @@ class RosRobot:
         import rclpy
         from rclpy.executors import MultiThreadedExecutor
         from rclpy.node import Node
-        from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
+        from rclpy.qos import DurabilityPolicy, HistoryPolicy, QoSProfile, ReliabilityPolicy
         from sensor_msgs.msg import JointState
 
         self._on_event = on_event
@@ -118,6 +118,10 @@ class RosRobot:
         self._node = node
         rel = ReliabilityPolicy.BEST_EFFORT if self.cfg.get("joint_qos") == "best_effort" else ReliabilityPolicy.RELIABLE
         qos = QoSProfile(depth=200, reliability=rel, history=HistoryPolicy.KEEP_LAST)
+        # io_and_status_controller publishes safety mode and program state latched, on change only
+        # (verified 2026-09-29): subscribe TRANSIENT_LOCAL to receive the current value at startup
+        state_qos = QoSProfile(depth=10, reliability=ReliabilityPolicy.RELIABLE, history=HistoryPolicy.KEEP_LAST,
+                               durability=DurabilityPolicy.TRANSIENT_LOCAL)
 
         def joint_cb(msg):
             rx_mono, rx_wall = time.monotonic_ns(), time.time_ns()
@@ -131,14 +135,15 @@ class RosRobot:
 
             def safety_cb(msg):
                 on_robot_state("safety_mode", int(msg.mode), _safety_name(int(msg.mode)))
-            node.create_subscription(SafetyMode, self.safety_topic, safety_cb, 10)
+            node.create_subscription(SafetyMode, self.safety_topic, safety_cb, state_qos)
             self._caps["safety_mode"] = True
         except ImportError as exc:
             self.import_errors.append(f"safety mode unavailable: {exc}")
         try:
             from std_msgs.msg import Bool
             node.create_subscription(Bool, self.program_topic,
-                                     lambda m: on_robot_state("program_running", int(m.data), str(bool(m.data))), 10)
+                                     lambda m: on_robot_state("program_running", int(m.data), str(bool(m.data))),
+                                     state_qos)
             self._caps["program_state"] = True
         except ImportError as exc:
             self.import_errors.append(f"program state unavailable: {exc}")
