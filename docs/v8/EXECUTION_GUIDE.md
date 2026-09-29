@@ -168,6 +168,20 @@ Section 0 confirmed; robot powered, brakes released per lab procedure; External 
 cell is clear.
 
 ### 6.2 UR driver (Pi terminal 1) — VERIFY against the lab's working setup
+
+Found at URI on 2026-09-29 (read-only checks): the lab switch has DHCP (router 192.168.0.1); the Pi got eth0
+192.168.0.242 and wlan0 (ISECapstone) 192.168.0.245. The UR5 is at 192.168.0.149, **CB3, PolyScope 3.15.8**
+(`get robot model` → UR5), so `ur_type:=ur5`; the Pi has ur_robot_driver 2.13.0 (includes
+`passthrough_trajectory_controller`). **The lab network carries other ROS 2 systems on domain 0** (factory demo
+topics, other robots' `joint_states`), so every ROS terminal (driver and daemon) must use
+`export ROS_LOCALHOST_ONLY=1` (checked: only local topics are then visible; default RMW Fast DDS). The External
+Control URCap Host IP must be the Pi's eth0 address.
+
+```bash
+source /opt/ros/humble/setup.bash
+export ROS_LOCALHOST_ONLY=1
+ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5 robot_ip:=192.168.0.149 launch_rviz:=false
+```
 The historical wrapper used ROS 2 Humble with `ROS_LOCALHOST_ONLY=1` and `sudo ip link set dev lo multicast
 on`, and `cyclonedds_pi4.xml` exists in the repo. Start the driver exactly as the lab normally does (e.g.
 `ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5 robot_ip:=<UR5 IP> ...`) and note the command
@@ -177,7 +191,7 @@ RMW).
 ### 6.3 Daemon (Pi terminal 2, tmux)
 ```bash
 source /opt/ros/humble/setup.bash        # plus the driver workspace setup if messages come from there
-export ROS_LOCALHOST_ONLY=1              # only if the driver uses it (VERIFY)
+export ROS_LOCALHOST_ONLY=1              # required at URI: same as the driver terminal
 cd ~/Documents/On-Edge
 python3 v8/scripts/daemon.py --config v8/config/daemon/pi_robot.json
 ```
