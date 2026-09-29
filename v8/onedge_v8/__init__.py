@@ -6,7 +6,7 @@ ROS (rclpy) and pyserial are imported lazily, only by the modules that need them
 """
 
 SOFTWARE_NAME = "onedge_v8"
-SOFTWARE_VERSION = "0.1.0"
+SOFTWARE_VERSION = "0.1.1"
 
 # Version identifiers written into every dataset. Bump when a file format changes.
 DATASET_SCHEMA = "onedge.v8.dataset/1"

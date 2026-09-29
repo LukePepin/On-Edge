@@ -24,7 +24,7 @@ import os
 import statistics
 import sys
 
-from . import ANALYSIS_DEFINITIONS
+from . import ANALYSIS_DEFINITIONS, SOFTWARE_NAME, SOFTWARE_VERSION
 from .campaign import attacked_updates_to_cross
 from .clocks import DEVICE_US, HOST_MONO_NS, ClockFit, Stamp, aligned_interval_ms, interval_ms
 from .dataset import joint_samples_from_rows, load_attempt
@@ -165,13 +165,19 @@ def summarize(att: dict) -> dict:
         # informational: over a few seconds a nominal slope differs from the true drift by
         # ~ppm x span (tens of microseconds); cross-clock ranges already carry larger bounds
         notes.append(f"clock fit used the nominal slope ({fit.note})")
+    elif fit is not None and fit.note:
+        notes.append(f"clock fit: {fit.note}")
+    # host ns per device us, only when estimated from this attempt's data
+    rate = fit.slope_ns_per_us / 1000.0 if fit is not None and fit.slope_estimated else None
 
     # ---- intervals -------------------------------------------------------------------
     iv: dict = {}
 
     def dev_iv(name, a, b, definition):
         if a and b:
-            iv[name] = {"clock": DEVICE_US, "value_ms": interval_ms(_dstamp(a), _dstamp(b)), "definition": definition}
+            v = interval_ms(_dstamp(a), _dstamp(b))
+            iv[name] = {"clock": DEVICE_US, "value_ms": v, "definition": definition,
+                        "value_ms_rate_corrected": v * rate if rate is not None else None}
 
     def host_iv(name, a, b, definition):
         if a is not None and b is not None:
@@ -311,6 +317,10 @@ def summarize(att: dict) -> dict:
         "records": {"device_total": len(dev_all), "device_ok_v8": len(dev_ok), "legacy": len(legacy),
                     "not_ok": len(bad), "missing_by_sequence": missing, "complete": complete},
         "clock_fit": fit.to_dict() if fit else None,
+        "device_clock_rate": {"host_ns_per_device_us": fit.slope_ns_per_us if rate is not None else None,
+                              "ppm": fit.ppm if rate is not None else None,
+                              "note": "device_us intervals x (host_ns_per_device_us / 1000) = host-clock duration; "
+                                      "value_ms_rate_corrected applies this per attempt"},
         "motion": motion,
         "outcome": outcome,
         "quality_warnings": warnings,
@@ -336,14 +346,38 @@ def summarize_attempt_dir(attempt_dir: str) -> dict:
     return summarize(load_attempt(attempt_dir))
 
 
+def regenerate_summary(attempt_dir: str) -> str:
+    """Rewrite summary.json with the current analysis; the previous file is kept, renamed."""
+    import json
+    import time
+    path = os.path.join(attempt_dir, "summary.json")
+    summary = summarize_attempt_dir(attempt_dir)
+    summary["generated_by"] = f"{SOFTWARE_NAME} {SOFTWARE_VERSION}"
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            summary["supersedes"] = json.load(f).get("generated_by")
+        os.replace(path, os.path.join(attempt_dir, f"summary.superseded_{time.strftime('%Y%m%dT%H%M%S')}.json"))
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2, default=str)
+    os.replace(tmp, path)
+    return path
+
+
 def main(argv=None):
     import json
-    argv = argv or sys.argv[1:]
+    argv = list(argv or sys.argv[1:])
+    write = "--write" in argv
+    argv = [a for a in argv if a != "--write"]
     if not argv:
-        print("usage: python -m onedge_v8.analysis <attempt_dir> [...]")
+        print("usage: python -m onedge_v8.analysis [--write] <attempt_dir> [...]\n"
+              "  --write  regenerate summary.json in place (previous file kept as summary.superseded_*.json)")
         return 2
     for d in argv:
-        print(json.dumps(summarize_attempt_dir(os.path.abspath(d)), indent=2, default=str))
+        if write:
+            print(regenerate_summary(os.path.abspath(d)))
+        else:
+            print(json.dumps(summarize_attempt_dir(os.path.abspath(d)), indent=2, default=str))
     return 0
 
 

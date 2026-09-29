@@ -41,6 +41,24 @@ class ClockTests(unittest.TestCase):
         self.assertLess(mapped - truth, 0.4e6)
         self.assertGreaterEqual(fit.residual_p50_ms, 0.0)
 
+    def test_fit_accepts_large_rc_oscillator_offset(self):
+        # Nano 33 BLE on 2026-09-28: device clock ~7,200 ppm fast (992.8 host ns per device us)
+        rng = random.Random(4)
+        slope_true = 992.84
+        pairs = [(k * 120_000, int(7e9 + slope_true * k * 120_000 + 0.3e6 + rng.expovariate(1 / 5e6)))
+                 for k in range(90)]                                        # ~10.7 s span
+        fit = C.ClockFit.estimate(pairs)
+        self.assertTrue(fit.slope_estimated)
+        self.assertLess(abs(fit.slope_ns_per_us - slope_true), 0.5)
+        self.assertIn("rate offset", fit.note)
+        self.assertLess(fit.residual_max_ms, 60.0)
+
+    def test_fit_rejects_implausible_slope(self):
+        pairs = [(k * 100_000, int(k * 100_000 * 1100.0)) for k in range(100)]   # +10 %
+        fit = C.ClockFit.estimate(pairs)
+        self.assertFalse(fit.slope_estimated)
+        self.assertEqual(fit.slope_ns_per_us, 1000.0)
+
     def test_fit_without_enough_span_uses_nominal_slope(self):
         fit = C.ClockFit.estimate([(0, 10_000), (100_000, 100_010_000), (200_000, 200_020_000)])
         self.assertFalse(fit.slope_estimated)

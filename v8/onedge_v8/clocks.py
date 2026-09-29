@@ -67,6 +67,10 @@ class ClockFit:
     to host time gives an upper estimate that is late by d_min. ``d_min_bound_ms`` is an
     ASSUMED bound on d_min (not measured by this system); cross-clock results carry the
     range [value - bound, value].
+
+    The slope limit is wide (2 %) because the Nano 33 BLE's micros() was measured running
+    ~7,200 ppm fast against the Pi on 2026-09-28 (suspected: the Mbed core leaves the nRF52840
+    on its internal RC oscillator). Slopes beyond 1,000 ppm are accepted but noted.
     """
 
     slope_ns_per_us: float
@@ -98,7 +102,8 @@ class ClockFit:
 
     @classmethod
     def estimate(cls, pairs: list, epoch: int = 0, min_points: int = 20, min_span_s: float = 5.0,
-                 d_min_bound_ms: float = 2.0, max_abs_ppm: float = 1000.0):
+                 d_min_bound_ms: float = 2.0, max_abs_ppm: float = 20000.0,
+                 note_abs_ppm: float = 1000.0):
         """pairs: iterable of (t_dev_us, host_rx_mono_ns) from ONE device epoch."""
         pts = sorted((int(d), int(h)) for d, h in pairs)
         if len(pts) < 2:
@@ -109,12 +114,22 @@ class ClockFit:
         note = ""
         if len(pts) >= min_points and span_s >= min_span_s:
             third = max(1, len(pts) // 3)
-            a = min(pts[:third], key=lambda p: p[1] - 1000.0 * p[0])
-            b = min(pts[-third:], key=lambda p: p[1] - 1000.0 * p[0])
-            if b[0] > a[0]:
-                cand = (b[1] - a[1]) / (b[0] - a[0])
-                if abs((cand / 1000.0 - 1.0) * 1e6) <= max_abs_ppm:
+
+            def two_window(ref):
+                a = min(pts[:third], key=lambda p: p[1] - ref * p[0])
+                b = min(pts[-third:], key=lambda p: p[1] - ref * p[0])
+                return (b[1] - a[1]) / (b[0] - a[0]) if b[0] > a[0] else None
+
+            cand = two_window(1000.0)
+            if cand is not None:
+                cand = two_window(cand) or cand   # second pass: minima selected along the first estimate
+            if cand is not None:
+                ppm = (cand / 1000.0 - 1.0) * 1e6
+                if abs(ppm) <= max_abs_ppm:
                     slope, estimated = cand, True
+                    if abs(ppm) > note_abs_ppm:
+                        note = (f"large device clock rate offset {ppm:+.0f} ppm (negative: device clock fast; "
+                                f"oscillator likely not crystal-referenced); slope estimated from the data")
                 else:
                     note = f"slope estimate {cand:.3f} ns/us rejected (> {max_abs_ppm} ppm); nominal used"
         else:

@@ -14,13 +14,13 @@ host-compiled firmware logic, an ARM compile of the firmware). Nothing here has 
 | A5 | Whether to add an oscilloscope measurement of D12 on 9/30 and how to align it | **decided by Luke 2026-09-28**: the oscilloscope is used only to validate the setup (D12 levels/edges, optocoupler → SI0/SI1), not during test trials; no scope data enter the dataset, so the electrical D12 edge stays unmeasured in trial data |
 | A6 | Commit/push the new code | **approved by Luke 2026-09-28**; the Pi gets it by `git pull` |
 | A7 | D12 driven HIGH at boot; one D12 line → optocoupler → SI0/SI1 | **accepted by Luke 2026-09-28** (safety review item) |
-| A8 | Device clock runs ≈ 0.72 % fast vs the Pi (found in B2, below): correct in software (session-level rate fit) or start the nRF52840 crystal (HFXO) in firmware | **open** |
+| A8 | Device clock runs ≈ 0.72 % fast vs the Pi (found in B2, below): correct in software or start the nRF52840 crystal (HFXO) in firmware | **decided by Luke 2026-09-28: software**. `onedge_v8` 0.1.1 accepts slopes up to 20,000 ppm (two-pass fit) and adds `value_ms_rate_corrected`; firmware unchanged. Re-analysis of B2: residuals ≈ 0.5 ms p50 / ≤ 2 ms max (were 37 / 74 ms); ATTACK sent → processed +20 to +35 ms. Regenerate 0.1.0 summaries with `python -m onedge_v8.analysis --write` |
 
 ## B. Hardware actions that need your explicit approval each time
 
 | # | Action | Notes |
 | --- | --- | --- |
-| B1 | Flash `firmware/trust_monitor_v8` with the Arduino IDE | **done 2026-09-28** by Luke on the lunchbox from `c2e135e`: build `Sep 28 2026 21:51:04`, mbed_nano 4.6.0, ArduinoJson 7.4.3 (IDE version not yet recorded); hello records correct, D12 HIGH at boot |
+| B1 | Flash `firmware/trust_monitor_v8` with the Arduino IDE | **done 2026-09-28** by Luke on the lunchbox from `c2e135e`: build `Sep 28 2026 21:51:04`, mbed_nano 4.6.0, ArduinoJson 7.4.3, Arduino IDE 2.3.9; hello records correct, D12 HIGH at boot |
 | B2 | Bench smoke run (Pi + Nano): `v8-demo-bench` or a 1-repetition cut of the bench pilot | **done 2026-09-28** (approved by Luke), session `20260929T015656Z_v8-demo-bench_v1` on the Pi, no robot: 4/4 completed, 0 missing / 0 malformed, model check agreed (2 updates ECC α 0.5, 12 ZKP α 0.1), cross→D12-low ≈ 10 µs, D12 held LOW after RECOVER; found the device clock rate issue (A8) |
 | B3 | Bench overhead check: compare device loop period with the historical summaries | same hardware as B2 |
 | B4 | Bench pilot (150 trials) | after A1 |
