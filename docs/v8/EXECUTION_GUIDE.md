@@ -131,6 +131,36 @@ Unplug the others, or set `serial.port` to the monitor's full `/dev/serial/by-id
    Recording ok. Quality panel: firmware identity and build string; protocol `v8`; missing 0; malformed 0.
 4. Campaigns tab → `v8-demo-bench` (demonstration) or the approved bench pilot → Start.
 
+### 5.1 Lab network at URI (switch: lunchbox + Pi + UR5)
+
+At URI the lunchbox, the Pi and the UR5 controller plug into one Ethernet switch (Luke, 2026-09-28). The lab
+subnet is 192.168.0.x (UR5 historically 192.168.0.149). Whether the switch has a DHCP server is **VERIFY**, so
+the Pi keeps DHCP first and falls back to a static address. One-time setup on the Pi (Luke runs, needs sudo;
+the home DHCP profile keeps working):
+
+```bash
+sudo nmcli con modify "Wired connection 1" connection.autoconnect-priority 10 connection.autoconnect-retries 2 ipv4.dhcp-timeout 20
+```
+```bash
+sudo nmcli con add type ethernet ifname eth0 con-name UR5-direct ipv4.method manual ipv4.addresses 192.168.0.210/24 ipv6.method link-local connection.autoconnect yes connection.autoconnect-priority 0
+```
+Check: `nmcli -f NAME,AUTOCONNECT,AUTOCONNECT-PRIORITY con show`. Expected behaviour (not yet tested): with
+DHCP the Pi takes a lab address as before; without DHCP, the wired profile fails after about 1 minute and
+`UR5-direct` gives 192.168.0.210. To force it: `sudo nmcli con up UR5-direct`; to go back:
+`sudo nmcli con up "Wired connection 1"`. If the Pi cannot be reached, use a keyboard and monitor on the Pi.
+
+At the lab:
+1. Teach pendant: note the controller IP (Settings → System → Network) and model (CB3 or e-Series), and the
+   External Control URCap **Host IP** (Installation → URCaps → External Control). The Host IP must be the Pi's
+   address (192.168.0.210, or the DHCP address shown by `ip -brief addr` on the Pi); change the pendant or
+   the `UR5-direct` address so they match, and avoid addresses already used in the lab.
+2. Lunchbox: if it gets no 192.168.0.x address automatically, set Ethernet to manual IPv4 192.168.0.20,
+   mask 255.255.255.0, no gateway (Windows Settings → Network → Ethernet → IP assignment).
+3. From the lunchbox: `ssh -o BatchMode=yes seeker@192.168.0.210 hostname` (or `on-edge-pi.local`), then
+   start the dashboard with `-PiHost 192.168.0.210`.
+4. From the Pi: `ping -c 3 <UR5 IP>`; set `ur_host` in `v8/config/daemon/pi_robot.json` if it is not
+   192.168.0.149.
+
 ## 6. Robot session
 
 ### 6.1 Before starting anything
