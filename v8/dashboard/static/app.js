@@ -184,9 +184,7 @@ function renderLivePanels() {
          <button id="bAbort" class="danger" ${dis(c('abort'))}>Abort campaign…</button></div>`;
   if (run.state === 'AWAITING_CONFIRMATION') {
     ch += `<div class="hold"><b>Confirm the next trial</b> (${esc(run.next_trial && run.next_trial.trial_id)})<br>
-          <label class="check"><input type="checkbox" class="cchk" value="work area clear"> Work area clear</label>
-          <label class="check"><input type="checkbox" class="cchk" value="teach-pendant e-stop within reach"> Teach-pendant E-stop within reach</label>
-          <label class="check"><input type="checkbox" class="cchk" value="robot state reviewed"> Robot state reviewed (safety mode, program)</label>
+          <div class="hint">Work area clear, teach-pendant E-stop within reach, robot state reviewed (acknowledged for the session at start).</div>
           <button id="bConfirm" class="primary" ${dis(c('confirm'))}>Start ${esc(run.next_trial && run.next_trial.trial_id)}</button>
           <div class="hint">Starting re-arms the monitor (configuration raises D12), then runs the trial procedure.</div></div>`;
   }
@@ -196,17 +194,12 @@ function renderLivePanels() {
            <div class="row">${run.hold.allowed.map((d) => `<button data-decide="${d}" ${dis(c('decide'))}>${esc(d)}</button>`).join('')}</div>
            <div class="hint">retry = new attempt of the same planned trial (the failed attempt is kept) · skip = mark this trial skipped · continue = accept and go on</div></div>`;
   }
-  // Status updates re-render this card several times a second: skip identical renders and keep
-  // the operator's confirmation ticks for the same trial, or they are reset before Start is clicked.
+  // Status updates arrive several times a second: only re-render this card when it changes, so a
+  // click is never lost to a rebuild.
   const card = $('controlsCard');
   if (card.dataset.html !== ch) {
-    const nextId = run.state === 'AWAITING_CONFIRMATION' ? String(run.next_trial && run.next_trial.trial_id) : '';
-    const kept = card.dataset.trial === nextId
-      ? new Set([...card.querySelectorAll('.cchk:checked')].map((x) => x.value)) : new Set();
     card.innerHTML = ch;
     card.dataset.html = ch;
-    card.dataset.trial = nextId;
-    card.querySelectorAll('.cchk').forEach((x) => { x.checked = kept.has(x.value); });
     bindControls();
   }
 
@@ -225,7 +218,7 @@ function renderLivePanels() {
     const rs = c('robot_state_cmd');
     rh += `<div class="row"><button data-dash="safetymode">safetymode?</button><button data-dash="programState">programState?</button><button data-dash="robotmode">robotmode?</button></div>
            <div class="row"><button data-dash="play" ${dis(rs)}>play…</button><button data-dash="unlock protective stop" ${dis(rs)}>unlock protective stop…</button></div>
-           <div class="hint">State-changing commands need a reason and are recorded. The runner never unlocks protective stops by itself.</div>`;
+           <div class="hint">State-changing commands are recorded (reason optional). The runner never unlocks protective stops by itself.</div>`;
   }
   $('robotCard').innerHTML = rh;
   document.querySelectorAll('[data-dash]').forEach((b) => b.addEventListener('click', () => dashCmd(b.dataset.dash)));
@@ -254,11 +247,7 @@ function bindControls() {
   b('bAbort', () => askReason('Abort campaign',
     '<p>This stops the <b>software sequence</b>: the trajectory goal is cancelled if one is active, no further ATTACK/RECOVER is sent, and the monitor is <b>not</b> reconfigured (configuration would raise D12).</p><p><b>It is not an emergency stop and does not confirm the robot is stationary.</b> Use the teach-pendant E-stop for safety.</p>',
     'Abort', (reason) => live('POST', 'campaign/abort', { reason, operator: operator() }), 'danger'));
-  b('bConfirm', () => {
-    const checks = [...document.querySelectorAll('.cchk')].filter((x) => x.checked).map((x) => x.value);
-    if (checks.length < 3) { alertBox('Confirm all three checks before starting the trial.'); return; }
-    act(() => live('POST', 'campaign/confirm', { operator: operator(), checks }));
-  });
+  b('bConfirm', () => act(() => live('POST', 'campaign/confirm', { operator: operator(), checks: [] })));
   document.querySelectorAll('[data-decide]').forEach((btn) => btn.addEventListener('click', () =>
     askReason(`Decision: ${btn.dataset.decide}`, '<p>The decision and reason are recorded in the session log.</p>', btn.dataset.decide,
       (reason) => live('POST', 'campaign/decision', { decision: btn.dataset.decide, reason, operator: operator() }))));
@@ -672,9 +661,9 @@ async function renderExclusion() {
     <div class="row"><button id="exBtn">Exclude…</button><button id="reBtn" ${active.length ? '' : 'disabled'}>Restore…</button></div>
     <h3>History</h3>${d.history.length ? '<ul class="warnlist" style="color:var(--fg)">' + d.history.map((h) => `<li style="color:var(--fg)">${esc(h.t_utc)} <b>${esc(h.action)}</b> [${esc(h.scopes.join(','))}] by ${esc(h.operator)}: ${esc(h.reason)}</li>`).join('') + '</ul>' : '<p class="hint">No exclusion history.</p>'}`;
   $('exBtn').addEventListener('click', () => askReason('Exclude attempt', '<p>The attempt stays in the dataset; this records an analyst decision that can be restored later.</p>', 'Exclude',
-    async (reason) => { await api('POST', `/api/exclusions/${key}`, { action: 'exclude', session_id: S.replay.sid, attempt_id: p.attempt_id, reason, operator: operator(), scopes: [$('exScope').value] }); await loadSession(S.replay.sid); renderExclusion(); }));
+    async (reason) => { await api('POST', `/api/exclusions/${key}`, { action: 'exclude', session_id: S.replay.sid, attempt_id: p.attempt_id, reason, operator: operator(), scopes: [$('exScope').value] }); await loadSession(S.replay.sid); renderExclusion(); }, 'primary', true));
   $('reBtn').addEventListener('click', () => askReason('Restore attempt', '<p>Restoring records a new event; the exclusion history is kept.</p>', 'Restore',
-    async (reason) => { await api('POST', `/api/exclusions/${key}`, { action: 'restore', session_id: S.replay.sid, attempt_id: p.attempt_id, reason, operator: operator() }); await loadSession(S.replay.sid); renderExclusion(); }));
+    async (reason) => { await api('POST', `/api/exclusions/${key}`, { action: 'restore', session_id: S.replay.sid, attempt_id: p.attempt_id, reason, operator: operator() }); await loadSession(S.replay.sid); renderExclusion(); }, 'primary', true));
 }
 
 async function compareSelected() {
@@ -779,15 +768,15 @@ async function previewCampaign(file) {
 }
 
 // ------------------------------------------------------------------ modal helpers
-function askReason(title, bodyHtml, okLabel, fn, cls = 'primary') {
+function askReason(title, bodyHtml, okLabel, fn, cls = 'primary', required = false) {
   $('modalTitle').textContent = title;
-  $('modalBody').innerHTML = `${bodyHtml}<label>Reason (recorded)<textarea id="mReason"></textarea></label>${operator() ? '' : '<p class="hint">Tip: enter your name in the Operator field so it is recorded.</p>'}`;
+  $('modalBody').innerHTML = `${bodyHtml}<label>Reason (${required ? 'required' : 'optional'}, recorded)<textarea id="mReason"></textarea></label>${operator() ? '' : '<p class="hint">Tip: enter your name in the Operator field so it is recorded.</p>'}`;
   $('modalActions').innerHTML = `<button id="mCancel">Cancel</button><button id="mOk" class="${cls}">${esc(okLabel)}</button>`;
   $('modal').hidden = false;
   $('mCancel').onclick = () => { $('modal').hidden = true; };
   $('mOk').onclick = async () => {
     const reason = $('mReason').value.trim();
-    if (reason.length < 4) { $('mReason').focus(); return; }
+    if (required && reason.length < 4) { $('mReason').focus(); return; }
     $('modal').hidden = true;
     await act(() => fn(reason));
   };
