@@ -66,7 +66,7 @@
       "median": 356,
       "min": 345,
       "max": 449,
-      "stdev": 25.25363911991538,
+      "stdev": 25.253639119915377,
       "p95": 408
     },
     "min_trust": 100.0,
@@ -83,23 +83,24 @@
   "clock_fit": {
     "method": "min_delay_two_window",
     "epoch": 0,
-    "slope_ns_per_us": 1000.0,
-    "offset_ns": 29326361114083.0,
-    "drift_ppm": 0.0,
+    "slope_ns_per_us": 992.4925081563842,
+    "offset_ns": 29346973317683.59,
+    "drift_ppm": -7507.491843615766,
     "n_points": 42,
     "span_s": 4.769644,
-    "slope_estimated": false,
+    "slope_estimated": true,
     "residual_ms": {
-      "p50": 18.538291,
-      "p95": 35.825022,
-      "max": 36.340022
+      "p50": 0.22621073828125,
+      "p95": 0.6096010546875,
+      "max": 0.6534301875
     },
     "assumed_min_latency_bound_ms": 2.0,
-    "note": "too few points/span for slope (n=42, span=4.8s); nominal 1 us = 1000 ns used"
+    "note": "slope 992.493 ns/us (-7507 ppm) from session records within +-60 s (n=413, span 119 s)",
+    "slope_source": "context"
   },
   "device_clock_rate": {
-    "host_ns_per_device_us": null,
-    "ppm": null,
+    "host_ns_per_device_us": 992.4925081563842,
+    "ppm": -7507.491843615766,
     "note": "device_us intervals x (host_ns_per_device_us / 1000) = host-clock duration; value_ms_rate_corrected applies this per attempt"
   },
   "motion": {
@@ -114,13 +115,13 @@
   },
   "quality_warnings": [],
   "notes": [
-    "clock fit used the nominal slope (too few points/span for slope (n=42, span=4.8s); nominal 1 us = 1000 ns used)"
+    "clock fit: slope 992.493 ns/us (-7507 ppm) from session records within +-60 s (n=413, span 119 s)"
   ],
   "not_measured_by_this_software": [
     "electrical D12 transition (requires oscilloscope or wired input)",
     "physical standstill beyond the declared telemetry criterion"
   ],
   "file_issues": [],
-  "generated_by": "onedge_v8 0.1.1",
-  "supersedes": "onedge_v8 0.1.0"
+  "generated_by": "onedge_v8 0.1.2",
+  "supersedes": "onedge_v8 0.1.1"
 }

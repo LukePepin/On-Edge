@@ -53,6 +53,16 @@ class ClockTests(unittest.TestCase):
         self.assertIn("rate offset", fit.note)
         self.assertLess(fit.residual_max_ms, 60.0)
 
+    def test_fit_with_context_slope_fits_offset_only(self):
+        slope_true = 992.84
+        pairs = [(k * 120_000, int(7e9 + slope_true * k * 120_000 + 0.3e6)) for k in range(30)]   # 3.5 s
+        self.assertFalse(C.ClockFit.estimate(pairs).slope_estimated)
+        fit = C.ClockFit.estimate(pairs, slope=slope_true, slope_note="test context")
+        self.assertTrue(fit.slope_estimated)
+        self.assertEqual(fit.slope_source, "context")
+        self.assertIn("test context", fit.note)
+        self.assertLess(fit.residual_max_ms, 0.01)
+
     def test_fit_rejects_implausible_slope(self):
         pairs = [(k * 100_000, int(k * 100_000 * 1100.0)) for k in range(100)]   # +10 %
         fit = C.ClockFit.estimate(pairs)

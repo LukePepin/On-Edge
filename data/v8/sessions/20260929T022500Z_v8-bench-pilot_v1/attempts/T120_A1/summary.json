@@ -83,23 +83,24 @@
   "clock_fit": {
     "method": "min_delay_two_window",
     "epoch": 0,
-    "slope_ns_per_us": 1000.0,
-    "offset_ns": 29325817905808.0,
-    "drift_ppm": 0.0,
+    "slope_ns_per_us": 992.713929746544,
+    "offset_ns": 29346363814757.082,
+    "drift_ppm": -7286.070253456067,
     "n_points": 22,
     "span_s": 4.451903,
-    "slope_estimated": false,
+    "slope_estimated": true,
     "residual_ms": {
-      "p50": 17.328083,
-      "p95": 33.236037,
-      "max": 33.749037
+      "p50": 0.356029109375,
+      "p95": 0.94406090625,
+      "max": 1.45332315234375
     },
     "assumed_min_latency_bound_ms": 2.0,
-    "note": "too few points/span for slope (n=22, span=4.5s); nominal 1 us = 1000 ns used"
+    "note": "slope 992.714 ns/us (-7286 ppm) from session records within +-60 s (n=333, span 118 s)",
+    "slope_source": "context"
   },
   "device_clock_rate": {
-    "host_ns_per_device_us": null,
-    "ppm": null,
+    "host_ns_per_device_us": 992.713929746544,
+    "ppm": -7286.070253456067,
     "note": "device_us intervals x (host_ns_per_device_us / 1000) = host-clock duration; value_ms_rate_corrected applies this per attempt"
   },
   "motion": {
@@ -114,13 +115,13 @@
   },
   "quality_warnings": [],
   "notes": [
-    "clock fit used the nominal slope (too few points/span for slope (n=22, span=4.5s); nominal 1 us = 1000 ns used)"
+    "clock fit: slope 992.714 ns/us (-7286 ppm) from session records within +-60 s (n=333, span 118 s)"
   ],
   "not_measured_by_this_software": [
     "electrical D12 transition (requires oscilloscope or wired input)",
     "physical standstill beyond the declared telemetry criterion"
   ],
   "file_issues": [],
-  "generated_by": "onedge_v8 0.1.1",
-  "supersedes": "onedge_v8 0.1.0"
+  "generated_by": "onedge_v8 0.1.2",
+  "supersedes": "onedge_v8 0.1.1"
 }

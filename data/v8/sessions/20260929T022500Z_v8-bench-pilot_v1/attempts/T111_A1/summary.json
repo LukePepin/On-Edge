@@ -48,7 +48,7 @@
       "median": 234.634,
       "min": 233.751,
       "max": 234.79,
-      "stdev": 0.44596275380100303,
+      "stdev": 0.445962753801003,
       "p95": 234.789
     },
     "exec_ms": {
@@ -83,23 +83,24 @@
   "clock_fit": {
     "method": "min_delay_two_window",
     "epoch": 0,
-    "slope_ns_per_us": 1000.0,
-    "offset_ns": 29326266519701.0,
-    "drift_ppm": 0.0,
+    "slope_ns_per_us": 992.5486885251091,
+    "offset_ns": 29346816505737.727,
+    "drift_ppm": -7451.311474890865,
     "n_points": 22,
     "span_s": 4.687753,
-    "slope_estimated": false,
+    "slope_estimated": true,
     "residual_ms": {
-      "p50": 16.948238,
-      "p95": 34.894318,
-      "max": 35.6964
+      "p50": 0.5837559296875,
+      "p95": 1.4171330234375,
+      "max": 1.6751276640625
     },
     "assumed_min_latency_bound_ms": 2.0,
-    "note": "too few points/span for slope (n=22, span=4.7s); nominal 1 us = 1000 ns used"
+    "note": "slope 992.549 ns/us (-7451 ppm) from session records within +-60 s (n=395, span 119 s)",
+    "slope_source": "context"
   },
   "device_clock_rate": {
-    "host_ns_per_device_us": null,
-    "ppm": null,
+    "host_ns_per_device_us": 992.5486885251091,
+    "ppm": -7451.311474890865,
     "note": "device_us intervals x (host_ns_per_device_us / 1000) = host-clock duration; value_ms_rate_corrected applies this per attempt"
   },
   "motion": {
@@ -114,13 +115,13 @@
   },
   "quality_warnings": [],
   "notes": [
-    "clock fit used the nominal slope (too few points/span for slope (n=22, span=4.7s); nominal 1 us = 1000 ns used)"
+    "clock fit: slope 992.549 ns/us (-7451 ppm) from session records within +-60 s (n=395, span 119 s)"
   ],
   "not_measured_by_this_software": [
     "electrical D12 transition (requires oscilloscope or wired input)",
     "physical standstill beyond the declared telemetry criterion"
   ],
   "file_issues": [],
-  "generated_by": "onedge_v8 0.1.1",
-  "supersedes": "onedge_v8 0.1.0"
+  "generated_by": "onedge_v8 0.1.2",
+  "supersedes": "onedge_v8 0.1.1"
 }

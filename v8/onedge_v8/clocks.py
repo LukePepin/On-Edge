@@ -84,6 +84,7 @@ class ClockFit:
     residual_max_ms: float
     d_min_bound_ms: float
     note: str = ""
+    slope_source: str = "nominal"      # "attempt", "context" (neighbouring records) or "nominal"
 
     @property
     def ppm(self) -> float:
@@ -98,21 +99,30 @@ class ClockFit:
                 "span_s": self.span_s, "slope_estimated": self.slope_estimated,
                 "residual_ms": {"p50": self.residual_p50_ms, "p95": self.residual_p95_ms,
                                 "max": self.residual_max_ms},
-                "assumed_min_latency_bound_ms": self.d_min_bound_ms, "note": self.note}
+                "assumed_min_latency_bound_ms": self.d_min_bound_ms, "note": self.note,
+                "slope_source": self.slope_source}
 
     @classmethod
     def estimate(cls, pairs: list, epoch: int = 0, min_points: int = 20, min_span_s: float = 5.0,
                  d_min_bound_ms: float = 2.0, max_abs_ppm: float = 20000.0,
-                 note_abs_ppm: float = 1000.0):
-        """pairs: iterable of (t_dev_us, host_rx_mono_ns) from ONE device epoch."""
+                 note_abs_ppm: float = 1000.0, slope: float | None = None, slope_note: str = ""):
+        """pairs: iterable of (t_dev_us, host_rx_mono_ns) from ONE device epoch.
+
+        ``slope``: use this rate (e.g. estimated from neighbouring records of the same epoch)
+        instead of estimating it; only the offset is then fitted to ``pairs``.
+        """
         pts = sorted((int(d), int(h)) for d, h in pairs)
         if len(pts) < 2:
             return None
         span_s = (pts[-1][0] - pts[0][0]) / 1e6
-        slope = 1000.0
+        fixed, slope = slope, 1000.0
         estimated = False
         note = ""
-        if len(pts) >= min_points and span_s >= min_span_s:
+        source = "nominal"
+        if fixed is not None:
+            slope, estimated, source = fixed, True, "context"
+            note = f"slope {fixed:.3f} ns/us ({(fixed / 1000.0 - 1.0) * 1e6:+.0f} ppm) from {slope_note or 'context'}"
+        elif len(pts) >= min_points and span_s >= min_span_s:
             third = max(1, len(pts) // 3)
 
             def two_window(ref):
@@ -126,7 +136,7 @@ class ClockFit:
             if cand is not None:
                 ppm = (cand / 1000.0 - 1.0) * 1e6
                 if abs(ppm) <= max_abs_ppm:
-                    slope, estimated = cand, True
+                    slope, estimated, source = cand, True, "attempt"
                     if abs(ppm) > note_abs_ppm:
                         note = (f"large device clock rate offset {ppm:+.0f} ppm (negative: device clock fast; "
                                 f"oscillator likely not crystal-referenced); slope estimated from the data")
@@ -139,7 +149,7 @@ class ClockFit:
         return cls(slope_ns_per_us=slope, offset_ns=offset, epoch=epoch, n_points=len(pts), span_s=span_s,
                    slope_estimated=estimated, residual_p50_ms=_quantile(res, 0.5),
                    residual_p95_ms=_quantile(res, 0.95), residual_max_ms=res[-1],
-                   d_min_bound_ms=d_min_bound_ms, note=note)
+                   d_min_bound_ms=d_min_bound_ms, note=note, slope_source=source)
 
 
 @dataclass

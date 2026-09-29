@@ -1,0 +1,126 @@
+{
+  "definitions": "onedge.v8.definitions/1",
+  "attempt_id": "T112_A1",
+  "trial_id": "T112",
+  "condition_id": "ECC-a0.50-f0",
+  "workload": "ECC",
+  "alpha": 0.5,
+  "failure_ms": 0,
+  "procedure": "bench",
+  "status": "completed",
+  "device_protocol": "v8",
+  "device_epoch": 0,
+  "events": {
+    "D_CFG": {
+      "t_dev_us": 2759193733,
+      "epoch": 0,
+      "rx_mono_ns": 32085451769110,
+      "seq": 12737,
+      "cycle": 0,
+      "trust": 100.0,
+      "attack": 0
+    },
+    "D_ATTACK": null,
+    "D_CROSS": null,
+    "D_OUT_LOW": null,
+    "D_RECOVER": null,
+    "H_ATTACK_SENT": null,
+    "H_RECOVER_SENT": null,
+    "H_RX_CROSS": null,
+    "H_RX_OUT_LOW": null,
+    "H_RX_SAFEGUARD": null,
+    "H_CFG_SENT": 32085411564291
+  },
+  "attacked_updates_to_cross": null,
+  "model_check": {
+    "label": "MODEL",
+    "attacked_updates_to_cross_expected": 2,
+    "observed": null,
+    "agrees": null,
+    "assumption": "trust 100 at ATTACK, zero observations, no penalty; float32 recurrence"
+  },
+  "key_intervals": {},
+  "updates": {
+    "count": 38,
+    "loop_period_ms": {
+      "n": 37,
+      "mean": 122.27121621621622,
+      "median": 121.921,
+      "min": 121.839,
+      "max": 122.926,
+      "stdev": 0.4830263470577477,
+      "p95": 122.905
+    },
+    "exec_ms": {
+      "n": 38,
+      "mean": 112.1995,
+      "median": 112.20949999999999,
+      "min": 111.98,
+      "max": 112.39,
+      "stdev": 0.1011081171387907,
+      "p95": 112.374
+    },
+    "report_write_us": {
+      "n": 38,
+      "mean": 370.7105263157895,
+      "median": 356.0,
+      "min": 334,
+      "max": 465,
+      "stdev": 33.278438677266486,
+      "p95": 435
+    },
+    "min_trust": 100.0,
+    "penalty_updates": 0
+  },
+  "records": {
+    "device_total": 40,
+    "device_ok_v8": 40,
+    "legacy": 0,
+    "not_ok": 0,
+    "missing_by_sequence": 0,
+    "complete": true
+  },
+  "clock_fit": {
+    "method": "min_delay_two_window",
+    "epoch": 0,
+    "slope_ns_per_us": 1000.0,
+    "offset_ns": 29326223804911.0,
+    "drift_ppm": 0.0,
+    "n_points": 40,
+    "span_s": 4.64846,
+    "slope_estimated": false,
+    "residual_ms": {
+      "p50": 17.878678,
+      "p95": 32.724039,
+      "max": 34.231199
+    },
+    "assumed_min_latency_bound_ms": 2.0,
+    "note": "too few points/span for slope (n=40, span=4.6s); nominal 1 us = 1000 ns used"
+  },
+  "device_clock_rate": {
+    "host_ns_per_device_us": null,
+    "ppm": null,
+    "note": "device_us intervals x (host_ns_per_device_us / 1000) = host-clock duration; value_ms_rate_corrected applies this per attempt"
+  },
+  "motion": {
+    "applicable": false
+  },
+  "outcome": {
+    "injection": "not_planned",
+    "crossing": "no_crossing_in_complete_record",
+    "crossing_relative_to_recover": null,
+    "out_low_commanded": false,
+    "rx_cross_after_host_recover_sent": false
+  },
+  "quality_warnings": [],
+  "notes": [
+    "clock fit used the nominal slope (too few points/span for slope (n=40, span=4.6s); nominal 1 us = 1000 ns used)"
+  ],
+  "not_measured_by_this_software": [
+    "electrical D12 transition (requires oscilloscope or wired input)",
+    "physical standstill beyond the declared telemetry criterion"
+  ],
+  "file_issues": [],
+  "generated_by": "onedge_v8 0.1.1",
+  "supersedes": "onedge_v8 0.1.0"
+}

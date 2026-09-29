@@ -86,7 +86,7 @@
       "median": 121.913,
       "min": 121.843,
       "max": 123.443,
-      "stdev": 0.5013778466605314,
+      "stdev": 0.5013778466605313,
       "p95": 122.935
     },
     "exec_ms": {
@@ -133,7 +133,8 @@
       "max": 0.7901103125
     },
     "assumed_min_latency_bound_ms": 2.0,
-    "note": "large device clock rate offset -7295 ppm (negative: device clock fast; oscillator likely not crystal-referenced); slope estimated from the data"
+    "note": "large device clock rate offset -7295 ppm (negative: device clock fast; oscillator likely not crystal-referenced); slope estimated from the data",
+    "slope_source": "attempt"
   },
   "device_clock_rate": {
     "host_ns_per_device_us": 992.705475414895,
@@ -159,6 +160,6 @@
     "physical standstill beyond the declared telemetry criterion"
   ],
   "file_issues": [],
-  "generated_by": "onedge_v8 0.1.1",
-  "supersedes": "onedge_v8 0.1.0"
+  "generated_by": "onedge_v8 0.1.2",
+  "supersedes": "onedge_v8 0.1.1"
 }

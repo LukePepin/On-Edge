@@ -27,7 +27,7 @@ import sys
 from . import ANALYSIS_DEFINITIONS, SOFTWARE_NAME, SOFTWARE_VERSION
 from .campaign import attacked_updates_to_cross
 from .clocks import DEVICE_US, HOST_MONO_NS, ClockFit, Stamp, aligned_interval_ms, interval_ms
-from .dataset import joint_samples_from_rows, load_attempt
+from .dataset import joint_samples_from_rows, load_attempt, read_jsonl
 from .telemetry import MotionCriteria, confirm_moving, find_standstill
 
 SAFEGUARD_STOP_NAMES = {"SAFEGUARD_STOP", "AUTOMATIC_MODE_SAFEGUARD_STOP"}
@@ -56,7 +56,13 @@ def _hstamp(ns) -> Stamp:
     return Stamp(HOST_MONO_NS, int(ns))
 
 
-def summarize(att: dict) -> dict:
+CONTEXT_WINDOW_US = 60_000_000      # neighbouring records used for the clock rate: +-60 s (device clock)
+CONTEXT_NEIGHBOURS = 3               # attempts on each side (by directory order) plus the session idle file
+
+
+def summarize(att: dict, context: list | None = None) -> dict:
+    """context: device records from the same session (other attempts, idle periods), used only for
+    the device clock rate when this attempt is too short to estimate it."""
     start = att.get("start") or {}
     trial_cfg = start.get("trial_config") or {}
     tel_cfg = start.get("telemetry_config") or {}
@@ -160,7 +166,18 @@ def summarize(att: dict) -> dict:
             warnings.append({"code": "recover_not_acknowledged"})
 
     # ---- clock relationship ------------------------------------------------------------
-    fit = ClockFit.estimate([(m["t_dev_us"], m["rx_mono_ns"]) for m in same], epoch=epoch)
+    own_pairs = [(m["t_dev_us"], m["rx_mono_ns"]) for m in same]
+    fit = ClockFit.estimate(own_pairs, epoch=epoch)
+    if fit is not None and not fit.slope_estimated and context and same:
+        lo, hi = same[0]["t_dev_us"] - CONTEXT_WINDOW_US, same[-1]["t_dev_us"] + CONTEXT_WINDOW_US
+        ctx_pairs = {(m["t_dev_us"], m["rx_mono_ns"]) for m in context
+                     if m.get("status") == "ok" and m.get("epoch", 0) == epoch and m.get("t_dev_us") is not None
+                     and m.get("rx_mono_ns") is not None and lo <= m["t_dev_us"] <= hi}
+        ctx = ClockFit.estimate(ctx_pairs | set(own_pairs), epoch=epoch)
+        if ctx is not None and ctx.slope_estimated:
+            fit = ClockFit.estimate(own_pairs, epoch=epoch, slope=ctx.slope_ns_per_us,
+                                    slope_note=f"session records within +-60 s (n={ctx.n_points}, "
+                                               f"span {ctx.span_s:.0f} s)")
     if fit is not None and not fit.slope_estimated:
         # informational: over a few seconds a nominal slope differs from the true drift by
         # ~ppm x span (tens of microseconds); cross-clock ranges already carry larger bounds
@@ -342,8 +359,27 @@ def _ev(m):
     return out
 
 
+def session_context(attempt_dir: str) -> list:
+    """Device records near an attempt in the same session: the session idle file and up to
+    CONTEXT_NEIGHBOURS attempts on each side. Empty outside a session layout."""
+    parent = os.path.dirname(attempt_dir)
+    if os.path.basename(parent) != "attempts":
+        return []
+    session = os.path.dirname(parent)
+    names = sorted(n for n in os.listdir(parent) if os.path.isdir(os.path.join(parent, n)))
+    me = os.path.basename(attempt_dir)
+    i = names.index(me) if me in names else 0
+    files = [os.path.join(session, "device_msgs_idle.jsonl")]
+    files += [os.path.join(parent, n, "device_msgs.jsonl")
+              for n in names[max(0, i - CONTEXT_NEIGHBOURS): i + CONTEXT_NEIGHBOURS + 1] if n != me]
+    recs = []
+    for f in files:
+        recs += read_jsonl(f)[0]
+    return recs
+
+
 def summarize_attempt_dir(attempt_dir: str) -> dict:
-    return summarize(load_attempt(attempt_dir))
+    return summarize(load_attempt(attempt_dir), context=session_context(attempt_dir))
 
 
 def regenerate_summary(attempt_dir: str) -> str:

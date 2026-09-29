@@ -48,7 +48,7 @@
       "median": 234.658,
       "min": 233.617,
       "max": 234.711,
-      "stdev": 0.45936272917930837,
+      "stdev": 0.4593627291793083,
       "p95": 234.698
     },
     "exec_ms": {
@@ -57,7 +57,7 @@
       "median": 224.0915,
       "min": 223.91,
       "max": 224.145,
-      "stdev": 0.08296751107956203,
+      "stdev": 0.08296751107956205,
       "p95": 224.145
     },
     "report_write_us": {
@@ -83,23 +83,24 @@
   "clock_fit": {
     "method": "min_delay_two_window",
     "epoch": 0,
-    "slope_ns_per_us": 1000.0,
-    "offset_ns": 29325663091485.0,
-    "drift_ppm": 0.0,
+    "slope_ns_per_us": 992.6506746644303,
+    "offset_ns": 29346541288671.78,
+    "drift_ppm": -7349.325335569645,
     "n_points": 22,
     "span_s": 4.689302,
-    "slope_estimated": false,
+    "slope_estimated": true,
     "residual_ms": {
-      "p50": 16.546208,
-      "p95": 33.340125,
-      "max": 34.098012
+      "p50": 0.4872975625,
+      "p95": 1.499712796875,
+      "max": 1.7000612265625
     },
     "assumed_min_latency_bound_ms": 2.0,
-    "note": "too few points/span for slope (n=22, span=4.7s); nominal 1 us = 1000 ns used"
+    "note": "slope 992.651 ns/us (-7349 ppm) from session records within +-60 s (n=333, span 117 s)",
+    "slope_source": "context"
   },
   "device_clock_rate": {
-    "host_ns_per_device_us": null,
-    "ppm": null,
+    "host_ns_per_device_us": 992.6506746644303,
+    "ppm": -7349.325335569645,
     "note": "device_us intervals x (host_ns_per_device_us / 1000) = host-clock duration; value_ms_rate_corrected applies this per attempt"
   },
   "motion": {
@@ -114,13 +115,13 @@
   },
   "quality_warnings": [],
   "notes": [
-    "clock fit used the nominal slope (too few points/span for slope (n=22, span=4.7s); nominal 1 us = 1000 ns used)"
+    "clock fit: slope 992.651 ns/us (-7349 ppm) from session records within +-60 s (n=333, span 117 s)"
   ],
   "not_measured_by_this_software": [
     "electrical D12 transition (requires oscilloscope or wired input)",
     "physical standstill beyond the declared telemetry criterion"
   ],
   "file_issues": [],
-  "generated_by": "onedge_v8 0.1.1",
-  "supersedes": "onedge_v8 0.1.0"
+  "generated_by": "onedge_v8 0.1.2",
+  "supersedes": "onedge_v8 0.1.1"
 }

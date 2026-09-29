@@ -1,0 +1,164 @@
+{
+  "definitions": "onedge.v8.definitions/1",
+  "attempt_id": "T020_A1",
+  "trial_id": "T020",
+  "condition_id": "ZKP-a0.10-f1000",
+  "workload": "ZKP",
+  "alpha": 0.1,
+  "failure_ms": 1000,
+  "procedure": "bench",
+  "status": "completed",
+  "device_protocol": "v8",
+  "device_epoch": 0,
+  "events": {
+    "D_CFG": {
+      "t_dev_us": 2126272626,
+      "epoch": 0,
+      "rx_mono_ns": 31457061050831,
+      "seq": 8543,
+      "cycle": 0,
+      "trust": 100.0,
+      "attack": 0
+    },
+    "D_ATTACK": {
+      "t_dev_us": 2128616841,
+      "epoch": 0,
+      "rx_mono_ns": 31459387829918,
+      "seq": 8554,
+      "cycle": 10,
+      "attack": 1,
+      "cmd": "ATTACK"
+    },
+    "D_CROSS": null,
+    "D_OUT_LOW": null,
+    "D_RECOVER": {
+      "t_dev_us": 2129555497,
+      "epoch": 0,
+      "rx_mono_ns": 31460319895103,
+      "seq": 8559,
+      "cycle": 14,
+      "attack": 0,
+      "cmd": "RECOVER"
+    },
+    "H_ATTACK_SENT": 31459238786034,
+    "H_RECOVER_SENT": 31460239508222,
+    "H_RX_CROSS": null,
+    "H_RX_OUT_LOW": null,
+    "H_RX_SAFEGUARD": null,
+    "H_CFG_SENT": 31456991295445
+  },
+  "attacked_updates_to_cross": null,
+  "model_check": {
+    "label": "MODEL",
+    "attacked_updates_to_cross_expected": 12,
+    "observed": null,
+    "agrees": null,
+    "assumption": "trust 100 at ATTACK, zero observations, no penalty; float32 recurrence"
+  },
+  "key_intervals": {
+    "device_failure_window": {
+      "clock": "device_us",
+      "value_ms": 938.6560000000001,
+      "definition": "D_RECOVER - D_ATTACK (device-side attack mode)",
+      "value_ms_rate_corrected": 931.9725386671776
+    },
+    "host_failure_window": {
+      "clock": "host_mono_ns",
+      "value_ms": 1000.722188,
+      "definition": "H_RECOVER_SENT - H_ATTACK_SENT"
+    },
+    "aligned_attack_sent_to_device_processed": {
+      "clock": "aligned device_us->host_mono_ns",
+      "value_ms": 148.8103113203125,
+      "range_ms": [
+        146.8103113203125,
+        148.8103113203125
+      ],
+      "note": "device end mapped to host clock; true value may be up to 2.0 ms earlier (assumed min-latency bound)",
+      "definition": "D_ATTACK - H_ATTACK_SENT"
+    }
+  },
+  "updates": {
+    "count": 24,
+    "loop_period_ms": {
+      "n": 23,
+      "mean": 234.44247826086956,
+      "median": 234.615,
+      "min": 233.614,
+      "max": 235.158,
+      "stdev": 0.4504422947166093,
+      "p95": 235.15
+    },
+    "exec_ms": {
+      "n": 24,
+      "mean": 224.07054166666668,
+      "median": 224.102,
+      "min": 223.823,
+      "max": 224.233,
+      "stdev": 0.09371324400237675,
+      "p95": 224.146
+    },
+    "report_write_us": {
+      "n": 24,
+      "mean": 364.375,
+      "median": 360.5,
+      "min": 348,
+      "max": 433,
+      "stdev": 19.71054120978439,
+      "p95": 385
+    },
+    "min_trust": 65.61,
+    "penalty_updates": 0
+  },
+  "records": {
+    "device_total": 28,
+    "device_ok_v8": 28,
+    "legacy": 0,
+    "not_ok": 0,
+    "missing_by_sequence": 0,
+    "complete": true
+  },
+  "clock_fit": {
+    "method": "min_delay_two_window",
+    "epoch": 0,
+    "slope_ns_per_us": 992.8797543159341,
+    "offset_ns": 29345927030220.48,
+    "drift_ppm": -7120.245684065884,
+    "n_points": 28,
+    "span_s": 5.627712,
+    "slope_estimated": true,
+    "residual_ms": {
+      "p50": 0.29963123828125,
+      "p95": 1.03855795703125,
+      "max": 1.152778
+    },
+    "assumed_min_latency_bound_ms": 2.0,
+    "note": "large device clock rate offset -7120 ppm (negative: device clock fast; oscillator likely not crystal-referenced); slope estimated from the data"
+  },
+  "device_clock_rate": {
+    "host_ns_per_device_us": 992.8797543159341,
+    "ppm": -7120.245684065884,
+    "note": "device_us intervals x (host_ns_per_device_us / 1000) = host-clock duration; value_ms_rate_corrected applies this per attempt"
+  },
+  "motion": {
+    "applicable": false
+  },
+  "outcome": {
+    "injection": "processed",
+    "crossing": "no_crossing_in_complete_record",
+    "crossing_relative_to_recover": null,
+    "out_low_commanded": false,
+    "rx_cross_after_host_recover_sent": false
+  },
+  "quality_warnings": [],
+  "notes": [
+    "clock fit: large device clock rate offset -7120 ppm (negative: device clock fast; oscillator likely not crystal-referenced); slope estimated from the data"
+  ],
+  "not_measured_by_this_software": [
+    "electrical D12 transition (requires oscilloscope or wired input)",
+    "physical standstill beyond the declared telemetry criterion"
+  ],
+  "file_issues": [],
+  "generated_by": "onedge_v8 0.1.1",
+  "supersedes": "onedge_v8 0.1.0"
+}
