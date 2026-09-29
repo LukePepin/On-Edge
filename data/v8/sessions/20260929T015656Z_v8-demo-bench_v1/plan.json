@@ -1,0 +1,267 @@
+{
+  "schema": "onedge.v8.plan/1",
+  "campaign_id": "v8-demo-bench",
+  "config_version": 1,
+  "title": "V8 demonstration (bench, no robot): normal, brief failure, sustained failure, slow response",
+  "kind": "demonstration",
+  "procedure": "bench",
+  "status": "proposed",
+  "config_sha256": "96b960348862746c6ebed9689bf29040468e6867de07cebc8162d41fda891cf1",
+  "generated_by": "onedge_v8 0.1.0",
+  "ordering": {
+    "method": "explicit_sequence",
+    "seed": null,
+    "prng": "SplitMix64 + Fisher-Yates (see onedge_v8/campaign.py)"
+  },
+  "conditions": [
+    {
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetitions": 1,
+      "purpose": "normal operation: trust stays at 100",
+      "condition_id": "ECC-a0.30-f0",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 4,
+        "expectation": "no injection (control)"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetitions": 1,
+      "purpose": "brief failure: dip and recovery without crossing",
+      "condition_id": "ECC-a0.30-f250",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 4,
+        "phase_dependent_failure_range_ms": [
+          361,
+          482
+        ],
+        "approx_crossing_after_send_ms": [
+          473,
+          593
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "failure likely ends before crossing"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetitions": 1,
+      "purpose": "sustained failure: crossing and D12-low command report",
+      "condition_id": "ECC-a0.50-f3000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 2,
+        "phase_dependent_failure_range_ms": [
+          120,
+          241
+        ],
+        "approx_crossing_after_send_ms": [
+          232,
+          352
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetitions": 1,
+      "purpose": "slow configuration: many updates of the heavier workload",
+      "condition_id": "ZKP-a0.10-f3000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 12,
+        "phase_dependent_failure_range_ms": [
+          2553,
+          2785
+        ],
+        "approx_crossing_after_send_ms": [
+          2778,
+          3010
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    }
+  ],
+  "n_conditions": 4,
+  "n_trials": 4,
+  "estimated_duration_s": 48,
+  "trials": [
+    {
+      "trial_index": 1,
+      "trial_id": "T001",
+      "condition_id": "ECC-a0.30-f0",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetition": 1,
+      "block": null,
+      "injection_jitter_ms": 0
+    },
+    {
+      "trial_index": 2,
+      "trial_id": "T002",
+      "condition_id": "ECC-a0.30-f250",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetition": 1,
+      "block": null,
+      "injection_jitter_ms": 0
+    },
+    {
+      "trial_index": 3,
+      "trial_id": "T003",
+      "condition_id": "ECC-a0.50-f3000",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetition": 1,
+      "block": null,
+      "injection_jitter_ms": 0
+    },
+    {
+      "trial_index": 4,
+      "trial_id": "T004",
+      "condition_id": "ZKP-a0.10-f3000",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetition": 1,
+      "block": null,
+      "injection_jitter_ms": 0
+    }
+  ],
+  "normalized_config": {
+    "schema": "onedge.v8.campaign/1",
+    "campaign_id": "v8-demo-bench",
+    "config_version": 1,
+    "title": "V8 demonstration (bench, no robot): normal, brief failure, sustained failure, slow response",
+    "kind": "demonstration",
+    "status": "proposed",
+    "approved_by": null,
+    "approved_on": null,
+    "purpose": "Fallback demonstration with the Pi and Nano only. Shows trust response and the D12 command reports. NOT a complete experimental campaign and not evidence of robot stopping.",
+    "procedure": "bench",
+    "factors": {
+      "workload": [
+        {
+          "level": "ECC",
+          "purpose": "ECC key generation"
+        },
+        {
+          "level": "ZKP",
+          "purpose": "two scalar multiplications"
+        }
+      ],
+      "alpha": [
+        {
+          "level": 0.1,
+          "purpose": "slow"
+        },
+        {
+          "level": 0.3,
+          "purpose": "intermediate"
+        },
+        {
+          "level": 0.5,
+          "purpose": "fast"
+        }
+      ],
+      "failure_ms": [
+        {
+          "level": 0,
+          "purpose": "none"
+        },
+        {
+          "level": 250,
+          "purpose": "brief"
+        },
+        {
+          "level": 3000,
+          "purpose": "sustained"
+        }
+      ]
+    },
+    "design": {
+      "type": "explicit",
+      "conditions": [
+        {
+          "workload": "ECC",
+          "alpha": 0.3,
+          "failure_ms": 0,
+          "purpose": "normal operation: trust stays at 100"
+        },
+        {
+          "workload": "ECC",
+          "alpha": 0.3,
+          "failure_ms": 250,
+          "purpose": "brief failure: dip and recovery without crossing"
+        },
+        {
+          "workload": "ECC",
+          "alpha": 0.5,
+          "failure_ms": 3000,
+          "purpose": "sustained failure: crossing and D12-low command report"
+        },
+        {
+          "workload": "ZKP",
+          "alpha": 0.1,
+          "failure_ms": 3000,
+          "purpose": "slow configuration: many updates of the heavier workload"
+        }
+      ]
+    },
+    "repetitions": 1,
+    "ordering": {
+      "method": "explicit_sequence",
+      "sequence": [
+        "ECC-a0.30-f0",
+        "ECC-a0.30-f250",
+        "ECC-a0.50-f3000",
+        "ZKP-a0.10-f3000"
+      ]
+    },
+    "trial": {
+      "baseline_ms": 3000,
+      "injection_jitter_ms": 0,
+      "post_recover_ms": 4000,
+      "attack_resend_interval_ms": 0,
+      "config_ack_timeout_ms": 1500,
+      "config_attempts": 3,
+      "attack_ack_timeout_ms": 1000,
+      "recover_ack_timeout_ms": 1000,
+      "inter_trial_ms": 3000
+    },
+    "progression": {
+      "mode": "automatic",
+      "pause_on_operator_disconnect": true
+    },
+    "notes": "Demonstration preset. Pause between trials from the dashboard to narrate.",
+    "telemetry": {
+      "device_stale_ms": 1000,
+      "joint_stale_ms": 100,
+      "standstill": {
+        "v_still_rad_s": 0.01,
+        "hold_ms": 250,
+        "max_gap_ms": 40
+      },
+      "moving": {
+        "v_move_rad_s": 0.05,
+        "hold_ms": 100
+      }
+    }
+  },
+  "plan_sha256": "2690ae9a01fd5f144b70070a35a78c7defab7f2f094e26914c102ae53ab5198b"
+}

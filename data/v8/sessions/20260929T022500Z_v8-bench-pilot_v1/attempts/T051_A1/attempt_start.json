@@ -1,0 +1,106 @@
+{
+  "schema": "onedge.v8.dataset/1",
+  "attempt_id": "T051_A1",
+  "attempt": 1,
+  "trial_index": 51,
+  "trial_id": "T051",
+  "condition_id": "ECC-a0.10-f500",
+  "workload": "ECC",
+  "alpha": 0.1,
+  "failure_ms": 500,
+  "repetition": 2,
+  "block": 2,
+  "injection_jitter_ms": 143,
+  "session_id": "20260929T022500Z_v8-bench-pilot_v1",
+  "procedure": "bench",
+  "trial_config": {
+    "baseline_ms": 2000,
+    "injection_jitter_ms": 300,
+    "post_recover_ms": 2500,
+    "attack_resend_interval_ms": 0,
+    "config_ack_timeout_ms": 1500,
+    "config_attempts": 3,
+    "attack_ack_timeout_ms": 1000,
+    "recover_ack_timeout_ms": 1000,
+    "inter_trial_ms": 1000
+  },
+  "telemetry_config": {
+    "device_stale_ms": 1000,
+    "joint_stale_ms": 100,
+    "standstill": {
+      "v_still_rad_s": 0.01,
+      "hold_ms": 250,
+      "max_gap_ms": 40
+    },
+    "moving": {
+      "v_move_rad_s": 0.05,
+      "hold_ms": 100
+    }
+  },
+  "t_mono_ns": 31670935139420,
+  "t_wall_ns": 1790649047404621344,
+  "device": {
+    "connected": true,
+    "description": "serial /dev/serial/by-id/usb-Arduino_Nano_33_BLE_4BF58E3CC72BBA71-if00 @ 115200",
+    "simulated": false,
+    "protocol": "v8",
+    "identity": {
+      "fw": "trust_monitor_v8",
+      "ver": "8.0.0",
+      "build": "Sep 28 2026 21:51:04",
+      "proto": 1,
+      "thr": 30.0,
+      "pen_ecc_ms": 150.0,
+      "pen_zkp_ms": 400.0
+    },
+    "freshness": "fresh",
+    "age_ms": 61.291457,
+    "state": {
+      "trust": 99.9984,
+      "attack": 0,
+      "d12": 1,
+      "cycle": 48,
+      "workload": "ECC",
+      "alpha": 0.3,
+      "exec_ms": 112.178,
+      "rx_mono_ns": 31670873875222,
+      "seq": 9916
+    },
+    "continuity": {
+      "epoch": 0,
+      "missing_records": 0,
+      "gap_events": 0,
+      "duplicates": 0,
+      "resets": 0,
+      "small_backsteps": 0
+    },
+    "counters": {
+      "bytes": 1626303,
+      "reads": 19735,
+      "lines": 9916,
+      "tx_ok": 140
+    },
+    "disconnects": 0,
+    "last_error": null,
+    "pending_bytes": 0
+  },
+  "robot": {
+    "capabilities": {
+      "joint_telemetry": false,
+      "safety_mode": false,
+      "program_state": false,
+      "trajectory": false,
+      "dashboard": false,
+      "simulated": false
+    },
+    "joint_freshness": "unavailable",
+    "joint_age_ms": null,
+    "joint_samples": 0,
+    "motion_state": "unknown",
+    "latest_vmax": null,
+    "safety_mode": null,
+    "program_running": null
+  },
+  "simulated": false,
+  "manual": false
+}

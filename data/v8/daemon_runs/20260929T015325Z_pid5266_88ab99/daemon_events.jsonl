@@ -1,0 +1,4 @@
+{"t_mono_ns":29428625162132,"t_wall_ns":1790646805094642981,"event":"daemon_started","api_port":8765,"recovered_sessions":[]}
+{"t_mono_ns":29687014344992,"t_wall_ns":1790647063483825989,"event":"runner_state","state":"COMPLETED","reason":"all planned trials resolved"}
+{"t_mono_ns":32353788328846,"t_wall_ns":1790649730257810844,"event":"runner_state","state":"COMPLETED","reason":"all planned trials resolved"}
+{"t_mono_ns":32370051878152,"t_wall_ns":1790649746521359687,"event":"daemon_stopped"}

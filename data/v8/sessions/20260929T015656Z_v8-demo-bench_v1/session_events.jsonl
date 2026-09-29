@@ -1,0 +1,3 @@
+{"t_mono_ns":29639962864658,"t_wall_ns":1790647016432345933,"event":"runner_state","state":"RUNNING","reason":"campaign started"}
+{"t_mono_ns":29639963022397,"t_wall_ns":1790647016432501950,"event":"session_started","operator":"Claude (approved by Luke Pepin)","plan_sha256":"2690ae9a01fd5f144b70070a35a78c7defab7f2f094e26914c102ae53ab5198b"}
+{"t_mono_ns":29686962675106,"t_wall_ns":1790647063432154733,"event":"session_closed","final_state":"COMPLETED","reason":"all planned trials resolved"}

@@ -1,0 +1,60 @@
+{
+  "schema": "onedge.v8.campaign/1",
+  "campaign_id": "v8-bench-pilot",
+  "config_version": 1,
+  "title": "V8 bench pilot: device-timed response of the trust monitor (Pi + Nano, no robot)",
+  "kind": "research",
+  "status": "approved",
+  "approved_by": "Luke Pepin",
+  "approved_on": "2026-09-28",
+  "purpose": "Validate the V8 instrumentation (complete record capture, event ordering, clock relationship) and measure, on the device clock, how workload, EWMA alpha and injected failure duration shape the time from ATTACK processing to the first update below 30, including which failures end before crossing. Estimates variability to size the October V8 study. Not a physical-stop measurement.",
+  "procedure": "bench",
+  "factors": {
+    "workload": [
+      {"level": "ECC", "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean)"},
+      {"level": "ZKP", "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification"}
+    ],
+    "alpha": [
+      {"level": 0.1, "purpose": "tolerant weighting: 12 zero-observation updates to fall below 30 (V6/V7 level)"},
+      {"level": 0.3, "purpose": "intermediate weighting: 4 updates (V6/V7 level)"},
+      {"level": 0.5, "purpose": "sensitive weighting: 2 updates (V6/V7 level)"}
+    ],
+    "failure_ms": [
+      {"level": 0, "purpose": "no-injection control: no decline expected; checks the penalty branch stays inactive and gives the baseline loop period"},
+      {"level": 250, "purpose": "brief failure: expected to end before crossing except the most sensitive settings (phase-dependent boundary for alpha 0.5)"},
+      {"level": 500, "purpose": "short failure near the ECC alpha 0.3 and ZKP alpha 0.5 boundaries"},
+      {"level": 1000, "purpose": "intermediate failure: expected crossing for alpha 0.3/0.5, not for alpha 0.1"},
+      {"level": 3000, "purpose": "sustained failure: expected crossing for all settings (ZKP alpha 0.1 closest to its boundary)"}
+    ]
+  },
+  "design": {"type": "full_factorial"},
+  "repetitions": 5,
+  "ordering": {"method": "randomized_complete_blocks", "seed": 20260929},
+  "trial": {
+    "baseline_ms": 2000,
+    "injection_jitter_ms": 300,
+    "post_recover_ms": 2500,
+    "attack_resend_interval_ms": 0,
+    "config_ack_timeout_ms": 1500,
+    "config_attempts": 3,
+    "attack_ack_timeout_ms": 1000,
+    "recover_ack_timeout_ms": 1000,
+    "inter_trial_ms": 1000
+  },
+  "telemetry": {"device_stale_ms": 1000, "joint_stale_ms": 100},
+  "progression": {"mode": "automatic", "pause_on_operator_disconnect": true},
+  "controls": [
+    "failure_ms 0 in every workload/alpha cell (no-injection control)",
+    "each trial starts with a configuration reset (trust 100, cycle 0, attack cleared, D12 commanded high) acknowledged by the device",
+    "injection time randomized by up to 300 ms (more than one loop period) so ATTACK arrives at a varying phase of the workload cycle"
+  ],
+  "confounds": [
+    "Command phase: ATTACK and RECOVER are processed only between workload cycles; the waiting time is measured, not controlled.",
+    "Execution-time penalty branch (150/400 ms thresholds) is separate from injected failure; any penalty-caused decline is flagged per attempt.",
+    "V8 reporting overhead differs from the historical firmware (one larger record per cycle); the device-clock loop period quantifies it, but comparisons with V6/V7 host-observed intervals remain between different instruments.",
+    "Host timestamps include USB/tty and scheduling latency; device-clock intervals are the primary measures.",
+    "Single Nano unit, fixed firmware build and library versions; no generalization to other platforms.",
+    "Run order: randomized complete blocks balance slow drift across conditions but do not remove it."
+  ],
+  "notes": "Proposed 2026-09-28. Requires Luke's agreement before collection. 150 trials, roughly 20 minutes of bench time."
+}

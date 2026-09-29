@@ -1,0 +1,157 @@
+{
+  "definitions": "onedge.v8.definitions/1",
+  "attempt_id": "T146_A1",
+  "trial_id": "T146",
+  "condition_id": "ZKP-a0.30-f500",
+  "workload": "ZKP",
+  "alpha": 0.3,
+  "failure_ms": 500,
+  "procedure": "bench",
+  "status": "completed",
+  "device_protocol": "v8",
+  "device_epoch": 0,
+  "events": {
+    "D_CFG": {
+      "t_dev_us": 2992623702,
+      "epoch": 0,
+      "rx_mono_ns": 32317163573825,
+      "seq": 14357,
+      "cycle": 0,
+      "trust": 100.0,
+      "attack": 0
+    },
+    "D_ATTACK": {
+      "t_dev_us": 2994967999,
+      "epoch": 0,
+      "rx_mono_ns": 32319489413860,
+      "seq": 14368,
+      "cycle": 10,
+      "attack": 1,
+      "cmd": "ATTACK"
+    },
+    "D_CROSS": null,
+    "D_OUT_LOW": null,
+    "D_RECOVER": {
+      "t_dev_us": 2995672181,
+      "epoch": 0,
+      "rx_mono_ns": 32320188417218,
+      "seq": 14372,
+      "cycle": 13,
+      "attack": 0,
+      "cmd": "RECOVER"
+    },
+    "H_ATTACK_SENT": 32319455776164,
+    "H_RECOVER_SENT": 32319956316919,
+    "H_RX_CROSS": null,
+    "H_RX_OUT_LOW": null,
+    "H_RX_SAFEGUARD": null,
+    "H_CFG_SENT": 32317013376967
+  },
+  "attacked_updates_to_cross": null,
+  "model_check": {
+    "label": "MODEL",
+    "attacked_updates_to_cross_expected": 4,
+    "observed": null,
+    "agrees": null,
+    "assumption": "trust 100 at ATTACK, zero observations, no penalty; float32 recurrence"
+  },
+  "key_intervals": {
+    "device_failure_window": {
+      "clock": "device_us",
+      "value_ms": 704.182,
+      "definition": "D_RECOVER - D_ATTACK (device-side attack mode)"
+    },
+    "host_failure_window": {
+      "clock": "host_mono_ns",
+      "value_ms": 500.540755,
+      "definition": "H_RECOVER_SENT - H_ATTACK_SENT"
+    },
+    "aligned_attack_sent_to_device_processed": {
+      "clock": "aligned device_us->host_mono_ns",
+      "value_ms": 11.712752,
+      "range_ms": [
+        9.712752,
+        11.712752
+      ],
+      "note": "device end mapped to host clock; true value may be up to 2.0 ms earlier (assumed min-latency bound)",
+      "definition": "D_ATTACK - H_ATTACK_SENT"
+    }
+  },
+  "updates": {
+    "count": 23,
+    "loop_period_ms": {
+      "n": 22,
+      "mean": 234.42877272727273,
+      "median": 234.68099999999998,
+      "min": 233.689,
+      "max": 235.256,
+      "stdev": 0.49622680411838144,
+      "p95": 235.192
+    },
+    "exec_ms": {
+      "n": 23,
+      "mean": 224.06604347826087,
+      "median": 224.062,
+      "min": 223.929,
+      "max": 224.164,
+      "stdev": 0.07581345422744512,
+      "p95": 224.16
+    },
+    "report_write_us": {
+      "n": 23,
+      "mean": 381.0869565217391,
+      "median": 375,
+      "min": 333,
+      "max": 492,
+      "stdev": 39.08488785321027,
+      "p95": 449
+    },
+    "min_trust": 34.3,
+    "penalty_updates": 0
+  },
+  "records": {
+    "device_total": 27,
+    "device_ok_v8": 27,
+    "legacy": 0,
+    "not_ok": 0,
+    "missing_by_sequence": 0,
+    "complete": true
+  },
+  "clock_fit": {
+    "method": "min_delay_two_window",
+    "epoch": 0,
+    "slope_ns_per_us": 1000.0,
+    "offset_ns": 29324499489916.0,
+    "drift_ppm": 0.0,
+    "n_points": 27,
+    "span_s": 5.393645,
+    "slope_estimated": false,
+    "residual_ms": {
+      "p50": 20.425134,
+      "p95": 40.112337,
+      "max": 40.381909
+    },
+    "assumed_min_latency_bound_ms": 2.0,
+    "note": "slope estimate 992.664 ns/us rejected (> 1000.0 ppm); nominal used"
+  },
+  "motion": {
+    "applicable": false
+  },
+  "outcome": {
+    "injection": "processed",
+    "crossing": "no_crossing_in_complete_record",
+    "crossing_relative_to_recover": null,
+    "out_low_commanded": false,
+    "rx_cross_after_host_recover_sent": false
+  },
+  "quality_warnings": [],
+  "notes": [
+    "clock fit used the nominal slope (slope estimate 992.664 ns/us rejected (> 1000.0 ppm); nominal used)"
+  ],
+  "not_measured_by_this_software": [
+    "electrical D12 transition (requires oscilloscope or wired input)",
+    "physical standstill beyond the declared telemetry criterion"
+  ],
+  "file_issues": [],
+  "generated_by": "onedge_v8 0.1.0"
+}

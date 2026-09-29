@@ -1,0 +1,60 @@
+{
+  "schema": "onedge.v8.dataset/1",
+  "final_state": "COMPLETED",
+  "reason": "all planned trials resolved",
+  "ended_wall_ns": 1790647063432106696,
+  "ended_mono_ns": 29686962629847,
+  "trials": {
+    "T001": {
+      "attempts": [
+        {
+          "attempt_id": "T001_A1",
+          "status": "completed",
+          "reason": ""
+        }
+      ],
+      "final": "completed",
+      "reason": null
+    },
+    "T002": {
+      "attempts": [
+        {
+          "attempt_id": "T002_A1",
+          "status": "completed",
+          "reason": ""
+        }
+      ],
+      "final": "completed",
+      "reason": null
+    },
+    "T003": {
+      "attempts": [
+        {
+          "attempt_id": "T003_A1",
+          "status": "completed",
+          "reason": ""
+        }
+      ],
+      "final": "completed",
+      "reason": null
+    },
+    "T004": {
+      "attempts": [
+        {
+          "attempt_id": "T004_A1",
+          "status": "completed",
+          "reason": ""
+        }
+      ],
+      "final": "completed",
+      "reason": null
+    }
+  },
+  "counts": {
+    "planned": 4,
+    "completed": 4,
+    "skipped": 0,
+    "unresolved": 0,
+    "attempts": 4
+  }
+}

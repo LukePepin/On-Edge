@@ -1,0 +1,2390 @@
+{
+  "schema": "onedge.v8.plan/1",
+  "campaign_id": "v8-bench-pilot",
+  "config_version": 1,
+  "title": "V8 bench pilot: device-timed response of the trust monitor (Pi + Nano, no robot)",
+  "kind": "research",
+  "procedure": "bench",
+  "status": "approved",
+  "config_sha256": "1156c931faef71399acfca2032df04e756a070e88f29db2997eddd1c0c46cb0d",
+  "generated_by": "onedge_v8 0.1.0",
+  "ordering": {
+    "method": "randomized_complete_blocks",
+    "seed": 20260929,
+    "prng": "SplitMix64 + Fisher-Yates (see onedge_v8/campaign.py)"
+  },
+  "conditions": [
+    {
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 0,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | tolerant weighting: 12 zero-observation updates to fall below 30 (V6/V7 level) | no-injection control: no decline expected; checks the penalty branch stays inactive and gives the baseline loop period",
+      "condition_id": "ECC-a0.10-f0",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 12,
+        "expectation": "no injection (control)"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 250,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | tolerant weighting: 12 zero-observation updates to fall below 30 (V6/V7 level) | brief failure: expected to end before crossing except the most sensitive settings (phase-dependent boundary for alpha 0.5)",
+      "condition_id": "ECC-a0.10-f250",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 12,
+        "phase_dependent_failure_range_ms": [
+          1324,
+          1445
+        ],
+        "approx_crossing_after_send_ms": [
+          1436,
+          1556
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "failure likely ends before crossing"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 500,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | tolerant weighting: 12 zero-observation updates to fall below 30 (V6/V7 level) | short failure near the ECC alpha 0.3 and ZKP alpha 0.5 boundaries",
+      "condition_id": "ECC-a0.10-f500",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 12,
+        "phase_dependent_failure_range_ms": [
+          1324,
+          1445
+        ],
+        "approx_crossing_after_send_ms": [
+          1436,
+          1556
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "failure likely ends before crossing"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 1000,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | tolerant weighting: 12 zero-observation updates to fall below 30 (V6/V7 level) | intermediate failure: expected crossing for alpha 0.3/0.5, not for alpha 0.1",
+      "condition_id": "ECC-a0.10-f1000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 12,
+        "phase_dependent_failure_range_ms": [
+          1324,
+          1445
+        ],
+        "approx_crossing_after_send_ms": [
+          1436,
+          1556
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "failure likely ends before crossing"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | tolerant weighting: 12 zero-observation updates to fall below 30 (V6/V7 level) | sustained failure: expected crossing for all settings (ZKP alpha 0.1 closest to its boundary)",
+      "condition_id": "ECC-a0.10-f3000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 12,
+        "phase_dependent_failure_range_ms": [
+          1324,
+          1445
+        ],
+        "approx_crossing_after_send_ms": [
+          1436,
+          1556
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | intermediate weighting: 4 updates (V6/V7 level) | no-injection control: no decline expected; checks the penalty branch stays inactive and gives the baseline loop period",
+      "condition_id": "ECC-a0.30-f0",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 4,
+        "expectation": "no injection (control)"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | intermediate weighting: 4 updates (V6/V7 level) | brief failure: expected to end before crossing except the most sensitive settings (phase-dependent boundary for alpha 0.5)",
+      "condition_id": "ECC-a0.30-f250",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 4,
+        "phase_dependent_failure_range_ms": [
+          361,
+          482
+        ],
+        "approx_crossing_after_send_ms": [
+          473,
+          593
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "failure likely ends before crossing"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 500,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | intermediate weighting: 4 updates (V6/V7 level) | short failure near the ECC alpha 0.3 and ZKP alpha 0.5 boundaries",
+      "condition_id": "ECC-a0.30-f500",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 4,
+        "phase_dependent_failure_range_ms": [
+          361,
+          482
+        ],
+        "approx_crossing_after_send_ms": [
+          473,
+          593
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 1000,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | intermediate weighting: 4 updates (V6/V7 level) | intermediate failure: expected crossing for alpha 0.3/0.5, not for alpha 0.1",
+      "condition_id": "ECC-a0.30-f1000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 4,
+        "phase_dependent_failure_range_ms": [
+          361,
+          482
+        ],
+        "approx_crossing_after_send_ms": [
+          473,
+          593
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 3000,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | intermediate weighting: 4 updates (V6/V7 level) | sustained failure: expected crossing for all settings (ZKP alpha 0.1 closest to its boundary)",
+      "condition_id": "ECC-a0.30-f3000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 4,
+        "phase_dependent_failure_range_ms": [
+          361,
+          482
+        ],
+        "approx_crossing_after_send_ms": [
+          473,
+          593
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 0,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | sensitive weighting: 2 updates (V6/V7 level) | no-injection control: no decline expected; checks the penalty branch stays inactive and gives the baseline loop period",
+      "condition_id": "ECC-a0.50-f0",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 2,
+        "expectation": "no injection (control)"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 250,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | sensitive weighting: 2 updates (V6/V7 level) | brief failure: expected to end before crossing except the most sensitive settings (phase-dependent boundary for alpha 0.5)",
+      "condition_id": "ECC-a0.50-f250",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 2,
+        "phase_dependent_failure_range_ms": [
+          120,
+          241
+        ],
+        "approx_crossing_after_send_ms": [
+          232,
+          352
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "boundary: outcome depends on command phase"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 500,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | sensitive weighting: 2 updates (V6/V7 level) | short failure near the ECC alpha 0.3 and ZKP alpha 0.5 boundaries",
+      "condition_id": "ECC-a0.50-f500",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 2,
+        "phase_dependent_failure_range_ms": [
+          120,
+          241
+        ],
+        "approx_crossing_after_send_ms": [
+          232,
+          352
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 1000,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | sensitive weighting: 2 updates (V6/V7 level) | intermediate failure: expected crossing for alpha 0.3/0.5, not for alpha 0.1",
+      "condition_id": "ECC-a0.50-f1000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 2,
+        "phase_dependent_failure_range_ms": [
+          120,
+          241
+        ],
+        "approx_crossing_after_send_ms": [
+          232,
+          352
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetitions": 5,
+      "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean) | sensitive weighting: 2 updates (V6/V7 level) | sustained failure: expected crossing for all settings (ZKP alpha 0.1 closest to its boundary)",
+      "condition_id": "ECC-a0.50-f3000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 2,
+        "phase_dependent_failure_range_ms": [
+          120,
+          241
+        ],
+        "approx_crossing_after_send_ms": [
+          232,
+          352
+        ],
+        "basis": "historical period 120.4 ms, exec 111.54 ms (host-observed summaries); margin 12 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 0,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | tolerant weighting: 12 zero-observation updates to fall below 30 (V6/V7 level) | no-injection control: no decline expected; checks the penalty branch stays inactive and gives the baseline loop period",
+      "condition_id": "ZKP-a0.10-f0",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 12,
+        "expectation": "no injection (control)"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 250,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | tolerant weighting: 12 zero-observation updates to fall below 30 (V6/V7 level) | brief failure: expected to end before crossing except the most sensitive settings (phase-dependent boundary for alpha 0.5)",
+      "condition_id": "ZKP-a0.10-f250",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 12,
+        "phase_dependent_failure_range_ms": [
+          2553,
+          2785
+        ],
+        "approx_crossing_after_send_ms": [
+          2778,
+          3010
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "failure likely ends before crossing"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 500,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | tolerant weighting: 12 zero-observation updates to fall below 30 (V6/V7 level) | short failure near the ECC alpha 0.3 and ZKP alpha 0.5 boundaries",
+      "condition_id": "ZKP-a0.10-f500",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 12,
+        "phase_dependent_failure_range_ms": [
+          2553,
+          2785
+        ],
+        "approx_crossing_after_send_ms": [
+          2778,
+          3010
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "failure likely ends before crossing"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 1000,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | tolerant weighting: 12 zero-observation updates to fall below 30 (V6/V7 level) | intermediate failure: expected crossing for alpha 0.3/0.5, not for alpha 0.1",
+      "condition_id": "ZKP-a0.10-f1000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 12,
+        "phase_dependent_failure_range_ms": [
+          2553,
+          2785
+        ],
+        "approx_crossing_after_send_ms": [
+          2778,
+          3010
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "failure likely ends before crossing"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | tolerant weighting: 12 zero-observation updates to fall below 30 (V6/V7 level) | sustained failure: expected crossing for all settings (ZKP alpha 0.1 closest to its boundary)",
+      "condition_id": "ZKP-a0.10-f3000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 12,
+        "phase_dependent_failure_range_ms": [
+          2553,
+          2785
+        ],
+        "approx_crossing_after_send_ms": [
+          2778,
+          3010
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | intermediate weighting: 4 updates (V6/V7 level) | no-injection control: no decline expected; checks the penalty branch stays inactive and gives the baseline loop period",
+      "condition_id": "ZKP-a0.30-f0",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 4,
+        "expectation": "no injection (control)"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | intermediate weighting: 4 updates (V6/V7 level) | brief failure: expected to end before crossing except the most sensitive settings (phase-dependent boundary for alpha 0.5)",
+      "condition_id": "ZKP-a0.30-f250",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 4,
+        "phase_dependent_failure_range_ms": [
+          696,
+          928
+        ],
+        "approx_crossing_after_send_ms": [
+          921,
+          1153
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "failure likely ends before crossing"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 500,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | intermediate weighting: 4 updates (V6/V7 level) | short failure near the ECC alpha 0.3 and ZKP alpha 0.5 boundaries",
+      "condition_id": "ZKP-a0.30-f500",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 4,
+        "phase_dependent_failure_range_ms": [
+          696,
+          928
+        ],
+        "approx_crossing_after_send_ms": [
+          921,
+          1153
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "failure likely ends before crossing"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 1000,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | intermediate weighting: 4 updates (V6/V7 level) | intermediate failure: expected crossing for alpha 0.3/0.5, not for alpha 0.1",
+      "condition_id": "ZKP-a0.30-f1000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 4,
+        "phase_dependent_failure_range_ms": [
+          696,
+          928
+        ],
+        "approx_crossing_after_send_ms": [
+          921,
+          1153
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 3000,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | intermediate weighting: 4 updates (V6/V7 level) | sustained failure: expected crossing for all settings (ZKP alpha 0.1 closest to its boundary)",
+      "condition_id": "ZKP-a0.30-f3000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 4,
+        "phase_dependent_failure_range_ms": [
+          696,
+          928
+        ],
+        "approx_crossing_after_send_ms": [
+          921,
+          1153
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 0,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | sensitive weighting: 2 updates (V6/V7 level) | no-injection control: no decline expected; checks the penalty branch stays inactive and gives the baseline loop period",
+      "condition_id": "ZKP-a0.50-f0",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 2,
+        "expectation": "no injection (control)"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 250,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | sensitive weighting: 2 updates (V6/V7 level) | brief failure: expected to end before crossing except the most sensitive settings (phase-dependent boundary for alpha 0.5)",
+      "condition_id": "ZKP-a0.50-f250",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 2,
+        "phase_dependent_failure_range_ms": [
+          232,
+          464
+        ],
+        "approx_crossing_after_send_ms": [
+          457,
+          689
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "boundary: outcome depends on command phase"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 500,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | sensitive weighting: 2 updates (V6/V7 level) | short failure near the ECC alpha 0.3 and ZKP alpha 0.5 boundaries",
+      "condition_id": "ZKP-a0.50-f500",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 2,
+        "phase_dependent_failure_range_ms": [
+          232,
+          464
+        ],
+        "approx_crossing_after_send_ms": [
+          457,
+          689
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 1000,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | sensitive weighting: 2 updates (V6/V7 level) | intermediate failure: expected crossing for alpha 0.3/0.5, not for alpha 0.1",
+      "condition_id": "ZKP-a0.50-f1000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 2,
+        "phase_dependent_failure_range_ms": [
+          232,
+          464
+        ],
+        "approx_crossing_after_send_ms": [
+          457,
+          689
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    },
+    {
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetitions": 5,
+      "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification | sensitive weighting: 2 updates (V6/V7 level) | sustained failure: expected crossing for all settings (ZKP alpha 0.1 closest to its boundary)",
+      "condition_id": "ZKP-a0.50-f3000",
+      "model": {
+        "label": "MODEL",
+        "attacked_updates_to_cross": 2,
+        "phase_dependent_failure_range_ms": [
+          232,
+          464
+        ],
+        "approx_crossing_after_send_ms": [
+          457,
+          689
+        ],
+        "basis": "historical period 232.1 ms, exec 224.86 ms (host-observed summaries); margin 23 ms",
+        "expectation": "crossing likely before RECOVER is processed"
+      }
+    }
+  ],
+  "n_conditions": 30,
+  "n_trials": 150,
+  "estimated_duration_s": 1066,
+  "trials": [
+    {
+      "trial_index": 1,
+      "trial_id": "T001",
+      "condition_id": "ECC-a0.10-f3000",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 176
+    },
+    {
+      "trial_index": 2,
+      "trial_id": "T002",
+      "condition_id": "ECC-a0.50-f250",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 250,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 115
+    },
+    {
+      "trial_index": 3,
+      "trial_id": "T003",
+      "condition_id": "ZKP-a0.30-f3000",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 3000,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 161
+    },
+    {
+      "trial_index": 4,
+      "trial_id": "T004",
+      "condition_id": "ZKP-a0.10-f0",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 0,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 46
+    },
+    {
+      "trial_index": 5,
+      "trial_id": "T005",
+      "condition_id": "ZKP-a0.50-f1000",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 1000,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 199
+    },
+    {
+      "trial_index": 6,
+      "trial_id": "T006",
+      "condition_id": "ECC-a0.30-f500",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 500,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 131
+    },
+    {
+      "trial_index": 7,
+      "trial_id": "T007",
+      "condition_id": "ECC-a0.50-f500",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 500,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 190
+    },
+    {
+      "trial_index": 8,
+      "trial_id": "T008",
+      "condition_id": "ECC-a0.10-f1000",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 1000,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 67
+    },
+    {
+      "trial_index": 9,
+      "trial_id": "T009",
+      "condition_id": "ECC-a0.30-f3000",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 3000,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 10
+    },
+    {
+      "trial_index": 10,
+      "trial_id": "T010",
+      "condition_id": "ECC-a0.30-f0",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 55
+    },
+    {
+      "trial_index": 11,
+      "trial_id": "T011",
+      "condition_id": "ZKP-a0.30-f500",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 500,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 14
+    },
+    {
+      "trial_index": 12,
+      "trial_id": "T012",
+      "condition_id": "ECC-a0.10-f250",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 250,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 141
+    },
+    {
+      "trial_index": 13,
+      "trial_id": "T013",
+      "condition_id": "ZKP-a0.10-f3000",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 293
+    },
+    {
+      "trial_index": 14,
+      "trial_id": "T014",
+      "condition_id": "ZKP-a0.30-f250",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 273
+    },
+    {
+      "trial_index": 15,
+      "trial_id": "T015",
+      "condition_id": "ZKP-a0.50-f250",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 250,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 184
+    },
+    {
+      "trial_index": 16,
+      "trial_id": "T016",
+      "condition_id": "ECC-a0.50-f3000",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 211
+    },
+    {
+      "trial_index": 17,
+      "trial_id": "T017",
+      "condition_id": "ECC-a0.30-f1000",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 1000,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 295
+    },
+    {
+      "trial_index": 18,
+      "trial_id": "T018",
+      "condition_id": "ZKP-a0.30-f0",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 249
+    },
+    {
+      "trial_index": 19,
+      "trial_id": "T019",
+      "condition_id": "ECC-a0.10-f500",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 500,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 80
+    },
+    {
+      "trial_index": 20,
+      "trial_id": "T020",
+      "condition_id": "ZKP-a0.10-f1000",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 1000,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 174
+    },
+    {
+      "trial_index": 21,
+      "trial_id": "T021",
+      "condition_id": "ZKP-a0.10-f250",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 250,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 123
+    },
+    {
+      "trial_index": 22,
+      "trial_id": "T022",
+      "condition_id": "ZKP-a0.50-f500",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 500,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 229
+    },
+    {
+      "trial_index": 23,
+      "trial_id": "T023",
+      "condition_id": "ECC-a0.30-f250",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 0
+    },
+    {
+      "trial_index": 24,
+      "trial_id": "T024",
+      "condition_id": "ZKP-a0.10-f500",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 500,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 207
+    },
+    {
+      "trial_index": 25,
+      "trial_id": "T025",
+      "condition_id": "ZKP-a0.50-f3000",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 258
+    },
+    {
+      "trial_index": 26,
+      "trial_id": "T026",
+      "condition_id": "ECC-a0.10-f0",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 0,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 3
+    },
+    {
+      "trial_index": 27,
+      "trial_id": "T027",
+      "condition_id": "ECC-a0.50-f0",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 0,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 37
+    },
+    {
+      "trial_index": 28,
+      "trial_id": "T028",
+      "condition_id": "ZKP-a0.30-f1000",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 1000,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 226
+    },
+    {
+      "trial_index": 29,
+      "trial_id": "T029",
+      "condition_id": "ZKP-a0.50-f0",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 0,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 114
+    },
+    {
+      "trial_index": 30,
+      "trial_id": "T030",
+      "condition_id": "ECC-a0.50-f1000",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 1000,
+      "repetition": 1,
+      "block": 1,
+      "injection_jitter_ms": 66
+    },
+    {
+      "trial_index": 31,
+      "trial_id": "T031",
+      "condition_id": "ECC-a0.10-f1000",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 1000,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 189
+    },
+    {
+      "trial_index": 32,
+      "trial_id": "T032",
+      "condition_id": "ECC-a0.30-f3000",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 3000,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 273
+    },
+    {
+      "trial_index": 33,
+      "trial_id": "T033",
+      "condition_id": "ZKP-a0.50-f3000",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 18
+    },
+    {
+      "trial_index": 34,
+      "trial_id": "T034",
+      "condition_id": "ECC-a0.50-f1000",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 1000,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 283
+    },
+    {
+      "trial_index": 35,
+      "trial_id": "T035",
+      "condition_id": "ZKP-a0.50-f500",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 500,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 228
+    },
+    {
+      "trial_index": 36,
+      "trial_id": "T036",
+      "condition_id": "ZKP-a0.50-f1000",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 1000,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 7
+    },
+    {
+      "trial_index": 37,
+      "trial_id": "T037",
+      "condition_id": "ZKP-a0.30-f0",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 9
+    },
+    {
+      "trial_index": 38,
+      "trial_id": "T038",
+      "condition_id": "ZKP-a0.50-f0",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 0,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 0
+    },
+    {
+      "trial_index": 39,
+      "trial_id": "T039",
+      "condition_id": "ECC-a0.50-f250",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 250,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 223
+    },
+    {
+      "trial_index": 40,
+      "trial_id": "T040",
+      "condition_id": "ECC-a0.10-f3000",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 42
+    },
+    {
+      "trial_index": 41,
+      "trial_id": "T041",
+      "condition_id": "ZKP-a0.50-f250",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 250,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 193
+    },
+    {
+      "trial_index": 42,
+      "trial_id": "T042",
+      "condition_id": "ECC-a0.30-f0",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 111
+    },
+    {
+      "trial_index": 43,
+      "trial_id": "T043",
+      "condition_id": "ZKP-a0.10-f3000",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 115
+    },
+    {
+      "trial_index": 44,
+      "trial_id": "T044",
+      "condition_id": "ZKP-a0.30-f500",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 500,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 2
+    },
+    {
+      "trial_index": 45,
+      "trial_id": "T045",
+      "condition_id": "ZKP-a0.30-f3000",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 3000,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 132
+    },
+    {
+      "trial_index": 46,
+      "trial_id": "T046",
+      "condition_id": "ZKP-a0.10-f1000",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 1000,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 201
+    },
+    {
+      "trial_index": 47,
+      "trial_id": "T047",
+      "condition_id": "ECC-a0.50-f0",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 0,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 69
+    },
+    {
+      "trial_index": 48,
+      "trial_id": "T048",
+      "condition_id": "ZKP-a0.10-f500",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 500,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 76
+    },
+    {
+      "trial_index": 49,
+      "trial_id": "T049",
+      "condition_id": "ECC-a0.50-f3000",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 165
+    },
+    {
+      "trial_index": 50,
+      "trial_id": "T050",
+      "condition_id": "ECC-a0.30-f250",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 153
+    },
+    {
+      "trial_index": 51,
+      "trial_id": "T051",
+      "condition_id": "ECC-a0.10-f500",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 500,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 143
+    },
+    {
+      "trial_index": 52,
+      "trial_id": "T052",
+      "condition_id": "ECC-a0.10-f0",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 0,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 235
+    },
+    {
+      "trial_index": 53,
+      "trial_id": "T053",
+      "condition_id": "ECC-a0.50-f500",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 500,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 250
+    },
+    {
+      "trial_index": 54,
+      "trial_id": "T054",
+      "condition_id": "ECC-a0.30-f500",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 500,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 166
+    },
+    {
+      "trial_index": 55,
+      "trial_id": "T055",
+      "condition_id": "ECC-a0.10-f250",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 250,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 148
+    },
+    {
+      "trial_index": 56,
+      "trial_id": "T056",
+      "condition_id": "ZKP-a0.10-f250",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 250,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 1
+    },
+    {
+      "trial_index": 57,
+      "trial_id": "T057",
+      "condition_id": "ZKP-a0.10-f0",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 0,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 234
+    },
+    {
+      "trial_index": 58,
+      "trial_id": "T058",
+      "condition_id": "ECC-a0.30-f1000",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 1000,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 180
+    },
+    {
+      "trial_index": 59,
+      "trial_id": "T059",
+      "condition_id": "ZKP-a0.30-f1000",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 1000,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 299
+    },
+    {
+      "trial_index": 60,
+      "trial_id": "T060",
+      "condition_id": "ZKP-a0.30-f250",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetition": 2,
+      "block": 2,
+      "injection_jitter_ms": 174
+    },
+    {
+      "trial_index": 61,
+      "trial_id": "T061",
+      "condition_id": "ECC-a0.30-f3000",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 3000,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 113
+    },
+    {
+      "trial_index": 62,
+      "trial_id": "T062",
+      "condition_id": "ECC-a0.50-f1000",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 1000,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 124
+    },
+    {
+      "trial_index": 63,
+      "trial_id": "T063",
+      "condition_id": "ECC-a0.10-f3000",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 250
+    },
+    {
+      "trial_index": 64,
+      "trial_id": "T064",
+      "condition_id": "ZKP-a0.50-f3000",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 89
+    },
+    {
+      "trial_index": 65,
+      "trial_id": "T065",
+      "condition_id": "ZKP-a0.30-f500",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 500,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 23
+    },
+    {
+      "trial_index": 66,
+      "trial_id": "T066",
+      "condition_id": "ECC-a0.30-f1000",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 1000,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 14
+    },
+    {
+      "trial_index": 67,
+      "trial_id": "T067",
+      "condition_id": "ZKP-a0.30-f0",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 299
+    },
+    {
+      "trial_index": 68,
+      "trial_id": "T068",
+      "condition_id": "ECC-a0.50-f0",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 0,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 46
+    },
+    {
+      "trial_index": 69,
+      "trial_id": "T069",
+      "condition_id": "ECC-a0.50-f3000",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 222
+    },
+    {
+      "trial_index": 70,
+      "trial_id": "T070",
+      "condition_id": "ECC-a0.30-f500",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 500,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 291
+    },
+    {
+      "trial_index": 71,
+      "trial_id": "T071",
+      "condition_id": "ZKP-a0.10-f500",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 500,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 172
+    },
+    {
+      "trial_index": 72,
+      "trial_id": "T072",
+      "condition_id": "ZKP-a0.50-f0",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 0,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 153
+    },
+    {
+      "trial_index": 73,
+      "trial_id": "T073",
+      "condition_id": "ZKP-a0.10-f3000",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 163
+    },
+    {
+      "trial_index": 74,
+      "trial_id": "T074",
+      "condition_id": "ECC-a0.10-f0",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 0,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 162
+    },
+    {
+      "trial_index": 75,
+      "trial_id": "T075",
+      "condition_id": "ECC-a0.30-f250",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 53
+    },
+    {
+      "trial_index": 76,
+      "trial_id": "T076",
+      "condition_id": "ECC-a0.10-f250",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 250,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 289
+    },
+    {
+      "trial_index": 77,
+      "trial_id": "T077",
+      "condition_id": "ZKP-a0.50-f250",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 250,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 250
+    },
+    {
+      "trial_index": 78,
+      "trial_id": "T078",
+      "condition_id": "ECC-a0.30-f0",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 55
+    },
+    {
+      "trial_index": 79,
+      "trial_id": "T079",
+      "condition_id": "ECC-a0.10-f500",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 500,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 281
+    },
+    {
+      "trial_index": 80,
+      "trial_id": "T080",
+      "condition_id": "ZKP-a0.50-f500",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 500,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 191
+    },
+    {
+      "trial_index": 81,
+      "trial_id": "T081",
+      "condition_id": "ZKP-a0.10-f0",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 0,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 124
+    },
+    {
+      "trial_index": 82,
+      "trial_id": "T082",
+      "condition_id": "ZKP-a0.50-f1000",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 1000,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 52
+    },
+    {
+      "trial_index": 83,
+      "trial_id": "T083",
+      "condition_id": "ZKP-a0.10-f250",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 250,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 157
+    },
+    {
+      "trial_index": 84,
+      "trial_id": "T084",
+      "condition_id": "ZKP-a0.30-f250",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 98
+    },
+    {
+      "trial_index": 85,
+      "trial_id": "T085",
+      "condition_id": "ZKP-a0.30-f3000",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 3000,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 279
+    },
+    {
+      "trial_index": 86,
+      "trial_id": "T086",
+      "condition_id": "ZKP-a0.30-f1000",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 1000,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 29
+    },
+    {
+      "trial_index": 87,
+      "trial_id": "T087",
+      "condition_id": "ECC-a0.50-f250",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 250,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 199
+    },
+    {
+      "trial_index": 88,
+      "trial_id": "T088",
+      "condition_id": "ECC-a0.50-f500",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 500,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 90
+    },
+    {
+      "trial_index": 89,
+      "trial_id": "T089",
+      "condition_id": "ECC-a0.10-f1000",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 1000,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 203
+    },
+    {
+      "trial_index": 90,
+      "trial_id": "T090",
+      "condition_id": "ZKP-a0.10-f1000",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 1000,
+      "repetition": 3,
+      "block": 3,
+      "injection_jitter_ms": 66
+    },
+    {
+      "trial_index": 91,
+      "trial_id": "T091",
+      "condition_id": "ZKP-a0.50-f500",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 500,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 203
+    },
+    {
+      "trial_index": 92,
+      "trial_id": "T092",
+      "condition_id": "ZKP-a0.10-f250",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 250,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 260
+    },
+    {
+      "trial_index": 93,
+      "trial_id": "T093",
+      "condition_id": "ZKP-a0.50-f0",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 0,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 256
+    },
+    {
+      "trial_index": 94,
+      "trial_id": "T094",
+      "condition_id": "ECC-a0.50-f1000",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 1000,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 185
+    },
+    {
+      "trial_index": 95,
+      "trial_id": "T095",
+      "condition_id": "ZKP-a0.10-f1000",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 1000,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 131
+    },
+    {
+      "trial_index": 96,
+      "trial_id": "T096",
+      "condition_id": "ECC-a0.30-f500",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 500,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 290
+    },
+    {
+      "trial_index": 97,
+      "trial_id": "T097",
+      "condition_id": "ZKP-a0.50-f3000",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 74
+    },
+    {
+      "trial_index": 98,
+      "trial_id": "T098",
+      "condition_id": "ZKP-a0.10-f3000",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 244
+    },
+    {
+      "trial_index": 99,
+      "trial_id": "T099",
+      "condition_id": "ECC-a0.10-f1000",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 1000,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 293
+    },
+    {
+      "trial_index": 100,
+      "trial_id": "T100",
+      "condition_id": "ECC-a0.30-f1000",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 1000,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 236
+    },
+    {
+      "trial_index": 101,
+      "trial_id": "T101",
+      "condition_id": "ECC-a0.10-f250",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 250,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 264
+    },
+    {
+      "trial_index": 102,
+      "trial_id": "T102",
+      "condition_id": "ZKP-a0.30-f250",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 200
+    },
+    {
+      "trial_index": 103,
+      "trial_id": "T103",
+      "condition_id": "ECC-a0.10-f3000",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 182
+    },
+    {
+      "trial_index": 104,
+      "trial_id": "T104",
+      "condition_id": "ZKP-a0.50-f250",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 250,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 199
+    },
+    {
+      "trial_index": 105,
+      "trial_id": "T105",
+      "condition_id": "ZKP-a0.30-f1000",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 1000,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 27
+    },
+    {
+      "trial_index": 106,
+      "trial_id": "T106",
+      "condition_id": "ECC-a0.10-f500",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 500,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 157
+    },
+    {
+      "trial_index": 107,
+      "trial_id": "T107",
+      "condition_id": "ECC-a0.10-f0",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 0,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 98
+    },
+    {
+      "trial_index": 108,
+      "trial_id": "T108",
+      "condition_id": "ECC-a0.30-f3000",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 3000,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 164
+    },
+    {
+      "trial_index": 109,
+      "trial_id": "T109",
+      "condition_id": "ECC-a0.30-f0",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 269
+    },
+    {
+      "trial_index": 110,
+      "trial_id": "T110",
+      "condition_id": "ZKP-a0.10-f500",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 500,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 20
+    },
+    {
+      "trial_index": 111,
+      "trial_id": "T111",
+      "condition_id": "ZKP-a0.10-f0",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 0,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 206
+    },
+    {
+      "trial_index": 112,
+      "trial_id": "T112",
+      "condition_id": "ECC-a0.50-f0",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 0,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 212
+    },
+    {
+      "trial_index": 113,
+      "trial_id": "T113",
+      "condition_id": "ZKP-a0.50-f1000",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 1000,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 290
+    },
+    {
+      "trial_index": 114,
+      "trial_id": "T114",
+      "condition_id": "ZKP-a0.30-f3000",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 3000,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 171
+    },
+    {
+      "trial_index": 115,
+      "trial_id": "T115",
+      "condition_id": "ECC-a0.50-f3000",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 80
+    },
+    {
+      "trial_index": 116,
+      "trial_id": "T116",
+      "condition_id": "ECC-a0.50-f500",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 500,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 266
+    },
+    {
+      "trial_index": 117,
+      "trial_id": "T117",
+      "condition_id": "ZKP-a0.30-f500",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 500,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 49
+    },
+    {
+      "trial_index": 118,
+      "trial_id": "T118",
+      "condition_id": "ECC-a0.30-f250",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 127
+    },
+    {
+      "trial_index": 119,
+      "trial_id": "T119",
+      "condition_id": "ECC-a0.50-f250",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 250,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 276
+    },
+    {
+      "trial_index": 120,
+      "trial_id": "T120",
+      "condition_id": "ZKP-a0.30-f0",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetition": 4,
+      "block": 4,
+      "injection_jitter_ms": 74
+    },
+    {
+      "trial_index": 121,
+      "trial_id": "T121",
+      "condition_id": "ZKP-a0.30-f3000",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 3000,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 251
+    },
+    {
+      "trial_index": 122,
+      "trial_id": "T122",
+      "condition_id": "ZKP-a0.10-f0",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 0,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 82
+    },
+    {
+      "trial_index": 123,
+      "trial_id": "T123",
+      "condition_id": "ZKP-a0.30-f0",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 255
+    },
+    {
+      "trial_index": 124,
+      "trial_id": "T124",
+      "condition_id": "ECC-a0.30-f250",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 159
+    },
+    {
+      "trial_index": 125,
+      "trial_id": "T125",
+      "condition_id": "ZKP-a0.50-f250",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 250,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 91
+    },
+    {
+      "trial_index": 126,
+      "trial_id": "T126",
+      "condition_id": "ZKP-a0.50-f3000",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 214
+    },
+    {
+      "trial_index": 127,
+      "trial_id": "T127",
+      "condition_id": "ZKP-a0.30-f250",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 250,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 276
+    },
+    {
+      "trial_index": 128,
+      "trial_id": "T128",
+      "condition_id": "ZKP-a0.10-f250",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 250,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 8
+    },
+    {
+      "trial_index": 129,
+      "trial_id": "T129",
+      "condition_id": "ECC-a0.50-f3000",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 3000,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 42
+    },
+    {
+      "trial_index": 130,
+      "trial_id": "T130",
+      "condition_id": "ECC-a0.10-f250",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 250,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 185
+    },
+    {
+      "trial_index": 131,
+      "trial_id": "T131",
+      "condition_id": "ECC-a0.10-f500",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 500,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 76
+    },
+    {
+      "trial_index": 132,
+      "trial_id": "T132",
+      "condition_id": "ECC-a0.50-f250",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 250,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 112
+    },
+    {
+      "trial_index": 133,
+      "trial_id": "T133",
+      "condition_id": "ECC-a0.30-f500",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 500,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 257
+    },
+    {
+      "trial_index": 134,
+      "trial_id": "T134",
+      "condition_id": "ECC-a0.50-f1000",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 1000,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 154
+    },
+    {
+      "trial_index": 135,
+      "trial_id": "T135",
+      "condition_id": "ECC-a0.30-f3000",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 3000,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 53
+    },
+    {
+      "trial_index": 136,
+      "trial_id": "T136",
+      "condition_id": "ECC-a0.50-f500",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 500,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 71
+    },
+    {
+      "trial_index": 137,
+      "trial_id": "T137",
+      "condition_id": "ZKP-a0.10-f500",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 500,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 153
+    },
+    {
+      "trial_index": 138,
+      "trial_id": "T138",
+      "condition_id": "ZKP-a0.50-f0",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 0,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 267
+    },
+    {
+      "trial_index": 139,
+      "trial_id": "T139",
+      "condition_id": "ECC-a0.30-f0",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 0,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 262
+    },
+    {
+      "trial_index": 140,
+      "trial_id": "T140",
+      "condition_id": "ECC-a0.10-f0",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 0,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 43
+    },
+    {
+      "trial_index": 141,
+      "trial_id": "T141",
+      "condition_id": "ECC-a0.10-f3000",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 118
+    },
+    {
+      "trial_index": 142,
+      "trial_id": "T142",
+      "condition_id": "ZKP-a0.30-f1000",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 1000,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 8
+    },
+    {
+      "trial_index": 143,
+      "trial_id": "T143",
+      "condition_id": "ECC-a0.30-f1000",
+      "workload": "ECC",
+      "alpha": 0.3,
+      "failure_ms": 1000,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 282
+    },
+    {
+      "trial_index": 144,
+      "trial_id": "T144",
+      "condition_id": "ECC-a0.50-f0",
+      "workload": "ECC",
+      "alpha": 0.5,
+      "failure_ms": 0,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 233
+    },
+    {
+      "trial_index": 145,
+      "trial_id": "T145",
+      "condition_id": "ZKP-a0.10-f1000",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 1000,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 241
+    },
+    {
+      "trial_index": 146,
+      "trial_id": "T146",
+      "condition_id": "ZKP-a0.30-f500",
+      "workload": "ZKP",
+      "alpha": 0.3,
+      "failure_ms": 500,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 289
+    },
+    {
+      "trial_index": 147,
+      "trial_id": "T147",
+      "condition_id": "ZKP-a0.50-f1000",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 1000,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 150
+    },
+    {
+      "trial_index": 148,
+      "trial_id": "T148",
+      "condition_id": "ZKP-a0.50-f500",
+      "workload": "ZKP",
+      "alpha": 0.5,
+      "failure_ms": 500,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 145
+    },
+    {
+      "trial_index": 149,
+      "trial_id": "T149",
+      "condition_id": "ECC-a0.10-f1000",
+      "workload": "ECC",
+      "alpha": 0.1,
+      "failure_ms": 1000,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 54
+    },
+    {
+      "trial_index": 150,
+      "trial_id": "T150",
+      "condition_id": "ZKP-a0.10-f3000",
+      "workload": "ZKP",
+      "alpha": 0.1,
+      "failure_ms": 3000,
+      "repetition": 5,
+      "block": 5,
+      "injection_jitter_ms": 248
+    }
+  ],
+  "normalized_config": {
+    "schema": "onedge.v8.campaign/1",
+    "campaign_id": "v8-bench-pilot",
+    "config_version": 1,
+    "title": "V8 bench pilot: device-timed response of the trust monitor (Pi + Nano, no robot)",
+    "kind": "research",
+    "status": "approved",
+    "approved_by": "Luke Pepin",
+    "approved_on": "2026-09-28",
+    "purpose": "Validate the V8 instrumentation (complete record capture, event ordering, clock relationship) and measure, on the device clock, how workload, EWMA alpha and injected failure duration shape the time from ATTACK processing to the first update below 30, including which failures end before crossing. Estimates variability to size the October V8 study. Not a physical-stop measurement.",
+    "procedure": "bench",
+    "factors": {
+      "workload": [
+        {
+          "level": "ECC",
+          "purpose": "ECC key generation workload (historical V6 workload; ~111.5 ms profile mean)"
+        },
+        {
+          "level": "ZKP",
+          "purpose": "two scalar multiplications, historical label ZKP (V7 workload; ~224.9 ms profile mean); a cost proxy, not proof verification"
+        }
+      ],
+      "alpha": [
+        {
+          "level": 0.1,
+          "purpose": "tolerant weighting: 12 zero-observation updates to fall below 30 (V6/V7 level)"
+        },
+        {
+          "level": 0.3,
+          "purpose": "intermediate weighting: 4 updates (V6/V7 level)"
+        },
+        {
+          "level": 0.5,
+          "purpose": "sensitive weighting: 2 updates (V6/V7 level)"
+        }
+      ],
+      "failure_ms": [
+        {
+          "level": 0,
+          "purpose": "no-injection control: no decline expected; checks the penalty branch stays inactive and gives the baseline loop period"
+        },
+        {
+          "level": 250,
+          "purpose": "brief failure: expected to end before crossing except the most sensitive settings (phase-dependent boundary for alpha 0.5)"
+        },
+        {
+          "level": 500,
+          "purpose": "short failure near the ECC alpha 0.3 and ZKP alpha 0.5 boundaries"
+        },
+        {
+          "level": 1000,
+          "purpose": "intermediate failure: expected crossing for alpha 0.3/0.5, not for alpha 0.1"
+        },
+        {
+          "level": 3000,
+          "purpose": "sustained failure: expected crossing for all settings (ZKP alpha 0.1 closest to its boundary)"
+        }
+      ]
+    },
+    "design": {
+      "type": "full_factorial"
+    },
+    "repetitions": 5,
+    "ordering": {
+      "method": "randomized_complete_blocks",
+      "seed": 20260929
+    },
+    "trial": {
+      "baseline_ms": 2000,
+      "injection_jitter_ms": 300,
+      "post_recover_ms": 2500,
+      "attack_resend_interval_ms": 0,
+      "config_ack_timeout_ms": 1500,
+      "config_attempts": 3,
+      "attack_ack_timeout_ms": 1000,
+      "recover_ack_timeout_ms": 1000,
+      "inter_trial_ms": 1000
+    },
+    "telemetry": {
+      "device_stale_ms": 1000,
+      "joint_stale_ms": 100,
+      "standstill": {
+        "v_still_rad_s": 0.01,
+        "hold_ms": 250,
+        "max_gap_ms": 40
+      },
+      "moving": {
+        "v_move_rad_s": 0.05,
+        "hold_ms": 100
+      }
+    },
+    "progression": {
+      "mode": "automatic",
+      "pause_on_operator_disconnect": true
+    },
+    "controls": [
+      "failure_ms 0 in every workload/alpha cell (no-injection control)",
+      "each trial starts with a configuration reset (trust 100, cycle 0, attack cleared, D12 commanded high) acknowledged by the device",
+      "injection time randomized by up to 300 ms (more than one loop period) so ATTACK arrives at a varying phase of the workload cycle"
+    ],
+    "confounds": [
+      "Command phase: ATTACK and RECOVER are processed only between workload cycles; the waiting time is measured, not controlled.",
+      "Execution-time penalty branch (150/400 ms thresholds) is separate from injected failure; any penalty-caused decline is flagged per attempt.",
+      "V8 reporting overhead differs from the historical firmware (one larger record per cycle); the device-clock loop period quantifies it, but comparisons with V6/V7 host-observed intervals remain between different instruments.",
+      "Host timestamps include USB/tty and scheduling latency; device-clock intervals are the primary measures.",
+      "Single Nano unit, fixed firmware build and library versions; no generalization to other platforms.",
+      "Run order: randomized complete blocks balance slow drift across conditions but do not remove it."
+    ],
+    "notes": "Proposed 2026-09-28. Requires Luke's agreement before collection. 150 trials, roughly 20 minutes of bench time."
+  },
+  "plan_sha256": "95faa49b081972f21b76bfe0ab41fb295813a190b8216d9c5731b224a0d4e799"
+}

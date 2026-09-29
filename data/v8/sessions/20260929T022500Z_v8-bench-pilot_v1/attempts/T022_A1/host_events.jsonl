@@ -1,0 +1,7 @@
+{"t_mono_ns":31470174055810,"t_wall_ns":1790648846643537400,"event":"phase","phase":"configure"}
+{"t_mono_ns":31470332096623,"t_wall_ns":1790648846801577528,"event":"configuration_acknowledged","attempt":1,"protocol":"v8"}
+{"t_mono_ns":31470332430232,"t_wall_ns":1790648846801910341,"event":"phase","phase":"baseline","ms":2229}
+{"t_mono_ns":31472561794663,"t_wall_ns":1790648849031276976,"event":"phase","phase":"inject","failure_ms":500}
+{"t_mono_ns":31472660454959,"t_wall_ns":1790648849129936327,"event":"phase","phase":"failure_window"}
+{"t_mono_ns":31473126489108,"t_wall_ns":1790648849595970736,"event":"phase","phase":"observe","ms":2500}
+{"t_mono_ns":31475626877336,"t_wall_ns":1790648852096359352,"event":"phase","phase":"complete"}

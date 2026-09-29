@@ -1,0 +1,209 @@
+{
+  "definitions": "onedge.v8.definitions/1",
+  "attempt_id": "T132_A1",
+  "trial_id": "T132",
+  "condition_id": "ECC-a0.50-f250",
+  "workload": "ECC",
+  "alpha": 0.5,
+  "failure_ms": 250,
+  "procedure": "bench",
+  "status": "completed",
+  "device_protocol": "v8",
+  "device_epoch": 0,
+  "events": {
+    "D_CFG": {
+      "t_dev_us": 2897790370,
+      "epoch": 0,
+      "rx_mono_ns": 32223031670008,
+      "seq": 13635,
+      "cycle": 0,
+      "trust": 100.0,
+      "attack": 0
+    },
+    "D_ATTACK": {
+      "t_dev_us": 2899990870,
+      "epoch": 0,
+      "rx_mono_ns": 32225214896024,
+      "seq": 13654,
+      "cycle": 18,
+      "attack": 1,
+      "cmd": "ATTACK"
+    },
+    "D_CROSS": {
+      "t_dev_us": 2900226014,
+      "epoch": 0,
+      "rx_mono_ns": 32225448376702,
+      "seq": 13656,
+      "cycle": 19,
+      "trust": 25.0,
+      "attack": 1
+    },
+    "D_OUT_LOW": {
+      "t_dev_us": 2900226024,
+      "epoch": 0,
+      "rx_mono_ns": 32225448376702,
+      "seq": 13657,
+      "cycle": 19,
+      "trust": 25.0,
+      "level": 0
+    },
+    "D_RECOVER": {
+      "t_dev_us": 2900236751,
+      "epoch": 0,
+      "rx_mono_ns": 32225458709283,
+      "seq": 13658,
+      "cycle": 20,
+      "attack": 0,
+      "cmd": "RECOVER"
+    },
+    "H_ATTACK_SENT": 32225148351885,
+    "H_RECOVER_SENT": 32225399069520,
+    "H_RX_CROSS": 32225448376702,
+    "H_RX_OUT_LOW": 32225448376702,
+    "H_RX_SAFEGUARD": null,
+    "H_CFG_SENT": 32222968214741
+  },
+  "attacked_updates_to_cross": 2,
+  "model_check": {
+    "label": "MODEL",
+    "attacked_updates_to_cross_expected": 2,
+    "observed": 2,
+    "agrees": true,
+    "assumption": "trust 100 at ATTACK, zero observations, no penalty; float32 recurrence"
+  },
+  "key_intervals": {
+    "device_attack_to_cross": {
+      "clock": "device_us",
+      "value_ms": 235.144,
+      "definition": "D_CROSS - D_ATTACK",
+      "value_ms_rate_corrected": null
+    },
+    "device_attack_to_out_low": {
+      "clock": "device_us",
+      "value_ms": 235.154,
+      "definition": "D_OUT_LOW - D_ATTACK",
+      "value_ms_rate_corrected": null
+    },
+    "device_cross_to_out_low": {
+      "clock": "device_us",
+      "value_ms": 0.01,
+      "definition": "D_OUT_LOW - D_CROSS (same cycle; ordering check)",
+      "value_ms_rate_corrected": null
+    },
+    "device_failure_window": {
+      "clock": "device_us",
+      "value_ms": 245.881,
+      "definition": "D_RECOVER - D_ATTACK (device-side attack mode)",
+      "value_ms_rate_corrected": null
+    },
+    "host_attack_sent_to_rx_cross": {
+      "clock": "host_mono_ns",
+      "value_ms": 300.024817,
+      "definition": "H_RX_CROSS - H_ATTACK_SENT"
+    },
+    "host_attack_sent_to_rx_out_low": {
+      "clock": "host_mono_ns",
+      "value_ms": 300.024817,
+      "definition": "H_RX_OUT_LOW - H_ATTACK_SENT"
+    },
+    "host_failure_window": {
+      "clock": "host_mono_ns",
+      "value_ms": 250.717635,
+      "definition": "H_RECOVER_SENT - H_ATTACK_SENT"
+    },
+    "aligned_attack_sent_to_device_processed": {
+      "clock": "aligned device_us->host_mono_ns",
+      "value_ms": 46.618101,
+      "range_ms": [
+        44.618101,
+        46.618101
+      ],
+      "note": "device end mapped to host clock; true value may be up to 2.0 ms earlier (assumed min-latency bound)",
+      "definition": "D_ATTACK - H_ATTACK_SENT"
+    }
+  },
+  "updates": {
+    "count": 40,
+    "loop_period_ms": {
+      "n": 39,
+      "mean": 122.21638461538463,
+      "median": 121.938,
+      "min": 121.84,
+      "max": 123.449,
+      "stdev": 0.48904943326634875,
+      "p95": 122.985
+    },
+    "exec_ms": {
+      "n": 40,
+      "mean": 112.184675,
+      "median": 112.17699999999999,
+      "min": 111.971,
+      "max": 112.337,
+      "stdev": 0.08974904827722063,
+      "p95": 112.325
+    },
+    "report_write_us": {
+      "n": 40,
+      "mean": 365.475,
+      "median": 349.0,
+      "min": 333,
+      "max": 449,
+      "stdev": 27.3954773546142,
+      "p95": 426
+    },
+    "min_trust": 25.0,
+    "penalty_updates": 0
+  },
+  "records": {
+    "device_total": 45,
+    "device_ok_v8": 45,
+    "legacy": 0,
+    "not_ok": 0,
+    "missing_by_sequence": 0,
+    "complete": true
+  },
+  "clock_fit": {
+    "method": "min_delay_two_window",
+    "epoch": 0,
+    "slope_ns_per_us": 1000.0,
+    "offset_ns": 29325204099986.0,
+    "drift_ppm": 0.0,
+    "n_points": 45,
+    "span_s": 4.890072,
+    "slope_estimated": false,
+    "residual_ms": {
+      "p50": 18.262716,
+      "p95": 35.785397,
+      "max": 37.200022
+    },
+    "assumed_min_latency_bound_ms": 2.0,
+    "note": "too few points/span for slope (n=45, span=4.9s); nominal 1 us = 1000 ns used"
+  },
+  "device_clock_rate": {
+    "host_ns_per_device_us": null,
+    "ppm": null,
+    "note": "device_us intervals x (host_ns_per_device_us / 1000) = host-clock duration; value_ms_rate_corrected applies this per attempt"
+  },
+  "motion": {
+    "applicable": false
+  },
+  "outcome": {
+    "injection": "processed",
+    "crossing": "crossed_while_attack_active",
+    "crossing_relative_to_recover": "before_recover_processed",
+    "out_low_commanded": true,
+    "rx_cross_after_host_recover_sent": true
+  },
+  "quality_warnings": [],
+  "notes": [
+    "clock fit used the nominal slope (too few points/span for slope (n=45, span=4.9s); nominal 1 us = 1000 ns used)",
+    "the crossing report was received after RECOVER was sent (host clock)"
+  ],
+  "not_measured_by_this_software": [
+    "electrical D12 transition (requires oscilloscope or wired input)",
+    "physical standstill beyond the declared telemetry criterion"
+  ],
+  "file_issues": [],
+  "generated_by": "onedge_v8 0.1.1",
+  "supersedes": "onedge_v8 0.1.0"
+}

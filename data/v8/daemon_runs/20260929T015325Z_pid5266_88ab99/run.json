@@ -1,0 +1,80 @@
+{
+  "schema": "onedge.v8.dataset/1",
+  "daemon_config": {
+    "schema": "onedge.v8.daemon/1",
+    "mode": "hardware",
+    "note": "Raspberry Pi + Nano bench: real serial monitor, no robot interface (joint telemetry reported as unavailable).",
+    "data_root": "data/v8",
+    "campaign_dir": "v8/config/campaigns",
+    "api": {
+      "bind": "127.0.0.1",
+      "port": 8765,
+      "serve_dashboard": true
+    },
+    "serial": {
+      "port": "auto",
+      "baud": 115200,
+      "by_id_pattern": "*Arduino*Nano_33_BLE*"
+    },
+    "robot": {
+      "interface": "none"
+    },
+    "telemetry": {
+      "device_stale_ms": 1000,
+      "joint_stale_ms": 100
+    },
+    "realtime": {
+      "try_sched_fifo": false,
+      "priority": 50
+    },
+    "operator": {
+      "heartbeat_timeout_s": 10
+    }
+  },
+  "config_path": "/home/seeker/Documents/On-Edge/v8/config/daemon/pi_bench.json",
+  "software": {
+    "name": "onedge_v8",
+    "version": "0.1.0",
+    "dataset_schema": "onedge.v8.dataset/1",
+    "git_commit": "c2e135e96c21ef5fb1ae6fbb6e5d54de4d31db63",
+    "git_branch": "main",
+    "git_dirty": true,
+    "git_modified": [
+      "?? src/edge_node/"
+    ],
+    "source_sha256": {
+      "v8/onedge_v8/__init__.py": "6d85a375be83f3b0ddf4b9f8c0f2e0a21c71dc3af84ffbed84e21cbfd36ea6fb",
+      "v8/onedge_v8/analysis.py": "ffaec014ea40bef9cae81596db965e14162b8992ce02bd9edeb2c749355c1258",
+      "v8/onedge_v8/bus.py": "ab7c310b6ed1130f4929112319a16e51aa3611ece1409119baba7685f5f01585",
+      "v8/onedge_v8/campaign.py": "9ff0d75f6e72a4e4e2601b77212f6207fa1517a2874346c06fd3a393dc506a64",
+      "v8/onedge_v8/clocks.py": "2934bdacac157ccfeab8e9f51e90a55d4d7b3e148f27d5981400de7bc83b4be4",
+      "v8/onedge_v8/daemon.py": "dab039309d0d2dd55d65dd864cff5d8ceee0c1825bc106548d6bc9109a9dcae3",
+      "v8/onedge_v8/dataset.py": "d58f79fa9d2989e39b3f48f06c64b36dfeb7b124e77e22a4c9658a733d5e13f5",
+      "v8/onedge_v8/device_link.py": "656a0de7193a59d2478480322b4009859017ea9451ab3036a95c9d0f9bcde59a",
+      "v8/onedge_v8/exclusions.py": "f1f6e92c078bd1789cb0a75834927b6dd889a58b677f4d338114f230de79ebd4",
+      "v8/onedge_v8/httpbase.py": "3a35952e0bd9f953c3f1fb529cbe870c027aba3b5214e53e53c9b9a26a3a5fac",
+      "v8/onedge_v8/motion.py": "1db061fd8530aa9812682f37d98c3bde0e9f02f9b141f0c3832a251b78559448",
+      "v8/onedge_v8/protocol.py": "7b2e00de5c8e678d48d2f611ceb5e1d1a63b7a5ee53b325361ca3c1c55477de6",
+      "v8/onedge_v8/recorder.py": "780992c7bd2a6f69ea82a9dedc6314f9b0455c0d6ab170153407a8074c9832f4",
+      "v8/onedge_v8/replay.py": "f0cc0ad95857b6a436c98153b9a880422485dd80b839c60a246470064c134578",
+      "v8/onedge_v8/robot.py": "c1815496c71cbbf4fd13c34c889eb5a3d2fe6f509a8d9016737acff2a91cffd6",
+      "v8/onedge_v8/runner.py": "7a2bd7ddd3cf5e292b503415fdfd33fa97e21fcf058dab57ba24cdebd284beb4",
+      "v8/onedge_v8/sim.py": "c1b9096926ecfe7c98e3112a2b2bb0ffd46137c5c9e75e0d584deb6af8b26069",
+      "v8/onedge_v8/telemetry.py": "faeda1a8d54e9e04044380da06d40c26c6a750e81c11e6204293777af61e8cae",
+      "v8/onedge_v8/transport.py": "9acfc147352e7fb20866d57b8d7b3ba2ea8e9caf93a8c0d8c5f1a9bf5b691b64"
+    },
+    "firmware_source_sha256": "324e0d9d9fa71d3aabc999b429d33e41a996936ab6eaa9c423fd6dac63426862",
+    "firmware_note": "source hash identifies the repository file, not the binary flashed on the Nano; the device reports its own build stamp in boot/hello records",
+    "python": "3.10.12",
+    "platform": "Linux-5.15.0-1105-raspi-aarch64-with-glibc2.35",
+    "hostname": "on-edge-pi"
+  },
+  "mode": "hardware",
+  "simulated": false,
+  "data_origin": "hardware",
+  "realtime": {
+    "requested": false
+  },
+  "started_wall_ns": 1790646805066067153,
+  "started_mono_ns": 29428596614748
+}

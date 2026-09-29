@@ -1,0 +1,157 @@
+{
+  "definitions": "onedge.v8.definitions/1",
+  "attempt_id": "T046_A1",
+  "trial_id": "T046",
+  "condition_id": "ZKP-a0.10-f1000",
+  "workload": "ZKP",
+  "alpha": 0.1,
+  "failure_ms": 1000,
+  "procedure": "bench",
+  "status": "completed",
+  "device_protocol": "v8",
+  "device_epoch": 0,
+  "events": {
+    "D_CFG": {
+      "t_dev_us": 2307277512,
+      "epoch": 0,
+      "rx_mono_ns": 31636762257016,
+      "seq": 9673,
+      "cycle": 0,
+      "trust": 100.0,
+      "attack": 0
+    },
+    "D_ATTACK": {
+      "t_dev_us": 2309623578,
+      "epoch": 0,
+      "rx_mono_ns": 31639091470438,
+      "seq": 9685,
+      "cycle": 10,
+      "attack": 1,
+      "cmd": "ATTACK"
+    },
+    "D_CROSS": null,
+    "D_OUT_LOW": null,
+    "D_RECOVER": {
+      "t_dev_us": 2310561521,
+      "epoch": 0,
+      "rx_mono_ns": 31640022116470,
+      "seq": 9690,
+      "cycle": 14,
+      "attack": 0,
+      "cmd": "RECOVER"
+    },
+    "H_ATTACK_SENT": 31638966848107,
+    "H_RECOVER_SENT": 31639967467232,
+    "H_RX_CROSS": null,
+    "H_RX_OUT_LOW": null,
+    "H_RX_SAFEGUARD": null,
+    "H_CFG_SENT": 31636611503078
+  },
+  "attacked_updates_to_cross": null,
+  "model_check": {
+    "label": "MODEL",
+    "attacked_updates_to_cross_expected": 12,
+    "observed": null,
+    "agrees": null,
+    "assumption": "trust 100 at ATTACK, zero observations, no penalty; float32 recurrence"
+  },
+  "key_intervals": {
+    "device_failure_window": {
+      "clock": "device_us",
+      "value_ms": 937.943,
+      "definition": "D_RECOVER - D_ATTACK (device-side attack mode)"
+    },
+    "host_failure_window": {
+      "clock": "host_mono_ns",
+      "value_ms": 1000.6191249999999,
+      "definition": "H_RECOVER_SENT - H_ATTACK_SENT"
+    },
+    "aligned_attack_sent_to_device_processed": {
+      "clock": "aligned device_us->host_mono_ns",
+      "value_ms": 100.625129,
+      "range_ms": [
+        98.625129,
+        100.625129
+      ],
+      "note": "device end mapped to host clock; true value may be up to 2.0 ms earlier (assumed min-latency bound)",
+      "definition": "D_ATTACK - H_ATTACK_SENT"
+    }
+  },
+  "updates": {
+    "count": 24,
+    "loop_period_ms": {
+      "n": 23,
+      "mean": 234.41717391304348,
+      "median": 234.607,
+      "min": 233.645,
+      "max": 235.288,
+      "stdev": 0.49517606163445443,
+      "p95": 235.164
+    },
+    "exec_ms": {
+      "n": 24,
+      "mean": 224.08216666666667,
+      "median": 224.1125,
+      "min": 223.798,
+      "max": 224.213,
+      "stdev": 0.09502021142741089,
+      "p95": 224.196
+    },
+    "report_write_us": {
+      "n": 24,
+      "mean": 375.625,
+      "median": 375.0,
+      "min": 347,
+      "max": 494,
+      "stdev": 32.424913261256386,
+      "p95": 413
+    },
+    "min_trust": 65.61,
+    "penalty_updates": 0
+  },
+  "records": {
+    "device_total": 29,
+    "device_ok_v8": 29,
+    "legacy": 0,
+    "not_ok": 0,
+    "missing_by_sequence": 0,
+    "complete": true
+  },
+  "clock_fit": {
+    "method": "min_delay_two_window",
+    "epoch": 0,
+    "slope_ns_per_us": 1000.0,
+    "offset_ns": 29329443895236.0,
+    "drift_ppm": 0.0,
+    "n_points": 29,
+    "span_s": 5.628295,
+    "slope_estimated": false,
+    "residual_ms": {
+      "p50": 22.14924,
+      "p95": 40.59818,
+      "max": 40.84978
+    },
+    "assumed_min_latency_bound_ms": 2.0,
+    "note": "slope estimate 992.726 ns/us rejected (> 1000.0 ppm); nominal used"
+  },
+  "motion": {
+    "applicable": false
+  },
+  "outcome": {
+    "injection": "processed",
+    "crossing": "no_crossing_in_complete_record",
+    "crossing_relative_to_recover": null,
+    "out_low_commanded": false,
+    "rx_cross_after_host_recover_sent": false
+  },
+  "quality_warnings": [],
+  "notes": [
+    "clock fit used the nominal slope (slope estimate 992.726 ns/us rejected (> 1000.0 ppm); nominal used)"
+  ],
+  "not_measured_by_this_software": [
+    "electrical D12 transition (requires oscilloscope or wired input)",
+    "physical standstill beyond the declared telemetry criterion"
+  ],
+  "file_issues": [],
+  "generated_by": "onedge_v8 0.1.0"
+}

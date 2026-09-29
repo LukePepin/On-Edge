@@ -1,0 +1,1 @@
+{"t_request_mono_ns":32079403336319,"t_wall_ns":1790649455872817206,"cmd":"CONFIG","text":"{\"algo\":\"ZKP\",\"alpha\":0.1}","purpose":"trial_config","source":"runner","note":null,"t_write_start_mono_ns":32079403359486,"t_write_end_mono_ns":32079404298229,"ok":true,"error":null}

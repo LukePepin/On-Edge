@@ -1,0 +1,1 @@
+{"t_request_mono_ns":31853898685156,"t_wall_ns":1790649230368166135,"cmd":"CONFIG","text":"{\"algo\":\"ECC\",\"alpha\":0.3}","purpose":"trial_config","source":"runner","note":null,"t_write_start_mono_ns":31853898708785,"t_write_end_mono_ns":31853899424809,"ok":true,"error":null}

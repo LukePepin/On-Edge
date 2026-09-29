@@ -1,0 +1,35 @@
+{
+  "schema": "onedge.v8.dataset/1",
+  "attempt_id": "T064_A1",
+  "status": "completed",
+  "reason": "",
+  "phase_reached": "complete",
+  "attack_sent": true,
+  "recover_sent": true,
+  "departures": [],
+  "t_mono_ns": 31766704127760,
+  "t_wall_ns": 1790649143173608128,
+  "device_continuity": {
+    "epoch": 0,
+    "missing_records": 0,
+    "gap_events": 0,
+    "duplicates": 0,
+    "resets": 0,
+    "small_backsteps": 0
+  },
+  "recorder": {
+    "data_root": "/home/seeker/Documents/On-Edge/data/v8",
+    "run_id": "20260929T015325Z_pid5266_88ab99",
+    "session_id": "20260929T022500Z_v8-bench-pilot_v1",
+    "attempt_id": "T064_A1",
+    "records_written": 39168,
+    "bytes_written": 9631998,
+    "records_lost": 0,
+    "queue_depth": 0,
+    "max_queue": 59,
+    "healthy": true,
+    "errors": [],
+    "disk_free_bytes": 30645506048,
+    "last_fsync_mono_ns": 31765806746938
+  }
+}

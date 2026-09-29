@@ -1,0 +1,8 @@
+{"event":"attempt_started","attempt_id":"T001_A1","trial_id":"T001","trial_index":1,"attempt":1,"condition_id":"ECC-a0.30-f0","t_wall_ns":1790647016433994862,"t_mono_ns":29639964515031}
+{"event":"attempt_ended","attempt_id":"T001_A1","status":"completed","reason":"","t_wall_ns":1790647023441938664,"t_mono_ns":29646972458370}
+{"event":"attempt_started","attempt_id":"T002_A1","trial_id":"T002","trial_index":2,"attempt":1,"condition_id":"ECC-a0.30-f250","t_wall_ns":1790647026511623331,"t_mono_ns":29650042142315}
+{"event":"attempt_ended","attempt_id":"T002_A1","status":"completed","reason":"","t_wall_ns":1790647033914874011,"t_mono_ns":29657445393587}
+{"event":"attempt_started","attempt_id":"T003_A1","trial_id":"T003","trial_index":3,"attempt":1,"condition_id":"ECC-a0.50-f3000","t_wall_ns":1790647036982775601,"t_mono_ns":29660513294437}
+{"event":"attempt_ended","attempt_id":"T003_A1","status":"completed","reason":"","t_wall_ns":1790647047153478173,"t_mono_ns":29670683998138}
+{"event":"attempt_started","attempt_id":"T004_A1","trial_id":"T004","trial_index":4,"attempt":1,"condition_id":"ZKP-a0.10-f3000","t_wall_ns":1790647050222491060,"t_mono_ns":29673753009507}
+{"event":"attempt_ended","attempt_id":"T004_A1","status":"completed","reason":"","t_wall_ns":1790647060362084346,"t_mono_ns":29683892604293}

@@ -1,0 +1,165 @@
+{
+  "schema": "onedge.v8.dataset/1",
+  "files": [
+    {
+      "path": "attempts.jsonl",
+      "bytes": 1316,
+      "sha256": "6c417f92b5b2150b2dd95317dfd6e6b2c3cf05b33f92fd5ebedb29ca3049493f"
+    },
+    {
+      "path": "attempts/T001_A1/attempt_end.json",
+      "bytes": 881,
+      "sha256": "6689dffa883fa2ce0221941e501b8823badadbd85b547a208cb25a083bd37ff3"
+    },
+    {
+      "path": "attempts/T001_A1/attempt_start.json",
+      "bytes": 2428,
+      "sha256": "d8dfd4f38f8f2724188555cfb3c89458a426e1f364fb21b71a2a290df23f4ca3"
+    },
+    {
+      "path": "attempts/T001_A1/device_msgs.jsonl",
+      "bytes": 20122,
+      "sha256": "10256425c3d43174b3f1eab8cd86e206624bc59cadefc5bf4c163ec52177d371"
+    },
+    {
+      "path": "attempts/T001_A1/host_events.jsonl",
+      "bytes": 638,
+      "sha256": "d5e19c9a4c0093498e4430ca0f30aef11364c0d7fd91b81c6a377444279a7abc"
+    },
+    {
+      "path": "attempts/T001_A1/serial_tx.jsonl",
+      "bytes": 280,
+      "sha256": "5322e5f235148de557eebf0da03b7eb02b8266a04f0c834b39a760e202d1e1d5"
+    },
+    {
+      "path": "attempts/T001_A1/summary.json",
+      "bytes": 2968,
+      "sha256": "b8adfc52b89d93ec390c59c3fc919af6e7ba220b3d681bdb58ebe12452388f81"
+    },
+    {
+      "path": "attempts/T002_A1/attempt_end.json",
+      "bytes": 880,
+      "sha256": "0b00871c568ea5d4da7f769a598fdc9e5bb66e9fcb54613864342b58072f0492"
+    },
+    {
+      "path": "attempts/T002_A1/attempt_start.json",
+      "bytes": 2448,
+      "sha256": "e0a3b690ade42dd3852f2f67c9ee7884b388fd9c660b9fc2329a5c8e8a5a505b"
+    },
+    {
+      "path": "attempts/T002_A1/device_msgs.jsonl",
+      "bytes": 22081,
+      "sha256": "a6881aaa2920e610bc2114375a30f992ff6db215b42ebdce53c9c6125d002ca5"
+    },
+    {
+      "path": "attempts/T002_A1/host_events.jsonl",
+      "bytes": 743,
+      "sha256": "8a8ede1ad7953484ab8aaafaee8b6d47182005ae34729669d0db4d91ec31874e"
+    },
+    {
+      "path": "attempts/T002_A1/serial_tx.jsonl",
+      "bytes": 791,
+      "sha256": "210eeeeeef3174374447d45ce0b5b5f800e79bf64ad3655238db2cdd3770df9e"
+    },
+    {
+      "path": "attempts/T002_A1/summary.json",
+      "bytes": 4001,
+      "sha256": "dd8ce50e9c4765143837220c07a7bc3bcd8bbd8ec60dd886e57811dc36122a3f"
+    },
+    {
+      "path": "attempts/T003_A1/attempt_end.json",
+      "bytes": 880,
+      "sha256": "83663362a7179fd875e9f061b3897e1b0b19b63cd5782a9b5a15b1f0634a1b56"
+    },
+    {
+      "path": "attempts/T003_A1/attempt_start.json",
+      "bytes": 2450,
+      "sha256": "41ba3700b79ab205eda678ebf914341e213c46db116dc75c4b6957a599bc60d6"
+    },
+    {
+      "path": "attempts/T003_A1/device_msgs.jsonl",
+      "bytes": 30268,
+      "sha256": "ca857d33c9ed6f01870b8b5d827048d3cdd0216f621fc4a3ffd51dad33f60ed4"
+    },
+    {
+      "path": "attempts/T003_A1/host_events.jsonl",
+      "bytes": 744,
+      "sha256": "4bdc8a0838efcfbf083124d34a41dc9017ae101bef130141bf60a1b827e91331"
+    },
+    {
+      "path": "attempts/T003_A1/serial_tx.jsonl",
+      "bytes": 791,
+      "sha256": "142972a269a1441eef42c58324bae6ee045530777e90b0851e6e229cc48df0cc"
+    },
+    {
+      "path": "attempts/T003_A1/summary.json",
+      "bytes": 5121,
+      "sha256": "0e9b5bb8e6d49134de090eb3d60fb2a68c6950be943b99229eb833ee31c7941d"
+    },
+    {
+      "path": "attempts/T004_A1/attempt_end.json",
+      "bytes": 880,
+      "sha256": "81033705a6a114423a272ad4153c563689008eaf956936d48e0c40dabee79e83"
+    },
+    {
+      "path": "attempts/T004_A1/attempt_start.json",
+      "bytes": 2451,
+      "sha256": "87acb90a1eefee505585577cf72655e7a53dca4e2c324af6f8910f9c55d56336"
+    },
+    {
+      "path": "attempts/T004_A1/device_msgs.jsonl",
+      "bytes": 16646,
+      "sha256": "deee0bde26efe005021ff4ea0d75493447200e52a626b0412eb6741fe84c9841"
+    },
+    {
+      "path": "attempts/T004_A1/host_events.jsonl",
+      "bytes": 744,
+      "sha256": "3986db5b115ad0c06f774908c2c44d039fa6df9540f2a6186e20c2bcf8014b5d"
+    },
+    {
+      "path": "attempts/T004_A1/serial_tx.jsonl",
+      "bytes": 791,
+      "sha256": "69ea1dd7ef16c3a7155f54dfcafbdc1fdba6bca12c93c6be679d8133c58533a7"
+    },
+    {
+      "path": "attempts/T004_A1/summary.json",
+      "bytes": 5159,
+      "sha256": "3839603bc977ca37fe427e5d38e59a6d5469a7b61f7d3bc665e60b0d12bfc314"
+    },
+    {
+      "path": "campaign_config.json",
+      "bytes": 2094,
+      "sha256": "4678b3326b5bc8b81f4a52ce42ae506148fcb78ed0b48c5cc9ee57a95fc35017"
+    },
+    {
+      "path": "device_msgs_idle.jsonl",
+      "bytes": 31010,
+      "sha256": "b9d29df016316c590be812517e1cd3529ae87a22a1d84bc6cc8d636e10761ec6"
+    },
+    {
+      "path": "plan.json",
+      "bytes": 7101,
+      "sha256": "6c03b27bf1b1b2e39b8061c16e1f04d098a9c6aa41109e5504ebac8ac75b5c94"
+    },
+    {
+      "path": "serial_rx_raw.jsonl",
+      "bytes": 142848,
+      "sha256": "396238158245b78af9918cf84db39a97c9f9c30dedd4ba6fc673a664c980eae2"
+    },
+    {
+      "path": "session.json",
+      "bytes": 5374,
+      "sha256": "e513a4c820d9467913f26640d77f69ba6c07037939151ed6d45b48e4cec4caf1"
+    },
+    {
+      "path": "session_end.json",
+      "bytes": 1158,
+      "sha256": "7abc80ca5ca454516773e2aad230e7e96b2eed8cea77a1c0948c732b3fb5a0fb"
+    },
+    {
+      "path": "session_events.jsonl",
+      "bytes": 494,
+      "sha256": "ddd8c5e0100b55b768940879aa19857eb3a55469eb6ea932d969a7927afc341d"
+    }
+  ]
+}
