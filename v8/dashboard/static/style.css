@@ -101,3 +101,4 @@ td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .model-wrap { overflow: auto; max-height: calc(100vh - 230px); border: 1px solid var(--border); border-radius: 6px; padding: 10px; background: var(--panel); }
 .model-wrap svg { max-width: none; height: auto; }
 pre.mmd { white-space: pre-wrap; font: 12px/1.4 ui-monospace, Consolas, monospace; }
+#view-model a { color: var(--series-1); }
