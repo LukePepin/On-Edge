@@ -96,3 +96,8 @@ td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .modal textarea { width: 100%; min-height: 60px; }
 .check { display: block; margin: 4px 0; }
 @media (max-width: 1250px) { .view, #view-campaigns { grid-template-columns: 1fr; } .safety { margin-left: 0; } }
+
+/* Model tab: Mermaid sequence chart (wide; scrolls instead of shrinking the text) */
+.model-wrap { overflow: auto; max-height: calc(100vh - 230px); border: 1px solid var(--border); border-radius: 6px; padding: 10px; background: var(--panel); }
+.model-wrap svg { max-width: none; height: auto; }
+pre.mmd { white-space: pre-wrap; font: 12px/1.4 ui-monospace, Consolas, monospace; }

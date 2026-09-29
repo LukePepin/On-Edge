@@ -797,11 +797,36 @@ async function act(fn) {
 function setView(v) {
   S.view = v;
   document.querySelectorAll('.tabs button[data-view]').forEach((b) => b.classList.toggle('active', b.dataset.view === v));
-  for (const k of ['live', 'replay', 'campaigns']) $('view-' + k).hidden = k !== v;
+  for (const k of ['live', 'replay', 'campaigns', 'model']) if ($('view-' + k)) $('view-' + k).hidden = k !== v;
   renderHeader();
   if (v === 'live') { renderLivePanels(); renderLog(); }
   if (v === 'replay') { loadSessions(); drawReplay(); }
   if (v === 'campaigns') loadCampaigns();
+  if (v === 'model') renderModel();
+}
+
+// ------------------------------------------------------------------ model (Mermaid sequence chart)
+const MERMAID_URL = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+let mermaidMod = null;
+async function renderModel(force = false) {
+  const out = $('mdlOut');
+  if (out.dataset.done && !force) return;
+  let src;
+  try { src = await fetch('model_sequence.mmd', { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); }); }
+  catch (e) { out.innerHTML = `<p class="hint">Cannot load model_sequence.mmd: ${esc(e.message)}</p>`; return; }
+  S.modelSrc = src;
+  try {
+    if (!mermaidMod) mermaidMod = (await import(MERMAID_URL)).default;
+    const dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    mermaidMod.initialize({ startOnLoad: false, securityLevel: 'strict', theme: dark ? 'dark' : 'default',
+      sequence: { useMaxWidth: false, wrap: true, width: 170, messageFontSize: 13, noteFontSize: 12 } });
+    const { svg } = await mermaidMod.render('mdl' + Date.now(), src);
+    out.innerHTML = svg;
+    out.dataset.done = '1';
+  } catch (e) {
+    out.innerHTML = `<p class="hint">Mermaid could not be loaded or rendered (${esc(e.message || String(e))}); it is fetched from
+      cdn.jsdelivr.net, so this computer needs internet access. Source shown instead (paste it into mermaid.live):</p><pre class="mmd">${esc(src)}</pre>`;
+  }
 }
 
 async function boot() {
@@ -811,6 +836,13 @@ async function boot() {
   document.querySelectorAll('.tabs button[data-view]').forEach((b) => b.addEventListener('click', () => setView(b.dataset.view)));
   document.querySelectorAll('[data-manual]').forEach((b) => b.addEventListener('click', () => manualCmd(b.dataset.manual)));
   $('noteBtn').addEventListener('click', () => { const t = $('noteText').value.trim(); if (t) act(() => live('POST', 'note', { text: t, operator: operator() })).then(() => { $('noteText').value = ''; }); });
+  if ($('mdlReload')) {            // absent if a cached index.html predates the model tab
+    $('mdlReload').addEventListener('click', () => renderModel(true));
+    $('mdlCopy').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(S.modelSrc || ''); alertBox('Sequence chart source copied.'); }
+      catch (e) { alertBox('Copy failed; use "Download .mmd source" instead.'); }
+    });
+  }
   $('rpRoot').addEventListener('change', () => { S.replay.root = $('rpRoot').value; S.replay.sid = null; S.replay.session = null; loadSessions(); renderHeader(); });
   $('rpRefresh').addEventListener('click', loadSessions);
   $('rpSync').addEventListener('click', doSync);
