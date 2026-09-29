@@ -196,8 +196,19 @@ function renderLivePanels() {
            <div class="row">${run.hold.allowed.map((d) => `<button data-decide="${d}" ${dis(c('decide'))}>${esc(d)}</button>`).join('')}</div>
            <div class="hint">retry = new attempt of the same planned trial (the failed attempt is kept) · skip = mark this trial skipped · continue = accept and go on</div></div>`;
   }
-  $('controlsCard').innerHTML = ch;
-  bindControls();
+  // Status updates re-render this card several times a second: skip identical renders and keep
+  // the operator's confirmation ticks for the same trial, or they are reset before Start is clicked.
+  const card = $('controlsCard');
+  if (card.dataset.html !== ch) {
+    const nextId = run.state === 'AWAITING_CONFIRMATION' ? String(run.next_trial && run.next_trial.trial_id) : '';
+    const kept = card.dataset.trial === nextId
+      ? new Set([...card.querySelectorAll('.cchk:checked')].map((x) => x.value)) : new Set();
+    card.innerHTML = ch;
+    card.dataset.html = ch;
+    card.dataset.trial = nextId;
+    card.querySelectorAll('.cchk').forEach((x) => { x.checked = kept.has(x.value); });
+    bindControls();
+  }
 
   const man = c('manual');
   document.querySelectorAll('[data-manual]').forEach((b) => { b.disabled = !man.enabled; });
