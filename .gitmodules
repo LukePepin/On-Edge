@@ -1,0 +1,8 @@
+[submodule "Thesis"]
+	path = Thesis
+	url = https://github.com/LukePepin/Thesis.git
+	branch = main
+[submodule "Hanoi-Algorithms"]
+	path = Hanoi-Algorithms
+	url = https://github.com/URI-ISE/Hanoi-Algorithms.git
+	branch = codex/hanoi-demo-prep
