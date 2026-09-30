@@ -37,13 +37,13 @@ Signatures do not encrypt the request, establish physical safety, prevent a vali
 
 A **delegation grant** is HQ's signed statement that a specified local issuer may approve a restricted class of jobs. A **job permit** is that issuer's signed approval for one particular transfer. The Pi checks both documents and their relationship.
 
-For this thesis, there is only one delegation step: HQ delegates to a local issuer, which issues job permits. There is no chain of robots delegating to other robots.
+The simple example below uses one delegation step: HQ delegates to a local issuer, which issues job permits. Luke has since clarified that one delegation step is not a fixed boundary for the thesis. The permitted chain depth and how to justify it remain design decisions; one robot remains the physical boundary.
 
 ### A worked example
 
 Suppose HQ issues this illustrative grant:
 
-> Issuer L may approve robot R to transfer disks D1 and D2 among pegs A, B, and C. New jobs may start before 10:30. Each admitted transfer has at most 30 seconds to complete. Further delegation is prohibited.
+> Issuer L may approve robot R to transfer disks D1 and D2 among pegs A, B, and C. New jobs may start before 10:30. Each admitted transfer has at most 30 seconds to complete. This particular grant does not permit a further delegation hop.
 
 At 10:12, after HQ becomes unreachable, L signs this job permit:
 

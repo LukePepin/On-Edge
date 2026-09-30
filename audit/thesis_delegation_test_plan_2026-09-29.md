@@ -1,6 +1,6 @@
 # Delegated robot-job authorization: proposed test plan
 
-September 29, 2026. Planning artifact only. Luke has selected job approvals, one-object jobs, Pi verification, Nano retention, and admission-based expiry. Hanoi is a candidate retrofit. No hardware, firmware, or experiment configuration has been changed; no tests described here have been executed. Advisor acceptance and the final matrix remain pending.
+September 29, 2026. Planning artifact only, updated September 30 for Luke's scope correction. Luke has selected job approvals, one-object jobs, Pi verification, Nano retention, and admission-based expiry. One robot is a boundary; delegation depth is not fixed and remains to be justified. The diagram below is the simplest grant path, not a cap on delegation hops. Hanoi is a candidate retrofit. No hardware, firmware, or experiment configuration has been changed; no tests described here have been executed. Advisor acceptance and the final matrix remain pending.
 
 ## Concise research notes
 

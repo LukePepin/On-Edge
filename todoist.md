@@ -1,5 +1,7 @@
 # Thesis task list (reviewed 2026-09-08 against ground_truth_v2.md; updated 2026-09-08 evening)
 
+> Historical September 8 snapshot. The live Thesis project in Todoist was updated on September 30 for the Hanoi demonstration and cryptographic delegation pivot. EWMA timing-study tasks were removed from the live project. Do not use the checklist below as the current schedule; see `Thesis/cryptographic_delegation_pivot_work_session_2026-09-29.md` for the current direction.
+
 Legend: **[orig]** = from the existing Todoist list · **[audit]** = added or changed by the
 2026-09-07 audit · p1–p4 = priority · dates are due / hard deadline.
 Today is Tue 9/8. Draft 1 is due today; the Sodhi meeting is tomorrow 9/9.
