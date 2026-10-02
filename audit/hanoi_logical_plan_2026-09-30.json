@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "mode": "logical_plan_only_no_robot_motion",
+  "initial_state": [
+    [
+      3,
+      2,
+      1
+    ],
+    [],
+    [],
+    [],
+    []
+  ],
+  "target": "C",
+  "physical_pegs": [
+    "A",
+    "B",
+    "C"
+  ],
+  "jobs": [
+    {
+      "job_number": 1,
+      "disk": 1,
+      "source": "A",
+      "source_location": 3,
+      "destination": "C",
+      "destination_location": 1,
+      "expected_state_version": 0
+    },
+    {
+      "job_number": 2,
+      "disk": 2,
+      "source": "A",
+      "source_location": 2,
+      "destination": "B",
+      "destination_location": 1,
+      "expected_state_version": 1
+    },
+    {
+      "job_number": 3,
+      "disk": 1,
+      "source": "C",
+      "source_location": 1,
+      "destination": "B",
+      "destination_location": 2,
+      "expected_state_version": 2
+    },
+    {
+      "job_number": 4,
+      "disk": 3,
+      "source": "A",
+      "source_location": 1,
+      "destination": "C",
+      "destination_location": 1,
+      "expected_state_version": 3
+    },
+    {
+      "job_number": 5,
+      "disk": 1,
+      "source": "B",
+      "source_location": 2,
+      "destination": "A",
+      "destination_location": 1,
+      "expected_state_version": 4
+    },
+    {
+      "job_number": 6,
+      "disk": 2,
+      "source": "B",
+      "source_location": 1,
+      "destination": "C",
+      "destination_location": 2,
+      "expected_state_version": 5
+    },
+    {
+      "job_number": 7,
+      "disk": 1,
+      "source": "A",
+      "source_location": 1,
+      "destination": "C",
+      "destination_location": 3,
+      "expected_state_version": 6
+    }
+  ],
+  "lab_validation_required": true,
+  "physical_post_mapping": null,
+  "mapping_note": "A/B/C must be mapped to confirmed lab posts before execution; Queue and Ground are excluded."
+}

@@ -3,10 +3,10 @@
 [CmdletBinding(DefaultParameterSetName = 'Capture')]
 param(
     [Parameter(Mandatory = $true, Position = 0, ParameterSetName = 'Capture')]
-    [ValidateRange(1, 4)][int]$Peg,
+    [ValidateRange(1, 8)][int]$Peg,
     [Parameter(Mandatory = $true, Position = 1, ParameterSetName = 'Capture')]
-    [ValidateRange(1, 6)][int]$Location,
-    [ValidateSet('source_approach', 'pickup', 'clearance', 'destination_approach', 'place', 'retreat', 'home')]
+    [ValidateRange(1, 7)][int]$Location,
+    [ValidateSet('source_approach', 'pickup', 'pickup_entry', 'side_approach', 'clearance', 'destination_approach', 'place', 'place_withdrawal', 'retreat', 'home')]
     [string]$Role = 'source_approach',
     [Parameter(Mandatory = $true, ParameterSetName = 'Sync')]
     [switch]$SyncOnly,
@@ -14,6 +14,13 @@ param(
     [string]$PiHost = 'on-edge-pi.local'
 )
 $ErrorActionPreference = 'Stop'
+if (-not $SyncOnly -and $Peg -ge 5 -and $Location -le 6 -and -not $PSBoundParameters.ContainsKey('Role')) {
+    $Role = 'side_approach'
+}
+if (-not $SyncOnly -and $Location -eq 7) {
+    if (-not $PSBoundParameters.ContainsKey('Role')) { $Role = 'clearance' }
+    elseif ($Role -ne 'clearance') { throw 'Location 7 is a clearance label, not a disk position. Use -Role clearance.' }
+}
 $repo = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $data = Join-Path $repo 'data\hanoi_teaching'
 $node = Join-Path $env:USERPROFILE '.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe'

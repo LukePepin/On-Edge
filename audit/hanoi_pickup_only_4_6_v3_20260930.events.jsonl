@@ -1,0 +1,19 @@
+{"utc": "2026-09-30T16:32:23.102793+00:00", "event": "segment_planned", "name": "travel_pickup_entry_high", "duration_s": 33.97366608, "points": 171, "vertical_xy_error_mm": 0.0}
+{"utc": "2026-09-30T16:32:23.383829+00:00", "event": "segment_planned", "name": "descend_pickup_entry", "duration_s": 11.478665932, "points": 59, "vertical_xy_error_mm": 0.001904794004607216}
+{"utc": "2026-09-30T16:32:23.503685+00:00", "event": "segment_planned", "name": "insert_source", "duration_s": 4.685558566, "points": 25, "vertical_xy_error_mm": 0.0}
+{"utc": "2026-09-30T16:32:23.798618+00:00", "event": "segment_planned", "name": "lift_source", "duration_s": 11.505437634, "points": 59, "vertical_xy_error_mm": 0.0014989391445653498}
+{"utc": "2026-09-30T16:32:23.863228+00:00", "event": "plan_complete", "file": "audit/hanoi_pickup_only_4_6_v3_20260930.json", "segments": 4, "no_robot_motion": true}
+{"utc": "2026-09-30T16:33:30.627410+00:00", "event": "execution_started", "phase": "pick"}
+{"utc": "2026-09-30T16:33:33.609516+00:00", "event": "controller_ready", "controller": "passthrough_trajectory_controller"}
+{"utc": "2026-09-30T16:33:34.644277+00:00", "event": "gripper_requested", "command": "open"}
+{"utc": "2026-09-30T16:33:35.605812+00:00", "event": "gripper_output_acknowledged", "command": "open", "physical_result": "operator_confirmation_required"}
+{"utc": "2026-09-30T16:33:35.976745+00:00", "event": "segment_started", "name": "travel_pickup_entry_high", "duration_s": 33.97366608}
+{"utc": "2026-09-30T16:34:11.022345+00:00", "event": "segment_completed", "name": "travel_pickup_entry_high", "actual_joint_positions_rad": [1.4934242963790894, -1.606013600026266, -1.4059889952289026, -0.1518171469317835, 0.8365910649299622, -2.0930236021624964], "actual_tcp_pose_m_rotvec_rad": [0.3436441671118039, 0.5457312366678486, 0.7725730368459286, -1.7054661436558174, -1.28747946102077, -2.0863374767514493]}
+{"utc": "2026-09-30T16:34:11.635302+00:00", "event": "segment_started", "name": "descend_pickup_entry", "duration_s": 11.478665932}
+{"utc": "2026-09-30T16:34:24.488283+00:00", "event": "segment_completed", "name": "descend_pickup_entry", "actual_joint_positions_rad": [1.4933044910430908, -1.6083162466632288, -1.6805976072894495, 0.12468349933624268, 0.8369861841201782, -2.092412773762838], "actual_tcp_pose_m_rotvec_rad": [0.3435858903703941, 0.5457824707900891, 0.6643821163549184, -1.7053107791104511, -1.2875681057190405, -2.0863152369744826]}
+{"utc": "2026-09-30T16:34:25.094538+00:00", "event": "segment_started", "name": "insert_source", "duration_s": 4.685558566}
+{"utc": "2026-09-30T16:34:30.213221+00:00", "event": "segment_completed", "name": "insert_source", "actual_joint_positions_rad": [1.4619818925857544, -1.6827133337603968, -1.6000693480121058, 0.11909365653991699, 0.8683076500892639, -2.093358818684713], "actual_tcp_pose_m_rotvec_rad": [0.3594148049398116, 0.5727670483421724, 0.6643915511104769, -1.7053917609748501, -1.2875872869073672, -2.0863220925834485]}
+{"utc": "2026-09-30T16:34:30.815987+00:00", "event": "gripper_requested", "command": "close"}
+{"utc": "2026-09-30T16:34:31.693048+00:00", "event": "gripper_output_acknowledged", "command": "close", "physical_result": "operator_confirmation_required"}
+{"utc": "2026-09-30T16:34:31.702260+00:00", "event": "pick_outputs_complete", "physical_result": "operator_confirmation_required"}
+{"utc": "2026-09-30T16:34:31.711010+00:00", "event": "robot_program_stopped", "response": "Stopped"}

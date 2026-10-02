@@ -48,6 +48,7 @@ def main():
     parser.add_argument("--name", default="")
     parser.add_argument("--note", default="")
     parser.add_argument("--output", default="data/hanoi_teaching/2026-09-29.jsonl")
+    parser.add_argument("--robot-host", default="192.168.0.149")
     args = parser.parse_args()
     if args.action == "capture" and not args.name:
         parser.error("capture requires --name")
@@ -110,6 +111,18 @@ def main():
 
     try:
         spin_until(lambda: fresh("tcp") and fresh("io") and stationary(history, time.monotonic()))
+        # ROS can continue publishing cached values after the driver's hardware
+        # reader fails. Require an advancing direct controller clock and agreement.
+        from hanoi_hardware_state import read_hardware_state
+        hardware = read_hardware_state(args.robot_host)
+        spin_until(lambda: fresh("tcp") and fresh("io") and stationary(history, time.monotonic()))
+        if any(abs(value) > 0.01 for value in hardware["joint_velocities_rad_s"]):
+            raise RuntimeError("Direct robot feedback reports arm motion")
+        if max(abs(a - b) for a, b in zip(history[-1][1], hardware["joint_positions_rad"])) > 0.005:
+            raise RuntimeError("ROS joints disagree with direct robot feedback; reject cached or inconsistent telemetry")
+        tcp_position = latest["tcp"][1].pose.position
+        if math.dist([tcp_position.x, tcp_position.y, tcp_position.z], hardware["tcp_pose_m_rotvec_rad"][:3]) > 0.002:
+            raise RuntimeError("ROS TCP disagrees with direct robot feedback")
         if args.action in ("open", "close"):
             # The previous experiment must be finished, not merely paused.
             with urllib.request.urlopen("http://127.0.0.1:8765/api/status", timeout=3) as response:
@@ -153,6 +166,7 @@ def main():
                      "tcp_stamp": {"sec": tcp.header.stamp.sec, "nanosec": tcp.header.stamp.nanosec},
                      "tool_outputs": {p: outputs().get(p) for p in (16, 17)},
                      "tool_offset_and_fixture_calibration": "operator_to_document",
+                     "hardware_state_check": hardware,
                      "replay_validated": False}
             record(event)
     except Exception as exc:

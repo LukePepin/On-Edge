@@ -1,0 +1,17 @@
+{"utc": "2026-09-30T15:26:41.880899+00:00", "event": "segment_planned", "name": "rise_current", "duration_s": 4.4454141719999996, "points": 24, "vertical_xy_error_mm": 0.0012946554587658105}
+{"utc": "2026-09-30T15:26:42.833555+00:00", "event": "segment_planned", "name": "travel_source_high", "duration_s": 29.669493856, "points": 150, "vertical_xy_error_mm": 0.0}
+{"utc": "2026-09-30T15:26:43.137557+00:00", "event": "segment_planned", "name": "descend_source", "duration_s": 11.50541567, "points": 59, "vertical_xy_error_mm": 0.0018941965847778922}
+{"utc": "2026-09-30T15:26:43.431055+00:00", "event": "segment_planned", "name": "lift_source", "duration_s": 11.505384256, "points": 59, "vertical_xy_error_mm": 0.0021161299295904164}
+{"utc": "2026-09-30T15:26:44.821063+00:00", "event": "segment_planned", "name": "travel_destination_high", "duration_s": 31.37220026, "points": 158, "vertical_xy_error_mm": 0.0}
+{"utc": "2026-09-30T15:26:45.934508+00:00", "event": "segment_planned", "name": "descend_destination", "duration_s": 28.774158538000002, "points": 145, "vertical_xy_error_mm": 0.0022255055449114276}
+{"utc": "2026-09-30T15:26:46.944689+00:00", "event": "segment_planned", "name": "retreat_destination", "duration_s": 28.774086806, "points": 145, "vertical_xy_error_mm": 0.002176323947543328}
+{"utc": "2026-09-30T15:26:47.087238+00:00", "event": "plan_complete", "file": "audit/hanoi_transfer_4_6_to_1_1_20260930.json", "segments": 7, "no_robot_motion": true}
+{"utc": "2026-09-30T15:28:39.251817+00:00", "event": "execution_started", "phase": "pick"}
+{"utc": "2026-09-30T15:28:41.422920+00:00", "event": "gripper_output_acknowledged", "command": "open", "physical_result": "operator_confirmation_required"}
+{"utc": "2026-09-30T15:28:41.869344+00:00", "event": "segment_started", "name": "rise_current", "duration_s": 4.4454141719999996}
+{"utc": "2026-09-30T15:28:46.989960+00:00", "event": "segment_completed", "name": "rise_current"}
+{"utc": "2026-09-30T15:28:47.619966+00:00", "event": "segment_started", "name": "travel_source_high", "duration_s": 29.669493856}
+{"utc": "2026-09-30T15:29:18.149775+00:00", "event": "segment_completed", "name": "travel_source_high"}
+{"utc": "2026-09-30T15:29:18.765176+00:00", "event": "segment_started", "name": "descend_source", "duration_s": 11.50541567}
+{"utc": "2026-09-30T15:29:28.923952+00:00", "event": "test_error", "phase": "pick", "error": "Robot safety mode changed"}
+{"utc": "2026-09-30T15:29:28.949391+00:00", "event": "robot_program_stopped", "response": "Stopped"}
